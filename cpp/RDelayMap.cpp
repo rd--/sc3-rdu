@@ -28,8 +28,6 @@ void cq_increment_write_index(int signal_n, int *write_index)
   }
 }
 
-/* */
-
 static InterfaceTable *ft;
 
 enum Operation {
@@ -68,8 +66,6 @@ extern "C"
   void RDelayMap_Ctor(RDelayMap *unit);
   void RDelayMap_next(RDelayMap *unit, int inNumSamples);
 }
-
-/* sc3 */
 
 void sc3_ugen_get_buf(RDelayMap *unit, int n)
 {
