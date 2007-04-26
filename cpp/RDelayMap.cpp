@@ -117,10 +117,10 @@ void RDelayMap_Ctor(RDelayMap *unit)
   unit->m_signal = NULL;
 }
 
-/* Mappings are made in strict order.  Negative values for input and
-   output indices indicate the input and output signal boxes
-   respectively.  If the mapping is a move operation do not fetch the
-   destination value as it is over-written and not required. */
+/* Mappings are made in order.  Negative values for input and output
+   indices indicate the input and output signal boxes respectively.
+   If the mapping is a move operation do not fetch the destination
+   value as it is over-written and not required. */
 
 float RDelayMap_step(RDelayMap *unit, float s)
 {
