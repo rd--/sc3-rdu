@@ -4,7 +4,7 @@
 %.so : %.o
 	ld $< -lm -shared -o $@
 
-PLUGINS = RDelayMap.so
+PLUGINS = DustR.so RDelayMap.so
 SC3LIB  = ~/lib/SuperCollider
 
 all: $(PLUGINS)
