@@ -4,7 +4,9 @@
 
 ;; Allocate buffer
 
-(->< s (/b_alloc 0 88200 1))
+(with-sc3 
+ (lambda (fd) 
+   (->< fd (/b_alloc 0 88200 1))))
 
 ;; Simple delay (static)
 
@@ -22,7 +24,9 @@
   (Mul (Decay (Impulse ar f 0) 0.1)
        (Mul (WhiteNoise ar) 0.2)))
 
-(->< s (/b_zero 0))
+(with-sc3 
+ (lambda (fd) 
+   (->< fd (/b_zero 0))))
 
 (audition
  (let ((d (Mce -1  0  0 1
@@ -32,7 +36,9 @@
 
 ;; Simple feedback circuit (dynamic)
 
-(->< s (/b_zero 0))
+(with-sc3 
+ (lambda (fd) 
+   (->< fd (/b_zero 0))))
 
 (audition
  (let* ((x (MouseX kr 0.05 1.05 0 0.1))
@@ -42,4 +48,6 @@
 		1 -1 0 1)))
    (Out 0 (RDelayMap 0 (pulse (Mce 1/3 5/4)) 1 d))))
 
-(->< s (/b_free 0))
+(with-sc3 
+ (lambda (fd) 
+   (->< fd (/b_free 0))))
