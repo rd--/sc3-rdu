@@ -1,30 +1,29 @@
-/***** RDelayMap.cpp - (c) rohan drape, 2001-2007 *****/
-
 #include <stdio.h>
 #include <SC_PlugIn.h>
 
-/* cq = circular queue */
+/* cq = circular queue, n = buffer length, ri = read index, wi = write
+   index, ai = absolute index, s = buffer */
 
-int cq_index_integer(int signal_n, int read_index, int write_index)
+int cq_index_i(int n, int ri, int wi)
 {
-  int absolute_index = (write_index - 1) - read_index;
-  if(absolute_index < 0) {
-    absolute_index += signal_n;
+  int ai = (wi - 1) - ri;
+  if(ai < 0) {
+    ai += n;
   }
-  return absolute_index;
+  return ai;
 }
 
-float cq_access_integer(float *signal, int signal_n, int read_index, int write_index) 
+float cq_access_i(float *s, int n, int ri, int wi) 
 {
-  int index = cq_index_integer(signal_n, read_index, write_index);
-  return signal[index];
+  int i = cq_index_i(n, ri, wi);
+  return s[i];
 }
 
-void cq_increment_write_index(int signal_n, int *write_index)
+void cq_increment_write_index(int n, int *wi)
 {
-  *write_index += 1;
-  if(*write_index >= signal_n) {
-    *write_index = 0;
+  *wi += 1;
+  if(*wi >= n) {
+    *wi = 0;
   }
 }
 
@@ -129,18 +128,18 @@ float RDelayMap_step(RDelayMap *unit, float s)
     float v_src, v_dst;
     int dst_index_abs = 0;
     if(unit->m_map[i].dst >= 0){
-      dst_index_abs = cq_index_integer(unit->m_signal_n,
-				       unit->m_map[i].dst,
-				       unit->m_write_index);
+      dst_index_abs = cq_index_i(unit->m_signal_n,
+				 unit->m_map[i].dst,
+				 unit->m_write_index);
     }
     if(unit->m_map[i].src < 0){
       v_src = unit->m_map[i].gain * s;
     } else {
       v_src =(unit->m_map[i].gain *
-	      cq_access_integer(unit->m_signal,
-				unit->m_signal_n,
-				unit->m_map[i].src,
-				unit->m_write_index));
+	      cq_access_i(unit->m_signal,
+			  unit->m_signal_n,
+			  unit->m_map[i].src,
+			  unit->m_write_index));
     }
     if(unit->m_map[i].op == map_move){
       v_dst = v_src;
