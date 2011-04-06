@@ -106,7 +106,6 @@ void RDelayMap_Setup(RDelayMap *unit)
 
 void RDelayMap_Ctor(RDelayMap *unit)
 {
-  int i, j;
   unit->m_buf = NULL;
   unit->m_buf_id = -1;
   unit->m_map_n = (unit->mNumInputs - Map_Offset) / 4;
@@ -150,6 +149,7 @@ float RDelayMap_step(RDelayMap *unit, float s)
       case map_sub: v_dst -= v_src; break;
       case map_mul: v_dst *= v_src; break;
       case map_div: v_dst /= v_src; break;
+      case map_move: break;
       }
     }
     if(unit->m_map[i].dst < 0){
