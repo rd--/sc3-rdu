@@ -1,16 +1,19 @@
+PREFIX =	$(HOME)
+SC3_INCL =	-I$(PREFIX)/include/SuperCollider/plugin_interface \
+		-I$(PREFIX)/include/SuperCollider/common
+CPP_OPT =	-02 -ffast-math -mmmx -msse -funroll-loops
+PLUGINS =	DustR.so RDelayMap.so
+
 %.o : %.cpp
-	g++ `pkg-config --cflags libscsynth` -c -shared $<
+	g++ -Wall $(CPP_OPT) $(SC3_INCL) -c -shared $<
 
 %.so : %.o
 	ld $< -lm -shared -o $@
 
-PLUGINS = DustR.so RDelayMap.so
-SC3LIB  = ~/lib/SuperCollider
-
-all: $(PLUGINS)
+all:	$(PLUGINS)
 
 clean:
 	rm -f $(PLUGINS)
 
 install: $(PLUGINS)
-	cp $(PLUGINS) $(SC3LIB)/plugins
+	cp $(PLUGINS) $(PREFIX)/lib/SuperCollider/plugins
