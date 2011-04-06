@@ -19,6 +19,8 @@ mapArray - set of quadruples
 
 Allocate buffer, required for all examples below.
 
+> import Sound.SC3.Monadic
+
 > withSC3 (\fd -> do { reset fd
 >                    ; async fd (b_alloc 0 88200 1) })
 
