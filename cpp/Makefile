@@ -1,7 +1,7 @@
 PREFIX =	$(HOME)
 SC3_INCL =	-I$(PREFIX)/include/SuperCollider/plugin_interface \
 		-I$(PREFIX)/include/SuperCollider/common
-CPP_OPT =	-02 -ffast-math -mmmx -msse -funroll-loops
+CPP_OPT =	-O2 -ffast-math -mmmx -msse -funroll-loops
 PLUGINS =	DustR.so RDelayMap.so
 
 %.o : %.cpp

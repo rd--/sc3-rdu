@@ -16,7 +16,7 @@ extern "C"
 }
 
 void DustR_Ctor(DustR *unit)
-{	
+{
   SETCALC(DustR_next);
   unit->mCounter = 0;
   DustR_next(unit, 1);
@@ -29,7 +29,7 @@ void DustR_next(DustR *unit, int inNumSamples)
   float iot_max = ZIN0(1);
   int32 counter = unit->mCounter;
   RGET
-  LOOP(inNumSamples, 
+  LOOP(inNumSamples,
        if (counter <= 0) {
 	 float z = frand(s1,s2,s3);
 	 ZXP(out) = z;

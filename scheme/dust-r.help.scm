@@ -4,6 +4,8 @@
 ;; generated randomly in the specified range (seconds) with linear
 ;; distribution.
 
+(import (rsc3))
+
 (define dust-r (mk-oscillator-id "DustR" (lo hi) 1))
 
 (audition (out 0 (dust ar 1)))
