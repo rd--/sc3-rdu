@@ -1,4 +1,8 @@
-rDelayMap bufnum input dynamic mapArray
+> import Sound.SC3.ID
+> import Sound.SC3.UGen.External.RDU
+
+Arguments
+> rDelayMap_dsc
 
 Create a network of delay line maps.  A map is defined by a quadruple:
 source location, destination location, operation and gain.  The
@@ -17,17 +21,12 @@ input    - input signal
 dynamic  - when > 0 the mapArray is k-rate, else i-rate
 mapArray - set of quadruples
 
-> import Sound.SC3.ID
-
 Allocate buffer, required for all examples below.
 > withSC3 (\fd -> async fd (b_alloc 0 88200 1))
 
 Zero buffer (transitioning between examples may require the buffer to
 be cleared)
 > withSC3 (\fd -> async fd (b_zero 0))
-
-Define UGen
-> let rDelayMap b i d s = mkFilterMCE "RDelayMap" [b,i,d] s 1
 
 Simple delay (static)
 > let {a = mce [-1,0,0,0.5,1,-1,0,1.0]

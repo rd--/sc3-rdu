@@ -1,10 +1,10 @@
-rShufflerL in fragmentSize maxDelay
-
 > import Sound.SC3
+> import Sound.SC3.UGen.External.RDU
 
-Define UGen
-> let rShufflerL i fs md = mkFilterR [AR] "RShufflerL" [i,fs,md] 1
+Arguments...
+> rShufflerL_dsc
 
+Mouse control
 > let {o = sinOsc AR (mce2 440 441) 0 * 0.2
 >     ;x = mouseX' KR 0.0001 0.02 Linear 0.2
 >     ;y = mouseY' KR 0.001 0.25 Linear 0.2}

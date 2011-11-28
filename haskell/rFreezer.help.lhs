@@ -1,11 +1,10 @@
-rFreezer bufnum left right gain increment
-         incrementOffset incrementRandom rightRandom
-         syncPhaseTrigger randomizePhaseTrigger
-         numberOfLoops
+> import Sound.SC3.ID
+> import Sound.SC3.UGen.External.RDU
 
 Create a set of concurrent loops at a signal buffer.
 
-> import Sound.SC3.ID
+Arguments...
+> rFreezer_dsc
 
 Allocate buffer, required for all examples below.
 > let fn = "/home/rohan/data/audio/material/crotales/crotale05(D).wav"
@@ -14,9 +13,6 @@ Allocate buffer, required for all examples below.
 Check buffer.
 > let s = bufRateScale KR 10
 > in audition (out 0 (playBuf 1 AR 10 s 1 0 NoLoop RemoveSynth * 0.1))
-
-Define UGen.
-> let rFreezer b l r g i io ir rr ps pt nl = mkOsc AR "RFreezer" [b,l,r,g,i,io,ir,rr,ps,pt,nl] 1
 
 Static instances
 > let o = rFreezer 10 0.35 0.4 0.6 0.1 0.05 0.02 0.1 0 0 6
