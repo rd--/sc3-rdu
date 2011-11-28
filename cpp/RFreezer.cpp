@@ -3,7 +3,7 @@
 #include "c-common/rand.c"
 #include "c-common/signal-interpolate.c"
 #include "c-common/taus88.c"
-#include "RDU.h"
+#include "rdu.h"
 
 static InterfaceTable *ft;
 
@@ -20,13 +20,13 @@ typedef struct
 }
 RFreezer_Loop_t;
 
-#define RFREEZER_LOOP_LIMIT 24
+#define LOOP_LIMIT 24
 
-SC3_UGEN_STRUCT(RFreezer)
+struct RFreezer : public Unit
 {
-  SC3_UGEN_DECLARE_MONITORED_BUF;
+  rdu_declare_monitored_buf;
   /* The loop data array. */
-  RFreezer_Loop_t m_loop_data[RFREEZER_LOOP_LIMIT];
+  RFreezer_Loop_t m_loop_data[LOOP_LIMIT];
   /* The number of active loops. */
   int m_loop_n;
   /* The resolved left and right window sample indices,and the size
@@ -39,19 +39,19 @@ SC3_UGEN_STRUCT(RFreezer)
   float m_phase_randomize_trigger_state;
 };
 
-SC3_UGEN_PROTOTYPES(RFreezer);
+rdu_prototypes(RFreezer);
 
-#define RFREEZER_BUFFER_NUMBER             0
-#define RFREEZER_GROUP_LEFT                ZIN0(1)
-#define RFREEZER_GROUP_RIGHT               ZIN0(2)
-#define RFREEZER_GROUP_GAIN                ZIN0(3)
-#define RFREEZER_GROUP_INCREMENT           ZIN0(4)
-#define RFREEZER_INCREMENT_OFFSET          ZIN0(5)
-#define RFREEZER_INCREMENT_RANDOM          ZIN0(6)
-#define RFREEZER_RIGHT_RANDOM              ZIN0(7)
-#define RFREEZER_PHASE_SYNCHRONIZE_TRIGGER ZIN0(8)
-#define RFREEZER_PHASE_RANDOMIZE_TRIGGER   ZIN0(9)
-#define RFREEZER_LOOP_COUNT                ZIN0(10)
+#define BUFFER_NUMBER             0
+#define GROUP_LEFT                ZIN0(1)
+#define GROUP_RIGHT               ZIN0(2)
+#define GROUP_GAIN                ZIN0(3)
+#define GROUP_INCREMENT           ZIN0(4)
+#define INCREMENT_OFFSET          ZIN0(5)
+#define INCREMENT_RANDOM          ZIN0(6)
+#define RIGHT_RANDOM              ZIN0(7)
+#define PHASE_SYNCHRONIZE_TRIGGER ZIN0(8)
+#define PHASE_RANDOMIZE_TRIGGER   ZIN0(9)
+#define LOOP_COUNT                ZIN0(10)
 
 /* Return an index near `index' that corresponds to an ascending zero
    crossing at `sound'. If no zero crossing is located returns
@@ -89,14 +89,14 @@ RFreezer_loop_setup(RFreezer *unit,int index)
   /* Set increment value,this is constant for the whole loop
      traversal. The increment incorporates the global offset and
      randomizer values. */
-  loop->increment  = 1.0 +(RFREEZER_INCREMENT_OFFSET * index);
-  loop->increment *= 1.0 +(RFREEZER_INCREMENT_RANDOM * randf32(0,1));
+  loop->increment  = 1.0 +(INCREMENT_OFFSET * index);
+  loop->increment *= 1.0 +(INCREMENT_RANDOM * randf32(0,1));
   /* Set calculated left and right locations.  Left is not stored,it
      is the inital phase location. The right value incorporates the
      global randomizer value. */
   loop->phase = unit->m_left;
   l_right  = 1.0;
-  l_right *= 1.0 +(RFREEZER_RIGHT_RANDOM * randf32 (0,1));
+  l_right *= 1.0 +(RIGHT_RANDOM * randf32 (0,1));
   l_right  =(l_right > 1.0)? 1.0 : l_right;
   loop->right = (int)((float)unit->m_left +(l_right * (float)unit->m_size));
   /* Shift phase and right to lie on zero crossings. */
@@ -113,8 +113,8 @@ RFreezer_loop_setup(RFreezer *unit,int index)
 inline static void
 RFreezer_group_setup(RFreezer *unit)
 {
-  unit->m_left = (int)(unit->m_buf->frames * RFREEZER_GROUP_LEFT);
-  unit->m_right = (int)(unit->m_buf->frames * RFREEZER_GROUP_RIGHT);
+  unit->m_left = (int)(unit->m_buf->frames * GROUP_LEFT);
+  unit->m_right = (int)(unit->m_buf->frames * GROUP_RIGHT);
   unit->m_size = unit->m_right - unit->m_left;
   /* Shift right to lie on a zero crossing,this is relevant since it
      is a reset point for individual loops. */
@@ -127,7 +127,7 @@ inline static void
 RFreezer_reset(RFreezer *unit)
 {
   RFreezer_group_setup(unit);
-  for(int i = 0; i < RFREEZER_LOOP_LIMIT; i++) {
+  for(int i = 0; i < LOOP_LIMIT; i++) {
     RFreezer_loop_setup(unit,i);
   }
 }
@@ -155,29 +155,29 @@ RFreezer_phase_synchronize(RFreezer *unit)
   }
 }
 
-SC3_UGEN_CTOR(RFreezer)
+void RFreezer_Ctor(RFreezer *unit)
 {
-  SC3_UGEN_INIT_MONITORED_BUF;
+  rdu_init_monitored_buf;
   unit->m_phase_synchronize_trigger_state = 0.0;
   SETCALC(RFreezer_next);
 }
 
-SC3_UGEN_NEXT(RFreezer)
+void RFreezer_next(RFreezer *unit,int inNumSamples)
 {
-  SC3_UGEN_GET_BUF(RFREEZER_BUFFER_NUMBER);
-  SC3_UGEN_CHECK_BUF(1);
-  SC3_UGEN_ON_BUFFER_CHANGE(RFreezer_reset(unit););
+  rdu_get_buf(BUFFER_NUMBER);
+  rdu_check_buf(1);
+  rdu_on_buffer_change(RFreezer_reset(unit););
   float *out = OUT(0);
   /* Set number of active loops. */
-  unit->m_loop_n = (int) RFREEZER_LOOP_COUNT;
+  unit->m_loop_n = (int) LOOP_COUNT;
   /* Check phase synchronize trigger. */
-  float trigger = RFREEZER_PHASE_SYNCHRONIZE_TRIGGER;
+  float trigger = PHASE_SYNCHRONIZE_TRIGGER;
   if(trigger > 0.0 && unit->m_phase_synchronize_trigger_state <= 0.0) {
     RFreezer_phase_synchronize(unit);
   }
   unit->m_phase_synchronize_trigger_state = trigger;
   /* Check phase randomize trigger. */
-  trigger = RFREEZER_PHASE_RANDOMIZE_TRIGGER;
+  trigger = PHASE_RANDOMIZE_TRIGGER;
   if(trigger > 0.0 && unit->m_phase_randomize_trigger_state <= 0.0) {
     RFreezer_phase_randomize(unit);
   }
@@ -193,7 +193,7 @@ SC3_UGEN_NEXT(RFreezer)
       out[i] += signal_interpolate(unit->m_buf->data,
 				     unit->m_buf->frames,
 				     loop->phase);
-      loop->phase += loop->increment * RFREEZER_GROUP_INCREMENT;
+      loop->phase += loop->increment * GROUP_INCREMENT;
       /* Reset loop if required.  Loops reset at their own 'right'
 	 value,or at the group 'right' value.  */
       if(loop->phase >= loop->right || loop->phase >= unit->m_right) {
@@ -201,8 +201,8 @@ SC3_UGEN_NEXT(RFreezer)
       }
     }
     /* Apply group gain. */
-    out[i] *= RFREEZER_GROUP_GAIN;
+    out[i] *= GROUP_GAIN;
   }
 }
 
-SC3_UGEN_LOAD(RFreezer);
+rdu_load(RFreezer);

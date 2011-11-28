@@ -1,31 +1,8 @@
 #include <stdio.h>
 #include <SC_PlugIn.h>
 
-/* cq = circular queue, n = buffer length, ri = read index, wi = write
-   index, ai = absolute index, s = buffer */
-
-int cq_index_i(int n, int ri, int wi)
-{
-  int ai = (wi - 1) - ri;
-  if(ai < 0) {
-    ai += n;
-  }
-  return ai;
-}
-
-float cq_access_i(float *s, int n, int ri, int wi)
-{
-  int i = cq_index_i(n, ri, wi);
-  return s[i];
-}
-
-void cq_increment_write_index(int n, int *wi)
-{
-  *wi += 1;
-  if(*wi >= n) {
-    *wi = 0;
-  }
-}
+#include "c-common/cq.c"
+#include "rdu.h"
 
 static InterfaceTable *ft;
 
@@ -50,8 +27,7 @@ struct Mapping
 
 struct RDelayMap : public Unit
 {
-  SndBuf *m_buf;
-  int m_buf_id;
+  rdu_declare_buf;
   struct Mapping m_map[Map_Limit];
   int m_map_n;
   float *m_signal;
@@ -59,37 +35,18 @@ struct RDelayMap : public Unit
   int m_write_index;
 };
 
-extern "C"
-{
-  void load(InterfaceTable *inTable);
-  void RDelayMap_Ctor(RDelayMap *unit);
-  void RDelayMap_next(RDelayMap *unit, int inNumSamples);
-}
-
-void sc3_ugen_get_buf(RDelayMap *unit, int n)
-{
-  int l_buf_id = (int)ZIN0(n);
-  if(l_buf_id != unit->m_buf_id) {
-    World *world = unit->mWorld;
-    if(l_buf_id < 0 || l_buf_id >= (int)world->mNumSndBufs) {
-      l_buf_id = 0;
-    }
-    unit->m_buf_id = l_buf_id;
-    unit->m_buf = world->mSndBufs + l_buf_id;
-  }
-}
+rdu_prototypes(RDelayMap);
 
 /* The input layout has the buffer index at zero the input signal at
-   one, a dynamic update flag at two, and then any number of
-   quadruples, each defining a single map, in the sequence: source,
-   destination, operation, gain.  The locations are given in
+   one,a dynamic update flag at two,and then any number of
+   quadruples,each defining a single map,in the sequence: source,
+   destination,operation,gain.  The locations are given in
    seconds.  */
-
 void RDelayMap_Setup(RDelayMap *unit)
 {
-  int i, j;
+  int i,j;
   float location_max = 0.0;
-  for(i = 0, j = Map_Offset; i < unit->m_map_n; i++, j += 4) {
+  for(i = 0,j = Map_Offset; i < unit->m_map_n; i++,j += 4) {
     unit->m_map[i].src = (int)(ZIN0(j) * SAMPLERATE);
     unit->m_map[i].dst = (int)(ZIN0(j + 1) * SAMPLERATE);
     unit->m_map[i].op = (enum Operation)ZIN0(j + 2);
@@ -106,8 +63,7 @@ void RDelayMap_Setup(RDelayMap *unit)
 
 void RDelayMap_Ctor(RDelayMap *unit)
 {
-  unit->m_buf = NULL;
-  unit->m_buf_id = -1;
+  rdu_init_buf;
   unit->m_map_n = (unit->mNumInputs - Map_Offset) / 4;
   RDelayMap_Setup(unit);
   SETCALC(RDelayMap_next);
@@ -119,12 +75,11 @@ void RDelayMap_Ctor(RDelayMap *unit)
    indices indicate the input and output signal boxes respectively.
    If the mapping is a move operation do not fetch the destination
    value as it is over-written and not required. */
-
-float RDelayMap_step(RDelayMap *unit, float s)
+float RDelayMap_step(RDelayMap *unit,float s)
 {
   float v_out = 0.0;
   for(int i = 0; i < unit->m_map_n; i++){
-    float v_src, v_dst;
+    float v_src,v_dst;
     int dst_index_abs = 0;
     if(unit->m_map[i].dst >= 0){
       dst_index_abs = cq_index_i(unit->m_signal_n,
@@ -163,19 +118,10 @@ float RDelayMap_step(RDelayMap *unit, float s)
   return v_out;
 }
 
-void RDelayMap_next(RDelayMap *unit, int inNumSamples)
+void RDelayMap_next(RDelayMap *unit,int inNumSamples)
 {
-  sc3_ugen_get_buf(unit, 0);
-  if(!unit->m_buf->data) {
-    unit->mDone = 1;
-    ClearUnitOutputs(unit, inNumSamples);
-    return;
-  }
-  if(unit->m_buf->channels != 1) {
-    unit->mDone = 1;
-    ClearUnitOutputs(unit, inNumSamples);
-    return;
-  }
+  rdu_get_buf(0);
+  rdu_check_buf(1);
   if((int)ZIN0(2) > 0) {
     RDelayMap_Setup(unit);
   }
@@ -187,12 +133,8 @@ void RDelayMap_next(RDelayMap *unit, int inNumSamples)
     unit->m_signal = unit->m_buf->data;
   }
   for(int i = 0; i < inNumSamples; i++){
-    out[i] = RDelayMap_step(unit, in[i]);
+    out[i] = RDelayMap_step(unit,in[i]);
   }
 }
 
-void load(InterfaceTable *inTable)
-{
-  ft = inTable;
-  DefineSimpleUnit(RDelayMap);
-}
+rdu_load(RDelayMap);

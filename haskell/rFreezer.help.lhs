@@ -13,7 +13,7 @@ Allocate buffer, required for all examples below.
 
 Check buffer.
 > let s = bufRateScale KR 10
-> in audition (out 0 (playBuf 1 AR 10 s 1 0 NoLoop RemoveSynth))
+> in audition (out 0 (playBuf 1 AR 10 s 1 0 NoLoop RemoveSynth * 0.1))
 
 Define UGen.
 > let rFreezer b l r g i io ir rr ps pt nl = mkOsc AR "RFreezer" [b,l,r,g,i,io,ir,rr,ps,pt,nl] 1
@@ -28,10 +28,16 @@ Static instances
 > let o = rFreezer 10 0.3 0.7 0.6 0.35 0 0.5 0.5 0 0 6
 > in audition (out 0 o)
 
-> let o = rFreezer 10 0.15 0.85 0.3 0.35 0.15 0.05 0.34 0 0 24
+> let o = rFreezer 10 0.2500 0.2505 0.1 1 0 0.050 0.005 0 0 24
 > in audition (out 0 o)
 
-K-rate instance
+K-rate instances
+> let {n z f i j = linLin (lfNoise2 z KR f) (-1) 1 i j
+>     ;left = n 'a' 1 0.3 0.8
+>     ;right = left + n 'b' 1 0.01 0.05
+>     ;o = rFreezer 10 left right 0.1 0.5 0.1 0.5 0.05 0 0 24}
+> in audition (out 0 o)
+
 > let {bufnum = 10
 >     ;n z i j = linLin (lfNoise2 z KR 0.1) (-1) 1 i j
 >     ;left = n 'a' 0.3 0.4
