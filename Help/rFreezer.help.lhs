@@ -34,8 +34,7 @@ K-rate instances
 >     ;o = rFreezer 10 left right 0.1 0.5 0.1 0.5 0.05 0 0 24}
 > in audition (out 0 o)
 
-> let {bufnum = 10
->     ;n z i j = linLin (lfNoise2 z KR 0.1) (-1) 1 i j
+> let {n z i j = linLin (lfNoise2 z KR 0.1) (-1) 1 i j
 >     ;left = n 'a' 0.3 0.4
 >     ;right = n 'b' 0.5 0.6
 >     ;gain = n 'c' 0.3 0.6

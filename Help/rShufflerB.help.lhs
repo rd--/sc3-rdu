@@ -2,6 +2,7 @@
 > import Sound.SC3.UGen.External.RDU
 
 A buffer signal shuffler.
+> rShufflerB_dsc
 > :i RShufflerB
 
 Allocate buffer, required for all examples below.
