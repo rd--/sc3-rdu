@@ -21,6 +21,22 @@ rDelayMap_dsc =
 rDelayMap :: UGen -> UGen -> UGen -> UGen -> UGen
 rDelayMap b i d s = mkFilterMCE "RDelayMap" [b,i,d] s 1
 
+rDelaySet_dsc :: U
+rDelaySet_dsc =
+    let i = [I "input" 0,I "setArray" 0]
+    in U "RDelaySet" [AR] AR i 1
+
+rDelaySet :: UGen -> UGen -> UGen
+rDelaySet i s = mkFilterMCE "RDelaySet" [i] s 1
+
+rDelaySetB_dsc :: U
+rDelaySetB_dsc =
+    let i = [I "buffer" 0,I "input" 0,I "setArray" 0]
+    in U "RDelaySetB" [AR] AR i 1
+
+rDelaySetB :: UGen -> UGen -> UGen -> UGen
+rDelaySetB b i s = mkFilterMCE "RDelaySetB" [b,i] s 1
+
 rFreezer_dsc :: U
 rFreezer_dsc =
     let i = [I "bufnum" 0
