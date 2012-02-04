@@ -7,7 +7,7 @@ Arguments...
 > rFreezer_dsc
 
 Allocate buffer, required for all examples below.
-> let fn = "/home/rohan/data/audio/material/crotales/crotale05(D).wav"
+> let fn = "/home/rohan/data/audio/instr/crotales/crotale05(D).wav"
 > in withSC3 (\fd -> async fd (b_allocRead 10 fn 0 0))
 
 Check buffer.
@@ -38,9 +38,9 @@ K-rate instances
 >     ;left = n 'a' 0.3 0.4
 >     ;right = n 'b' 0.5 0.6
 >     ;gain = n 'c' 0.3 0.6
->     ;increment = n 'd' 0.05 0.15
->     ;incrementOffset = n 'e' 0.05 0.15
->     ;incrementRandom = n 'f' 0.05 0.15
->     ;rightRandom = n 'g' 0.05 0.15
->     ;o = rFreezer 10 left right gain increment incrementOffset incrementRandom rightRandom 0 0 6}
+>     ;incr = n 'd' 0.05 0.15
+>     ;incrOff = n 'e' 0.05 0.15
+>     ;incrRand = n 'f' 0.05 0.15
+>     ;rightRand = n 'g' 0.05 0.15
+>     ;o = rFreezer 10 left right gain incr incrOff incrRand rightRand 0 0 6}
 > in audition (out 0 o)

@@ -6,7 +6,7 @@ A buffer signal shuffler.
 > :i RShufflerB
 
 Allocate buffer, required for all examples below.
-> let fn = "/home/rohan/data/audio/material/crotales/crotale05(D).wav"
+> let fn = "/home/rohan/data/audio/instr/crotales/crotale05(D).wav"
 > in withSC3 (\fd -> async fd (b_allocRead 10 fn 0 0))
 
 Check buffer.

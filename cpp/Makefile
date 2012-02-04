@@ -1,20 +1,29 @@
-PREFIX = $(HOME)
-SC3_INCL = -I$(PREFIX)/include/SuperCollider/plugin_interface \
-           -I$(PREFIX)/include/SuperCollider/common
-CPP_OPT = -O2 -ffast-math -mmmx -msse -funroll-loops
-PLUGINS = DustR.so RDelayMap.so RDelaySet.so RDelaySetB.so RFreezer.so RLoopSet.so RShufflerB.so RShufflerL.so
-LIB = c-common/lib-c-common.a
+D = $(HOME)/opt
+T = $(D)/lib/SuperCollider/plugins
+I = -I$(D)/include/SuperCollider/plugin_interface \
+    -I$(D)/include/SuperCollider/common
+O = -O2 -ffast-math -mmmx -msse -funroll-loops
+P = DustR.so \
+    RDelayMap.so \
+    RDelaySet.so RDelaySetB.so \
+    RFreezer.so \
+    RLoopSet.so \
+    RShufflerB.so RShufflerL.so
+L = c-common/lib-c-common.a
 
 %.o : %.cpp
-	g++ -Wall $(CPP_OPT) $(SC3_INCL) -c -shared $<
+	g++ -Wall $(O) $(I) -c -shared $<
 
 %.so : %.o
 	ld $< -lm -shared -o $@
 
-all:	$(PLUGINS)
+all:	$(P)
 
 clean:
-	rm -f $(PLUGINS)
+	rm -f $(P)
 
-install: $(PLUGINS)
-	cp $(PLUGINS) $(PREFIX)/lib/SuperCollider/plugins
+install: $(P)
+	cp $(P) $(T)
+
+uninstall:
+	(cd $(T) ; rm -f $(P))

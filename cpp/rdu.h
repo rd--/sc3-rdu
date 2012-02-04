@@ -93,14 +93,14 @@ extern "C"                                              \
   }
 
 #define rdu_load(name)                          \
-void load(InterfaceTable *inTable)              \
+PluginLoad(name)                                \
 {                                               \
   ft = inTable;                                 \
   DefineSimpleUnit(name);                       \
 }
 
-#define rdu_load_dtor(name)             \
-void load(InterfaceTable *inTable)              \
+#define rdu_load_dtor(name)                     \
+PluginLoad(name)                                \
 {                                               \
   ft = inTable;                                 \
   DefineDtorUnit(name);                         \

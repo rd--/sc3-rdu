@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <SC_PlugIn.h>
+#include "rdu.h"
 
 static InterfaceTable *ft;
 
@@ -8,12 +9,7 @@ struct DustR : public Unit
   int32 mCounter;
 };
 
-extern "C"
-{
-  void load(InterfaceTable *inTable);
-  void DustR_Ctor(DustR *unit);
-  void DustR_next(DustR *unit, int inNumSamples);
-}
+rdu_prototypes(DustR);
 
 void DustR_Ctor(DustR *unit)
 {
@@ -44,8 +40,4 @@ void DustR_next(DustR *unit, int inNumSamples)
   RPUT
 }
 
-void load(InterfaceTable *inTable)
-{
-  ft = inTable;
-  DefineSimpleUnit(DustR);
-}
+rdu_load(DustR);
