@@ -4,7 +4,7 @@
 Create a set of concurrent loops at a signal buffer.
 
 Arguments...
-> rFreezer_dsc
+> Sound.SC3.UGen.DB.u_summary rFreezer_dsc
 
 Allocate buffer, required for all examples below.
 > let fn = "/home/rohan/data/audio/instr/crotales/crotale05(D).wav"

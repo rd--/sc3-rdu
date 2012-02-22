@@ -1,8 +1,8 @@
 > import Sound.SC3.ID
 > import Sound.SC3.UGen.External.RDU
 
-Arguments
-> rDelayMap_dsc
+arguments
+> Sound.SC3.UGen.DB.u_summary rDelayMap_dsc
 
 Create a network of delay line maps.  A map is defined by a quadruple:
 source location, destination location, operation and gain.  The

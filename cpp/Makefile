@@ -4,6 +4,7 @@ I = -I$(D)/include/SuperCollider/plugin_interface \
     -I$(D)/include/SuperCollider/common
 O = -O2 -ffast-math -mmmx -msse -funroll-loops
 P = DustR.so \
+    RandN.so \
     RDelayMap.so \
     RDelaySet.so RDelaySetB.so \
     RFreezer.so \

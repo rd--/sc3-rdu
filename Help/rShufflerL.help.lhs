@@ -2,7 +2,7 @@
 > import Sound.SC3.UGen.External.RDU
 
 Arguments...
-> rShufflerL_dsc
+> Sound.SC3.UGen.DB.u_summary rShufflerL_dsc
 
 Mouse control
 > let {o = sinOsc AR (mce2 440 441) 0 * 0.2

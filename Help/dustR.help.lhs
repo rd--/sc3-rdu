@@ -1,8 +1,8 @@
 > import Sound.SC3.ID
 > import Sound.SC3.UGen.External.RDU
 
-Arguments
-> dustR_dsc
+arguments
+> Sound.SC3.UGen.DB.u_summary dustR_dsc
 
 dustR generates triggers where the inter-offset times are generated
 randomly in the specified range (seconds) with linear distribution.

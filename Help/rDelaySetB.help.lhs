@@ -2,7 +2,7 @@
 > import Sound.SC3.UGen.External.RDU
 
 Arguments...
-> rDelaySetB_dsc
+> Sound.SC3.UGen.DB.u_summary rDelaySetB_dsc
 
 Allocate buffer
 > withSC3 (\fd -> async fd (b_alloc 10 (5 * 44100) 1))

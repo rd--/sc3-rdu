@@ -2,7 +2,7 @@
 > import Sound.SC3.UGen.External.RDU
 
 Arguments...
-> rDelaySet_dsc
+> Sound.SC3.UGen.DB.u_summary rDelaySet_dsc
 
 Three one second delays...
 > let {x = mouseX KR 110 660 Linear 0.2
