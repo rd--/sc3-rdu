@@ -21,6 +21,16 @@ dustR_dsc =
 dustR :: ID z => z -> Rate -> UGen -> UGen -> UGen
 dustR z rt lo hi = mkOscId z rt "DustR" [lo,hi] 1
 
+expRandN :: ID z => Int -> z -> UGen -> UGen -> UGen
+expRandN nc z l r = mkOscId z IR "ExpRandN" [l,r] nc
+
+expRandN_dsc :: U
+expRandN_dsc =
+    let i = [std_I 0 "lo" 0.0001
+            ,std_I 1 "hi" 1.0]
+        dsc = "Multi-channel variant of Rand"
+    in U "ExpRandN" [IR] IR Nothing i Nothing (Right 0) dsc
+
 randN :: ID z => Int -> z -> UGen -> UGen -> UGen
 randN nc z l r = mkOscId z IR "RandN" [l,r] nc
 
