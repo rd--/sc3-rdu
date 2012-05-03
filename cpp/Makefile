@@ -28,3 +28,8 @@ install: $(P)
 
 uninstall:
 	(cd $(T) ; rm -f $(P))
+
+ln-c-common:
+	rm -f c-common
+	ln -s $(HOME)/sw/c-common .
+
