@@ -9,7 +9,9 @@ P = DustR.so \
     RDelaySet.so RDelaySetB.so \
     RFreezer.so \
     RLoopSet.so \
-    RShufflerB.so RShufflerL.so
+    RShufflerB.so RShufflerL.so \
+    RTrace.so
+
 L = c-common/lib-c-common.a
 
 %.o : %.cpp
