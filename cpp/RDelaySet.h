@@ -1,3 +1,11 @@
+typedef struct
+{
+  float location;
+  float feed_forward;
+  float feed_backward;
+}
+tap_t;
+
 #define N_TAP 64
 
 #define rdelayset_struct_common			\

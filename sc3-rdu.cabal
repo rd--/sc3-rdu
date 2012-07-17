@@ -8,7 +8,7 @@ Copyright:         (c) Rohan Drape, 1998-2012
 Author:            Rohan Drape
 Maintainer:        rd@slavepianos.org
 Stability:         Experimental
-Homepage:          http://slavepianos.org/rd/?t=sc3-rdu
+Homepage:          http://rd.slavepianos.org/?t=sc3-rdu
 Tested-With:       GHC == 7.2.2
 Build-Type:        Simple
 Cabal-Version:     >= 1.8
@@ -16,6 +16,7 @@ Cabal-Version:     >= 1.8
 Data-files:        README
 
 Library
+  hs-source-dirs:  hs
   Build-Depends:   base == 4.*,
                    hsc3 == 0.12.*,
                    hsc3-db == 0.12.*
@@ -24,4 +25,4 @@ Library
 
 Source-Repository  head
   Type:            darcs
-  Location:        http://slavepianos.org/rd/sw/sc3-rdu
+  Location:        http://rd.slavepianos.org/sw/sc3-rdu

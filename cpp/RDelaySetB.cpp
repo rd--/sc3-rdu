@@ -9,14 +9,6 @@
 
 static InterfaceTable *ft;
 
-typedef struct
-{
-  float location;
-  float feed_forward;
-  float feed_backward;
-}
-tap_t;
-
 struct RDelaySetB : public Unit
 {
   rdu_declare_buf;

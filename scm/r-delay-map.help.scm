@@ -35,8 +35,8 @@
 
 ;; Simple feedback circuit (dynamic)
 (audition
- (let* ((x (mouse-x* kr 0.05 1.05 0 0.1))
-	(y (mouse-y* kr 0.05 0.95 0 0.1))
+ (let* ((x (mouse-x kr 0.05 1.05 0 0.1))
+	(y (mouse-y kr 0.05 0.95 0 0.1))
 	(d (make-mce (list -1 0 0 1
                            y  0 1 x
                            1 -1 0 1))))
