@@ -167,6 +167,16 @@ rTraceRd_dsc =
 rTraceRd :: Rate -> UGen -> UGen -> UGen -> UGen
 rTraceRd rt b ix ac = mkOsc rt "RTraceRd" [b,ix,ac] 1
 
+rPlayTrace_dsc :: U
+rPlayTrace_dsc =
+    let i = [std_I 0 "bufnum" 0
+            ,std_I 1 "rate" 0
+            ,std_I 2 "access" 1]
+    in osc_U "RPlayTrace" [AR] AR i 1
+
+rPlayTrace :: Rate -> UGen -> UGen -> UGen -> UGen
+rPlayTrace rt b ix ac = mkOsc rt "RPlayTrace" [b,ix,ac] 1
+
 -- Local Variables:
 -- truncate-lines:t
 -- End:
