@@ -29,7 +29,7 @@ be cleared)
 > withSC3 (\fd -> async fd (b_zero 0))
 
 Simple delay (static)
-> let {a = mce [-1,0,0,0.5,1,-1,0,1.0]
+> let {a = mce [-1,0,0,0.5,1,-1,0,1]
 >     ;x = mouseX KR 110 440 Linear 0.1
 >     ;y = mouseY KR 0.0 0.2 Linear 0.1
 >     ;o = sinOsc AR x 0 * y }

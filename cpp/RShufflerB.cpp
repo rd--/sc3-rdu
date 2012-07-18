@@ -44,7 +44,6 @@ struct RShufflerB : public Unit
 rdu_prototypes(RShufflerB);
 
 /* Symbolic names for control port indicies. */
-
 #define BUFFER_NUMBER          0
 #define READ_LOCATION_L        1
 #define READ_LOCATION_R        2
