@@ -160,22 +160,24 @@ rShufflerL i fs md = mkFilterR [AR] "RShufflerL" [i,fs,md] 1
 rTraceRd_dsc :: U
 rTraceRd_dsc =
     let i = [std_I 0 "bufnum" 0
-            ,std_I 1 "index" 0
-            ,std_I 2 "access" 1]
+            ,std_I 1 "degree" 4
+            ,std_I 2 "index" 0
+            ,std_I 3 "access" 1]
     in osc_U "RTraceRd" [AR] AR i 1
 
-rTraceRd :: Rate -> UGen -> UGen -> UGen -> UGen
-rTraceRd rt b ix ac = mkOsc rt "RTraceRd" [b,ix,ac] 1
+rTraceRd :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen
+rTraceRd rt b d ix ac = mkOsc rt "RTraceRd" [b,d,ix,ac] 1
 
 rPlayTrace_dsc :: U
 rPlayTrace_dsc =
     let i = [std_I 0 "bufnum" 0
-            ,std_I 1 "rate" 0
-            ,std_I 2 "access" 1]
+            ,std_I 1 "degree" 4
+            ,std_I 2 "rate" 0
+            ,std_I 3 "access" 1]
     in osc_U "RPlayTrace" [AR] AR i 1
 
-rPlayTrace :: Rate -> UGen -> UGen -> UGen -> UGen
-rPlayTrace rt b ix ac = mkOsc rt "RPlayTrace" [b,ix,ac] 1
+rPlayTrace :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen
+rPlayTrace rt b d ix ac = mkOsc rt "RPlayTrace" [b,d,ix,ac] 1
 
 -- Local Variables:
 -- truncate-lines:t

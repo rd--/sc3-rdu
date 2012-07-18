@@ -22,15 +22,19 @@ void RTraceRd_next(RTraceRd *unit, int inNumSamples)
 {
   rdu_get_buf(0);
   rdu_check_buf(1);
-  float index = ZIN0(1);
+  int degree = (int) ZIN0(1);
+  float index = ZIN0(2);
   float *out = OUT(0);
-  int access = (int)ZIN0(2);
-  if(access < 1 || access > 3) access = 1;
+  float r[4];
+  int access = (int)ZIN0(3);
+  if(access < 1 || access >= degree) access = 1;
   for(int i = 0; i < inNumSamples; i++) {
-    out[i] = trace_lookup(unit->m_buf->data,
-			  unit->m_buf->frames,
-			  index,
-			  access);
+    trace_lookup(unit->m_buf->data,
+                 unit->m_buf->frames,
+                 degree,
+                 index,
+                 r);
+    out[i] = r[access];
   }
 }
 
@@ -53,18 +57,22 @@ void RPlayTrace_next(RPlayTrace *unit, int inNumSamples)
 {
   rdu_get_buf(0);
   rdu_check_buf(1);
-  float rate = ZIN0(1);
+  int degree = (int) ZIN0(1);
+  float rate = ZIN0(2);
   double incr = (1.0 / SAMPLERATE) * rate;
   float *out = OUT(0);
-  int access = (int)ZIN0(2);
-  if(access < 1 || access > 3) access = 1;
+  float r[4];
+  int access = (int)ZIN0(3);
+  if(access < 1 || access >= degree) access = 1;
   for(int i = 0; i < inNumSamples; i++) {
-    out[i] = trace_lookup(unit->m_buf->data,
-			  unit->m_buf->frames,
-			  unit->m_phase,
-			  access);
+    trace_lookup(unit->m_buf->data,
+                 unit->m_buf->frames,
+                 degree,
+                 unit->m_phase,
+                 r);
+    out[i] = r[access];
     unit->m_phase += incr;
-    if(unit->m_phase > 1.0) {
+    if(unit->m_phase >= 1.0) {
       unit->m_phase -= 1.0;
     }
   }

@@ -15,12 +15,12 @@ sequence of tuples (T,X,Y,Z).
 			1, -1, 1/4, 0))
 
 // The X element of the trace is a (-1 0 1 0 -1).
-{var x = RTraceRd.kr(0, LFSaw.kr(1, 0, 1/2, 1/2), 1)
+{var x = RTraceRd.kr(0, 4, LFSaw.kr(1, 0, 1/2, 1/2), 1)
 ;Pan2.ar(SinOsc.ar(440, 0, 0.5), x, 0.1)}.play
 
 // The Y element is (1/4 1/2 1/4 0 1/4).
-{var x = RTraceRd.kr(0, LFSaw.kr(1, 0, 1/2, 1/2), 1)
-;var y = RTraceRd.kr(0, LFSaw.kr(1, 0, 1/2, 1/2), 2)
+{var x = RTraceRd.kr(0, 4, LFSaw.kr(1, 0, 1/2, 1/2), 1)
+;var y = RTraceRd.kr(0, 4, LFSaw.kr(1, 0, 1/2, 1/2), 2)
 ;Pan2.ar(SinOsc.ar(440, 0, 0.1), x, y)}.play
 
 // Altering the time points...
@@ -31,8 +31,8 @@ sequence of tuples (T,X,Y,Z).
 				 1, -1, 1/4, 0);)
 
 // Variant constructors with named accessor.
-{var x = RTraceRdX.kr(0, LFSaw.kr(1, 0, 1/2, 1/2))
-;var y = RTraceRdY.kr(0, LFSaw.kr(1, 0, 1/2, 1/2))
+{var x = RTraceRdX.kr(0, 4, LFSaw.kr(1, 0, 1/2, 1/2))
+;var y = RTraceRdY.kr(0, 4, LFSaw.kr(1, 0, 1/2, 1/2))
 ;Pan2.ar(SinOsc.ar(440, 0, 0.1), x, y)}.play
 
 s.sendMsg( "/b_free", 0)
