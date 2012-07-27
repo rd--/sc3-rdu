@@ -31,7 +31,6 @@ void ExpRandN_Ctor(ExpRandN* unit)
   for (i=0;i<nc;i++) {
     ZOUT0(i) = pow(z,rgen.frand()) * l;
   }
-
 }
 
 PluginLoad(RandN)

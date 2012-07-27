@@ -10,7 +10,8 @@ P = DustR.so \
     RFreezer.so \
     RLoopSet.so \
     RShufflerB.so RShufflerL.so \
-    RTrace.so
+    RTrace.so \
+    TScramble.so
 
 L = c-common/lib-c-common.a
 

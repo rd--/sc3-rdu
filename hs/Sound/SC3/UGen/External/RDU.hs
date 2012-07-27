@@ -179,6 +179,17 @@ rPlayTrace_dsc =
 rPlayTrace :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen
 rPlayTrace rt b d ix ac = mkOsc rt "RPlayTrace" [b,d,ix,ac] 1
 
+-- | The number of output is the length of the inputs array.
+tScramble_dsc :: U
+tScramble_dsc =
+    let i = [std_I 0 "trigger" 0
+            ,std_I 1 "inputs" 0]
+        s = "Scramble inputs on trigger."
+    in U "TScramble" [KR] KR Nothing i (Just 1) (Right 1) s
+
+tScramble :: ID z => z -> Rate -> UGen -> UGen -> UGen
+tScramble z rt tr i = mkOscMCEId z rt "TScramble" [tr] i (mceDegree i)
+
 -- Local Variables:
 -- truncate-lines:t
 -- End:
