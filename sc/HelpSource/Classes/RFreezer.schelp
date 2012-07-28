@@ -40,16 +40,16 @@ SynthDef(
 Put default values onto control busses and Start instrument.
 
 code::
-(s.sendMsg("/c_setn", 32, 10, 0.3, 0.4, 0.36, 0.35, 0.02, 0.003, 0.34, -0.5, -0.5, 6)
-;s.sendMsg("/s_new", "RFreezer-Help", 1003, 1, 0, "bufnum", 10, "gain", 0.1)
-;s.sendMsg("/n_mapn", 1003, 2, 32, 10)
-;s.sendMsg("/s_new", "RFreezer-MouseController", 1004, 1, 0))
+s.sendMsg("/c_setn", 32, 10, 0.3, 0.4, 0.36, 0.35, 0.02, 0.003, 0.34, -0.5, -0.5, 6);
+s.sendMsg("/s_new", "RFreezer-Help", 1003, 1, 0, "bufnum", 10, "gain", 0.1);
+s.sendMsg("/n_mapn", 1003, 2, 32, 10);
+s.sendMsg("/s_new", "RFreezer-MouseController", 1004, 1, 0);
 ::
 
 Free node and buffer.
 
 code::
-(s.sendMsg("/n_free", 1003)
-;s.sendMsg("/n_free", 1004)
-;s.sendMsg("/b_free", 10))
+s.sendMsg("/n_free", 1003);
+s.sendMsg("/n_free", 1004);
+s.sendMsg("/b_free", 10);
 ::

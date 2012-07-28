@@ -8,7 +8,7 @@ Allocate buffer.
 
 code::
 f = Platform.systemAppSupportDir +/+ "sounds/a11wlk01.wav";
-s.sendMsg("/b_allocRead", 10, f, 0, -1));
+s.sendMsg("/b_allocRead", 10, f, 0, -1);
 ::
 
 Static (parameter)
@@ -69,7 +69,7 @@ s.sendMsg("/c_setn", 0, 20, 0.083808, 0.152608, 0.20857142857142857, 0.413650793
 s.sendMsg("/n_mapn", 1001, 2, 0, 20);
 ::
 
-De-allocate buffer
+De-allocate node and buffer
 
 code::
 s.sendMsg("/n_free", 1001);
