@@ -1,7 +1,10 @@
-sc3-rdu - supercollider3 unit generators
+sc3-rdu
+-------
 
-  http://audiosynth.com/
-  http://rd.slavepianos.org/?t=sc3-rdu
+[supercollider3][sc3] unit generators
 
-(c) rohan drape, 1998-2012
-    gpl, http://www.gnu.org/copyleft
+© [rohan drape][rd], 1998-2012, [gpl][gpl].
+
+[sc3]: http://audiosynth.com/
+[rd]:  http://rd.slavepianos.org/
+[gpl]: http://gnu.org/copyleft/
