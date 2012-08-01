@@ -1,8 +1,8 @@
 -- | RDU UGen definitions.
 module Sound.SC3.UGen.External.RDU where
 
-import Sound.SC3.Identifier
 import Sound.SC3.UGen.DB.Record
+import Sound.SC3.UGen.Identifier
 import Sound.SC3.UGen.Rate
 import Sound.SC3.UGen.UGen
 
