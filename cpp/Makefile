@@ -1,4 +1,6 @@
-D = $(HOME)/opt
+prefix = $(HOME)/opt
+
+D = $(prefix)
 T = $(D)/lib/SuperCollider/plugins
 I = -I$(D)/include/SuperCollider/plugin_interface \
     -I$(D)/include/SuperCollider/common
