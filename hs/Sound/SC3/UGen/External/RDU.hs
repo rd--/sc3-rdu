@@ -73,6 +73,9 @@ rDelaySetB_dsc =
 rDelaySetB :: UGen -> UGen -> UGen -> UGen
 rDelaySetB b i s = mkFilterMCE "RDelaySetB" [b,i] s 1
 
+rdf2 :: UGen -> UGen
+rdf2 i = mkOscMCE AR "RDF" [] i 2
+
 rFreezer_dsc :: U
 rFreezer_dsc =
     let i = [std_I 0 "bufnum" 0

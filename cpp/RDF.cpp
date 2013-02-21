@@ -1,10 +1,13 @@
+#include <dlfcn.h>
 #include "RDF.h"
+
+static InterfaceTable *ft;
 
 struct RDF_Command {
   enum Type {RDF_Load};
   Type type;
   Unit *unit;
-  char dll_name[512];
+  char dl_name[512];
 };
 
 extern "C" {
@@ -15,14 +18,21 @@ extern "C" {
 
 /* stage2 = NRT */
 bool rdf_cmd_stage2(World* inWorld, RDF_Command* cmd) {
-  RDF* unit = (RDF *)cmd->unit;
+  RDF *unit = (RDF *)cmd->unit;
+  printf("rdf_cmd_stage2\n");
   switch (cmd->type) {
   case RDF_Command::RDF_Load:
-    unit->m_rdf_fd = dlopen(cmd->dll_name, RTLD_LAZY);
+    printf("->dlopen()\n");
+    unit->m_rdf_fd = dlopen(cmd->dl_name, RTLD_LAZY);
     if (unit->m_rdf_fd) {
-      unit->m_rdf_init = dlsym(unit->m_rdf_fd, "dsp_init");
-      unit->m_rdf_step = dlsym(unit->m_rdf_fd, "dsp_step");
-      unit->m_rdf_st = unit->m_rdf_init(w,0);
+      printf("->dlsym(init)\n");
+      void *init_f = dlsym(unit->m_rdf_fd, "dsp_init");
+      printf("->dlsym(step)\n");
+      void *step_f = dlsym(unit->m_rdf_fd, "dsp_step");
+      unit->m_rdf_init = (void* (*)(void*, int)) init_f;
+      unit->m_rdf_step = (void (*)(void*, int, int)) step_f;
+      printf("->init\n");
+      unit->m_rdf_st = unit->m_rdf_init(unit,0);
     } else {
       unit->m_rdf_step = NULL;
     }
@@ -33,13 +43,14 @@ bool rdf_cmd_stage2(World* inWorld, RDF_Command* cmd) {
 
 /* stage3 = RT */
 bool rdf_cmd_stage3(World* world, RDF_Command* cmd) {
+  printf("rdf_cmd_stage3\n");
   RDF* unit = (RDF *)cmd->unit;
   switch (cmd->type) {
   case RDF_Command::RDF_Load:
     if(unit->m_rdf_step) {
       unit->m_rdf_status = true;
     } else {
-      printf("failure in dlload, offline...\n");
+      printf("dlopen failed, offline...\n");
     }
     return true;
   }
@@ -56,7 +67,7 @@ void rdf_cmd_cleanup(World* world, void* cmd) {
 }
 
 void RDF_next(RDF *unit, int inNumSamples) {
-  if(unit->m_rdf_state) {
+  if(unit->m_rdf_st) {
     unit->m_rdf_step(unit,0,inNumSamples);
   }
 }
@@ -64,7 +75,8 @@ void RDF_next(RDF *unit, int inNumSamples) {
 void rdf_g_load (Unit *unit, struct sc_msg_iter *args) {
   RDF *u = (RDF*)unit;
   const char *arg = args->gets();
-  u->m_rdf_state = false;
+  printf("rdf_g_load: %s\n",arg);
+  u->m_rdf_status = false;
   RDF_Command* c = (RDF_Command*)RTAlloc(u->mWorld, sizeof(RDF_Command));
   c->unit = unit;
   c->type = RDF_Command::RDF_Load;
@@ -73,22 +85,22 @@ void rdf_g_load (Unit *unit, struct sc_msg_iter *args) {
                         (AsyncStageFn)rdf_cmd_stage2,
                         (AsyncStageFn)rdf_cmd_stage3,
                         (AsyncStageFn)rdf_cmd_stage4,
-                        rdf_cmd_Cleanup,
+                        rdf_cmd_cleanup,
                         0, 0);
 }
 
 void RDF_Ctor(RDF* unit) {
-  unit->m_rdf_state = false;
+  unit->m_rdf_status = false;
   DefineUnitCmd("RDF","g_load",rdf_g_load);
   SETCALC(RDF_next);
 }
 
 
 void RDF_Dtor(RDF* unit) {
-  unit->m_rdf_status = bool;
+  unit->m_rdf_status = false;
 }
 
-extern "C" void load(InterfaceTable *inTable) {
+PluginLoad(RDF) {
   ft = inTable;
   DefineDtorCantAliasUnit(RDF);
 }

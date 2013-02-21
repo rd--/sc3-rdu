@@ -9,6 +9,7 @@ P = DustR.so \
     RandN.so \
     RDelayMap.so \
     RDelaySet.so RDelaySetB.so \
+    RDF.so \
     RFreezer.so \
     RLoopSet.so \
     RShufflerB.so RShufflerL.so \
