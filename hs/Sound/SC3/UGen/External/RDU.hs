@@ -73,8 +73,11 @@ rDelaySetB_dsc =
 rDelaySetB :: UGen -> UGen -> UGen -> UGen
 rDelaySetB b i s = mkFilterMCE "RDelaySetB" [b,i] s 1
 
-rdf2 :: UGen -> UGen
-rdf2 i = mkOscMCE AR "RDF" [] i 2
+rdl1 :: UGen -> UGen
+rdl1 i = mkOscMCE AR "RDL" [] i 1
+
+rdl2 :: UGen -> UGen
+rdl2 i = mkOscMCE AR "RDL" [] i 2
 
 rFreezer_dsc :: U
 rFreezer_dsc =

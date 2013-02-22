@@ -105,3 +105,11 @@ PluginLoad(name)                                \
   ft = inTable;                                 \
   DefineDtorUnit(name);                         \
 }
+
+#define rdu_zero_outputs()                              \
+  for (uint32 _i = 0; _i < unit->mNumOutputs; _i++) {   \
+    float *_b = OUT(_i);                                \
+    for (int _j = 0; _j < inNumSamples; _j++) {         \
+      _b[_j] = 0.0;                                     \
+    }                                                   \
+  }
