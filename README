@@ -3,6 +3,8 @@ sc3-rdu
 
 [supercollider3][sc3] unit generators
 
+- [rdl](?t=sc3-rdu&l=hs/Help/rdl.help.lhs) - dsp dynamic library host
+
 © [rohan drape][rd], 1998-2012, [gpl][gpl].
 
 [sc3]: http://audiosynth.com/

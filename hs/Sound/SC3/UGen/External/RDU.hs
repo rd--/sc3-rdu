@@ -10,14 +10,14 @@ import Sound.SC3.UGen.UGen
 std_I :: Int -> String -> Double -> I
 std_I ix nm df = I (ix,ix) nm df Nothing
 
-osc_U :: String -> [Rate] -> Rate -> [I] -> Int -> U
-osc_U nm rr r i nc = U nm rr r Nothing i Nothing (Left nc) ""
+osc_U :: String -> [Rate] -> Rate -> [I] -> Int -> String -> U
+osc_U nm rr r i nc dsc = U nm rr r Nothing i Nothing (Left nc) dsc
 
 dustR_dsc :: U
 dustR_dsc =
     let i = [std_I 0 "lo" 0.0001
             ,std_I 1 "hi" 1.0]
-    in osc_U "DustR" [AR] AR i 1
+    in osc_U "DustR" [AR] AR i 1 "Range variant of Dust"
 
 dustR :: ID z => z -> Rate -> UGen -> UGen -> UGen
 dustR z rt lo hi = mkOscId z rt "DustR" [lo,hi] 1
@@ -48,7 +48,7 @@ rDelayMap_dsc =
             ,std_I 1 "input" 0
             ,std_I 2 "dynamic" 0
             ,std_I 3 "mapArray" 0]
-    in osc_U "RDelayMap" [AR] AR i 1
+    in osc_U "RDelayMap" [AR] AR i 1 "Network of delay line maps"
 
 -- | Network of delay line operations.
 rDelayMap :: UGen -> UGen -> UGen -> UGen -> UGen
@@ -58,7 +58,7 @@ rDelaySet_dsc :: U
 rDelaySet_dsc =
     let i = [std_I 0 "input" 0
             ,std_I 1 "setArray" 0]
-    in osc_U "RDelaySet" [AR] AR i 1
+    in osc_U "RDelaySet" [AR] AR i 1 "Delay set (RTAlloc)"
 
 rDelaySet :: UGen -> UGen -> UGen
 rDelaySet i s = mkFilterMCE "RDelaySet" [i] s 1
@@ -68,16 +68,18 @@ rDelaySetB_dsc =
     let i = [std_I 0 "buffer" 0
             ,std_I 1 "input" 0
             ,std_I 2 "setArray" 0]
-    in osc_U "RDelaySetB" [AR] AR i 1
+    in osc_U "RDelaySetB" [AR] AR i 1 "Delay set (Buffer)"
 
 rDelaySetB :: UGen -> UGen -> UGen -> UGen
 rDelaySetB b i s = mkFilterMCE "RDelaySetB" [b,i] s 1
 
-rdl1 :: UGen -> UGen
-rdl1 i = mkOscMCE AR "RDL" [] i 1
+rdl_dsc :: U
+rdl_dsc =
+    let i = [std_I 0 "inputs" 0]
+    in osc_U "RDL" [AR] AR i 1 "Dynamic library host"
 
-rdl2 :: UGen -> UGen
-rdl2 i = mkOscMCE AR "RDL" [] i 2
+rdl :: Int -> UGen -> UGen
+rdl nc i = mkOscMCE AR "RDL" [] i nc
 
 rFreezer_dsc :: U
 rFreezer_dsc =
@@ -92,7 +94,7 @@ rFreezer_dsc =
             ,std_I 8 "syncPhaseTrigger" 0
             ,std_I 9 "randomizePhaseTrigger" 0
             ,std_I 10 "numberOfLoops" 6]
-    in osc_U "RFreezer" [AR] AR i 1
+    in osc_U "RFreezer" [AR] AR i 1 "Concurrent loops at signal buffer"
 
 rFreezer :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 rFreezer b l r g i io ir rr ps pt nl =
@@ -125,7 +127,7 @@ rShufflerB_dsc =
          ,std_I 17 "ftableReadLocationIncrement" 0
          ,std_I 18 "readIncrementQuanta" 0
          ,std_I 19 "interOffsetTimeQuanta" 0]
- in osc_U "RShufflerB" [AR] AR i 2
+ in osc_U "RShufflerB" [AR] AR i 2 "Signal shuffler (Buffer)"
 
 data RShufflerB a = RShufflerB {bufnum :: a
                                ,readLocationMinima :: a
@@ -159,7 +161,7 @@ rShufflerL_dsc =
     let i = [std_I 0 "in" 0
             ,std_I 1 "fragmentSize" 0.005
             ,std_I 2 "maxDelay" 0.005]
-    in osc_U "RShufflerL" [AR] AR i 1
+    in osc_U "RShufflerL" [AR] AR i 1 "Signal shuffler (Linear)"
 
 rShufflerL :: UGen -> UGen -> UGen -> UGen
 rShufflerL i fs md = mkFilterR [AR] "RShufflerL" [i,fs,md] 1
@@ -170,7 +172,7 @@ rTraceRd_dsc =
             ,std_I 1 "degree" 4
             ,std_I 2 "index" 0
             ,std_I 3 "access" 1]
-    in osc_U "RTraceRd" [AR] AR i 1
+    in osc_U "RTraceRd" [AR] AR i 1 "Read trace buffer"
 
 rTraceRd :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen
 rTraceRd rt b d ix ac = mkOsc rt "RTraceRd" [b,d,ix,ac] 1
@@ -181,12 +183,12 @@ rPlayTrace_dsc =
             ,std_I 1 "degree" 4
             ,std_I 2 "rate" 0
             ,std_I 3 "access" 1]
-    in osc_U "RPlayTrace" [AR] AR i 1
+    in osc_U "RPlayTrace" [AR] AR i 1 "Play trace buffer"
 
 rPlayTrace :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen
 rPlayTrace rt b d ix ac = mkOsc rt "RPlayTrace" [b,d,ix,ac] 1
 
--- | The number of output is the length of the inputs array.
+-- | The number of outputs is the length of the inputs array.
 tScramble_dsc :: U
 tScramble_dsc =
     let i = [std_I 0 "trigger" 0
