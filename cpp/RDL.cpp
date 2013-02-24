@@ -48,7 +48,7 @@ bool rdl_cmd_stage2(World* w, RDL_Command* cmd) {
   printf("->rtalloc=%p\n",unit->m_dsp_st);
   printf("->init_f()\n");
   init_f(unit->m_dsp_st);
-  unit->m_dsp_step = (void (*)(void*, int, int)) step_f;
+  unit->m_dsp_step = (void (*)(void*, int)) step_f;
   return true;
 }
 
@@ -99,7 +99,7 @@ void RDL_Ctor(RDL* unit) {
 
 void RDL_next(RDL *unit, int inNumSamples) {
   if(unit->m_online) {
-    unit->m_dsp_step(unit,0,inNumSamples);
+    unit->m_dsp_step(unit,inNumSamples);
   } else {
     rdu_zero_outputs();
   }
