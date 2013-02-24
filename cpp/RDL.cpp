@@ -57,6 +57,7 @@ bool rdl_cmd_stage3(World* world, RDL_Command* cmd) {
   RDL* unit = (RDL *)cmd->unit;
   if(unit->m_dsp_step) {
     unit->m_online = true;
+    printf("->online = true\n");
   } else {
     printf("->rdl_cmd_stage2 failed, offline...\n");
   }
