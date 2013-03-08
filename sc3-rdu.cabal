@@ -22,6 +22,8 @@ Library
                    hsc3-db == 0.14.*
   GHC-Options:     -Wall -fwarn-tabs
   Exposed-modules: Sound.SC3.UGen.External.RDU
+                   Sound.SC3.UGen.External.RDU.ID
+                   Sound.SC3.UGen.External.RDU.Monad
 
 Source-Repository  head
   Type:            darcs

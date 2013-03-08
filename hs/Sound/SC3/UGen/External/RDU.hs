@@ -2,7 +2,6 @@
 module Sound.SC3.UGen.External.RDU where
 
 import Sound.SC3.UGen.DB.Record
-import Sound.SC3.UGen.Identifier
 import Sound.SC3.UGen.Rate
 import Sound.SC3.UGen.Type
 import Sound.SC3.UGen.UGen
@@ -19,21 +18,12 @@ dustR_dsc =
             ,std_I 1 "hi" 1.0]
     in osc_U "DustR" [AR] AR i 1 "Range variant of Dust"
 
-dustR :: ID z => z -> Rate -> UGen -> UGen -> UGen
-dustR z rt lo hi = mkOscId z rt "DustR" [lo,hi] 1
-
-expRandN :: ID z => Int -> z -> UGen -> UGen -> UGen
-expRandN nc z l r = mkOscId z IR "ExpRandN" [l,r] nc
-
 expRandN_dsc :: U
 expRandN_dsc =
     let i = [std_I 0 "lo" 0.0001
             ,std_I 1 "hi" 1.0]
         dsc = "Multi-channel variant of Rand"
     in U "ExpRandN" [IR] IR Nothing i Nothing (Right 0) dsc
-
-randN :: ID z => Int -> z -> UGen -> UGen -> UGen
-randN nc z l r = mkOscId z IR "RandN" [l,r] nc
 
 randN_dsc :: U
 randN_dsc =
@@ -195,9 +185,6 @@ tScramble_dsc =
             ,std_I 1 "inputs" 0]
         s = "Scramble inputs on trigger."
     in U "TScramble" [KR] KR Nothing i (Just 1) (Right 1) s
-
-tScramble :: ID z => z -> Rate -> UGen -> UGen -> UGen
-tScramble z rt tr i = mkOscMCEId z rt "TScramble" [tr] i (mceDegree i)
 
 -- Local Variables:
 -- truncate-lines:t
