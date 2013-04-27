@@ -1,5 +1,5 @@
 Name:              sc3-rdu
-Version:           0.14
+Version:           0.15
 Synopsis:          Haskell bindings to sc3-rdu (sc3 rd ugens)
 Description:       Haskell bindings to sc3-rdu (sc3 rd ugens)
 License:           GPL
@@ -18,8 +18,8 @@ Data-files:        README
 Library
   hs-source-dirs:  hs
   Build-Depends:   base == 4.*,
-                   hsc3 == 0.14.*,
-                   hsc3-db == 0.14.*
+                   hsc3 == 0.15.*,
+                   hsc3-db == 0.15.*
   GHC-Options:     -Wall -fwarn-tabs
   Exposed-modules: Sound.SC3.UGen.External.RDU
                    Sound.SC3.UGen.External.RDU.ID
