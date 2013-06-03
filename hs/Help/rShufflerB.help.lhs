@@ -7,7 +7,7 @@ A buffer signal shuffler.
 
 Allocate buffer, required for all examples below.
 > let fn = "/home/rohan/data/audio/instr/crotales/crotale05(D).wav"
-> in withSC3 (\fd -> async fd (b_allocRead 10 fn 0 0))
+> in withSC3 (async (b_allocRead 10 fn 0 0))
 
 Check buffer.
 > let s = bufRateScale KR 10
@@ -48,3 +48,31 @@ Static (static,quantized)
 Static (static,pointilist)
 > let o = rShufflerB 10 0.4 0.5 0.5 2 0.05 0.15 0.2 0.5 0.3 0.7 0.3 0.7 0 1 0.05 0.25 0 0 0
 > in audition (out 0 o)
+
+Allocate 4 second buffer
+> withSC3 (async (b_alloc 11 (48000 * 4) 1))
+
+Circulating record to buffer & static (record)
+> let {r = RShufflerB {bufnum = 11
+>                     ,readLocationMinima = 0.0
+>                     ,readLocationMaxima = 0.05
+>                     ,readIncrementMinima = 1.99975
+>                     ,readIncrementMaxima = 2.00025
+>                     ,durationMinima = 0.25
+>                     ,durationMaxima = 0.30
+>                     ,envelopeAmplitudeMinima = 0.8
+>                     ,envelopeAmplitudeMaxima = 0.9
+>                     ,envelopeShapeMinima = 0.5
+>                     ,envelopeShapeMaxima = 0.6
+>                     ,envelopeSkewMinima = 0.4
+>                     ,envelopeSkewMaxima = 0.6
+>                     ,stereoLocationMinima = 0
+>                     ,stereoLocationMaxima = 1
+>                     ,interOffsetTimeMinima = 0.0500
+>                     ,interOffsetTimeMaxima = 0.0525
+>                     ,ftableReadLocationIncrement = 1
+>                     ,readIncrementQuanta = 0
+>                     ,interOffsetTimeQuanta = 0}
+>     ;o = rShufflerB_r r
+>     ;i = recordBuf AR 11 (2048 * 12) 1 0 1 Loop 1 DoNothing (soundIn 4)}
+> in audition (out 0 (mrg2 o i))

@@ -14,7 +14,7 @@ A trace that traverses a diamond in equal time increments.
 >         ,3/4,  0,   0, 0
 >         ,  1, -1, 1/4, 0]
 
-> withSC3 (\fd -> do send fd (b_alloc_setn1 0 0 t))
+> withSC3 (send (b_alloc_setn1 0 0 t))
 
 The X element of the trace is [-1, 0, 1, 0, -1].
 > let {o = sinOsc AR 440 0 * 0.1
@@ -35,4 +35,4 @@ Altering the time points...
 >          ,1/2,  0,   0, 0
 >          ,  1, -1, 1/4, 0]
 
-> withSC3 (\fd -> send fd (b_setn1 0 0 t'))
+> withSC3 (send (b_setn1 0 0 t'))

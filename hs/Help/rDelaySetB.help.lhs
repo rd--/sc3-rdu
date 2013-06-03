@@ -5,7 +5,7 @@ Arguments...
 > Sound.SC3.UGen.DB.u_summary rDelaySetB_dsc
 
 Allocate buffer
-> withSC3 (\fd -> async fd (b_alloc 10 (5 * 44100) 1))
+> withSC3 (async (b_alloc 10 (5 * 44100) 1))
 
 Three one second delays...
 > let {x = mouseX KR 110 660 Linear 0.2

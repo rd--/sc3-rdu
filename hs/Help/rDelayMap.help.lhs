@@ -22,11 +22,11 @@ dynamic  - when > 0 the mapArray is k-rate, else i-rate
 mapArray - set of quadruples
 
 Allocate buffer, required for all examples below.
-> withSC3 (\fd -> async fd (b_alloc 0 88200 1))
+> withSC3 (async (b_alloc 0 88200 1))
 
 Zero buffer (transitioning between examples may require the buffer to
 be cleared)
-> withSC3 (\fd -> async fd (b_zero 0))
+> withSC3 (async (b_zero 0))
 
 Simple delay (static)
 > let {a = mce [-1,0,0,0.5,1,-1,0,1]
