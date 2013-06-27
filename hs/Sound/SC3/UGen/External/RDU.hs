@@ -25,6 +25,17 @@ expRandN_dsc =
         dsc = "Multi-channel variant of Rand"
     in U "ExpRandN" [IR] IR Nothing i Nothing (Right 0) dsc
 
+-- | Copies spectral frame (ie. PV_Copy with two outputs).
+pv_Split :: UGen -> UGen -> UGen
+pv_Split ba bb = mkOsc KR "PV_Split" [ba,bb] 2
+
+-- | Variant that unpacks the output /mce/ node.
+pv_split :: UGen -> UGen -> (UGen,UGen)
+pv_split a b =
+    case mceChannels (pv_Split a b) of
+      [p,q] -> (p,q)
+      _ -> error "pv_split"
+
 randN_dsc :: U
 randN_dsc =
     let i = [std_I 0 "lo" 0.0001
