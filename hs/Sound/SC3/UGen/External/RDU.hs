@@ -40,7 +40,7 @@ pv_split a b =
 
 -- | A 'pv_Split' variant, like 'ffta', that allocates a 'localBuf' by
 -- tracing the input graph to locate the parent @FFT@ or @PV_Split@
--- node.  It won't work for external buffers.
+-- node.
 pv_Splita :: ID i => i -> UGen -> UGen
 pv_Splita z u =
     case pv_track_nframes u of
