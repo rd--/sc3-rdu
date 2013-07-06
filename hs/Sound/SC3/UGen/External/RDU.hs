@@ -38,13 +38,20 @@ pv_split a b =
       [p,q] -> (p,q)
       _ -> error "pv_split"
 
--- | 'pv_split' variant that allocates 'localBuf' by tracing input
+-- | 'pv_Splita' variant that allocates 'localBuf' by tracing input
 -- graph to locate parent @FFT@ or @PV_Split@ node.
-pv_splita :: ID i => i -> UGen -> (UGen,UGen)
-pv_splita z u =
+pv_Splita :: ID i => i -> UGen -> UGen
+pv_Splita z u =
     case pv_track_nframes u of
       Left err -> error err
-      Right nf -> let b = localBuf z nf 1 in pv_split u b
+      Right nf -> let b = localBuf z nf 1 in pv_Split u b
+
+-- | Variant that unpacks the output /mce/ node.
+pv_splita :: ID i => i -> UGen -> (UGen,UGen)
+pv_splita z u =
+    case mceChannels (pv_Splita z u) of
+      [p,q] -> (p,q)
+      _ -> error "pv_splita"
 
 randN_dsc :: U
 randN_dsc =
