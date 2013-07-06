@@ -38,8 +38,9 @@ pv_split a b =
       [p,q] -> (p,q)
       _ -> error "pv_split"
 
--- | 'pv_Splita' variant that allocates 'localBuf' by tracing input
--- graph to locate parent @FFT@ or @PV_Split@ node.
+-- | A 'pv_Split' variant, like 'ffta', that allocates a 'localBuf' by
+-- tracing the input graph to locate the parent @FFT@ or @PV_Split@
+-- node.  It won't work for external buffers.
 pv_Splita :: ID i => i -> UGen -> UGen
 pv_Splita z u =
     case pv_track_nframes u of
