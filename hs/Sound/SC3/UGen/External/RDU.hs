@@ -1,7 +1,9 @@
 -- | RDU UGen definitions.
 module Sound.SC3.UGen.External.RDU where
 
+import Sound.SC3.UGen.Buffer
 import Sound.SC3.UGen.DB.Record
+import Sound.SC3.UGen.Identifier
 import Sound.SC3.UGen.Rate
 import Sound.SC3.UGen.Type
 import Sound.SC3.UGen.UGen
@@ -35,6 +37,14 @@ pv_split a b =
     case mceChannels (pv_Split a b) of
       [p,q] -> (p,q)
       _ -> error "pv_split"
+
+-- | 'pv_split' variant that allocates 'localBuf' by tracing input
+-- graph to locate parent @FFT@ or @PV_Split@ node.
+pv_splita :: ID i => i -> UGen -> (UGen,UGen)
+pv_splita z u =
+    case pv_track_nframes u of
+      Left err -> error err
+      Right nf -> let b = localBuf z nf 1 in pv_split u b
 
 randN_dsc :: U
 randN_dsc =
