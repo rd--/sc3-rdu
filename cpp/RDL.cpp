@@ -1,4 +1,5 @@
 #include <dlfcn.h>
+#include <stdio.h>
 #include "rdu.h"
 #include "RDL.h"
 
