@@ -1,4 +1,5 @@
-> import Sound.DF.Uniform {- hdf -}
+> import Sound.DF.Uniform.GADT {- hdf -}
+> import Sound.DF.Uniform.LL {- hdf -}
 > import Sound.OSC {- hosc -}
 > import Sound.SC3.ID as S {- hsc3 -}
 > import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
@@ -7,7 +8,7 @@
 
 > Sound.SC3.UGen.DB.u_summary rdl_dsc == "RDL [AR] inputs=0.0"
 
-`rdl` codes can read buffers and contol signals.  Required resources
+`rdl` codes can read buffers and control signals.  Required resources
 must be correctly pre-allocated.
 
 > let m = [b_alloc 0 48000 1,b_alloc 1 48000 1]
@@ -28,7 +29,8 @@ When created, the node has no code loaded.
 > S.audition g
 
 `hdf` includes a `u_cmd_g_load` function.  Codes can be replaced while
-the `rdl` node is running.  The graphs below are defined at `hdf`.
+the `rdl` node is running.  The graphs below are given as examples at
+`hdf`.
 
 > withSC3 (send (u_cmd_g_load (-1) 0 "/tmp/analog-bubbles.so"))
 > withSC3 (send (u_cmd_g_load (-1) 0 "/tmp/silence.so"))
