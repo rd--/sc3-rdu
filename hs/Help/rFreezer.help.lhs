@@ -3,18 +3,20 @@
 
 Create a set of concurrent loops at a signal buffer.
 
-Arguments...
 > Sound.SC3.UGen.DB.u_summary rFreezer_dsc
 
 Allocate buffer, required for all examples below.
+
 > let fn = "/home/rohan/data/audio/instr/crotales/crotale05(D).wav"
 > in withSC3 (async (b_allocRead 10 fn 0 0))
 
 Check buffer.
+
 > let s = bufRateScale KR 10
 > in audition (out 0 (playBuf 1 AR 10 s 1 0 NoLoop RemoveSynth * 0.1))
 
 Static instances
+
 > let o = rFreezer 10 0.35 0.4 0.6 0.1 0.05 0.02 0.1 0 0 6
 > in audition (out 0 o)
 
@@ -28,6 +30,7 @@ Static instances
 > in audition (out 0 o)
 
 K-rate instances
+
 > let {n z f i j = linLin (lfNoise2 z KR f) (-1) 1 i j
 >     ;left = n 'α' 1 0.3 0.8
 >     ;right = left + n 'β' 1 0.01 0.05
