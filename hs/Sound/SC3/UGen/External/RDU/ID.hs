@@ -12,8 +12,8 @@ dustR z rt lo hi = mkOscId z rt "DustR" [lo,hi] 1
 expRandN :: ID z => Int -> z -> UGen -> UGen -> UGen
 expRandN nc z l r = mkOscId z IR "ExpRandN" [l,r] nc
 
-linRandN :: ID z => Int -> z -> UGen -> UGen -> UGen
-linRandN nc z l r = mkOscId z IR "LinRandN" [l,r] nc
+linRandN :: ID z => Int -> z -> UGen -> UGen -> UGen -> UGen
+linRandN nc z l r bias = mkOscId z IR "LinRandN" [l,r,bias] nc
 
 randN :: ID z => Int -> z -> UGen -> UGen -> UGen
 randN nc z l r = mkOscId z IR "RandN" [l,r] nc
