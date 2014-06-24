@@ -13,6 +13,9 @@ dustR = liftUId3 I.dustR
 expRandN :: UId m => Int -> UGen -> UGen -> m UGen
 expRandN nc = liftUId2 (I.expRandN nc)
 
+iRandN :: UId m => Int -> UGen -> UGen -> m UGen
+iRandN nc = liftUId2 (I.iRandN nc)
+
 linRandN :: UId m => Int -> UGen -> UGen -> UGen -> m UGen
 linRandN nc = liftUId3 (I.linRandN nc)
 
