@@ -1,3 +1,9 @@
+DustR : UGen {
+ *ar { arg iot_min = 0.1, iot_max = 1.0;
+  ^this.multiNew('audio',iot_min,iot_max);
+ }
+}
+
 RDelaySet : UGen {
  *ar { arg  in = 0.0, spec ;
   ^this.multiNewList(['audio', in] ++ spec);
