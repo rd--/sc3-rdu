@@ -3,7 +3,19 @@ sc3-rdu
 
 [supercollider3][sc3] unit generators
 
-- [rdl](?t=sc3-rdu&l=hs/Help/rdl.help.lhs) - dsp dynamic library host
+- [DustR](?t=sc3-rdu&m=md/sc3-rdu.md#dustr)
+- [PV_Split](?t=sc3-rdu&m=md/sc3-rdu.md#pv_split)
+- [*RandN](?t=sc3-rdu&m=md/sc3-rdu.md#randn)
+- [RDelayMap](?t=sc3-rdu&m=md/sc3-rdu.md#rdelaymap)
+- [RDelaySet*](?t=sc3-rdu&m=md/sc3-rdu.md#rdelayset)
+- [RDL](?t=sc3-rdu&m=md/sc3-rdu.md#rdl)
+- [RFreezer](?t=sc3-rdu&m=md/sc3-rdu.md#rfreezer)
+- [RLoopSet](?t=sc3-rdu&m=md/sc3-rdu.md#rloopset)
+- [RPlayTrace](?t=sc3-rdu&m=md/sc3-rdu.md#rplaytrace)
+- [RShufflerB](?t=sc3-rdu&m=md/sc3-rdu.md#rshufflerb)
+- [RShufflerL](?t=sc3-rdu&m=md/sc3-rdu.md#rshufflerl)
+- [RTraceRd](?t=sc3-rdu&m=md/sc3-rdu.md#rtracerd)
+- [TScramble](?t=sc3-rdu&m=md/sc3-rdu.md#tscramble)
 
 © [rohan drape][rd], 1998-2014, [gpl][gpl].
 

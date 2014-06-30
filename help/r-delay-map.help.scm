@@ -1,8 +1,5 @@
 (import (rsc3))
 
-;; UGen definition
-(define r-delay-map (mk-filter-mce "RDelayMap" (buf in dyn spec-array) 1))
-
 ;; Allocate buffer
 (with-sc3
  (lambda (fd)

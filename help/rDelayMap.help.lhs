@@ -3,23 +3,6 @@
 
 > Sound.SC3.UGen.DB.u_summary rDelayMap_dsc
 
-Create a network of delay line maps.  A map is defined by a quadruple:
-source location, destination location, operation and gain.  The
-locations are specified in seconds, a negative location specifies the
-'input' location for sources and the 'output' location for
-destinations.  The operation is specified as an integer, zero is move,
-one is add, two is subtract, three is multiply, four is divide.  The
-gain is linear.
-
-This UGen may be useful for implementing nested filters, as described
-by William Gardner in his MS thesis 'The Virtual Acoustic Room', MIT
-1992.
-
-bufnum   - single channel buffer
-input    - input signal
-dynamic  - when > 0 the mapArray is k-rate, else i-rate
-mapArray - set of quadruples
-
 Allocate buffer, required for all examples below.
 
 > withSC3 (async (b_alloc 0 88200 1))

@@ -3,9 +3,39 @@
 Generates triggers where the inter-offset times are generated randomly
 in the specified range (seconds) with linear distribution.
 
-## ExpRandN, IRandN, LinRandN, RandN
+[[help.lhs](?t=sc3-rdu&l=help/dustR.help.lhs),
+ [help.scd](?t=sc3-rdu&scd=help/DustR.help.scd),
+ [help.scm](?t=sc3-rdu&scm=help/dust-r.help.scm)]
 
-Multiple channel variants of the standard SC3 UGens.
+## PV_Split
+
+Variant of `PV_Copy` that returns both signal paths.
+
+`PV_Copy` graphs have two linear orderings that are not equivalent.
+
+~~~~
+... -> fft -> ... .-> pv_copy -> pv1 -> ifft -> ...
+                  |
+                  .-> pv2 -> ifft -> ...
+~~~~
+
+`PV_Split` graphs also have two _equivalent_ linear orderings.
+
+~~~~
+                              .-> pv1 -> ifft1 -> ...
+... -> fft -> ... -> pv_split |
+                              .-> pv2 -> ifft2 -> ...
+~~~~
+
+[[help.lhs](?t=sc3-rdu&l=help/pv_split.help.lhs)]
+
+## *RandN
+
+`ExpRandN`, `IRandN`, `LinRandN` and `RandN`.  Multiple channel
+variants of the standard SC3 UGens.
+
+[[expRandN.help.lhs](?t=sc3-rdu&l=help/expRandN.help.lhs),
+ [randN.help.lhs](?t=sc3-rdu&l=help/randN.help.lhs)]
 
 ## RDelayMap
 
@@ -19,15 +49,26 @@ location for destinations.  The operation is specified as an
 integer, zero is move, one is add, two is subtract, three is
 multiply, four is divide.  The gain is linear.  This UGen is
 useful for implementing nested filters, as described by William
-Gardner in his MS thesis 'The Virtual Acoustic Room', MIT 1992.
+Gardner in his MS thesis _The Virtual Acoustic Room_, MIT 1992.
 
-## RDelaySetB
+[[help.lhs](?t=sc3-rdu&l=help/rDelayMap.help.lhs),
+ [help.scd](?t=sc3-rdu&scd=help/RDelayMap.help.scd),
+ [help.scm](?t=sc3-rdu&scm=help/r-delay-map.help.scm)]
 
-Buffer variant of RDelaySet
+## RDelaySet*
 
-## RDelaySet
+Set of delays, with buffer variant.
 
-Set of delays
+[[RDelaySet.help.lhs](?t=sc3-rdu&l=help/rDelaySet.help.lhs),
+ [RDelaySet.help.scd](?t=sc3-rdu&scd=help/RDelaySet.help.scd),
+ [RDelaySetB.help.lhs](?t=sc3-rdu&l=help/rDelaySetB.help.lhs),
+ [RDelaySetB.help.scd](?t=sc3-rdu&scd=help/RDelaySetB.help.scd)]
+
+## RDL
+
+DSP dynamic library host for [hdf](?t=hdf) data-flow graphs.
+
+[[help.lhs](?t=sc3-rdu&l=help/rdl.help.lhs)]
 
 ## RFreezer
 
@@ -36,6 +77,9 @@ Concurrent loops at a signal buffer
 Create a set of concurrent loops at a signal buffer.  This is the
 dynamic and gestural variant of RLoopSet.  It wass written after
 reading the manual for the GRM Tools 'Freeze' plugin.
+
+[[help.lhs](?t=sc3-rdu&l=help/rFreezer.help.lhs),
+ [help.scd](?t=sc3-rdu&scd=help/RFreezer.help.scd)]
 
 ## RLoopSet
 
@@ -61,15 +105,39 @@ Buffer Left                                  Buffer Right
             Loop Left      Loop Right
 ~~~~
 
+[[help.scd](?t=sc3-rdu&scd=help/RLoopSet.help.scd)]
+
+## RPlayTrace
+
+Play a buffer that is arranged as a trace.  A trace is a sequence of
+tuples (T,X,Y,Z).
+
+[[help.lhs](?t=sc3-rdu&l=help/rPlayTrace.help.lhs)]
+
 ## RShufflerB
 
 A signal shuffler
 
+[[help.lhs](?t=sc3-rdu&l=help/rShufflerB.help.lhs),
+ [help.scd](?t=sc3-rdu&scd=help/RShufflerB.help.scd)]
+
 ## RShufflerL
 
-Linear Shuffler
+Linear signal shuffler.
+
+[[help.lhs](?t=sc3-rdu&l=help/rShufflerL.help.lhs),
+ [help.scd](?t=sc3-rdu&scd=help/RShufflerL.help.scd)]
 
 ## RTraceRd
 
 Read a buffer that is arranged as a trace.  A trace is a sequence of
 tuples (T,X,Y,Z).
+
+[[help.lhs](?t=sc3-rdu&l=help/rTraceRd.help.lhs),
+ [help.scd](?t=sc3-rdu&scd=help/RTraceRd.help.scd)]
+
+## TScramble
+
+Scramble inputs on trigger.
+
+[[help.lhs](?t=sc3-rdu&l=help/tScramble.help.lhs)]
