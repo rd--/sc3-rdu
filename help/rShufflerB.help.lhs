@@ -1,5 +1,5 @@
-> import Sound.SC3
-> import Sound.SC3.UGen.External.RDU
+> import Sound.SC3 {- hsc3 -}
+> import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
 A buffer signal shuffler.
 
@@ -43,12 +43,12 @@ Static (record)
 
 Static (parameter)
 
-> let o = rShufflerB 10 0 0.05 0.95 1.05 0.035 0.050 0.1 0.2 0.4 0.6 0.4 0.6 0 1 0.005 0.010 1 0 0
+> let o = rShufflerB 10 0 0.05 0.95 1.05 0.035 0.05 0.1 0.2 0.4 0.6 0.4 0.6 0 1 0.005 0.01 1 0 0
 > in audition (out 0 o)
 
 Static (static,quantized)
 
-> let o = rShufflerB 10 0 1 0.5 2 0.025 0.075 0.2 0.6 0.1 0.9 0.1 0.9 0 1 0.005 0.050 0 0.5 0.005
+> let o = rShufflerB 10 0 1 0.5 2 0.025 0.075 0.2 0.6 0.1 0.9 0.1 0.9 0 1 0.005 0.05 0 0.5 0.005
 > in audition (out 0 o)
 
 Static (static,pointilist)
@@ -83,5 +83,5 @@ Circulating record to buffer & static (record)
 >                     ,readIncrementQuanta = 0
 >                     ,interOffsetTimeQuanta = 0}
 >     ;o = rShufflerB_r r
->     ;i = recordBuf AR 11 (2048 * 12) 1 0 1 Loop 1 DoNothing (soundIn 4)}
+>     ;i = recordBuf AR 11 (2048 * 12) 1 0 1 Loop 1 DoNothing (soundIn 0)}
 > in audition (out 0 (mrg2 o i))

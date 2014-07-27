@@ -1,4 +1,5 @@
 > import Sound.SC3.ID
+> import Sound.SC3.UGen.External.RDU
 > import Sound.SC3.UGen.External.RDU.ID
 
 > Sound.SC3.UGen.DB.u_summary expRandN_dsc
