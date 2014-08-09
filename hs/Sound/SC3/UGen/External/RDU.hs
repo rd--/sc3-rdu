@@ -1,11 +1,12 @@
 -- | RDU UGen definitions.
 module Sound.SC3.UGen.External.RDU where
 
-import Sound.SC3.UGen.ID {- hsc3 -}
+import Sound.SC3.UGen {- hsc3 -}
+import Sound.SC3.UGen.UGen.Construct {- hsc3 -}
 import Sound.SC3.UGen.DB.Record {- hsc3-db -}
 
 std_I :: Int -> String -> Double -> I
-std_I ix nm df = I ix nm df
+std_I _ nm df = I nm df
 
 -- | Input meta-data, @(min,max,warp,step,units)@.
 type I_Meta = (Double,Double,String,Double,String)
@@ -16,7 +17,7 @@ std_I' :: Int -> String -> Double -> I_Meta -> I
 std_I' ix nm df _ = std_I ix nm df
 
 osc_U :: String -> [Rate] -> Rate -> [I] -> Int -> String -> Bool -> U
-osc_U nm rr r i nc dsc nd = U nm rr r i (Just nc) dsc Nothing Nothing Nothing Nothing Nothing nd
+osc_U nm rr r i nc dsc nd = (read_meta (nm,rr,r,i,nc,dsc)) {ugen_nondet = nd}
 
 dustR_dsc :: U
 dustR_dsc =
@@ -24,19 +25,21 @@ dustR_dsc =
             ,std_I 1 "hi" 1.0]
     in osc_U "DustR" [AR] AR i 1 "Range variant of Dust" True
 
-u_nc_input :: Int -> U -> U
-u_nc_input i u = u {ugen_outputs = Nothing,ugen_nc_input = Just i}
+u_nc_input :: U -> U
+u_nc_input u = u {ugen_outputs = Nothing,ugen_nc_input = True}
 
 expRandN_dsc :: U
 expRandN_dsc =
     let i = [std_I 0 "lo" 0.0001
             ,std_I 1 "hi" 1.0]
         dsc = "Multi-channel variant of Rand"
-    in u_nc_input 0 (osc_U "ExpRandN" [IR] IR i (-1) dsc True)
+    in u_nc_input (osc_U "ExpRandN" [IR] IR i (-1) dsc True)
 
+{-
 -- | Copies spectral frame (ie. PV_Copy with two outputs).
 pv_Split :: UGen -> UGen -> UGen
 pv_Split ba bb = mkOsc KR "PV_Split" [ba,bb] 2
+-}
 
 -- | Variant that unpacks the output /mce/ node.
 pv_split :: UGen -> UGen -> (UGen,UGen)
@@ -66,7 +69,7 @@ randN_dsc =
     let i = [std_I 0 "lo" 0.0001
             ,std_I 1 "hi" 1.0]
         dsc = "Multi-channel variant of Rand"
-    in u_nc_input 0 (osc_U "RandN" [IR] IR i (-1) dsc True)
+    in u_nc_input (osc_U "RandN" [IR] IR i (-1) dsc True)
 
 rDelayMap_dsc :: U
 rDelayMap_dsc =
@@ -126,10 +129,12 @@ rFreezer :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 rFreezer b l r g i io ir rr ps pt nl =
     mkOsc AR "RFreezer" [b,l,r,g,i,io,ir,rr,ps,pt,nl] 1
 
+{-
 rShufflerB :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 rShufflerB b rlL rlR riL riR dL dR eaL eaR esL esR ekL ekR slM slR ioL ioR i riQ ioQ =
     let p = [b,rlL,rlR,riL,riR,dL,dR,eaL,eaR,esL,esR,ekL,ekR,slM,slR,ioL,ioR,i,riQ,ioQ]
     in mkOsc AR "RShufflerB" p 2
+-}
 
 rShufflerB_dsc :: U
 rShufflerB_dsc =
@@ -220,7 +225,22 @@ tScramble_dsc =
     let i = [std_I 0 "trigger" 0
             ,std_I 1 "inputs" 0]
         s = "Scramble inputs on trigger."
-    in U "TScramble" [KR] KR i Nothing s (Just 1) (Just 1) (Just [0]) Nothing Nothing True
+    in U {ugen_name = "TScramble"
+         ,ugen_operating_rates = [KR]
+         ,ugen_default_rate = KR
+         ,ugen_inputs = i
+         ,ugen_outputs = Nothing
+         ,ugen_summary = s
+         ,ugen_std_mce = True
+         ,ugen_nc_input = False
+         ,ugen_nc_mce = Just 1
+         ,ugen_filter = Nothing
+         ,ugen_reorder = Nothing
+         ,ugen_enumerations = Nothing
+         ,ugen_nondet = True
+         ,ugen_pseudo_inputs = Nothing
+         ,ugen_fixed_rate = Just KR
+         }
 
 -- Local Variables:
 -- truncate-lines:t
