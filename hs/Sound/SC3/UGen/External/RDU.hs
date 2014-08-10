@@ -2,6 +2,7 @@
 module Sound.SC3.UGen.External.RDU where
 
 import Sound.SC3.UGen {- hsc3 -}
+import Sound.SC3.UGen.Bindings.DB {- hsc3 -}
 import Sound.SC3.UGen.Bindings.HW.Construct {- hsc3 -}
 import Sound.SC3.UGen.DB.Record {- hsc3-db -}
 
@@ -42,8 +43,8 @@ pv_Split ba bb = mkOsc KR "PV_Split" [ba,bb] 2
 -}
 
 -- | Variant that unpacks the output /mce/ node.
-pv_split :: UGen -> UGen -> (UGen,UGen)
-pv_split a b =
+pv_Split' :: UGen -> UGen -> (UGen,UGen)
+pv_Split' a b =
     case mceChannels (pv_Split a b) of
       [p,q] -> (p,q)
       _ -> error "pv_split"
