@@ -5,7 +5,7 @@ in the specified range (seconds) with linear distribution.
 
 [[help.lhs](?t=sc3-rdu&e=help/dustR.help.lhs),
  [help.scd](?t=sc3-rdu&e=help/DustR.help.scd),
- [help.scm](?t=sc3-rdu&scm=help/dust-r.help.scm)]
+ [help.scm](?t=sc3-rdu&e=help/dust-r.help.scm)]
 
 ## PV_Split
 
@@ -53,7 +53,7 @@ Gardner in his MS thesis _The Virtual Acoustic Room_, MIT 1992.
 
 [[help.lhs](?t=sc3-rdu&e=help/rDelayMap.help.lhs),
  [help.scd](?t=sc3-rdu&e=help/RDelayMap.help.scd),
- [help.scm](?t=sc3-rdu&scm=help/r-delay-map.help.scm)]
+ [help.scm](?t=sc3-rdu&e=help/r-delay-map.help.scm)]
 
 ## RDelaySet*
 
