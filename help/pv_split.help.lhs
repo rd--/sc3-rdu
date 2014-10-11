@@ -1,4 +1,4 @@
-> import Sound.SC3.ID
+> import Sound.SC3
 > import Sound.SC3.UGen.External.RDU
 
     audition (out 0 (spl1 (1024 * 2) (-) (soundIn 0)))
@@ -6,7 +6,7 @@
 
 > spl1 sz op z =
 >     let c0 = fft' (localBuf 'α' sz 1) z
->         (c1,c2) = pv_split c0 (localBuf 'β' sz 1)
+>         (c1,c2) = pv_Split' c0 (localBuf 'β' sz 1)
 >     in ifft' c1 `op` ifft' c2
 
     audition (out 0 (spl2 (1024 * 16)))

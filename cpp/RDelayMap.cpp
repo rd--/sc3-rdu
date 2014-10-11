@@ -129,6 +129,7 @@ void RDelayMap_next(RDelayMap *unit,int inNumSamples)
   float *out = OUT(0);
   float *in = IN(1);
   if(unit->m_buf->frames - 1 < unit->m_signal_n){
+    fprintf(stderr,"RDelayMap_next: m_buf->frames < m_signal_n\n");
     return;
   } else {
     unit->m_signal = unit->m_buf->data;

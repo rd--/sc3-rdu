@@ -1,11 +1,11 @@
-> import Sound.SC3.ID
+> import Sound.SC3
 > import Sound.SC3.UGen.External.RDU
 
 Create a set of concurrent loops at a signal buffer.
 
 > Sound.SC3.UGen.DB.u_summary rFreezer_dsc
 
-Allocate buffer, required for all examples below.
+Allocate buffer (#10), required for all examples below.
 
 > let fn = "/home/rohan/data/audio/instr/crotales/crotale05(D).wav"
 > in withSC3 (async (b_allocRead 10 fn 0 0))

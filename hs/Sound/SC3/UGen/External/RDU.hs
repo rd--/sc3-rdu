@@ -36,11 +36,9 @@ expRandN_dsc =
         dsc = "Multi-channel variant of Rand"
     in u_nc_input (osc_U "ExpRandN" [IR] IR i (-1) dsc True)
 
-{-
 -- | Copies spectral frame (ie. PV_Copy with two outputs).
 pv_Split :: UGen -> UGen -> UGen
 pv_Split ba bb = mkOsc KR "PV_Split" [ba,bb] 2
--}
 
 -- | Variant that unpacks the output /mce/ node.
 pv_Split' :: UGen -> UGen -> (UGen,UGen)
@@ -130,12 +128,10 @@ rFreezer :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 rFreezer b l r g i io ir rr ps pt nl =
     mkOsc AR "RFreezer" [b,l,r,g,i,io,ir,rr,ps,pt,nl] 1
 
-{-
 rShufflerB :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 rShufflerB b rlL rlR riL riR dL dR eaL eaR esL esR ekL ekR slM slR ioL ioR i riQ ioQ =
     let p = [b,rlL,rlR,riL,riR,dL,dR,eaL,eaR,esL,esR,ekL,ekR,slM,slR,ioL,ioR,i,riQ,ioQ]
     in mkOsc AR "RShufflerB" p 2
--}
 
 rShufflerB_dsc :: U
 rShufflerB_dsc =
@@ -243,8 +239,8 @@ tScramble_dsc =
          ,ugen_fixed_rate = Just KR
          }
 
--- dustR :: ID z => z -> Rate -> UGen -> UGen -> UGen
--- dustR z rt lo hi = mkOscId (toUId z) rt "DustR" [lo,hi] 1
+dustR :: ID z => z -> Rate -> UGen -> UGen -> UGen
+dustR z rt lo hi = mkOscId (toUId z) rt "DustR" [lo,hi] 1
 
 expRandN :: ID z => Int -> z -> UGen -> UGen -> UGen
 expRandN nc z l r = mkOscId (toUId z) IR "ExpRandN" [l,r] nc
@@ -263,8 +259,8 @@ tScramble z rt tr i = mkOscMCEId (toUId z) rt "TScramble" [tr] i (mceDegree i)
 
 -- * Monadic
 
--- dustRM :: UId m => Rate -> UGen -> UGen -> m UGen
--- dustRM = liftUId3 dustR
+dustRM :: UId m => Rate -> UGen -> UGen -> m UGen
+dustRM = liftUId3 dustR
 
 expRandNM :: UId m => Int -> UGen -> UGen -> m UGen
 expRandNM nc = liftUId2 (expRandN nc)

@@ -17,11 +17,11 @@ extern "C"                                              \
 
 #define rdu_declare_buf                         \
   SndBuf *m_buf;                                \
-  int m_buf_id;
+  uint32 m_buf_id;
 
 #define rdu_init_buf                            \
   unit->m_buf = NULL;                           \
-  unit->m_buf_id = -1;
+  unit->m_buf_id = UINT32_MAX;
 
 /* Monitored buffers are useful when the UGen needs to do considerable
    setup if the buffer changes.  The buffer ID and frame count are
@@ -29,43 +29,57 @@ extern "C"                                              \
 
 #define rdu_declare_monitored_buf               \
   SndBuf *m_buf;                                \
-  int m_buf_id;                                 \
-  int m_prev_buf_id;                            \
+  uint32 m_buf_id;                              \
+  uint32 m_prev_buf_id;                         \
   int m_prev_buf_frames;
 
 #define rdu_init_monitored_buf                  \
   unit->m_buf = NULL;                           \
-  unit->m_buf_id = -1;                          \
-  unit->m_prev_buf_id = -1;                     \
+  unit->m_buf_id = UINT32_MAX;                  \
+  unit->m_prev_buf_id = UINT32_MAX;             \
   unit->m_prev_buf_frames = -1;
 
-/* Set the unit field m_buf to point to the correct buffer,and
-   m_buf_id to the buffer number. */
+/* Set the unit field m_buf to point to the correct buffer, and
+   m_buf_id to the buffer number.  Handles local buffers.  */
 
-#define rdu_get_buf(n)                                          \
-  int l_buf_id =(int) ZIN0(n);                                  \
-  if(l_buf_id != unit->m_buf_id) {                              \
-    World *l_world = unit->mWorld;                              \
-    if(l_buf_id < 0 || l_buf_id >=(int) l_world->mNumSndBufs) { \
-      l_buf_id = 0;                                             \
-    }                                                           \
-    unit->m_buf_id = l_buf_id;                                  \
-    unit->m_buf = l_world->mSndBufs + l_buf_id;                 \
-  }
+#define rdu_get_buf(n)                                             \
+    uint32 l_buf_id = (uint32) sc_max(0.f,ZIN0(n));                \
+    if(l_buf_id != unit->m_buf_id) {                               \
+        World *l_world = unit->mWorld;                             \
+        if(l_buf_id < 0) {                                         \
+            l_buf_id = 0;                                          \
+        }                                                          \
+        if (l_buf_id >= l_world->mNumSndBufs) {                    \
+            int l_loc_buf = l_buf_id - l_world->mNumSndBufs;       \
+            Graph *l_parent = unit->mParent;                       \
+            if(l_loc_buf <= l_parent->localBufNum) {               \
+                unit->m_buf_id = l_buf_id;                         \
+                unit->m_buf = l_parent->mLocalSndBufs + l_loc_buf; \
+            } else {                                               \
+                unit->m_buf_id = 0;                                \
+                unit->m_buf = l_world->mSndBufs;                   \
+            }                                                      \
+        } else {                                                   \
+            unit->m_buf_id = l_buf_id;                             \
+            unit->m_buf = l_world->mSndBufs + l_buf_id;            \
+        }                                                          \
+    }
 
 #define rdu_check_buf_exists                    \
   if(!unit->m_buf->data) {                      \
     unit->mDone = 1;                            \
     ClearUnitOutputs(unit,inNumSamples);        \
+    printf("rdu: !buf_exists\n");               \
     return;                                     \
-}
+  }
 
 #define rdu_check_buf_channels(n)               \
   if(unit->m_buf->channels != n) {              \
     unit->mDone = 1;                            \
     ClearUnitOutputs(unit,inNumSamples);        \
+    printf("rdu: !buf_channels\n");     \
     return;                                     \
-}
+  }
 
 #define rdu_check_buf(n)                        \
   rdu_check_buf_exists;                         \
@@ -82,7 +96,7 @@ extern "C"                                              \
     buffer_changed = 1;                                 \
   }                                                     \
   if(buffer_changed) {                                  \
-    fprintf(stderr,"buffer changed\n");                 \
+    printf("rdu: buffer changed\n");                    \
     body;                                               \
   }
 

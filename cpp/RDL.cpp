@@ -45,6 +45,9 @@ bool rdl_cmd_stage2(World* w, RDL_Command* cmd) {
   printf("->memreq_f()\n");
   size_t k = memreq_f();
   printf("->k=%zd\n",k);
+  if(unit->m_dsp_st) {
+      RTFree(w, unit->m_dsp_st);
+  }
   unit->m_dsp_st = (void*)RTAlloc(w, k);
   printf("->rtalloc=%p\n",unit->m_dsp_st);
   printf("->init_f()\n");

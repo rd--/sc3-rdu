@@ -1,5 +1,5 @@
-> import Sound.SC3.ID
-> import Sound.SC3.UGen.External.RDU.ID
+> import Sound.SC3
+> import Sound.SC3.UGen.External.RDU
 
 > Sound.SC3.UGen.DB.u_summary dustR_dsc
 
