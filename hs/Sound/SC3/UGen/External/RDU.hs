@@ -255,7 +255,7 @@ randN :: ID z => Int -> z -> UGen -> UGen -> UGen
 randN nc z l r = mkOscId (toUId z) IR "RandN" [l,r] nc
 
 tScramble :: ID z => z -> Rate -> UGen -> UGen -> UGen
-tScramble z rt tr i = mkOscMCEId (toUId z) rt "TScramble" [tr] i (mceDegree i)
+tScramble z rt tr i = mkOscMCEId (toUId z) rt "TScramble" [tr] i (mceDegree_err i)
 
 -- * Monadic
 

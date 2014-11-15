@@ -39,9 +39,9 @@ struct RDelayMap : public Unit
 rdu_prototypes(RDelayMap);
 
 /* The input layout has the buffer index at zero the input signal at
-   one,a dynamic update flag at two,and then any number of
-   quadruples,each defining a single map,in the sequence: source,
-   destination,operation,gain.  The locations are given in
+   one, a dynamic update flag at two, and then any number of
+   quadruples, each defining a single map, in the sequence: source,
+   destination, operation, gain.  The locations are given in
    seconds.  */
 void RDelayMap_Setup(RDelayMap *unit)
 {
