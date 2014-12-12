@@ -8,6 +8,7 @@ O = -O2 -fPIC -ffast-math -mmmx -msse -funroll-loops
 P = DustR.so \
     PV_Split.so \
     RandN.so \
+    RBezier.so \
     RDelayMap.so \
     RDelaySet.so RDelaySetB.so \
     RDL.so \
