@@ -41,3 +41,5 @@ ln-c-common:
 	rm -f c-common
 	ln -s $(HOME)/sw/c-common .
 
+indent:
+	indent -kr -nut -l96 -i2 -brf RBezier.cpp
