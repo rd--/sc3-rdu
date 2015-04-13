@@ -2,8 +2,9 @@ prefix = $(HOME)/opt
 
 D = $(prefix)
 T = $(D)/lib/SuperCollider/plugins
-I = -I$(D)/include/SuperCollider/plugin_interface \
-    -I$(D)/include/SuperCollider/common
+S = $(D)/include/SuperCollider
+I = -I$(S)/plugin_interface \
+    -I$(S)/common
 O = -O2 -fPIC -ffast-math -mmmx -msse -funroll-loops
 P = DustR.so \
     PV_Split.so \

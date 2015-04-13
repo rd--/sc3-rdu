@@ -1,4 +1,4 @@
-> import Sound.SC3
+> import Sound.SC3 {- hsc3 -}
 
 rBezier :: Rate -> UGen -> UGen -> UGen -> UGen
 
@@ -21,7 +21,9 @@ rBezier :: Rate -> UGen -> UGen -> UGen -> UGen
 >                                           ,0.5,0,w 'δ' 0.6 0.7,1.3,w 'ε' 0.8 0.9,1.3
 >                                           ,1,0]) * 0.1
 
-> import Sound.SC3.Plot
+> import Sound.SC3.Plot {- hsc3-plot -}
+
+> ugen_render_nrt 120 g
 
 > plot_ugen1 0.1 g
 
