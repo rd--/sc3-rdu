@@ -3,7 +3,7 @@
 
 A buffer signal shuffler.
 
-> Sound.SC3.UGen.DB.u_summary R.rShufflerB_dsc
+> Sound.SC3.UGen.DB.Record.u_summary R.rShufflerB_dsc
 > :i R.RShufflerB
 
 Allocate buffer (#10), required for all examples below.
@@ -60,7 +60,7 @@ Static (static,pointilist)
 Circulating record to buffer & static (record, use localBuf)
 
 > let {r = RShufflerB
->      {bufnum = clearBuf (localBuf 'a' 1 (48000 * 4))
+>      {bufnum = clearBuf (localBuf 'α' 1 (48000 * 4))
 >      ,readLocationMinima = 0.0
 >      ,readLocationMaxima = 0.05
 >      ,readIncrementMinima = 1.99975

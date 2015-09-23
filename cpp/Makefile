@@ -22,7 +22,7 @@ P = DustR.so \
 L = c-common/lib-c-common.a
 
 %.o : %.cpp
-	g++ -Wall $(O) $(I) -c -shared $<
+	g++ -Wall -std=c++11 $(O) $(I) -c -shared $<
 
 %.so : %.o
 	ld $< -lm -shared -o $@
