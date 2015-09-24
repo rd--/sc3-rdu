@@ -1,9 +1,9 @@
-> import Sound.SC3
-> import Sound.SC3.UGen.External.RDU
+> import Sound.SC3 {- hsc3 -}
+> import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
 Create a set of concurrent loops at a signal buffer.
 
-> Sound.SC3.UGen.DB.u_summary rFreezer_dsc
+> Sound.SC3.UGen.DB.Record.u_summary rFreezer_dsc
 
 Allocate buffer (#10), required for all examples below.
 

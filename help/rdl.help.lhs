@@ -6,7 +6,7 @@
 
 `rdl` is a host for [hdf][hdf] generated DSP codes.
 
-> Sound.SC3.UGen.DB.u_summary rdl_dsc == "RDL [AR] inputs=0.0"
+> Sound.SC3.UGen.DB.Record.u_summary rdl_dsc == "RDL [AR] inputs=0.0"
 
 `rdl` codes can read buffers and control signals.  Required resources
 must be correctly pre-allocated.

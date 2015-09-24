@@ -1,7 +1,7 @@
-> import Sound.SC3.ID
-> import Sound.SC3.UGen.External.RDU.ID
+> import Sound.SC3 {- hsc3 -}
+> import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
-> Sound.SC3.UGen.DB.u_summary tScramble_dsc
+> Sound.SC3.UGen.DB.Record.u_summary tScramble_dsc
 
 two channel sin tones, channels scramble on impulse
 

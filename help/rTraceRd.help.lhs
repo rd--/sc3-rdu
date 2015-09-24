@@ -1,7 +1,7 @@
-> Sound.SC3.UGen.DB.u_summary rTraceRd_dsc
-
 > import Sound.SC3 {- hsc3 -}
 > import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+
+> Sound.SC3.UGen.DB.Record.u_summary rTraceRd_dsc
 
 UGens to read a buffer that is arranged as a trace.  A trace is a
 sequence of tuples (T,X...) where the number of data points is given
@@ -63,4 +63,3 @@ Loading from a binary trace file stored in an audio file.
 > t <- trace_load_sf2 "/home/rohan/sw/hsc3-data/help/au/t0.txy.au"
 > let d = concatMap (\(t,(x,y)) -> [t,x,y]) t
 > withSC3 (async (b_alloc_setn1 0 0 d))
-

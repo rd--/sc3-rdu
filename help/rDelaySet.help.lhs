@@ -1,7 +1,7 @@
-> import Sound.SC3
-> import Sound.SC3.UGen.External.RDU as R
+> import Sound.SC3 {- hsc3 -}
+> import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
-> Sound.SC3.UGen.DB.u_summary rDelaySet_dsc
+> Sound.SC3.UGen.DB.Record.u_summary rDelaySet_dsc
 
 Three one second delays...
 

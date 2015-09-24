@@ -1,7 +1,7 @@
-> import Sound.SC3
-> import Sound.SC3.UGen.External.RDU
+> import Sound.SC3 {- hsc3 -}
+> import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
-> Sound.SC3.UGen.DB.u_summary rPlayTrace_dsc
+> Sound.SC3.UGen.DB.Record.u_summary rPlayTrace_dsc
 
 UGens to read a buffer that is arranged as a trace.  A trace is a
 sequence of tuples (T,X,Y,Z).
