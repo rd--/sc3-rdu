@@ -37,13 +37,21 @@ K-rate instances
 >     ;o = rFreezer 10 left right 0.1 0.5 0.1 0.5 0.05 0 0 24}
 > in audition (out 0 o)
 
+K-rate & record interface
+
+> import Sound.SC3.UGen.Record.Plain.RFreezer {- hsc3-rec -}
+
 > let {n z i j = linLin (lfNoise2 z KR 0.1) (-1) 1 i j
->     ;left = n 'α' 0.3 0.4
->     ;right = n 'β' 0.5 0.6
->     ;gain = n 'γ' 0.3 0.6
->     ;incr = n 'δ' 0.05 0.15
->     ;incrOff = n 'ε' 0.05 0.15
->     ;incrRand = n 'ζ' 0.05 0.15
->     ;rightRand = n 'η' 0.05 0.15
->     ;o = rFreezer 10 left right gain incr incrOff incrRand rightRand 0 0 6}
-> in audition (out 0 o)
+>     ;r = RFreezer {rate = AR
+>                   ,bufnum = 10
+>                   ,left = n 'α' 0.3 0.4
+>                   ,right = n 'β' 0.5 0.6
+>                   ,gain = n 'γ' 0.3 0.6
+>                   ,increment = n 'δ' 0.05 0.15
+>                   ,incrementOffset = n 'ε' 0.05 0.15
+>                   ,incrementRandom = n 'ζ' 0.05 0.15
+>                   ,rightRandom = n 'η' 0.05 0.15
+>                   ,syncPhaseTrigger = 0
+>                   ,randomizePhaseTrigger = 0
+>                   ,numberOfLoops = 6}}
+> in audition (out 0 (mkRFreezer r))

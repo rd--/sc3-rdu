@@ -157,6 +157,10 @@ rShufflerB_dsc =
          ,std_I 19 "interOffsetTimeQuanta" 0]
  in osc_U "RShufflerB" [AR] AR i 2 "Signal shuffler (Buffer)" False
 
+{-
+
+-> Sound.SC3.UGen.Record.Plain.RShufflerB
+
 data RShufflerB a = RShufflerB {bufnum :: a
                                ,readLocationMinima :: a
                                ,readLocationMaxima :: a
@@ -183,6 +187,8 @@ rShufflerB_r :: RShufflerB UGen -> UGen
 rShufflerB_r r =
     let (RShufflerB b rlL rlR riL riR dL dR eaL eaR esL esR ekL ekR slM slR ioL ioR i riQ ioQ) = r
     in rShufflerB b rlL rlR riL riR dL dR eaL eaR esL esR ekL ekR slM slR ioL ioR i riQ ioQ
+
+-}
 
 rShufflerL_dsc :: U
 rShufflerL_dsc =
@@ -276,6 +282,18 @@ randNM nc = liftUId2 (randN nc)
 
 tScrambleM :: UId m => Rate -> UGen -> UGen -> m UGen
 tScrambleM = liftUId3 tScramble
+
+rdu_db :: [U]
+rdu_db =
+    [dustR_dsc
+    ,expRandN_dsc,randN_dsc
+    ,rDelayMap_dsc
+    ,rDelaySet_dsc,rDelaySetB_dsc
+    ,rdl_dsc
+    ,rFreezer_dsc
+    ,rShufflerB_dsc,rShufflerL_dsc
+    ,rTraceRd_dsc,rPlayTrace_dsc
+    ,tScramble_dsc]
 
 -- Local Variables:
 -- truncate-lines:t

@@ -1,10 +1,9 @@
 > import Sound.SC3 {- hsc3 -}
-> import Sound.SC3.UGen.External.RDU as R {- sc3-rdu -}
+> import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
 
 A buffer signal shuffler.
 
-> Sound.SC3.UGen.DB.Record.u_summary R.rShufflerB_dsc
-> :i R.RShufflerB
+> Sound.SC3.UGen.DB.Record.u_summary rShufflerB_dsc
 
 Allocate buffer (#10), required for all examples below.
 
@@ -18,8 +17,11 @@ Check buffer.
 
 Static (record)
 
+> import Sound.SC3.UGen.Record.Plain.RShufflerB {- hsc3-rec -}
+
 > let {r = RShufflerB
->      {bufnum = 10
+>      {rate = AR
+>      ,bufnum = 10
 >      ,readLocationMinima = 0.0
 >      ,readLocationMaxima = 0.05
 >      ,readIncrementMinima = 0.95
@@ -39,7 +41,7 @@ Static (record)
 >      ,ftableReadLocationIncrement = 1
 >      ,readIncrementQuanta = 0
 >      ,interOffsetTimeQuanta = 0}
->     ;o = rShufflerB_r r}
+>     ;o = mkRShufflerB r}
 > in audition (out 0 o)
 
 Static (parameter)
@@ -60,7 +62,8 @@ Static (static,pointilist)
 Circulating record to buffer & static (record, use localBuf)
 
 > let {r = RShufflerB
->      {bufnum = clearBuf (localBuf 'α' 1 (48000 * 4))
+>      {rate = AR
+>      ,bufnum = clearBuf (localBuf 'α' 1 (48000 * 4))
 >      ,readLocationMinima = 0.0
 >      ,readLocationMaxima = 0.05
 >      ,readIncrementMinima = 1.99975
@@ -80,6 +83,6 @@ Circulating record to buffer & static (record, use localBuf)
 >      ,ftableReadLocationIncrement = 1
 >      ,readIncrementQuanta = 0
 >      ,interOffsetTimeQuanta = 0}
->     ;o = rShufflerB_r r
+>     ;o = mkRShufflerB r
 >     ;i = recordBuf AR (bufnum r) (2048 * 12) 1 0 1 Loop 1 DoNothing (soundIn 0)}
 > in audition (out 0 (mrg2 o i))
