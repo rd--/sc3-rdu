@@ -11,7 +11,7 @@ static InterfaceTable *ft;
 
 struct RDelaySetB : public Unit
 {
-  rdu_declare_buf;
+  rdu_declare_buf(dl);
   rdelayset_struct_common;
 };
 
@@ -19,19 +19,19 @@ rdu_prototypes(RDelaySetB);
 
 void RDelaySetB_Ctor(RDelaySetB *unit)
 {
-  rdu_init_buf;
+  rdu_init_buf(dl);
   rdelayset_ctor_common(2);
   SETCALC(RDelaySetB_next);
 }
 
 void RDelaySetB_next(RDelaySetB *unit,int inNumSamples)
 {
-  rdu_get_buf(0);
-  rdu_check_buf(1);
-  if(unit->m_buf->frames - 1 < unit->m_signal_n) {
+  rdu_get_buf(dl,0);
+  rdu_check_buf(dl,1);
+  if(unit->m_buf_dl->frames - 1 < unit->m_signal_n) {
     return;
   } else {
-    unit->m_signal = unit->m_buf->data;
+    unit->m_signal = unit->m_buf_dl->data;
   }
   rdelayset_next_common(1);
 }

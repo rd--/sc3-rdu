@@ -32,8 +32,8 @@ grain_t;
 
 struct RShufflerB : public Unit
 {
-  rdu_declare_buf;
-  float m_buf_location;     /* Current read location at the buffer */
+  rdu_declare_buf(dl);
+  float m_buf_dl_location;     /* Current read location at the buffer */
   long m_count;             /* number of samples processed */
   long m_last;              /* last grain onset */
   float m_iot;              /* inter-onset time */
@@ -75,8 +75,8 @@ inline static void
 setup_grain(RShufflerB *unit,grain_t *g,float *controls)
 {
   g->read_location = RLR_AT(READ_LOCATION_L);
-  g->read_location *= unit->m_buf->frames - 1;
-  g->read_location += unit->m_buf_location;
+  g->read_location *= unit->m_buf_dl->frames - 1;
+  g->read_location += unit->m_buf_dl_location;
   g->read_increment = RLR_AT_Q(READ_INCREMENT_L,READ_INCREMENT_QUANTUM);
   g->duration = RLR_AT(DURATION_L);
   float env_amplitude = RLR_AT(ENV_AMPLITUDE_L);
@@ -147,8 +147,8 @@ enqueue_grain(RShufflerB *unit,float *controls)
 
 void RShufflerB_Ctor(RShufflerB *unit)
 {
-  rdu_init_buf;
-  unit->m_buf_location = 0.0;
+  rdu_init_buf(dl);
+  unit->m_buf_dl_location = 0.0;
   unit->m_count = 0;
   unit->m_last = 0;
   unit->m_iot = 0;
@@ -161,8 +161,8 @@ void RShufflerB_Ctor(RShufflerB *unit)
 
 void RShufflerB_next(RShufflerB *unit,int inNumSamples)
 {
-  rdu_get_buf(BUFFER_NUMBER);
-  rdu_check_buf(1);
+  rdu_get_buf(dl,BUFFER_NUMBER);
+  rdu_check_buf(dl,1);
   rdu_get_controls(NUMBER_OF_CONTROLS);
   float *out_l = OUT(0);
   float *out_r = OUT(1);
@@ -178,8 +178,8 @@ void RShufflerB_next(RShufflerB *unit,int inNumSamples)
 	g->active = false;
 	continue;
       }
-      wrap_index(unit->m_buf->frames,&(g->read_location));
-      float s =  signal_interpolate(unit->m_buf->data,unit->m_buf->frames,g->read_location);
+      wrap_index(unit->m_buf_dl->frames,&(g->read_location));
+      float s =  signal_interpolate(unit->m_buf_dl->data,unit->m_buf_dl->frames,g->read_location);
       s *= segment_transfer_lookup_linear(g->e,8,(float)(g->scnt) /(float)(g->sdur));
       out_l[i] += s *(1.0 - g->stereo_location);
       out_r[i] += s * g->stereo_location;
@@ -187,8 +187,8 @@ void RShufflerB_next(RShufflerB *unit,int inNumSamples)
       g->read_location += g->read_increment;
     }
     /* Increment and modulo ftable read location and increment the shuffler sample count. */
-    unit->m_buf_location += controls[FTABLE_READ_INCREMENT];
-    wrap_index(unit->m_buf->frames,&(unit->m_buf_location));
+    unit->m_buf_dl_location += controls[FTABLE_READ_INCREMENT];
+    wrap_index(unit->m_buf_dl->frames,&(unit->m_buf_dl_location));
     unit->m_count++;
   }
 }

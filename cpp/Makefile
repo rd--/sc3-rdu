@@ -15,6 +15,7 @@ P = DustR.so \
     RDL.so \
     RFreezer.so \
     RLoopSet.so \
+    RPVDecay.so \
     RShufflerB.so RShufflerL.so \
     RTrace.so \
     TScramble.so
@@ -43,4 +44,4 @@ ln-c-common:
 	ln -s $(HOME)/sw/c-common .
 
 indent:
-	indent -kr -nut -l96 -i2 -brf RBezier.cpp
+	indent -kr -nut -l96 -i2 -brf *.cpp

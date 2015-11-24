@@ -15,87 +15,87 @@ extern "C"                                              \
   void name##_Dtor(name *unit);                         \
 }
 
-#define rdu_declare_buf                         \
-  SndBuf *m_buf;                                \
-  uint32 m_buf_id;
+#define rdu_declare_buf(nm)		       \
+    SndBuf *m_buf_##nm;			       \
+    uint32 m_buf_id_##nm;
 
-#define rdu_init_buf                            \
-  unit->m_buf = NULL;                           \
-  unit->m_buf_id = UINT32_MAX;
+#define rdu_init_buf(nm)			\
+    unit->m_buf_##nm = NULL;			\
+    unit->m_buf_id_##nm = UINT32_MAX;
 
 /* Monitored buffers are useful when the UGen needs to do considerable
    setup if the buffer changes.  The buffer ID and frame count are
    monitored.  */
 
-#define rdu_declare_monitored_buf               \
-  SndBuf *m_buf;                                \
-  uint32 m_buf_id;                              \
-  uint32 m_prev_buf_id;                         \
-  int m_prev_buf_frames;
+#define rdu_declare_monitored_buf(nm)		\
+    SndBuf *m_buf_##nm;				\
+    uint32 m_buf_id_##nm;			\
+    uint32 m_prev_buf_id_##nm;			\
+    int m_prev_buf_frames_##nm;
 
-#define rdu_init_monitored_buf                  \
-  unit->m_buf = NULL;                           \
-  unit->m_buf_id = UINT32_MAX;                  \
-  unit->m_prev_buf_id = UINT32_MAX;             \
-  unit->m_prev_buf_frames = -1;
+#define rdu_init_monitored_buf(nm)		     \
+    unit->m_buf_##nm = NULL;			     \
+    unit->m_buf_id_##nm = UINT32_MAX;		     \
+    unit->m_prev_buf_id_##nm = UINT32_MAX;	     \
+    unit->m_prev_buf_frames_##nm = -1;
 
 /* Set the unit field m_buf to point to the correct buffer, and
    m_buf_id to the buffer number.  Handles local buffers.  */
 
-#define rdu_get_buf(n)                                             \
-    uint32 l_buf_id = (uint32) sc_max(0.f,ZIN0(n));                \
-    if(l_buf_id != unit->m_buf_id) {                               \
+#define rdu_get_buf(nm,n)					   \
+    uint32 l_buf_id_##nm = (uint32) sc_max(0.f,ZIN0(n));                \
+    if(l_buf_id_##nm != unit->m_buf_id_##nm) {                               \
         World *l_world = unit->mWorld;                             \
-        if(l_buf_id < 0) {                                         \
-            l_buf_id = 0;                                          \
+        if(l_buf_id_##nm < 0) {                                         \
+            l_buf_id_##nm = 0;                                          \
         }                                                          \
-        if (l_buf_id >= l_world->mNumSndBufs) {                    \
-            int l_loc_buf = l_buf_id - l_world->mNumSndBufs;       \
+        if (l_buf_id_##nm >= l_world->mNumSndBufs) {                    \
+            int l_loc_buf = l_buf_id_##nm - l_world->mNumSndBufs;       \
             Graph *l_parent = unit->mParent;                       \
             if(l_loc_buf <= l_parent->localBufNum) {               \
-                unit->m_buf_id = l_buf_id;                         \
-                unit->m_buf = l_parent->mLocalSndBufs + l_loc_buf; \
+                unit->m_buf_id_##nm = l_buf_id_##nm;                         \
+                unit->m_buf_##nm = l_parent->mLocalSndBufs + l_loc_buf; \
             } else {                                               \
-                unit->m_buf_id = 0;                                \
-                unit->m_buf = l_world->mSndBufs;                   \
+                unit->m_buf_id_##nm = 0;                                \
+                unit->m_buf_##nm = l_world->mSndBufs;                   \
             }                                                      \
         } else {                                                   \
-            unit->m_buf_id = l_buf_id;                             \
-            unit->m_buf = l_world->mSndBufs + l_buf_id;            \
+            unit->m_buf_id_##nm = l_buf_id_##nm;                             \
+            unit->m_buf_##nm = l_world->mSndBufs + l_buf_id_##nm;            \
         }                                                          \
     }
 
-#define rdu_check_buf_exists                    \
-  if(!unit->m_buf->data) {                      \
+#define rdu_check_buf_exists(nm)                    \
+  if(!unit->m_buf_##nm->data) {                      \
     unit->mDone = 1;                            \
     ClearUnitOutputs(unit,inNumSamples);        \
     printf("rdu: !buf_exists\n");               \
     return;                                     \
   }
 
-#define rdu_check_buf_channels(n)               \
-  if(unit->m_buf->channels != n) {              \
+#define rdu_check_buf_channels(nm,n)               \
+  if(unit->m_buf_##nm->channels != n) {              \
     unit->mDone = 1;                            \
     ClearUnitOutputs(unit,inNumSamples);        \
     printf("rdu: !buf_channels\n");     \
     return;                                     \
   }
 
-#define rdu_check_buf(n)                        \
-  rdu_check_buf_exists;                         \
-  rdu_check_buf_channels(n);
+#define rdu_check_buf(nm,n)                        \
+  rdu_check_buf_exists(nm);                         \
+  rdu_check_buf_channels(nm,n);
 
-#define rdu_on_buffer_change(body)                      \
-  int buffer_changed = 0;                               \
-  if(unit->m_buf_id != unit->m_prev_buf_id) {           \
-    unit->m_prev_buf_id = unit->m_buf_id;               \
-    buffer_changed = 1;                                 \
+#define rdu_on_buffer_change(nm,body)                      \
+  int buffer_changed_##nm = 0;                               \
+  if(unit->m_buf_id_##nm != unit->m_prev_buf_id_##nm) {           \
+    unit->m_prev_buf_id_##nm = unit->m_buf_id_##nm;               \
+    buffer_changed_##nm = 1;                                 \
   }                                                     \
-  if(unit->m_buf->frames != unit->m_prev_buf_frames) {  \
-    unit->m_prev_buf_frames = unit->m_buf->frames;      \
-    buffer_changed = 1;                                 \
+  if(unit->m_buf_##nm->frames != unit->m_prev_buf_frames_##nm) {  \
+    unit->m_prev_buf_frames_##nm = unit->m_buf_##nm->frames;      \
+    buffer_changed_##nm = 1;                                 \
   }                                                     \
-  if(buffer_changed) {                                  \
+  if(buffer_changed_##nm) {                                  \
     printf("rdu: buffer changed\n");                    \
     body;                                               \
   }

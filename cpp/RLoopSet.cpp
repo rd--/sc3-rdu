@@ -19,7 +19,7 @@ RLoopSet_Loop_t;
 
 struct RLoopSet : public Unit
 {
-  rdu_declare_monitored_buf;
+  rdu_declare_monitored_buf(dl);
   RLoopSet_Loop_t m_loop_data[LOOP_LIMIT];
   int m_loop_n;
   int m_left;
@@ -71,12 +71,12 @@ RLoopSet_finesse(float *sound, int sound_n, int index)
 static inline void
 RLoopSet_group_setup(RLoopSet *unit)
 {
-  unit->m_left = RLoopSet_finesse(unit->m_buf->data,
-                                   unit->m_buf->frames,
-                                  (int)(unit->m_buf->frames * GROUP_LEFT));
-  unit->m_right = RLoopSet_finesse(unit->m_buf->data,
-                                    unit->m_buf->frames,
-                                   (int)(unit->m_buf->frames * GROUP_RIGHT));
+  unit->m_left = RLoopSet_finesse(unit->m_buf_dl->data,
+                                   unit->m_buf_dl->frames,
+                                  (int)(unit->m_buf_dl->frames * GROUP_LEFT));
+  unit->m_right = RLoopSet_finesse(unit->m_buf_dl->data,
+                                    unit->m_buf_dl->frames,
+                                   (int)(unit->m_buf_dl->frames * GROUP_RIGHT));
   unit->m_size = unit->m_right - unit->m_left;
 }
 
@@ -97,11 +97,11 @@ RLoopSet_loop_setup(RLoopSet *unit, int index)
   loop->right = unit->m_left;
   loop->right +=(int)(LOOP_RIGHT(index) * unit->m_size);
   /* Shift left and right to lie on zero crossings. */
-  loop->left = RLoopSet_finesse(unit->m_buf->data,
-				  unit->m_buf->frames,
+  loop->left = RLoopSet_finesse(unit->m_buf_dl->data,
+				  unit->m_buf_dl->frames,
 				  loop->left);
-  loop->right = RLoopSet_finesse(unit->m_buf->data,
-				   unit->m_buf->frames,
+  loop->right = RLoopSet_finesse(unit->m_buf_dl->data,
+				   unit->m_buf_dl->frames,
 				   loop->right);
   /* Left is the inital phase location. */
   loop->phase =(float) loop->left;
@@ -118,7 +118,7 @@ RLoopSet_reset(RLoopSet *unit)
 
 void RLoopSet_Ctor(RLoopSet *unit)
 {
-  rdu_init_monitored_buf;
+  rdu_init_monitored_buf(dl);
   unit->m_loop_n =(unit->mNumInputs - FIXED_INPUTS) / 4;
   SETCALC(RLoopSet_next);
 }
@@ -127,16 +127,16 @@ void RLoopSet_Ctor(RLoopSet *unit)
    reset loop if required, apply group gain. */
 void RLoopSet_next(RLoopSet *unit,int inNumSamples)
 {
-  rdu_get_buf(BUFFER_NUMBER);
-  rdu_check_buf(1);
-  rdu_on_buffer_change(RLoopSet_reset(unit););
+  rdu_get_buf(dl,BUFFER_NUMBER);
+  rdu_check_buf(dl,1);
+  rdu_on_buffer_change(dl,RLoopSet_reset(unit););
   float *out = OUT(0);
   for(int i = 0; i < inNumSamples; i++) {
     out[i] = 0.0;
     for(int j = 0; j < unit->m_loop_n; j++) {
       RLoopSet_Loop_t *loop = unit->m_loop_data + j;
-      out[i] += loop->gain * signal_interpolate(unit->m_buf->data,
-						  unit->m_buf->frames,
+      out[i] += loop->gain * signal_interpolate(unit->m_buf_dl->data,
+						  unit->m_buf_dl->frames,
 						  loop->phase);
       loop->phase += loop->increment * GROUP_INCREMENT;
       if(loop->phase >= loop->right) {

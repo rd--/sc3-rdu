@@ -28,7 +28,7 @@ struct Mapping
 
 struct RDelayMap : public Unit
 {
-  rdu_declare_buf;
+  rdu_declare_buf(dl);
   struct Mapping m_map[Map_Limit];
   int m_map_n;
   float *m_signal;
@@ -64,7 +64,7 @@ void RDelayMap_Setup(RDelayMap *unit)
 
 void RDelayMap_Ctor(RDelayMap *unit)
 {
-  rdu_init_buf;
+  rdu_init_buf(dl);
   unit->m_map_n = (unit->mNumInputs - Map_Offset) / 4;
   RDelayMap_Setup(unit);
   SETCALC(RDelayMap_next);
@@ -121,18 +121,18 @@ float RDelayMap_step(RDelayMap *unit,float s)
 
 void RDelayMap_next(RDelayMap *unit,int inNumSamples)
 {
-  rdu_get_buf(0);
-  rdu_check_buf(1);
+  rdu_get_buf(dl,0);
+  rdu_check_buf(dl,1);
   if((int)ZIN0(2) > 0) {
     RDelayMap_Setup(unit);
   }
   float *out = OUT(0);
   float *in = IN(1);
-  if(unit->m_buf->frames - 1 < unit->m_signal_n){
-    fprintf(stderr,"RDelayMap_next: m_buf->frames < m_signal_n\n");
+  if(unit->m_buf_dl->frames - 1 < unit->m_signal_n){
+    fprintf(stderr,"RDelayMap_next: m_buf_dl->frames < m_signal_n\n");
     return;
   } else {
-    unit->m_signal = unit->m_buf->data;
+    unit->m_signal = unit->m_buf_dl->data;
   }
   for(int i = 0; i < inNumSamples; i++){
     out[i] = RDelayMap_step(unit,in[i]);

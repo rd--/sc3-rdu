@@ -128,6 +128,9 @@ rFreezer :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 rFreezer b l r g i io ir rr ps pt nl =
     mkOsc AR "RFreezer" [b,l,r,g,i,io,ir,rr,ps,pt,nl] 1
 
+rpvDecay :: UGen -> UGen -> UGen -> UGen
+rpvDecay b_fft b_dcy b_hst = mkUGen Nothing [KR] (Left KR) "RPVDecay" [b_fft,b_dcy,b_hst] Nothing 1 (Special 0) NoId
+
 rShufflerB :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 rShufflerB b rlL rlR riL riR dL dR eaL eaR esL esR ekL ekR slM slR ioL ioR i riQ ioQ =
     let p = [b,rlL,rlR,riL,riR,dL,dR,eaL,eaR,esL,esR,ekL,ekR,slM,slR,ioL,ioR,i,riQ,ioQ]
