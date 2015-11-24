@@ -7,7 +7,7 @@
 
 InterfaceTable *ft;
 
-struct RPVDecay : PV_Unit
+struct RPVDecayTbl : PV_Unit
 {
     SndBuf *m_buf;		/* fft */
     rdu_declare_buf(dr);	/* decay rate */
@@ -17,19 +17,19 @@ struct RPVDecay : PV_Unit
 extern "C"
 {
     void load(InterfaceTable *inTable);
-    void RPVDecay_Ctor(RPVDecay *unit);
-    void RPVDecay_next(RPVDecay* unit, int inNumSamples);
+    void RPVDecayTbl_Ctor(RPVDecayTbl *unit);
+    void RPVDecayTbl_next(RPVDecayTbl *unit, int inNumSamples);
 }
 
-void RPVDecay_Ctor(RPVDecay *unit)
+void RPVDecayTbl_Ctor(RPVDecayTbl *unit)
 {
     ZOUT0(0) = ZIN0(0);
     rdu_init_buf(dr);
     rdu_init_buf(dl);
-    SETCALC(RPVDecay_next);
+    SETCALC(RPVDecayTbl_next);
 }
 
-void RPVDecay_next(RPVDecay* unit, int inNumSamples)
+void RPVDecayTbl_next(RPVDecayTbl *unit, int inNumSamples)
 {
     PV_GET_BUF
     rdu_get_buf(dr,1);
@@ -45,6 +45,7 @@ void RPVDecay_next(RPVDecay* unit, int inNumSamples)
 	unit->m_buf_dl->data[i] = x_nx * x_dr;
 	p->bin[i].mag = x_nx;
 	if (x < 0) { /* sanity? */
+	    printf("RPVDecayTbl: magnitude is negative\n");
 	    p->bin[i].mag = x;
 	}
     }
@@ -52,9 +53,9 @@ void RPVDecay_next(RPVDecay* unit, int inNumSamples)
 
 void init_SCComplex(InterfaceTable *inTable);
 
-PluginLoad(RPVDecay)
+PluginLoad(RPVTblDecay)
 {
     ft = inTable;
     init_SCComplex(inTable);
-    DefineSimpleUnit(RPVDecay);
+    DefineSimpleUnit(RPVDecayTbl);
 }

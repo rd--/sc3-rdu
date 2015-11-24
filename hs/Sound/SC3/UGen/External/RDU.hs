@@ -17,6 +17,7 @@ type I_Meta = (Double,Double,String,Double,String)
 std_I' :: Int -> String -> Double -> I_Meta -> I
 std_I' ix nm df _ = std_I ix nm df
 
+-- | Name, allowed rates, default rate, inputs, number of channels, description, non-det flag.
 osc_U :: String -> [Rate] -> Rate -> [I] -> Int -> String -> Bool -> U
 osc_U nm rr r i nc dsc nd = (read_meta (nm,rr,r,i,nc,dsc)) {ugen_nondet = nd}
 
@@ -69,6 +70,9 @@ randN_dsc =
             ,std_I 1 "hi" 1.0]
         dsc = "Multi-channel variant of Rand"
     in u_nc_input (osc_U "RandN" [IR] IR i (-1) dsc True)
+
+rBezier :: Rate -> UGen -> UGen -> UGen -> UGen
+rBezier rate freq phase param = mkUGen Nothing [AR] (Left rate) "RBezier" [freq,phase] (Just param) 1 (Special 0) NoId
 
 rDelayMap_dsc :: U
 rDelayMap_dsc =
@@ -128,8 +132,15 @@ rFreezer :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 rFreezer b l r g i io ir rr ps pt nl =
     mkOsc AR "RFreezer" [b,l,r,g,i,io,ir,rr,ps,pt,nl] 1
 
-rpvDecay :: UGen -> UGen -> UGen -> UGen
-rpvDecay b_fft b_dcy b_hst = mkUGen Nothing [KR] (Left KR) "RPVDecay" [b_fft,b_dcy,b_hst] Nothing 1 (Special 0) NoId
+rpvDecayTbl_dsc :: U
+rpvDecayTbl_dsc =
+    let i = [std_I 0 "fft_buf" 0
+            ,std_I 1 "decay_rate_buf" 0
+            ,std_I 2 "history_buf" 0]
+    in osc_U "RPVDecayTbl" [KR] KR i 1 "Decay bin magnitudes according to multipliers in table." False
+
+rpvDecayTbl :: UGen -> UGen -> UGen -> UGen
+rpvDecayTbl b_fft b_dcy b_hst = mkUGen Nothing [KR] (Left KR) "RPVDecayTbl" [b_fft,b_dcy,b_hst] Nothing 1 (Special 0) NoId
 
 rShufflerB :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 rShufflerB b rlL rlR riL riR dL dR eaL eaR esL esR ekL ekR slM slR ioL ioR i riQ ioQ =
