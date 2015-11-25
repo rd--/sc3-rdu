@@ -4,7 +4,7 @@ Synopsis:          Haskell bindings to sc3-rdu (sc3 rd ugens)
 Description:       Haskell bindings to sc3-rdu (sc3 rd ugens)
 License:           GPL
 Category:          Sound
-Copyright:         (c) Rohan Drape, 1998-2014
+Copyright:         (c) Rohan Drape, 1998-2015
 Author:            Rohan Drape
 Maintainer:        rd@slavepianos.org
 Stability:         Experimental

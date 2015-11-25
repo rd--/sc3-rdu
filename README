@@ -12,12 +12,13 @@ sc3-rdu
 - [RFreezer](?t=sc3-rdu&e=md/sc3-rdu.md#rfreezer)
 - [RLoopSet](?t=sc3-rdu&e=md/sc3-rdu.md#rloopset)
 - [RPlayTrace](?t=sc3-rdu&e=md/sc3-rdu.md#rplaytrace)
+- [RPVDecayTbl](?t=sc3-rdu&e=md/sc3-rdu.md#rpvdecaytbl)
 - [RShufflerB](?t=sc3-rdu&e=md/sc3-rdu.md#rshufflerb)
 - [RShufflerL](?t=sc3-rdu&e=md/sc3-rdu.md#rshufflerl)
 - [RTraceRd](?t=sc3-rdu&e=md/sc3-rdu.md#rtracerd)
 - [TScramble](?t=sc3-rdu&e=md/sc3-rdu.md#tscramble)
 
-© [rohan drape][rd], 1998-2014, [gpl][gpl].
+© [rohan drape][rd], 1998-2015, [gpl][gpl].
 
 [sc3]: http://audiosynth.com/
 [rd]:  http://rd.slavepianos.org/

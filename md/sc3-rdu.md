@@ -114,6 +114,13 @@ tuples (T,X,Y,Z).
 
 [[help.lhs](?t=sc3-rdu&e=help/rPlayTrace.help.lhs)]
 
+## RPVDecayTbl
+
+A `PV` unit generator that tracks the rise of magnitudes immediately,
+but decays them according to a set of multipliers given in a table.
+
+[[help.lhs](?t=sc3-rdu&e=help/rpvDecayTbl.help.lhs)]
+
 ## RShufflerB
 
 A signal shuffler
