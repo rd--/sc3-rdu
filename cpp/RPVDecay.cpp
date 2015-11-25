@@ -7,21 +7,16 @@
 
 InterfaceTable *ft;
 
-struct RPVDecayTbl : PV_Unit
+struct RPVDecayTbl:PV_Unit
 {
-    SndBuf *m_buf;		/* fft */
-    rdu_declare_buf(dr);	/* decay rate */
-    rdu_declare_buf(dl);	/* dhistory (delay) */
+    SndBuf *m_buf;                                /* fft */
+    rdu_declare_buf(dr);                          /* decay rate */
+    rdu_declare_buf(dl);                          /* dhistory (delay) */
 };
 
-extern "C"
-{
-    void load(InterfaceTable *inTable);
-    void RPVDecayTbl_Ctor(RPVDecayTbl *unit);
-    void RPVDecayTbl_next(RPVDecayTbl *unit, int inNumSamples);
-}
+rdu_prototypes(RPVDecayTbl);
 
-void RPVDecayTbl_Ctor(RPVDecayTbl *unit)
+void RPVDecayTbl_Ctor(RPVDecayTbl * unit)
 {
     ZOUT0(0) = ZIN0(0);
     rdu_init_buf(dr);
@@ -29,29 +24,29 @@ void RPVDecayTbl_Ctor(RPVDecayTbl *unit)
     SETCALC(RPVDecayTbl_next);
 }
 
-void RPVDecayTbl_next(RPVDecayTbl *unit, int inNumSamples)
+void RPVDecayTbl_next(RPVDecayTbl * unit, int inNumSamples)
 {
     PV_GET_BUF
-    rdu_get_buf(dr,1);
-    rdu_get_buf(dl,2);
-    rdu_check_buf(dr,1);
-    rdu_check_buf(dl,1);
+    rdu_get_buf(dr, 1);
+    rdu_get_buf(dl, 2);
+    rdu_check_buf(dr, 1);
+    rdu_check_buf(dl, 1);
     SCPolarBuf *p = ToPolarApx(buf);
-    for(int i = 0; i < numbins; i ++) {
-	float x = p->bin[i].mag;
-	float x_dr = unit->m_buf_dr->data[i];
-	float x_dl = unit->m_buf_dl->data[i];
-	float x_nx = x > x_dl ? x : x_dl;
-	unit->m_buf_dl->data[i] = x_nx * x_dr;
-	p->bin[i].mag = x_nx;
-	if (x < 0) { /* sanity? */
-	    printf("RPVDecayTbl: magnitude is negative\n");
-	    p->bin[i].mag = x;
-	}
+    for (int i = 0; i < numbins; i++) {
+        float x = p->bin[i].mag;
+        float x_dr = unit->m_buf_dr->data[i];
+        float x_dl = unit->m_buf_dl->data[i];
+        float x_nx = x > x_dl ? x : x_dl;
+        unit->m_buf_dl->data[i] = x_nx * x_dr;
+        p->bin[i].mag = x_nx;
+        if (x < 0) {
+            printf("RPVDecayTbl: magnitude is negative\n");
+            p->bin[i].mag = x;
+        }
     }
 }
 
-void init_SCComplex(InterfaceTable *inTable);
+void init_SCComplex(InterfaceTable * inTable);
 
 PluginLoad(RPVTblDecay)
 {

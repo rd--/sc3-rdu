@@ -31,7 +31,7 @@ L = c-common/lib-c-common.a
 all:	$(P)
 
 clean:
-	rm -f $(P)
+	rm -f $(P) *.orig
 
 install: $(P)
 	cp $(P) $(T)
@@ -44,4 +44,5 @@ ln-c-common:
 	ln -s $(HOME)/sw/c-common .
 
 indent:
-	indent -kr -nut -l96 -i2 -brf *.cpp
+	bcpp -yb -bcl RPVDecay.cpp
+
