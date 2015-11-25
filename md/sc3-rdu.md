@@ -118,6 +118,8 @@ tuples (T,X,Y,Z).
 
 A `PV` unit generator that tracks the rise of magnitudes immediately,
 but decays them according to a set of multipliers given in a table.
+At each frame each partial decays by the amount indicated in the table,
+if the decaying value is below the input value it is reset.
 
 [[help.lhs](?t=sc3-rdu&e=help/rpvDecayTbl.help.lhs)]
 
