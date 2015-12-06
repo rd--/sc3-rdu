@@ -25,6 +25,6 @@ decay system
 
 reset decay rate buffer
 
-    withSC3 (send (b_fill 11 [(0,1024,0.25)]))
-    withSC3 (send (b_fill 11 [(32,32,0.95)]))
+    withSC3 (send (b_fill 11 [(0,1024,0.05)]))
+    withSC3 (send (b_fill 11 [(96,32,0.95)]))
 

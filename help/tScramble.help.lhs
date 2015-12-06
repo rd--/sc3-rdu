@@ -6,5 +6,5 @@
 two channel sin tones, channels scramble on impulse
 
 > gr_01 =
->     let i = impulse KR 1 0
->     in sinOsc AR (tScramble 'α' KR i (mce2 440 880)) 0 * 0.1
+>     let tr = impulse KR 1 0
+>     in sinOsc AR (tScramble 'α' tr (mce2 440 880)) 0 * 0.1

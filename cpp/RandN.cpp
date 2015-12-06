@@ -8,6 +8,7 @@ struct ExpRandN : public Unit {};
 struct IRandN : public Unit {};
 struct LinRandN : public Unit {};
 struct RandN : public Unit {};
+struct TRandN : public Unit {float m_trig, *m_store;};
 
 void ExpRandN_Ctor(ExpRandN* unit)
 {
@@ -69,6 +70,52 @@ void RandN_Ctor(RandN* unit)
   }
 }
 
+void TRandN_gen(TRandN* unit)
+{
+    uint32 nc = unit->mNumOutputs;
+    float lo = ZIN0(0);
+    float hi = ZIN0(1);
+    float range = hi - lo;
+    RGen& rgen = *unit->mParent->mRGen;
+    uint32 i;
+    for (i=0;i<nc;i++) {
+	unit->m_store[i] = rgen.frand() * range + lo;
+    }
+}
+
+void TRandN_cpy(TRandN* unit)
+{
+    uint32 nc = unit->mNumOutputs;
+    uint32 i;
+    for (i=0;i<nc;i++) {
+	ZOUT0(i) = unit->m_store[i];
+    }
+}
+
+void TRandN_next_k(TRandN* unit, int inNumSamples)
+{
+    float trig = ZIN0(2);
+    if (trig > 0.f && unit->m_trig <= 0.f) {
+	TRandN_gen(unit);
+    }
+    TRandN_cpy(unit);
+    unit->m_trig = trig;
+}
+
+void TRandN_Ctor(TRandN* unit)
+{
+    unit->m_store = (float*)RTAlloc(unit->mWorld,unit->mNumOutputs * sizeof(float));
+    TRandN_gen(unit);
+    TRandN_cpy(unit);
+    SETCALC(TRandN_next_k);
+    unit->m_trig = ZIN0(2);
+}
+
+void TRandN_Dtor(TRandN *unit)
+{
+    RTFree(unit->mWorld,unit->m_store);
+}
+
 PluginLoad(RandN)
 {
   ft = inTable;
@@ -76,4 +123,5 @@ PluginLoad(RandN)
   DefineSimpleUnit(IRandN);
   DefineSimpleUnit(LinRandN);
   DefineSimpleUnit(RandN);
+  DefineDtorUnit(TRandN);
 }

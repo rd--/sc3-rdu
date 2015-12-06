@@ -4,6 +4,8 @@ module Sound.SC3.UGen.External.RDU where
 import Sound.SC3.UGen {- hsc3 -}
 import Sound.SC3.UGen.Bindings.DB {- hsc3 -}
 import Sound.SC3.UGen.Bindings.HW.Construct {- hsc3 -}
+
+import Sound.SC3.UGen.DB.Bindings {- hsc3-db -}
 import Sound.SC3.UGen.DB.Record {- hsc3-db -}
 
 std_I :: Int -> String -> Double -> I
@@ -21,14 +23,19 @@ std_I' ix nm df _ = std_I ix nm df
 osc_U :: String -> [Rate] -> Rate -> [I] -> Int -> String -> Bool -> U
 osc_U nm rr r i nc dsc nd = (read_meta (nm,rr,r,i,nc,dsc)) {ugen_nondet = nd}
 
+u_nc_input :: U -> U
+u_nc_input u = u {ugen_outputs = Nothing,ugen_nc_input = True}
+
+-- * Bindings
+
 dustR_dsc :: U
 dustR_dsc =
     let i = [std_I 0 "lo" 0.0001
             ,std_I 1 "hi" 1.0]
     in osc_U "DustR" [AR] AR i 1 "Range variant of Dust" True
 
-u_nc_input :: U -> U
-u_nc_input u = u {ugen_outputs = Nothing,ugen_nc_input = True}
+dustR :: ID z => z -> Rate -> UGen -> UGen -> UGen
+dustR z rt lo hi = mkOscId (toUId z) rt "DustR" [lo,hi] 1
 
 expRandN_dsc :: U
 expRandN_dsc =
@@ -36,6 +43,9 @@ expRandN_dsc =
             ,std_I 1 "hi" 1.0]
         dsc = "Multi-channel variant of Rand"
     in u_nc_input (osc_U "ExpRandN" [IR] IR i (-1) dsc True)
+
+expRandN :: ID z => Int -> z -> UGen -> UGen -> UGen
+expRandN nc z l r = mkOscId (toUId z) IR "ExpRandN" [l,r] nc
 
 -- | Copies spectral frame (ie. PV_Copy with two outputs).
 pv_Split :: UGen -> UGen -> UGen
@@ -142,11 +152,6 @@ rpvDecayTbl_dsc =
 rpvDecayTbl :: UGen -> UGen -> UGen -> UGen
 rpvDecayTbl b_fft b_dcy b_hst = mkUGen Nothing [KR] (Left KR) "RPVDecayTbl" [b_fft,b_dcy,b_hst] Nothing 1 (Special 0) NoId
 
-rShufflerB :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
-rShufflerB b rlL rlR riL riR dL dR eaL eaR esL esR ekL ekR slM slR ioL ioR i riQ ioQ =
-    let p = [b,rlL,rlR,riL,riR,dL,dR,eaL,eaR,esL,esR,ekL,ekR,slM,slR,ioL,ioR,i,riQ,ioQ]
-    in mkOsc AR "RShufflerB" p 2
-
 rShufflerB_dsc :: U
 rShufflerB_dsc =
  let i = [std_I 0 "bufnum" 0
@@ -170,6 +175,11 @@ rShufflerB_dsc =
          ,std_I 18 "readIncrementQuanta" 0
          ,std_I 19 "interOffsetTimeQuanta" 0]
  in osc_U "RShufflerB" [AR] AR i 2 "Signal shuffler (Buffer)" False
+
+rShufflerB :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
+rShufflerB b rlL rlR riL riR dL dR eaL eaR esL esR ekL ekR slM slR ioL ioR i riQ ioQ =
+    let p = [b,rlL,rlR,riL,riR,dL,dR,eaL,eaR,esL,esR,ekL,ekR,slM,slR,ioL,ioR,i,riQ,ioQ]
+    in mkOsc AR "RShufflerB" p 2
 
 {-
 
@@ -236,34 +246,23 @@ rPlayTrace_dsc =
 rPlayTrace :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen
 rPlayTrace rt b d ix ac = mkOsc rt "RPlayTrace" [b,d,ix,ac] 1
 
--- | The number of outputs is the length of the inputs array.
 tScramble_dsc :: U
 tScramble_dsc =
-    let i = [std_I 0 "trigger" 0
-            ,std_I 1 "inputs" 0]
-        s = "Scramble inputs on trigger."
-    in U {ugen_name = "TScramble"
-         ,ugen_operating_rates = [KR]
-         ,ugen_default_rate = KR
-         ,ugen_inputs = i
-         ,ugen_outputs = Nothing
-         ,ugen_summary = s
-         ,ugen_std_mce = True
-         ,ugen_nc_input = False
-         ,ugen_nc_mce = Just 1
-         ,ugen_filter = Nothing
-         ,ugen_reorder = Nothing
-         ,ugen_enumerations = Nothing
-         ,ugen_nondet = True
-         ,ugen_pseudo_inputs = Nothing
-         ,ugen_fixed_rate = Just KR
-         }
+    default_u {ugen_name = "TScramble"
+              ,ugen_operating_rates = [KR]
+              ,ugen_inputs = [std_I 0 "trigger" 0,std_I 1 "inputs" 0]
+              ,ugen_summary = "Scramble inputs on trigger."
+              ,ugen_std_mce = True
+              ,ugen_nc_mce = Just 0
+              ,ugen_filter = Just [0]
+              ,ugen_nondet = True
+              }
 
-dustR :: ID z => z -> Rate -> UGen -> UGen -> UGen
-dustR z rt lo hi = mkOscId (toUId z) rt "DustR" [lo,hi] 1
-
-expRandN :: ID z => Int -> z -> UGen -> UGen -> UGen
-expRandN nc z l r = mkOscId (toUId z) IR "ExpRandN" [l,r] nc
+-- | Scramble inputs on trigger.
+--
+--  TScramble [KR] trigger=0.0 *inputs=0.0;    MCE, FILTER: TRUE, NONDET
+tScramble :: ID a => a -> UGen -> UGen -> UGen
+tScramble z trigger inputs = mkUGen Nothing [KR] (Right [0]) "TScramble" [trigger] (Just inputs) (length (mceChannels inputs) + 0) (Special 0) (toUId z)
 
 iRandN :: ID z => Int -> z -> UGen -> UGen -> UGen
 iRandN nc z l r = mkOscId (toUId z) IR "IRandN" [l,r] nc
@@ -274,8 +273,21 @@ linRandN nc z l r bias = mkOscId (toUId z) IR "LinRandN" [l,r,bias] nc
 randN :: ID z => Int -> z -> UGen -> UGen -> UGen
 randN nc z l r = mkOscId (toUId z) IR "RandN" [l,r] nc
 
-tScramble :: ID z => z -> Rate -> UGen -> UGen -> UGen
-tScramble z rt tr i = mkOscMCEId (toUId z) rt "TScramble" [tr] i (mceDegree_err i)
+tRandN_dsc :: U
+tRandN_dsc =
+    default_u {ugen_name = "TRandN"
+              ,ugen_operating_rates = [KR]
+              ,ugen_inputs = [std_I 0 "lo" 0,std_I 1 "hi" 1,std_I 2 "trigger" 0]
+              ,ugen_summary = "Generate new random values on trigger."
+              ,ugen_nc_input = True
+              ,ugen_filter = Just [2]
+              ,ugen_nondet = True
+              }
+-- | Generate new random values on trigger.
+--
+--  TRandN [KR] lo=0.0 hi=1.0 trigger=0.0;    NC INPUT: True, FILTER: TRUE, NONDET
+tRandN :: ID a => Int -> a -> UGen -> UGen -> UGen -> UGen
+tRandN numChannels z lo hi trigger = mkUGen Nothing [KR] (Right [2]) "TRandN" [lo,hi,trigger] Nothing numChannels (Special 0) (toUId z)
 
 -- * Monadic
 
@@ -294,13 +306,13 @@ linRandNM nc = liftUId3 (linRandN nc)
 randNM :: UId m => Int -> UGen -> UGen -> m UGen
 randNM nc = liftUId2 (randN nc)
 
-tScrambleM :: UId m => Rate -> UGen -> UGen -> m UGen
-tScrambleM = liftUId3 tScramble
+tScrambleM :: UId m => UGen -> UGen -> m UGen
+tScrambleM = liftUId2 tScramble
 
 rdu_db :: [U]
 rdu_db =
     [dustR_dsc
-    ,expRandN_dsc,randN_dsc
+    ,expRandN_dsc,randN_dsc,tRandN_dsc
     ,rDelayMap_dsc
     ,rDelaySet_dsc,rDelaySetB_dsc
     ,rdl_dsc
@@ -308,6 +320,11 @@ rdu_db =
     ,rShufflerB_dsc,rShufflerL_dsc
     ,rTraceRd_dsc,rPlayTrace_dsc
     ,tScramble_dsc]
+
+gen_bindings :: IO ()
+gen_bindings =
+    let f = putStrLn . unlines . u_gen_binding
+    in mapM_ f rdu_db
 
 -- Local Variables:
 -- truncate-lines:t
