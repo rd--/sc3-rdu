@@ -246,10 +246,11 @@ rPlayTrace_dsc =
 rPlayTrace :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen
 rPlayTrace rt b d ix ac = mkOsc rt "RPlayTrace" [b,d,ix,ac] 1
 
+-- > u_gen_binding tScramble_dsc
 tScramble_dsc :: U
 tScramble_dsc =
     default_u {ugen_name = "TScramble"
-              ,ugen_operating_rates = [KR]
+              ,ugen_operating_rates = [IR,KR]
               ,ugen_inputs = [std_I 0 "trigger" 0,std_I 1 "inputs" 0]
               ,ugen_summary = "Scramble inputs on trigger."
               ,ugen_std_mce = True
@@ -260,9 +261,9 @@ tScramble_dsc =
 
 -- | Scramble inputs on trigger.
 --
---  TScramble [KR] trigger=0.0 *inputs=0.0;    MCE, FILTER: TRUE, NONDET
+--  TScramble [IR,KR] trigger=0.0 *inputs=0.0;    MCE, FILTER: TRUE, NONDET
 tScramble :: ID a => a -> UGen -> UGen -> UGen
-tScramble z trigger inputs = mkUGen Nothing [KR] (Right [0]) "TScramble" [trigger] (Just inputs) (length (mceChannels inputs) + 0) (Special 0) (toUId z)
+tScramble z trigger inputs = mkUGen Nothing [IR,KR] (Right [0]) "TScramble" [trigger] (Just inputs) (length (mceChannels inputs) + 0) (Special 0) (toUId z)
 
 iRandN :: ID z => Int -> z -> UGen -> UGen -> UGen
 iRandN nc z l r = mkOscId (toUId z) IR "IRandN" [l,r] nc
