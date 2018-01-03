@@ -1,5 +1,6 @@
+> import Sound.OSC {- hsc3 -}
 > import Sound.SC3 {- hsc3 -}
-> import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+> import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}
 > import qualified Sound.SC3.Data.Trace as T {- hsc3-data -}
 
     Sound.SC3.UGen.DB.Record.u_summary rTraceRd_dsc
@@ -17,7 +18,7 @@ A trace that traverses a diamond in equal time increments.
 >     ,3/4,  0,   0
 >     ,  1, -1, 1/4]
 
-    withSC3 (send (b_alloc_setn1 0 0 tr_01))
+    withSC3 (sendMessage (b_alloc_setn1 0 0 tr_01))
 
 The X element of the trace is [-1, 0, 1, 0, -1].
 
@@ -28,7 +29,7 @@ Printing (see scserver console output stream)
 >         ph = mouseX KR 0 1 Linear 0.05
 >         tr = rTraceRd KR 0 3 ph 1
 >         labels = mce . map label
->         pr = poll t (mce2 ph tr) (labels ["ph","tr"]) 0
+>         pr = poll t (mce2 ph tr) 0 (labels ["ph","tr"])
 >     in mrg2 (out 0 (dc AR 0)) pr
 
 Listening:
@@ -61,7 +62,7 @@ Altering the time points, while running...
 >     ,1/2,  0,   0
 >     ,  1, -1, 1/4]
 
-    withSC3 (send (b_setn1 0 0 tr_02))
+    withSC3 (sendMessage (b_setn1 0 0 tr_02))
 
 Loading data from a CSV trace file
 

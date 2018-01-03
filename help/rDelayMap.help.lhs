@@ -1,5 +1,5 @@
 > import Sound.SC3 {- hsc3 -}
-> import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+> import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}
 
     Sound.SC3.UGen.DB.Record.u_summary rDelayMap_dsc
 
@@ -25,7 +25,7 @@ Simple feedback circuit (static)
 Simple feedback circuit (dynamic)
 
 > gr_03 =
->     let n = whiteNoise 'α' AR
+>     let n = whiteNoise 'α' AR -- soundIn 0
 >         s = decay (impulse AR (mce [1/3,5/4]) 0) 0.1 * n * 0.2
 >         x = mouseX KR 0.05 1.05 Linear 0.1
 >         y = mouseY KR 0.05 0.95 Linear 0.1

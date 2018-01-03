@@ -2,8 +2,6 @@
 module Sound.SC3.UGen.External.RDU where
 
 import Sound.SC3.UGen {- hsc3 -}
-import Sound.SC3.UGen.Bindings.DB {- hsc3 -}
-import Sound.SC3.UGen.Bindings.HW.Construct {- hsc3 -}
 
 import Sound.SC3.UGen.DB.Bindings {- hsc3-db -}
 import Sound.SC3.UGen.DB.Record {- hsc3-db -}
@@ -26,7 +24,19 @@ osc_U nm rr r i nc dsc nd = (read_meta (nm,rr,r,i,nc,dsc)) {ugen_nondet = nd}
 u_nc_input :: U -> U
 u_nc_input u = u {ugen_outputs = Nothing,ugen_nc_input = True}
 
--- * Bindings
+u_std_mce :: U -> U
+u_std_mce u = u {ugen_std_mce = True}
+
+u_ir :: U -> U
+u_ir u = u {ugen_fixed_rate = Just IR}
+
+u_ar :: U -> U
+u_ar u = u {ugen_fixed_rate = Just AR}
+
+u_flt :: Int -> U -> U
+u_flt k u = u {ugen_filter = Just [k]}
+
+-- * DSC
 
 dustR_dsc :: U
 dustR_dsc =
@@ -34,55 +44,48 @@ dustR_dsc =
             ,std_I 1 "hi" 1.0]
     in osc_U "DustR" [AR] AR i 1 "Range variant of Dust" True
 
-dustR :: ID z => z -> Rate -> UGen -> UGen -> UGen
-dustR z rt lo hi = mkOscId (toUId z) rt "DustR" [lo,hi] 1
-
 expRandN_dsc :: U
 expRandN_dsc =
     let i = [std_I 0 "lo" 0.0001
             ,std_I 1 "hi" 1.0]
         dsc = "Multi-channel variant of Rand"
-    in u_nc_input (osc_U "ExpRandN" [IR] IR i (-1) dsc True)
+    in u_ir (u_nc_input (osc_U "ExpRandN" [IR] IR i (-1) dsc True))
 
-expRandN :: ID z => Int -> z -> UGen -> UGen -> UGen
-expRandN nc z l r = mkOscId (toUId z) IR "ExpRandN" [l,r] nc
+iRandN_dsc :: U
+iRandN_dsc =
+    let i = [std_I 0 "lo" 0.0001
+            ,std_I 1 "hi" 1.0]
+        dsc = "Multi-channel variant of IRand"
+    in u_ir (u_nc_input (osc_U "IRandN" [IR] IR i (-1) dsc True))
 
--- | Copies spectral frame (ie. PV_Copy with two outputs).
-pv_Split :: UGen -> UGen -> UGen
-pv_Split ba bb = mkOsc KR "PV_Split" [ba,bb] 2
+linRandN_dsc :: U
+linRandN_dsc =
+    let i = [std_I 0 "lo" 0.0001
+            ,std_I 1 "hi" 1.0]
+        dsc = "Multi-channel variant of LinRand"
+    in u_ir (u_nc_input (osc_U "LinRandN" [IR] IR i (-1) dsc True))
 
--- | Variant that unpacks the output /mce/ node.
-pv_Split' :: UGen -> UGen -> (UGen,UGen)
-pv_Split' a b =
-    case mceChannels (pv_Split a b) of
-      [p,q] -> (p,q)
-      _ -> error "pv_split"
-
--- | A 'pv_Split' variant, like 'ffta', that allocates a 'localBuf' by
--- tracing the input graph to locate the parent @FFT@ or @PV_Split@
--- node.
-pv_Splita :: ID i => i -> UGen -> UGen
-pv_Splita z u =
-    case pv_track_nframes u of
-      Left err -> error err
-      Right nf -> let b = localBuf z nf 1 in pv_Split u b
-
--- | Variant that unpacks the output /mce/ node.
-pv_splita :: ID i => i -> UGen -> (UGen,UGen)
-pv_splita z u =
-    case mceChannels (pv_Splita z u) of
-      [p,q] -> (p,q)
-      _ -> error "pv_splita"
+pv_Split_dsc :: U
+pv_Split_dsc =
+  let i = [std_I 0 "bufferA" 0
+          ,std_I 1 "bufferB" 0]
+      dsc = "Copies spectral frame (ie. PV_Copy with two outputs)."
+  in osc_U "PV_Split" [KR] KR i 2 dsc False
 
 randN_dsc :: U
 randN_dsc =
     let i = [std_I 0 "lo" 0.0001
             ,std_I 1 "hi" 1.0]
         dsc = "Multi-channel variant of Rand"
-    in u_nc_input (osc_U "RandN" [IR] IR i (-1) dsc True)
+    in u_ir (u_nc_input (osc_U "RandN" [IR] IR i (-1) dsc True))
 
-rBezier :: Rate -> UGen -> UGen -> UGen -> UGen
-rBezier rate freq phase param = mkUGen Nothing [AR] (Left rate) "RBezier" [freq,phase] (Just param) 1 (Special 0) NoId
+rBezier_dsc :: U
+rBezier_dsc =
+  let i = [std_I 0 "freq" 440
+          ,std_I 1 "phase" 0
+          ,std_I 2 "param" 0]
+      dsc = "Bezier curve oscillator."
+  in u_std_mce (osc_U "RBezier" [AR] AR i 1 dsc False)
 
 rDelayMap_dsc :: U
 rDelayMap_dsc =
@@ -90,38 +93,25 @@ rDelayMap_dsc =
             ,std_I 1 "input" 0
             ,std_I 2 "dynamic" 0
             ,std_I 3 "mapArray" 0]
-    in osc_U "RDelayMap" [AR] AR i 1 "Network of delay line maps" False
-
--- | Network of delay line operations.
-rDelayMap :: UGen -> UGen -> UGen -> UGen -> UGen
-rDelayMap b i d s = mkFilterMCE "RDelayMap" [b,i,d] s 1
+    in u_flt 1 (u_std_mce (osc_U "RDelayMap" [AR] AR i 1 "Network of delay line maps" False))
 
 rDelaySet_dsc :: U
 rDelaySet_dsc =
     let i = [std_I 0 "input" 0
             ,std_I 1 "setArray" 0]
-    in osc_U "RDelaySet" [AR] AR i 1 "Delay set (RTAlloc)" False
-
-rDelaySet :: UGen -> UGen -> UGen
-rDelaySet i s = mkFilterMCE "RDelaySet" [i] s 1
+    in u_flt 0 (u_std_mce (osc_U "RDelaySet" [AR] AR i 1 "Delay set (RTAlloc)" False))
 
 rDelaySetB_dsc :: U
 rDelaySetB_dsc =
     let i = [std_I 0 "buffer" 0
             ,std_I 1 "input" 0
             ,std_I 2 "setArray" 0]
-    in osc_U "RDelaySetB" [AR] AR i 1 "Delay set (Buffer)" False
-
-rDelaySetB :: UGen -> UGen -> UGen -> UGen
-rDelaySetB b i s = mkFilterMCE "RDelaySetB" [b,i] s 1
+    in u_flt 1 (u_std_mce (osc_U "RDelaySetB" [AR] AR i 1 "Delay set (Buffer)" False))
 
 rdl_dsc :: U
 rdl_dsc =
     let i = [std_I 0 "inputs" 0]
-    in osc_U "RDL" [AR] AR i 1 "Dynamic library host" False
-
-rdl :: Int -> UGen -> UGen
-rdl nc i = mkOscMCE AR "RDL" [] i nc
+    in u_ar (u_std_mce (u_nc_input (osc_U "RDL" [AR] AR i 1 "Dynamic library host" False)))
 
 rFreezer_dsc :: U
 rFreezer_dsc =
@@ -136,11 +126,7 @@ rFreezer_dsc =
             ,std_I 8 "syncPhaseTrigger" 0
             ,std_I 9 "randomizePhaseTrigger" 0
             ,std_I 10 "numberOfLoops" 6]
-    in osc_U "RFreezer" [AR] AR i 1 "Concurrent loops at signal buffer" False
-
-rFreezer :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
-rFreezer b l r g i io ir rr ps pt nl =
-    mkOsc AR "RFreezer" [b,l,r,g,i,io,ir,rr,ps,pt,nl] 1
+    in u_ar (osc_U "RFreezer" [AR] AR i 1 "Concurrent loops at signal buffer" False)
 
 rpvDecayTbl_dsc :: U
 rpvDecayTbl_dsc =
@@ -148,9 +134,6 @@ rpvDecayTbl_dsc =
             ,std_I 1 "decay_rate_buf" 0
             ,std_I 2 "history_buf" 0]
     in osc_U "RPVDecayTbl" [KR] KR i 1 "Decay bin magnitudes according to multipliers in table." False
-
-rpvDecayTbl :: UGen -> UGen -> UGen -> UGen
-rpvDecayTbl b_fft b_dcy b_hst = mkUGen Nothing [KR] (Left KR) "RPVDecayTbl" [b_fft,b_dcy,b_hst] Nothing 1 (Special 0) NoId
 
 rShufflerB_dsc :: U
 rShufflerB_dsc =
@@ -176,53 +159,12 @@ rShufflerB_dsc =
          ,std_I 19 "interOffsetTimeQuanta" 0]
  in osc_U "RShufflerB" [AR] AR i 2 "Signal shuffler (Buffer)" False
 
-rShufflerB :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
-rShufflerB b rlL rlR riL riR dL dR eaL eaR esL esR ekL ekR slM slR ioL ioR i riQ ioQ =
-    let p = [b,rlL,rlR,riL,riR,dL,dR,eaL,eaR,esL,esR,ekL,ekR,slM,slR,ioL,ioR,i,riQ,ioQ]
-    in mkOsc AR "RShufflerB" p 2
-
-{-
-
--> Sound.SC3.UGen.Record.Plain.RShufflerB
-
-data RShufflerB a = RShufflerB {bufnum :: a
-                               ,readLocationMinima :: a
-                               ,readLocationMaxima :: a
-                               ,readIncrementMinima :: a
-                               ,readIncrementMaxima :: a
-                               ,durationMinima :: a
-                               ,durationMaxima :: a
-                               ,envelopeAmplitudeMinima :: a
-                               ,envelopeAmplitudeMaxima :: a
-                               ,envelopeShapeMinima :: a
-                               ,envelopeShapeMaxima :: a
-                               ,envelopeSkewMinima :: a
-                               ,envelopeSkewMaxima :: a
-                               ,stereoLocationMinima :: a
-                               ,stereoLocationMaxima :: a
-                               ,interOffsetTimeMinima :: a
-                               ,interOffsetTimeMaxima :: a
-                               ,ftableReadLocationIncrement :: a
-                               ,readIncrementQuanta :: a
-                               ,interOffsetTimeQuanta :: a
-                               }
-
-rShufflerB_r :: RShufflerB UGen -> UGen
-rShufflerB_r r =
-    let (RShufflerB b rlL rlR riL riR dL dR eaL eaR esL esR ekL ekR slM slR ioL ioR i riQ ioQ) = r
-    in rShufflerB b rlL rlR riL riR dL dR eaL eaR esL esR ekL ekR slM slR ioL ioR i riQ ioQ
-
--}
-
 rShufflerL_dsc :: U
 rShufflerL_dsc =
     let i = [std_I 0 "in" 0
             ,std_I 1 "fragmentSize" 0.005
             ,std_I 2 "maxDelay" 0.005]
-    in osc_U "RShufflerL" [AR] AR i 1 "Signal shuffler (Linear)" False
-
-rShufflerL :: UGen -> UGen -> UGen -> UGen
-rShufflerL i fs md = mkFilterR [AR] "RShufflerL" [i,fs,md] 1
+    in u_flt 0 (osc_U "RShufflerL" [AR] AR i 1 "Signal shuffler (Linear)" False)
 
 rTraceRd_dsc :: U
 rTraceRd_dsc =
@@ -230,10 +172,7 @@ rTraceRd_dsc =
             ,std_I 1 "degree" 4
             ,std_I 2 "index" 0
             ,std_I 3 "access" 1]
-    in osc_U "RTraceRd" [AR] AR i 1 "Read trace buffer" False
-
-rTraceRd :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen
-rTraceRd rt b d ix ac = mkOsc rt "RTraceRd" [b,d,ix,ac] 1
+    in osc_U "RTraceRd" [KR,AR] AR i 1 "Read trace buffer" False
 
 rPlayTrace_dsc :: U
 rPlayTrace_dsc =
@@ -241,12 +180,8 @@ rPlayTrace_dsc =
             ,std_I 1 "degree" 4
             ,std_I 2 "rate" 0
             ,std_I 3 "access" 1]
-    in osc_U "RPlayTrace" [AR] AR i 1 "Play trace buffer" False
+    in osc_U "RPlayTrace" [KR,AR] AR i 1 "Play trace buffer" False
 
-rPlayTrace :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen
-rPlayTrace rt b d ix ac = mkOsc rt "RPlayTrace" [b,d,ix,ac] 1
-
--- > u_gen_binding tScramble_dsc
 tScramble_dsc :: U
 tScramble_dsc =
     default_u {ugen_name = "TScramble"
@@ -259,21 +194,6 @@ tScramble_dsc =
               ,ugen_nondet = True
               }
 
--- | Scramble inputs on trigger.
---
---  TScramble [IR,KR] trigger=0.0 *inputs=0.0;    MCE, FILTER: TRUE, NONDET
-tScramble :: ID a => a -> UGen -> UGen -> UGen
-tScramble z trigger inputs = mkUGen Nothing [IR,KR] (Right [0]) "TScramble" [trigger] (Just inputs) (length (mceChannels inputs) + 0) (Special 0) (toUId z)
-
-iRandN :: ID z => Int -> z -> UGen -> UGen -> UGen
-iRandN nc z l r = mkOscId (toUId z) IR "IRandN" [l,r] nc
-
-linRandN :: ID z => Int -> z -> UGen -> UGen -> UGen -> UGen
-linRandN nc z l r bias = mkOscId (toUId z) IR "LinRandN" [l,r,bias] nc
-
-randN :: ID z => Int -> z -> UGen -> UGen -> UGen
-randN nc z l r = mkOscId (toUId z) IR "RandN" [l,r] nc
-
 tRandN_dsc :: U
 tRandN_dsc =
     default_u {ugen_name = "TRandN"
@@ -284,43 +204,31 @@ tRandN_dsc =
               ,ugen_filter = Just [2]
               ,ugen_nondet = True
               }
--- | Generate new random values on trigger.
---
---  TRandN [KR] lo=0.0 hi=1.0 trigger=0.0;    NC INPUT: True, FILTER: TRUE, NONDET
-tRandN :: ID a => Int -> a -> UGen -> UGen -> UGen -> UGen
-tRandN numChannels z lo hi trigger = mkUGen Nothing [KR] (Right [2]) "TRandN" [lo,hi,trigger] Nothing numChannels (Special 0) (toUId z)
 
--- * Monadic
-
-dustRM :: UId m => Rate -> UGen -> UGen -> m UGen
-dustRM = liftUId3 dustR
-
-expRandNM :: UId m => Int -> UGen -> UGen -> m UGen
-expRandNM nc = liftUId2 (expRandN nc)
-
-iRandNM :: UId m => Int -> UGen -> UGen -> m UGen
-iRandNM nc = liftUId2 (iRandN nc)
-
-linRandNM :: UId m => Int -> UGen -> UGen -> UGen -> m UGen
-linRandNM nc = liftUId3 (linRandN nc)
-
-randNM :: UId m => Int -> UGen -> UGen -> m UGen
-randNM nc = liftUId2 (randN nc)
-
-tScrambleM :: UId m => UGen -> UGen -> m UGen
-tScrambleM = liftUId2 tScramble
+-- * DB
 
 rdu_db :: [U]
 rdu_db =
     [dustR_dsc
-    ,expRandN_dsc,randN_dsc,tRandN_dsc
+    ,expRandN_dsc
+    ,iRandN_dsc
+    ,linRandN_dsc
+    ,pv_Split_dsc
+    ,randN_dsc
+    ,rBezier_dsc
     ,rDelayMap_dsc
-    ,rDelaySet_dsc,rDelaySetB_dsc
+    ,rDelaySet_dsc
+    ,rDelaySetB_dsc
     ,rdl_dsc
     ,rFreezer_dsc
-    ,rShufflerB_dsc,rShufflerL_dsc
-    ,rTraceRd_dsc,rPlayTrace_dsc
-    ,tScramble_dsc]
+    ,rPlayTrace_dsc
+    ,rpvDecayTbl_dsc
+    ,tRandN_dsc
+    ,tScramble_dsc
+    ,rShufflerB_dsc
+    ,rShufflerL_dsc
+    ,rTraceRd_dsc
+    ]
 
 gen_bindings :: IO ()
 gen_bindings =

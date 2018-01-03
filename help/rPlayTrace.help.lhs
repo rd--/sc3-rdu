@@ -1,5 +1,6 @@
+> import Sound.OSC {- hosc -}
 > import Sound.SC3 {- hsc3 -}
-> import Sound.SC3.UGen.External.RDU {- sc3-rdu -}
+> import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}
 
     Sound.SC3.UGen.DB.Record.u_summary rPlayTrace_dsc
 
@@ -15,7 +16,7 @@ A trace that traverses a diamond in equal time increments.
 >     ,3/4,  0,   0, 0
 >     ,  1, -1, 1/4, 0]
 
-    withSC3 (send (b_alloc_setn1 0 0 tr_01))
+    withSC3 (sendMessage (b_alloc_setn1 0 0 tr_01))
 
 The X element of the trace is [-1, 0, 1, 0, -1].
 
@@ -42,4 +43,4 @@ Altering the time points (subtly...)
 >     ,1/2,  0,   0, 0
 >     ,  1, -1, 1/4, 0]
 
-    withSC3 (send (b_setn1 0 0 tr_02))
+    withSC3 (sendMessage (b_setn1 0 0 tr_02))

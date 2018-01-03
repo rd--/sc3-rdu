@@ -1,5 +1,5 @@
-> import Sound.SC3
-> import Sound.SC3.UGen.External.RDU
+> import Sound.SC3 {- hsc3 -}
+> import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}
 
     audition (out 0 (spl1 (1024 * 2) (-) (soundIn 0)))
     audition (out 0 (spl1 (1024 * 16) (+) (soundIn 0)))
