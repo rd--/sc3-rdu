@@ -1,6 +1,6 @@
 ;; (dust-r rate lo hi)
 
-(import (rsc3))
+(import (rsc3) (rsc3 dot))
 
 (define dust-r (mk-oscillator-id "DustR" (lo hi) 1))
 

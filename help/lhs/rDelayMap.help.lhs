@@ -1,7 +1,7 @@
 > import Sound.SC3 {- hsc3 -}
 > import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}
 
-    Sound.SC3.UGen.DB.Record.u_summary rDelayMap_dsc
+    Sound.SC3.UGen.DB.Record.u_summary Sound.SC3.UGen.External.RDU.rDelayMap_dsc
 
 Simple delay (static)
 

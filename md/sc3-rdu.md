@@ -3,9 +3,9 @@
 Generates triggers where the inter-offset times are generated randomly
 in the specified range (seconds) with linear distribution.
 
-[[help.lhs](?t=sc3-rdu&e=help/dustR.help.lhs),
- [help.scd](?t=sc3-rdu&e=help/DustR.help.scd),
- [help.scm](?t=sc3-rdu&e=help/dust-r.help.scm)]
+[[help.lhs](?t=sc3-rdu&e=help/lhs/dustR.help.lhs),
+ [help.scd](?t=sc3-rdu&e=help/scd/DustR.help.scd),
+ [help.scm](?t=sc3-rdu&e=help/scm/dust-r.help.scm)]
 
 ## PV_Split
 
@@ -27,15 +27,15 @@ Variant of `PV_Copy` that returns both signal paths.
                               .-> pv2 -> ifft2 -> ...
 ~~~~
 
-[[help.lhs](?t=sc3-rdu&e=help/pv_split.help.lhs)]
+[[help.lhs](?t=sc3-rdu&e=help/lhs/pv_split.help.lhs)]
 
 ## *RandN
 
 `ExpRandN`, `IRandN`, `LinRandN` and `RandN`.  Multiple channel
 variants of the standard SC3 UGens.
 
-[[expRandN.help.lhs](?t=sc3-rdu&e=help/expRandN.help.lhs),
- [randN.help.lhs](?t=sc3-rdu&e=help/randN.help.lhs)]
+[[expRandN.help.lhs](?t=sc3-rdu&e=help/lhs/expRandN.help.lhs),
+ [randN.help.lhs](?t=sc3-rdu&e=help/lhs/randN.help.lhs)]
 
 ## RDelayMap
 
@@ -51,35 +51,35 @@ multiply, four is divide.  The gain is linear.  This UGen is
 useful for implementing nested filters, as described by William
 Gardner in his MS thesis _The Virtual Acoustic Room_, MIT 1992.
 
-[[help.lhs](?t=sc3-rdu&e=help/rDelayMap.help.lhs),
- [help.scd](?t=sc3-rdu&e=help/RDelayMap.help.scd),
- [help.scm](?t=sc3-rdu&e=help/r-delay-map.help.scm)]
+[[help.lhs](?t=sc3-rdu&e=help/lhs/rDelayMap.help.lhs),
+ [help.scd](?t=sc3-rdu&e=help/scd/RDelayMap.help.scd),
+ [help.scm](?t=sc3-rdu&e=help/scm/r-delay-map.help.scm)]
 
 ## RDelaySet*
 
 Set of delays, with buffer variant.
 
-[[RDelaySet.help.lhs](?t=sc3-rdu&e=help/rDelaySet.help.lhs),
- [RDelaySet.help.scd](?t=sc3-rdu&e=help/RDelaySet.help.scd),
- [RDelaySetB.help.lhs](?t=sc3-rdu&e=help/rDelaySetB.help.lhs),
- [RDelaySetB.help.scd](?t=sc3-rdu&e=help/RDelaySetB.help.scd)]
+[[RDelaySet.help.lhs](?t=sc3-rdu&e=help/lhs/rDelaySet.help.lhs),
+ [RDelaySet.help.scd](?t=sc3-rdu&e=help/scd/RDelaySet.help.scd),
+ [RDelaySetB.help.lhs](?t=sc3-rdu&e=help/lhs/rDelaySetB.help.lhs),
+ [RDelaySetB.help.scd](?t=sc3-rdu&e=help/scd/RDelaySetB.help.scd)]
 
 ## RDL
 
 DSP dynamic library host for [hdf](?t=hdf) data-flow graphs.
 
-[[help.lhs](?t=sc3-rdu&e=help/rdl.help.lhs)]
+[[help.lhs](?t=sc3-rdu&e=help/lhs/rdl.help.lhs)]
 
 ## RFreezer
 
 Concurrent loops at a signal buffer
 
 Create a set of concurrent loops at a signal buffer.  This is the
-dynamic and gestural variant of RLoopSet.  It wass written after
+dynamic and gestural variant of RLoopSet.  It was written after
 reading the manual for the GRM Tools 'Freeze' plugin.
 
-[[help.lhs](?t=sc3-rdu&e=help/rFreezer.help.lhs),
- [help.scd](?t=sc3-rdu&e=help/RFreezer.help.scd)]
+[[help.lhs](?t=sc3-rdu&e=help/lhs/rFreezer.help.lhs),
+ [help.scd](?t=sc3-rdu&e=help/scd/RFreezer.help.scd)]
 
 ## RLoopSet
 
@@ -105,14 +105,14 @@ Buffer Left                                  Buffer Right
             Loop Left      Loop Right
 ~~~~
 
-[[help.scd](?t=sc3-rdu&e=help/RLoopSet.help.scd)]
+[[help.scd](?t=sc3-rdu&e=help/scd/RLoopSet.help.scd)]
 
 ## RPlayTrace
 
 Play a buffer that is arranged as a trace.  A trace is a sequence of
 tuples (T,X,Y,Z).
 
-[[help.lhs](?t=sc3-rdu&e=help/rPlayTrace.help.lhs)]
+[[help.lhs](?t=sc3-rdu&e=help/lhs/rPlayTrace.help.lhs)]
 
 ## RPVDecayTbl
 
@@ -121,32 +121,32 @@ but decays them according to a set of multipliers given in a table.
 At each frame each partial decays by the amount indicated in the table,
 if the decaying value is below the input value it is reset.
 
-[[help.lhs](?t=sc3-rdu&e=help/rpvDecayTbl.help.lhs)]
+[[help.lhs](?t=sc3-rdu&e=help/lhs/rpvDecayTbl.help.lhs)]
 
 ## RShufflerB
 
 A signal shuffler
 
-[[help.lhs](?t=sc3-rdu&e=help/rShufflerB.help.lhs),
- [help.scd](?t=sc3-rdu&e=help/RShufflerB.help.scd)]
+[[help.lhs](?t=sc3-rdu&e=help/lhs/rShufflerB.help.lhs),
+ [help.scd](?t=sc3-rdu&e=help/scd/RShufflerB.help.scd)]
 
 ## RShufflerL
 
 Linear signal shuffler.
 
-[[help.lhs](?t=sc3-rdu&e=help/rShufflerL.help.lhs),
- [help.scd](?t=sc3-rdu&e=help/RShufflerL.help.scd)]
+[[help.lhs](?t=sc3-rdu&e=help/lhs/rShufflerL.help.lhs),
+ [help.scd](?t=sc3-rdu&e=help/scd/RShufflerL.help.scd)]
 
 ## RTraceRd
 
 Read a buffer that is arranged as a trace.  A trace is a sequence of
 tuples (T,X,Y,Z).
 
-[[help.lhs](?t=sc3-rdu&e=help/rTraceRd.help.lhs),
- [help.scd](?t=sc3-rdu&e=help/RTraceRd.help.scd)]
+[[help.lhs](?t=sc3-rdu&e=help/lhs/rTraceRd.help.lhs),
+ [help.scd](?t=sc3-rdu&e=help/scd/RTraceRd.help.scd)]
 
 ## TScramble
 
 Scramble inputs on trigger.
 
-[[help.lhs](?t=sc3-rdu&e=help/tScramble.help.lhs)]
+[[help.lhs](?t=sc3-rdu&e=help/lhs/tScramble.help.lhs)]
