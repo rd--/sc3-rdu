@@ -36,4 +36,4 @@ dynamic shifting of control points
 
 > g_05 = soundIn 0 * range 0.25 1 (f_01 KR (0.15,16) 0.5)
 
-see hsc3-data/Data.CG.Minus.Bezier for rendering bezier curves as wavetable
+see hcg-minus:Data.CG.Minus.Bezier for rendering bezier curves as wavetable
