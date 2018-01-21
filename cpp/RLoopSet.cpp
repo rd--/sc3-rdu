@@ -30,16 +30,16 @@ struct RLoopSet : public Unit
 rdu_prototypes(RLoopSet);
 
 #define BUFFER_NUMBER             0
-#define GROUP_LEFT                ZIN0(1)
-#define GROUP_RIGHT               ZIN0(2)
-#define GROUP_GAIN                ZIN0(3)
-#define GROUP_INCREMENT           ZIN0(4)
+#define GROUP_LEFT                IN0(1)
+#define GROUP_RIGHT               IN0(2)
+#define GROUP_GAIN                IN0(3)
+#define GROUP_INCREMENT           IN0(4)
 #define FIXED_INPUTS              5
 
-#define LOOP_LEFT(N)              ZIN0(FIXED_INPUTS+0+(N*4))
-#define LOOP_RIGHT(N)             ZIN0(FIXED_INPUTS+1+(N*4))
-#define LOOP_GAIN(N)              ZIN0(FIXED_INPUTS+2+(N*4))
-#define LOOP_INCREMENT(N)         ZIN0(FIXED_INPUTS+3+(N*4))
+#define LOOP_LEFT(N)              IN0(FIXED_INPUTS+0+(N*4))
+#define LOOP_RIGHT(N)             IN0(FIXED_INPUTS+1+(N*4))
+#define LOOP_GAIN(N)              IN0(FIXED_INPUTS+2+(N*4))
+#define LOOP_INCREMENT(N)         IN0(FIXED_INPUTS+3+(N*4))
 
 /* Return an index near `index' that corresponds to an ascending zero
    crossing at `sound'. If no zero crossing is located returns

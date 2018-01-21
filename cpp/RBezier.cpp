@@ -26,19 +26,10 @@ extern "C" {
                                                     x0 y0 cx0 cy0 cx1 cy1 x1 y1
 */
 
-#define x0(i) ZIN0(i+0)
-#define y0(i) ZIN0(i+1)
-#define x1(i) ZIN0(i+2)
-#define y1(i) ZIN0(i+3)
-#define x2(i) ZIN0(i+4)
-#define y2(i) ZIN0(i+5)
-#define x3(i) ZIN0(i+6)
-#define y3(i) ZIN0(i+7)
-
 void RBezier_next(RBezier * unit, int inNumSamples) {
   float *out = OUT(0);
   float ph = unit->m_phase;
-  float ph_incr = ZIN0(0) / unit->mRate->mSampleRate;
+  float ph_incr = IN0(0) / unit->mRate->mSampleRate;
   assert(ph_incr > 0.0 && ph_incr <= 1.0);
   for (int i = 0; i < inNumSamples; i++) {
     bool coherent = false;
@@ -46,18 +37,21 @@ void RBezier_next(RBezier * unit, int inNumSamples) {
     assert(ph >= 0.0 && ph <= 1.0);
     for (int j = 0; j < unit->m_points; j++) {
       int pt = 2 + (j * 6);
-      if (ph >= x0(pt) && ph <= x3(pt)) {
-        out[i] = bezier4_y_mt(CFG_HALT_AFTER, 0.0001,
-                              x0(pt), y0(pt),
-                              x1(pt), y1(pt),
-                              x2(pt), y2(pt),
-                              x3(pt), y3(pt),
-                              ph);
+      float x0 = IN0(pt+0);
+      float x3 = IN0(pt+6);
+      /* printf("i=%i, j=%i, pt=%d, ph=%.3f, x0=%.3f, x3=%.3f\n",i, j, pt, ph, x0, x3); */
+      if (ph >= x0 && ph <= x3) {
+        float y0 = IN0(pt+1);
+        float x1 = IN0(pt+2);
+        float y1 = IN0(pt+3);
+        float x2 = IN0(pt+4);
+        float y2 = IN0(pt+5);
+        float y3 = IN0(pt+7);
+        /* printf("(%.3f,.3%f) (%.3f,%.3f) (%.3f,%.3f) (%.3f,%.3f)\n", x0, y0, x1, y1, x2, y2, x3, y3); */
+        out[i] = bezier4_y_mt(CFG_HALT_AFTER, 0.0001, x0, y0, x1, y1, x2, y2, x3, y3, ph);
         coherent = true;
-#if 0
-        printf("%i/%i (%.3f,.3%f) (%.3f,%.3f) (%.3f,%.3f) (%.3f,%.3f) %.3f/%.3f\n", i, j,
-               x0(pt), y0(pt), x1(pt), y1(pt), x2(pt), y2(pt), x3(pt), y3(pt), ph, out[i]);
-#endif
+        /* printf("out[i]=%.3f\n",out[i]); */
+        break;
       }
     }
     if (!coherent) {
@@ -72,11 +66,11 @@ void RBezier_next(RBezier * unit, int inNumSamples) {
 }
 
 void RBezier_Ctor(RBezier * unit) {
-  unit->m_phase = ZIN0(1);
+  unit->m_phase = IN0(1);
   unit->m_points = 1 + ((unit->mNumInputs - 4) / 6);
   printf("RBezier: initial-phase = %0.3f, # points = %d\n", unit->m_phase, unit->m_points);
   SETCALC(RBezier_next);
-  assert(ZIN0(1) >= 0.0 && ZIN0(1) <= 1.0);
+  assert(IN0(1) >= 0.0 && IN0(1) <= 1.0);
   assert((int) unit->mNumInputs == ((unit->m_points - 1) * 6) + 4);
   RBezier_next(unit, 1);
 }

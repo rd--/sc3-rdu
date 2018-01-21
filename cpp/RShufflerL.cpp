@@ -68,8 +68,8 @@ void RShufflerL_next(RShufflerL *unit,int inNumSamples)
 {
   float *in = IN(0);
   float *out = OUT(0);
-  float fragment_size = ZIN0(1);
-  float max_delay = ZIN0(2);
+  float fragment_size = IN0(1);
+  float max_delay = IN0(2);
   for(int i = 0; i < inNumSamples; i++) {
     if(unit->m_next == unit->m_count) {
       int size = int(fragment_size * SAMPLERATE);

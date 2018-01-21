@@ -33,7 +33,7 @@ void TScramble_Ctor(TScramble* unit)
   unit->m_store = (float*)RTAlloc(unit->mWorld, k * sizeof(float));
   unit->m_prev_t = 0;
   for (i=0;i<k;i++) {
-    ZOUT0(i) = ZIN0(i+1);
+    OUT0(i) = IN0(i+1);
   }
   SETCALC(TScramble_next);
 }
@@ -42,15 +42,15 @@ void TScramble_next(TScramble *unit,int inNumSamples)
 {
   int i;
   int k = unit->mNumInputs - 1;
-  float t = ZIN0(0);
+  float t = IN0(0);
   if (t > 0.0 && unit->m_prev_t <= 0.0) {
     for (i=0; i<k; i++) {
-      unit->m_store[i] = ZIN0(i+1);
+      unit->m_store[i] = IN0(i+1);
     }
     uscramble(unit);
   }
   for (i=0; i<k; i++) {
-    ZOUT0(i) = unit->m_store[i];
+    OUT0(i) = unit->m_store[i];
   }
   unit->m_prev_t = t;
 }

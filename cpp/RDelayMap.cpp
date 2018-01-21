@@ -48,10 +48,10 @@ void RDelayMap_Setup(RDelayMap *unit)
   int i,j;
   float location_max = 0.0;
   for(i = 0,j = Map_Offset; i < unit->m_map_n; i++,j += 4) {
-    unit->m_map[i].src = (int)(ZIN0(j) * SAMPLERATE);
-    unit->m_map[i].dst = (int)(ZIN0(j + 1) * SAMPLERATE);
-    unit->m_map[i].op = (enum Operation)ZIN0(j + 2);
-    unit->m_map[i].gain = ZIN0(j + 3);
+    unit->m_map[i].src = (int)(IN0(j) * SAMPLERATE);
+    unit->m_map[i].dst = (int)(IN0(j + 1) * SAMPLERATE);
+    unit->m_map[i].op = (enum Operation)IN0(j + 2);
+    unit->m_map[i].gain = IN0(j + 3);
     if(unit->m_map[i].src > location_max){
       location_max = unit->m_map[i].src;
     }
@@ -114,7 +114,7 @@ void RDelayMap_next(RDelayMap *unit,int inNumSamples)
 {
   rdu_get_buf(dl,0);
   rdu_check_buf(dl,1);
-  if((int)ZIN0(2) > 0) {
+  if((int)IN0(2) > 0) {
     RDelayMap_Setup(unit);
   }
   float *out = OUT(0);

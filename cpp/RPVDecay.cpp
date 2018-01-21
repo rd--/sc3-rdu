@@ -18,14 +18,6 @@ struct RPVDecayTbl:PV_Unit
 
 rdu_prototypes(RPVDecayTbl);
 
-void RPVDecayTbl_Ctor(RPVDecayTbl * unit)
-{
-    ZOUT0(0) = ZIN0(0);
-    rdu_init_buf(dr);
-    rdu_init_buf(dl);
-    SETCALC(RPVDecayTbl_next);
-}
-
 void RPVDecayTbl_next(RPVDecayTbl * unit, int inNumSamples)
 {
     PV_GET_BUF
@@ -46,6 +38,14 @@ void RPVDecayTbl_next(RPVDecayTbl * unit, int inNumSamples)
             p->bin[i].mag = x;
         }
     }
+}
+
+void RPVDecayTbl_Ctor(RPVDecayTbl * unit)
+{
+    rdu_init_buf(dr);
+    rdu_init_buf(dl);
+    SETCALC(RPVDecayTbl_next);
+    RPVDecayTbl_next(unit, 1);
 }
 
 void init_SCComplex(InterfaceTable * inTable);

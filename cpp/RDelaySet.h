@@ -27,9 +27,9 @@ tap_t;
   unit->m_tap_n =(unit->mNumInputs - offset) / 3;       \
   int i,j;                                              \
   for(i = 0,j = offset; i < unit->m_tap_n; i++,j+=3) {	\
-    unit->m_tap[i].location = ZIN0(j) * SAMPLERATE;     \
-    unit->m_tap[i].feed_forward = ZIN0(j + 1);		\
-    unit->m_tap[i].feed_backward = ZIN0(j + 2);		\
+    unit->m_tap[i].location = IN0(j) * SAMPLERATE;      \
+    unit->m_tap[i].feed_forward = IN0(j + 1);		\
+    unit->m_tap[i].feed_backward = IN0(j + 2);		\
     if(unit->m_tap[i].location > location_max) {        \
       location_max = unit->m_tap[i].location;           \
     }                                                   \

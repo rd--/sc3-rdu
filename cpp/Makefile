@@ -5,7 +5,7 @@ T = $(D)/lib/SuperCollider/plugins
 S = $(D)/include/SuperCollider
 I = -I$(S)/plugin_interface \
     -I$(S)/common
-O = -O2 -fPIC -ffast-math -mmmx -msse -funroll-loops
+O = -O2 -fPIC -ffast-math -msse2
 P = DustR.so \
     PV_Split.so \
     RandN.so \

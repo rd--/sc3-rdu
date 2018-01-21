@@ -42,16 +42,16 @@ struct RFreezer : public Unit
 rdu_prototypes(RFreezer);
 
 #define BUFFER_NUMBER             0
-#define GROUP_LEFT                ZIN0(1)
-#define GROUP_RIGHT               ZIN0(2)
-#define GROUP_GAIN                ZIN0(3)
-#define GROUP_INCREMENT           ZIN0(4)
-#define INCREMENT_OFFSET          ZIN0(5)
-#define INCREMENT_RANDOM          ZIN0(6)
-#define RIGHT_RANDOM              ZIN0(7)
-#define PHASE_SYNCHRONIZE_TRIGGER ZIN0(8)
-#define PHASE_RANDOMIZE_TRIGGER   ZIN0(9)
-#define LOOP_COUNT                ZIN0(10)
+#define GROUP_LEFT                IN0(1)
+#define GROUP_RIGHT               IN0(2)
+#define GROUP_GAIN                IN0(3)
+#define GROUP_INCREMENT           IN0(4)
+#define INCREMENT_OFFSET          IN0(5)
+#define INCREMENT_RANDOM          IN0(6)
+#define RIGHT_RANDOM              IN0(7)
+#define PHASE_SYNCHRONIZE_TRIGGER IN0(8)
+#define PHASE_RANDOMIZE_TRIGGER   IN0(9)
+#define LOOP_COUNT                IN0(10)
 
 /* Return an index near `index' that corresponds to an ascending zero
    crossing at `sound'. If no zero crossing is located returns

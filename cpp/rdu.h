@@ -43,7 +43,7 @@ extern "C"                                              \
    m_buf_id to the buffer number.  Handles local buffers.  */
 
 #define rdu_get_buf(nm,n)                                               \
-    uint32 l_buf_id_##nm = (uint32) sc_max(0.f,ZIN0(n));                \
+    uint32 l_buf_id_##nm = (uint32) sc_max(0.f,IN0(n));                 \
     if(l_buf_id_##nm != unit->m_buf_id_##nm) {                          \
         World *l_world = unit->mWorld;                                  \
         if(l_buf_id_##nm < 0) {                                         \
@@ -103,7 +103,7 @@ extern "C"                                              \
 #define rdu_get_controls(n)                     \
     float controls[n];                          \
     for(int i = 0; i < n; i++) {                \
-        controls[i] = ZIN0(i);                  \
+        controls[i] = IN0(i);                   \
     }
 
 #define rdu_load(name)                          \
