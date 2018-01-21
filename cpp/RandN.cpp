@@ -109,6 +109,7 @@ void TRandN_Ctor(TRandN* unit)
     TRandN_cpy(unit);
     SETCALC(TRandN_next_k);
     unit->m_trig = ZIN0(2);
+    TRandN_next_k(unit, 1);
 }
 
 void TRandN_Dtor(TRandN *unit)

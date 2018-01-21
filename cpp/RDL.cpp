@@ -93,6 +93,14 @@ void rdl_g_load (Unit *unit, struct sc_msg_iter *args) {
                         0, 0);
 }
 
+void RDL_next(RDL *unit, int inNumSamples) {
+  if(unit->m_online) {
+    unit->m_dsp_step(unit,inNumSamples);
+  } else {
+    rdu_zero_outputs();
+  }
+}
+
 void RDL_Ctor(RDL* unit) {
   unit->m_online = false;
   unit->m_dsp_fd = NULL;
@@ -100,14 +108,7 @@ void RDL_Ctor(RDL* unit) {
   unit->m_dsp_st = NULL;
   DefineUnitCmd("RDL","/g_load",rdl_g_load);
   SETCALC(RDL_next);
-}
-
-void RDL_next(RDL *unit, int inNumSamples) {
-  if(unit->m_online) {
-    unit->m_dsp_step(unit,inNumSamples);
-  } else {
-    rdu_zero_outputs();
-  }
+  RDL_next(unit, 1);
 }
 
 void RDL_Dtor(RDL* unit) {

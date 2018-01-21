@@ -2,7 +2,7 @@
 > import Sound.SC3 {- hsc3 -}
 > import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}
 
-    Sound.SC3.UGen.DB.Record.u_summary rpvDecayTbl_dsc
+    Sound.SC3.UGen.DB.Record.u_summary Sound.SC3.UGen.External.RDU.rpvDecayTbl_dsc
 
 allocate and fill buffers
 
@@ -26,5 +26,6 @@ decay system
 
 reset decay rate buffer
 
-    withSC3 (send (b_fill 11 [(0,1024,0.05)]))
-    withSC3 (send (b_fill 11 [(96,32,0.95)]))
+    withSC3 (sendMessage (b_fill 11 [(0,1024,0.95)]))
+    withSC3 (sendMessage (b_fill 11 [(0,1024,0.05)]))
+    withSC3 (sendMessage (b_fill 11 [(96,32,0.95)]))

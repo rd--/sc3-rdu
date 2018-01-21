@@ -16,6 +16,11 @@ struct RDelaySet : public Unit
 
 rdu_prototypes_dtor(RDelaySet);
 
+void RDelaySet_next(RDelaySet *unit,int inNumSamples)
+{
+  rdelayset_next_common(0);
+}
+
 void RDelaySet_Ctor(RDelaySet *unit)
 {
   rdelayset_ctor_common(1);
@@ -28,11 +33,7 @@ void RDelaySet_Ctor(RDelaySet *unit)
     unit->m_tap_n = 0;
   }
   SETCALC(RDelaySet_next);
-}
-
-void RDelaySet_next(RDelaySet *unit,int inNumSamples)
-{
-  rdelayset_next_common(0);
+  RDelaySet_next(unit, 1);
 }
 
 void RDelaySet_Dtor(RDelaySet *unit)

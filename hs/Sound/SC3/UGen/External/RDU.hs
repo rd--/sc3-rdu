@@ -85,7 +85,7 @@ rBezier_dsc =
           ,std_I 1 "phase" 0
           ,std_I 2 "param" 0]
       dsc = "Bezier curve oscillator."
-  in u_std_mce (osc_U "RBezier" [AR] AR i 1 dsc False)
+  in u_std_mce (osc_U "RBezier" [KR,AR] AR i 1 dsc False)
 
 rDelayMap_dsc :: U
 rDelayMap_dsc =

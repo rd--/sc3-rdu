@@ -48,9 +48,9 @@ randN numChannels z lo hi = mkUGen Nothing [IR] (Left IR) "RandN" [lo,hi] Nothin
 
 -- | Bezier curve oscillator.
 --
---  RBezier [AR] freq=440.0 phase=0.0 *param=0.0;    MCE
+--  RBezier [KR,AR] freq=440.0 phase=0.0 *param=0.0;    MCE
 rBezier :: Rate -> UGen -> UGen -> UGen -> UGen
-rBezier rate freq phase param = mkUGen Nothing [AR] (Left rate) "RBezier" [freq,phase] (Just param) 1 (Special 0) NoId
+rBezier rate freq phase param = mkUGen Nothing [KR,AR] (Left rate) "RBezier" [freq,phase] (Just param) 1 (Special 0) NoId
 
 -- | Network of delay line maps
 --

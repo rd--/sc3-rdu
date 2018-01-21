@@ -1,10 +1,10 @@
 > import Sound.SC3 {- hsc3 -}
 > import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}
-> import Sound.SC3.UGen.Record.Plain.RFreezer {- hsc3-rec -}
+> import qualified Sound.SC3.UGen.Record.Plain.RFreezer as R {- hsc3-rec -}
 
 Create a set of concurrent loops at a signal buffer.
 
-    Sound.SC3.UGen.DB.Record.u_summary rFreezer_dsc
+    Sound.SC3.UGen.DB.Record.u_summary Sound.SC3.UGen.External.RDU.rFreezer_dsc
 
 Allocate buffer (#10), required for all examples below.
 
@@ -51,18 +51,19 @@ K-rate & record interface
 
 > gr_07 =
 >     let n z i j = linLin (lfNoise2 z KR 0.1) (-1) 1 i j
->         r = RFreezer {rate = AR
->                      ,bufnum = 10
->                      ,left = n 'α' 0.3 0.4
->                      ,right = n 'β' 0.5 0.6
->                      ,gain = n 'γ' 0.3 0.6
->                      ,increment = n 'δ' 0.05 0.15
->                      ,incrementOffset = n 'ε' 0.05 0.15
->                      ,incrementRandom = n 'ζ' 0.05 0.15
->                      ,rightRandom = n 'η' 0.05 0.15
->                      ,syncPhaseTrigger = 0
->                      ,randomizePhaseTrigger = 0
->                      ,numberOfLoops = 6}
->     in mkRFreezer r
+>         r = R.RFreezer
+>             {R.rate = AR
+>             ,R.bufnum = 10
+>             ,R.left = n 'α' 0.3 0.4
+>             ,R.right = n 'β' 0.5 0.6
+>             ,R.gain = n 'γ' 0.3 0.6
+>             ,R.increment = n 'δ' 0.05 0.15
+>             ,R.incrementOffset = n 'ε' 0.05 0.15
+>             ,R.incrementRandom = n 'ζ' 0.05 0.15
+>             ,R.rightRandom = n 'η' 0.05 0.15
+>             ,R.syncPhaseTrigger = 0
+>             ,R.randomizePhaseTrigger = 0
+>             ,R.numberOfLoops = 6}
+>     in R.mkRFreezer r
 
     audition (out 0 (soundIn 0))

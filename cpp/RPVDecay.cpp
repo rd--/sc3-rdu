@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include <SC_fftlib.h>
 #include <FFT_UGens.h>
 #include <SCComplex.h>

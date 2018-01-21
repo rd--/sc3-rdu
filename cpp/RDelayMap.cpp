@@ -62,15 +62,6 @@ void RDelayMap_Setup(RDelayMap *unit)
   unit->m_signal_n = (int) ceil(location_max) + 1;
 }
 
-void RDelayMap_Ctor(RDelayMap *unit)
-{
-  rdu_init_buf(dl);
-  unit->m_map_n = (unit->mNumInputs - Map_Offset) / 4;
-  RDelayMap_Setup(unit);
-  SETCALC(RDelayMap_next);
-  unit->m_write_index = 0;
-  unit->m_signal = NULL;
-}
 
 /* Mappings are made in order.  Negative values for input and output
    indices indicate the input and output signal boxes respectively.
@@ -137,6 +128,17 @@ void RDelayMap_next(RDelayMap *unit,int inNumSamples)
   for(int i = 0; i < inNumSamples; i++){
     out[i] = RDelayMap_step(unit,in[i]);
   }
+}
+
+void RDelayMap_Ctor(RDelayMap *unit)
+{
+  rdu_init_buf(dl);
+  unit->m_map_n = (unit->mNumInputs - Map_Offset) / 4;
+  RDelayMap_Setup(unit);
+  SETCALC(RDelayMap_next);
+  unit->m_write_index = 0;
+  unit->m_signal = NULL;
+  RDelayMap_next(unit, 1);
 }
 
 rdu_load(RDelayMap);
