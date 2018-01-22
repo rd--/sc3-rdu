@@ -4,7 +4,7 @@
 
 A buffer signal shuffler.
 
-    Sound.SC3.UGen.DB.Record.u_summary rShufflerB_dsc
+    Sound.SC3.UGen.DB.Record.u_summary Sound.SC3.UGen.External.RDU.rShufflerB_dsc
 
 Allocate buffer (#10), required for all examples below.
 

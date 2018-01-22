@@ -3,7 +3,7 @@
 > import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}
 > import qualified Sound.SC3.Data.Trace as T {- hsc3-data -}
 
-    Sound.SC3.UGen.DB.Record.u_summary rTraceRd_dsc
+    Sound.SC3.UGen.DB.Record.u_summary Sound.SC3.UGen.External.RDU.rTraceRd_dsc
 
 UGens to read a buffer that is arranged as a trace.  A trace is a
 sequence of tuples (T,X...) where the number of data points (including
@@ -22,7 +22,7 @@ A trace that traverses a diamond in equal time increments.
 
 The X element of the trace is [-1, 0, 1, 0, -1].
 
-Printing (see scserver console output stream)
+Printing only (no audio, see scserver console output stream)
 
 > gr_01 =
 >     let t = impulse KR 5 0
