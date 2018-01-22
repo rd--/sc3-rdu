@@ -30,9 +30,9 @@ iRandN numChannels z lo hi = mkUGen Nothing [IR] (Left IR) "IRandN" [lo,hi] Noth
 
 -- | Multi-channel variant of LinRand
 --
---  LinRandN [IR] lo=1.0e-4 hi=1.0;    NC INPUT: True, NONDET
-linRandN :: ID a => Int -> a -> UGen -> UGen -> UGen
-linRandN numChannels z lo hi = mkUGen Nothing [IR] (Left IR) "LinRandN" [lo,hi] Nothing numChannels (Special 0) (toUId z)
+--  LinRandN [IR] lo=1.0e-4 hi=1.0 minmax=0.0;    NC INPUT: True, NONDET
+linRandN :: ID a => Int -> a -> UGen -> UGen -> UGen -> UGen
+linRandN numChannels z lo hi minmax = mkUGen Nothing [IR] (Left IR) "LinRandN" [lo,hi,minmax] Nothing numChannels (Special 0) (toUId z)
 
 -- | Copies spectral frame (ie. PV_Copy with two outputs).
 --

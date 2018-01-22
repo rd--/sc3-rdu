@@ -61,7 +61,8 @@ iRandN_dsc =
 linRandN_dsc :: U
 linRandN_dsc =
     let i = [std_I 0 "lo" 0.0001
-            ,std_I 1 "hi" 1.0]
+            ,std_I 1 "hi" 1.0
+            ,std_I 1 "minmax" 0.0]
         dsc = "Multi-channel variant of LinRand"
     in u_ir (u_nc_input (osc_U "LinRandN" [IR] IR i (-1) dsc True))
 
