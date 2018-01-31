@@ -23,6 +23,7 @@ Library
   GHC-Options:     -Wall -fwarn-tabs
   Exposed-modules: Sound.SC3.UGen.External.RDU
                    Sound.SC3.UGen.Bindings.DB.RDU
+                   Sound.SC3.UGen.Bindings.DB.RDU.Monadic
 
 Source-Repository  head
   Type:            darcs

@@ -1,7 +1,7 @@
 > import Sound.SC3 {- hsc3 -}
 > import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}
 
-    Sound.SC3.UGen.DB.Record.u_summary Sound.SC3.UGen.External.RDU.rBezier_dsc
+    Sound.SC3.UGen.DB.Record.u_summary Sound.SC3.UGen.External.RDU.rLagC_dsc
 
 > g_01 =
 >   let x = mouseX KR 220 440 Linear 0.2
