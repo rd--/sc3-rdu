@@ -82,6 +82,12 @@ rdl numChannels inputs = mkUGen Nothing [AR] (Left AR) "RDL" [] (Just inputs) nu
 rFreezer :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 rFreezer rate bufnum left right gain increment incrementOffset incrementRandom rightRandom syncPhaseTrigger randomizePhaseTrigger numberOfLoops = mkUGen Nothing [AR] (Left rate) "RFreezer" [bufnum,left,right,gain,increment,incrementOffset,incrementRandom,rightRandom,syncPhaseTrigger,randomizePhaseTrigger,numberOfLoops] Nothing 1 (Special 0) NoId
 
+-- | Separate curve up/down lag.
+--
+--  RLagC [KR,AR] in=0.0 lagTimeU=0.1 curveU=0.0 lagTimeD=0.1 curveD=0.0;    FILTER: TRUE
+rLagC :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen
+rLagC in_ lagTimeU curveU lagTimeD curveD = mkUGen Nothing [KR,AR] (Right [0]) "RLagC" [in_,lagTimeU,curveU,lagTimeD,curveD] Nothing 1 (Special 0) NoId
+
 -- | Play trace buffer
 --
 --  RPlayTrace [AR] bufnum=0.0 degree=4.0 rate=0.0 access=1.0
