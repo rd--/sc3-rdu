@@ -18,6 +18,7 @@ extern "C" {
 }
 
 #define CFG_HALT_AFTER 100
+#define CFG_DX 0.0001
 
 /*
   fr ph
@@ -48,7 +49,7 @@ void RBezier_next(RBezier * unit, int inNumSamples) {
         float y2 = IN0(pt+5);
         float y3 = IN0(pt+7);
         /* printf("(%.3f,.3%f) (%.3f,%.3f) (%.3f,%.3f) (%.3f,%.3f)\n", x0, y0, x1, y1, x2, y2, x3, y3); */
-        out[i] = bezier4_y_mt(CFG_HALT_AFTER, 0.0001, x0, y0, x1, y1, x2, y2, x3, y3, ph);
+        out[i] = bezier4_y_mt(CFG_HALT_AFTER, CFG_DX, x0, y0, x1, y1, x2, y2, x3, y3, ph);
         coherent = true;
         /* printf("out[i]=%.3f\n",out[i]); */
         break;
