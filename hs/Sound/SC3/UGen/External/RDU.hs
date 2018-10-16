@@ -3,7 +3,7 @@ module Sound.SC3.UGen.External.RDU where
 
 import Sound.SC3.UGen {- hsc3 -}
 
-import Sound.SC3.UGen.DB.Bindings {- hsc3-db -}
+import qualified Sound.SC3.UGen.DB.Bindings {- hsc3-db -}
 import Sound.SC3.UGen.DB.Record {- hsc3-db -}
 
 std_I :: Int -> String -> Double -> I
@@ -233,7 +233,7 @@ rdu_db =
 
 gen_bindings :: IO ()
 gen_bindings =
-    let f = putStrLn . unlines . u_gen_binding
+    let f = putStrLn . unlines . Sound.SC3.UGen.DB.Bindings.u_gen_binding
     in mapM_ f rdu_db
 
 -- Local Variables:

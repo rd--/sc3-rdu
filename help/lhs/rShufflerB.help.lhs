@@ -85,3 +85,36 @@ Circulating record to buffer & static (record, use localBuf)
 >         o = mkRShufflerB r
 >         i = recordBuf AR (bufnum r) (2048 * 12) 1 0 1 Loop 1 DoNothing (soundIn 0)
 >    in mrg2 o i
+
+    > import Sound.SC3.UGen.DB.Record
+    > putStrLn $ u_control_inputs_pp Sound.SC3.UGen.External.RDU.rShufflerB_dsc
+
+> f_01 b =
+>         rShufflerB
+>         b
+>         (control KR "readLocationMinima" 0.0)
+>         (control KR "readLocationMaxima" 1.0)
+>         (control KR "readIncrementMinima" 0.5)
+>         (control KR "readIncrementMaxima" 2.0)
+>         (control KR "durationMinima" 0.001)
+>         (control KR "durationMaxima" 0.015)
+>         (control KR "envelopeAmplitudeMinima" 0.05)
+>         (control KR "envelopeAmplitudeMaxima" 0.15)
+>         (control KR "envelopeShapeMinima" 0.0)
+>         (control KR "envelopeShapeMaxima" 1.0)
+>         (control KR "envelopeSkewMinima" 0.0)
+>         (control KR "envelopeSkewMaxima" 1.0)
+>         (control KR "stereoLocationMinima" 0.0)
+>         (control KR "stereoLocationMaxima" 1.0)
+>         (control KR "interOffsetTimeMinima" 0.001)
+>         (control KR "interOffsetTimeMaxima" 0.01)
+>         (control KR "ftableReadLocationIncrement" 0.0)
+>         (control KR "readIncrementQuanta" 0.0)
+>         (control KR "interOffsetTimeQuanta" 0.0)
+
+> gr_07 =
+>   let b = clearBuf (localBuf 'α' 1 (48000 * 4))
+>       o = f_01 b
+>       i = recordBuf AR b (2048 * 12) 1 0 1 Loop 1 DoNothing (soundIn 0)
+>   in mrg2 o i
+

@@ -3,6 +3,9 @@ prefix=$(HOME)/opt
 all:
 	(cd cpp; make all)
 
+install:
+	(cd cpp; make install)
+
 clean:
 	rm -fR dist
 	(cd cpp; make clean)

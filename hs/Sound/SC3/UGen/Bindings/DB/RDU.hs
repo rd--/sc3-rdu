@@ -1,3 +1,4 @@
+-- | Bindings (AUTOGEN), see "Sound.SC3.UGen.External.RDU"
 module Sound.SC3.UGen.Bindings.DB.RDU where
 
 import Sound.SC3.UGen.Identifier
@@ -7,8 +8,6 @@ import Sound.SC3.UGen.UGen
 
 import Sound.SC3.UGen.Analysis
 import Sound.SC3.UGen.Bindings.DB
-
--- * Bindings (AUTOGEN)
 
 -- | Range variant of Dust
 --
