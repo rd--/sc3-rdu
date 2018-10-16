@@ -12,10 +12,9 @@ std_I _ nm df = I nm df
 -- | Input meta-data, @(min,max,warp,step,units)@.
 type I_Meta = (Double,Double,String,Double,String)
 
--- | In cases where inputs have clear meta-data this should be stored
--- at hsc3-db, but it isn't.
-std_I' :: Int -> String -> Double -> I_Meta -> I
-std_I' ix nm df _ = std_I ix nm df
+-- | In cases where inputs have clear meta-data this should be stored at hsc3-db, but it isn't.
+std_I_Meta :: Int -> String -> Double -> I_Meta -> I
+std_I_Meta ix nm df _ = std_I ix nm df
 
 -- | Name, allowed rates, default rate, inputs, number of channels, description, non-det flag.
 osc_U :: String -> [Rate] -> Rate -> [I] -> Int -> String -> Bool -> U
@@ -136,28 +135,34 @@ rpvDecayTbl_dsc =
             ,std_I 2 "history_buf" 0]
     in osc_U "RPVDecayTbl" [KR] KR i 1 "Decay bin magnitudes according to multipliers in table." False
 
+-- | Parameters, I but with (minima,maxima) values.
+rShufflerB_param :: [(Int,String,Double,(Double, Double))]
+rShufflerB_param =
+  let t4 a b c d = (a,b,c,d)
+  in [t4 0 "bufnum" 0 (0,100)
+     ,t4 1 "readLocationMinima" 0 (0,1)
+     ,t4 2 "readLocationMaxima" 1 (0,1)
+     ,t4 3 "readIncrementMinima" 0.5 (0.5,2)
+     ,t4 4 "readIncrementMaxima" 2 (0.5,2)
+     ,t4 5 "durationMinima" 0.001 (0.001,0.015)
+     ,t4 6 "durationMaxima" 0.015 (0.001,0.015)
+     ,t4 7 "envelopeAmplitudeMinima" 0.05 (0.05,0.15)
+     ,t4 8 "envelopeAmplitudeMaxima" 0.15 (0.05,0.15)
+     ,t4 9 "envelopeShapeMinima" 0 (0,1)
+     ,t4 10 "envelopeShapeMaxima" 1 (0,1)
+     ,t4 11 "envelopeSkewMinima" 0 (0,1)
+     ,t4 12 "envelopeSkewMaxima" 1 (0,1)
+     ,t4 13 "stereoLocationMinima" 0 (0,1)
+     ,t4 14 "stereoLocationMaxima" 1 (0,1)
+     ,t4 15 "interOffsetTimeMinima" 0.001 (0.001,0.010)
+     ,t4 16 "interOffsetTimeMaxima" 0.010 (0.001,0.010)
+     ,t4 17 "ftableReadLocationIncrement" 0 (0,1)
+     ,t4 18 "readIncrementQuanta" 0 (0,0.5)
+     ,t4 19 "interOffsetTimeQuanta" 0 (0,0.01)]
+
 rShufflerB_dsc :: U
 rShufflerB_dsc =
- let i = [std_I 0 "bufnum" 0
-         ,std_I 1 "readLocationMinima" 0
-         ,std_I 2 "readLocationMaxima" 1
-         ,std_I 3 "readIncrementMinima" 0.5
-         ,std_I 4 "readIncrementMaxima" 2
-         ,std_I 5 "durationMinima" 0.001
-         ,std_I 6 "durationMaxima" 0.015
-         ,std_I 7 "envelopeAmplitudeMinima" 0.05
-         ,std_I 8 "envelopeAmplitudeMaxima" 0.15
-         ,std_I 9 "envelopeShapeMinima" 0
-         ,std_I 10 "envelopeShapeMaxima" 1
-         ,std_I 11 "envelopeSkewMinima" 0
-         ,std_I 12 "envelopeSkewMaxima" 1
-         ,std_I 13 "stereoLocationMinima" 0
-         ,std_I 14 "stereoLocationMaxima" 1
-         ,std_I 15 "interOffsetTimeMinima" 0.001
-         ,std_I 16 "interOffsetTimeMaxima" 0.010
-         ,std_I 17 "ftableReadLocationIncrement" 0
-         ,std_I 18 "readIncrementQuanta" 0
-         ,std_I 19 "interOffsetTimeQuanta" 0]
+ let i = map (\(k,nm,def,_rng) -> std_I k nm def) rShufflerB_param
  in osc_U "RShufflerB" [AR] AR i 2 "Signal shuffler (Buffer)" False
 
 rShufflerL_dsc :: U
