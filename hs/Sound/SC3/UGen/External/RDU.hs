@@ -3,7 +3,7 @@ module Sound.SC3.UGen.External.RDU where
 
 import Text.Printf {- base -}
 
-import Sound.SC3.UGen {- hsc3 -}
+import Sound.SC3 {- hsc3 -}
 
 import qualified Sound.SC3.UGen.DB.Bindings {- hsc3-db -}
 import Sound.SC3.UGen.DB.Record {- hsc3-db -}
@@ -11,19 +11,16 @@ import Sound.SC3.UGen.DB.Record {- hsc3-db -}
 std_I :: Int -> String -> Double -> I
 std_I _ nm df = I nm df
 
--- | Input meta-data, @(min,max,warp,step,units)@.
-type I_Meta = (Double,Double,String,Double,String)
-
 -- | In cases where inputs have clear meta-data this should be stored at hsc3-db, but it isn't.
-std_I_Meta :: Int -> String -> Double -> I_Meta -> I
-std_I_Meta ix nm df _ = std_I ix nm df
+std_I_meta :: Int -> String -> Double -> C_Meta_T5 Double -> I
+std_I_meta ix nm df _ = std_I ix nm df
 
-i_Meta_cs_pp :: I_Meta -> Double -> String
-i_Meta_cs_pp (lhs,rhs,warp,step,_units) def =
+c_meta_cs_pp :: C_Meta_T5 Double -> Double -> String
+c_meta_cs_pp (lhs,rhs,warp,step,_units) def =
   let warp' = case warp of
                 "linear" -> "LinearWarp"
                 "exponential" -> "ExponentialWarp"
-                _ -> error "i_Meta_cs_pp"
+                _ -> error "c_meta_cs_pp"
   in printf "ControlSpec.new(%0.4f, %0.4f, %s, %0.4f, %0.4f)" lhs rhs warp' step def
 
 -- | Name, allowed rates, default rate, inputs, number of channels, description, non-det flag.
@@ -145,11 +142,23 @@ rpvDecayTbl_dsc =
             ,std_I 2 "history_buf" 0]
     in osc_U "RPVDecayTbl" [KR] KR i 1 "Decay bin magnitudes according to multipliers in table." False
 
+-- | (k,name,default-value,meta-data)
+type Param = (Int,String,Double,C_Meta_T5 Double)
+
+param_rctl_bus_pp :: Param -> String
+param_rctl_bus_pp (k,nm,def,meta) =
+  let cs = c_meta_cs_pp meta def
+  in printf "c[%d].setup(\"%s\",%s,%.4f,%d);" k nm cs def k
+
+param_rctl_node_pp :: Node_Id -> Param -> String
+param_rctl_node_pp nid (k,nm,def,meta) =
+  let cs = c_meta_cs_pp meta def
+  in printf "c[%d].setup(\"%s\",%s,%.4f,nil,%d,\"%s\");" k nm cs def nid nm
+
 -- | Parameters, std_I with I_meta.
 --
--- > pp (k,nm,def,meta) = printf "c[%d].setup(\"%s\",%s,%.4f,%d);" k nm (i_Meta_cs_pp meta def) def k :: String
--- > putStrLn $ unlines $ map pp rShufflerB_param
-rShufflerB_param :: [(Int,String,Double,I_Meta)]
+-- > putStrLn $ unlines $ map (param_rctl_node_pp 1000) rShufflerB_param
+rShufflerB_param :: [Param]
 rShufflerB_param =
   let t4 a b c d = (a,b,c,d)
   in [t4 0 "bufnum" 0 (0,100,"linear",1,"")
