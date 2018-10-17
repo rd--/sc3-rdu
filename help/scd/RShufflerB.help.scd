@@ -80,3 +80,7 @@ c[17].setup("ftableReadLocationIncrement",ControlSpec.new(0.0000, 1.0000, Linear
 c[18].setup("readIncrementQuanta",ControlSpec.new(0.0000, 0.5000, LinearWarp, 0.0100, 0.0000),0.0000,nil,1001,"readIncrementQuanta");
 c[19].setup("interOffsetTimeQuanta",ControlSpec.new(0.0000, 0.0100, LinearWarp, 0.0001, 0.0000),0.0000,nil,1001,"interOffsetTimeQuanta");
 )
+
+// Local Variables:
+// truncate-lines:t
+// End:
