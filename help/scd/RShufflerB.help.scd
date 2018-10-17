@@ -52,3 +52,31 @@ s.sendMsg("/n_mapn", 1001, 2, 0, 20);
 // De-allocate node and buffer
 s.sendMsg("/n_free", 1001);
 s.sendMsg("/b_free", 10);
+
+// sc3-ctl...
+
+RGUI.midiInit;
+
+(
+c = RCtlSet(server: s, opt: (rows: 20, columns: 1, rowHeight: 35, concise: false, vspace: 2));
+c[0].setup("bufnum",ControlSpec.new(0.0000, 100.0000, LinearWarp, 1.0000, 0.0000),0.0000,0);
+c[1].setup("readLocationMinima",ControlSpec.new(0.0000, 1.0000, LinearWarp, 0.0100, 0.0000),0.0000,1);
+c[2].setup("readLocationMaxima",ControlSpec.new(0.0000, 1.0000, LinearWarp, 0.0100, 0.0000),0.0000,2);
+c[3].setup("readIncrementMinima",ControlSpec.new(0.5000, 2.0000, LinearWarp, 0.0100, 1.0000),1.0000,3);
+c[4].setup("readIncrementMaxima",ControlSpec.new(0.5000, 2.0000, LinearWarp, 0.0100, 1.0000),1.0000,4);
+c[5].setup("durationMinima",ControlSpec.new(0.0010, 0.5000, LinearWarp, 0.0050, 0.0050),0.0050,5);
+c[6].setup("durationMaxima",ControlSpec.new(0.0010, 0.5000, LinearWarp, 0.0050, 0.5000),0.5000,6);
+c[7].setup("envelopeAmplitudeMinima",ControlSpec.new(0.0500, 1.0000, ExponentialWarp, 0.0100, 0.5000),0.5000,7);
+c[8].setup("envelopeAmplitudeMaxima",ControlSpec.new(0.0500, 1.0000, ExponentialWarp, 0.0100, 0.5000),0.5000,8);
+c[9].setup("envelopeShapeMinima",ControlSpec.new(0.0000, 1.0000, LinearWarp, 0.0100, 0.5000),0.5000,9);
+c[10].setup("envelopeShapeMaxima",ControlSpec.new(0.0000, 1.0000, LinearWarp, 0.0100, 0.5000),0.5000,10);
+c[11].setup("envelopeSkewMinima",ControlSpec.new(0.0000, 1.0000, LinearWarp, 0.0100, 0.5000),0.5000,11);
+c[12].setup("envelopeSkewMaxima",ControlSpec.new(0.0000, 1.0000, LinearWarp, 0.0100, 0.5000),0.5000,12);
+c[13].setup("stereoLocationMinima",ControlSpec.new(0.0000, 1.0000, LinearWarp, 0.0100, 0.0000),0.0000,13);
+c[14].setup("stereoLocationMaxima",ControlSpec.new(0.0000, 1.0000, LinearWarp, 0.0100, 1.0000),1.0000,14);
+c[15].setup("interOffsetTimeMinima",ControlSpec.new(0.0050, 0.5000, LinearWarp, 0.0050, 0.0500),0.0500,15);
+c[16].setup("interOffsetTimeMaxima",ControlSpec.new(0.0010, 0.5000, LinearWarp, 0.0050, 0.0500),0.0500,16);
+c[17].setup("ftableReadLocationIncrement",ControlSpec.new(0.0000, 1.0000, LinearWarp, 0.0100, 1.0000),1.0000,17);
+c[18].setup("readIncrementQuanta",ControlSpec.new(0.0000, 0.5000, LinearWarp, 0.0100, 0.0000),0.0000,18);
+c[19].setup("interOffsetTimeQuanta",ControlSpec.new(0.0000, 0.0100, LinearWarp, 0.0001, 0.0000),0.0000,19);
+)

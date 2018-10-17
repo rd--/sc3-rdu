@@ -1,6 +1,8 @@
 -- | RDU UGen definitions.
 module Sound.SC3.UGen.External.RDU where
 
+import Text.Printf {- base -}
+
 import Sound.SC3.UGen {- hsc3 -}
 
 import qualified Sound.SC3.UGen.DB.Bindings {- hsc3-db -}
@@ -15,6 +17,14 @@ type I_Meta = (Double,Double,String,Double,String)
 -- | In cases where inputs have clear meta-data this should be stored at hsc3-db, but it isn't.
 std_I_Meta :: Int -> String -> Double -> I_Meta -> I
 std_I_Meta ix nm df _ = std_I ix nm df
+
+i_Meta_cs_pp :: I_Meta -> Double -> String
+i_Meta_cs_pp (lhs,rhs,warp,step,_units) def =
+  let warp' = case warp of
+                "linear" -> "LinearWarp"
+                "exponential" -> "ExponentialWarp"
+                _ -> error "i_Meta_cs_pp"
+  in printf "ControlSpec.new(%0.4f, %0.4f, %s, %0.4f, %0.4f)" lhs rhs warp' step def
 
 -- | Name, allowed rates, default rate, inputs, number of channels, description, non-det flag.
 osc_U :: String -> [Rate] -> Rate -> [I] -> Int -> String -> Bool -> U
@@ -135,30 +145,33 @@ rpvDecayTbl_dsc =
             ,std_I 2 "history_buf" 0]
     in osc_U "RPVDecayTbl" [KR] KR i 1 "Decay bin magnitudes according to multipliers in table." False
 
--- | Parameters, I but with (minima,maxima) values.
-rShufflerB_param :: [(Int,String,Double,(Double, Double))]
+-- | Parameters, std_I with I_meta.
+--
+-- > pp (k,nm,def,meta) = printf "c[%d].setup(\"%s\",%s,%.4f,%d);" k nm (i_Meta_cs_pp meta def) def k :: String
+-- > putStrLn $ unlines $ map pp rShufflerB_param
+rShufflerB_param :: [(Int,String,Double,I_Meta)]
 rShufflerB_param =
   let t4 a b c d = (a,b,c,d)
-  in [t4 0 "bufnum" 0 (0,100)
-     ,t4 1 "readLocationMinima" 0 (0,1)
-     ,t4 2 "readLocationMaxima" 1 (0,1)
-     ,t4 3 "readIncrementMinima" 0.5 (0.5,2)
-     ,t4 4 "readIncrementMaxima" 2 (0.5,2)
-     ,t4 5 "durationMinima" 0.001 (0.001,0.015)
-     ,t4 6 "durationMaxima" 0.015 (0.001,0.015)
-     ,t4 7 "envelopeAmplitudeMinima" 0.05 (0.05,0.15)
-     ,t4 8 "envelopeAmplitudeMaxima" 0.15 (0.05,0.15)
-     ,t4 9 "envelopeShapeMinima" 0 (0,1)
-     ,t4 10 "envelopeShapeMaxima" 1 (0,1)
-     ,t4 11 "envelopeSkewMinima" 0 (0,1)
-     ,t4 12 "envelopeSkewMaxima" 1 (0,1)
-     ,t4 13 "stereoLocationMinima" 0 (0,1)
-     ,t4 14 "stereoLocationMaxima" 1 (0,1)
-     ,t4 15 "interOffsetTimeMinima" 0.001 (0.001,0.010)
-     ,t4 16 "interOffsetTimeMaxima" 0.010 (0.001,0.010)
-     ,t4 17 "ftableReadLocationIncrement" 0 (0,1)
-     ,t4 18 "readIncrementQuanta" 0 (0,0.5)
-     ,t4 19 "interOffsetTimeQuanta" 0 (0,0.01)]
+  in [t4 0 "bufnum" 0 (0,100,"linear",1,"")
+     ,t4 1 "readLocationMinima" 0 (0,1,"linear",0.01,"")
+     ,t4 2 "readLocationMaxima" 0 (0,1,"linear",0.01,"")
+     ,t4 3 "readIncrementMinima" 1 (0.5,2,"linear",0.01,"")
+     ,t4 4 "readIncrementMaxima" 1 (0.5,2,"linear",0.01,"")
+     ,t4 5 "durationMinima" 0.005 (0.001,0.500,"linear",0.005,"s")
+     ,t4 6 "durationMaxima" 0.500 (0.001,0.500,"linear",0.005,"s")
+     ,t4 7 "envelopeAmplitudeMinima" 0.5 (0.05,1.0,"exponential",0.01,"")
+     ,t4 8 "envelopeAmplitudeMaxima" 0.5 (0.05,1.0,"exponential",0.01,"")
+     ,t4 9 "envelopeShapeMinima" 0.5 (0,1,"linear",0.01,"")
+     ,t4 10 "envelopeShapeMaxima" 0.5 (0,1,"linear",0.01,"")
+     ,t4 11 "envelopeSkewMinima" 0.5 (0,1,"linear",0.01,"")
+     ,t4 12 "envelopeSkewMaxima" 0.5 (0,1,"linear",0.01,"")
+     ,t4 13 "stereoLocationMinima" 0 (0,1,"linear",0.01,"")
+     ,t4 14 "stereoLocationMaxima" 1 (0,1,"linear",0.01,"")
+     ,t4 15 "interOffsetTimeMinima" 0.05 (0.005,0.500,"linear",0.005,"s")
+     ,t4 16 "interOffsetTimeMaxima" 0.05 (0.001,0.500,"linear",0.005,"s")
+     ,t4 17 "ftableReadLocationIncrement" 1 (0,1,"linear",0.01,"")
+     ,t4 18 "readIncrementQuanta" 0 (0,0.5,"linear",0.01,"s")
+     ,t4 19 "interOffsetTimeQuanta" 0 (0,0.01,"linear",0.0001,"s")]
 
 rShufflerB_dsc :: U
 rShufflerB_dsc =

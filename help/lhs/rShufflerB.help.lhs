@@ -90,27 +90,28 @@ Circulating record to buffer & static (record, use localBuf)
     > putStrLn $ u_control_inputs_pp Sound.SC3.UGen.External.RDU.rShufflerB_dsc
 
 > f_01 b =
->         rShufflerB
->         b
->         (control KR "readLocationMinima" 0.0)
->         (control KR "readLocationMaxima" 1.0)
->         (control KR "readIncrementMinima" 0.5)
->         (control KR "readIncrementMaxima" 2.0)
->         (control KR "durationMinima" 0.001)
->         (control KR "durationMaxima" 0.015)
->         (control KR "envelopeAmplitudeMinima" 0.05)
->         (control KR "envelopeAmplitudeMaxima" 0.15)
->         (control KR "envelopeShapeMinima" 0.0)
->         (control KR "envelopeShapeMaxima" 1.0)
->         (control KR "envelopeSkewMinima" 0.0)
->         (control KR "envelopeSkewMaxima" 1.0)
->         (control KR "stereoLocationMinima" 0.0)
->         (control KR "stereoLocationMaxima" 1.0)
->         (control KR "interOffsetTimeMinima" 0.001)
->         (control KR "interOffsetTimeMaxima" 0.01)
->         (control KR "ftableReadLocationIncrement" 0.0)
->         (control KR "readIncrementQuanta" 0.0)
->         (control KR "interOffsetTimeQuanta" 0.0)
+>   let k nm def ix = control_f64 KR (Just ix) nm def
+>   in rShufflerB
+>      b
+>      (k "readLocationMinima" 0.0 0)
+>      (k "readLocationMaxima" 1.0 1)
+>      (k "readIncrementMinima" 0.5 2)
+>      (k "readIncrementMaxima" 2.0 3)
+>      (k "durationMinima" 0.001 4)
+>      (k "durationMaxima" 0.015 5)
+>      (k "envelopeAmplitudeMinima" 0.05 6)
+>      (k "envelopeAmplitudeMaxima" 0.15 7)
+>      (k "envelopeShapeMinima" 0.0 8)
+>      (k "envelopeShapeMaxima" 1.0 9)
+>      (k "envelopeSkewMinima" 0.0 10)
+>      (k "envelopeSkewMaxima" 1.0 11)
+>      (k "stereoLocationMinima" 0.0 12)
+>      (k "stereoLocationMaxima" 1.0 13)
+>      (k "interOffsetTimeMinima" 0.001 14)
+>      (k "interOffsetTimeMaxima" 0.01 15)
+>      (k "ftableReadLocationIncrement" 0.0 16)
+>      (k "readIncrementQuanta" 0.0 17)
+>      (k "interOffsetTimeQuanta" 0.0 18)
 
 > gr_07 =
 >   let b = clearBuf (localBuf 'α' 1 (48000 * 4))
@@ -118,3 +119,7 @@ Circulating record to buffer & static (record, use localBuf)
 >       i = recordBuf AR b (2048 * 12) 1 0 1 Loop 1 DoNothing (soundIn 0)
 >   in mrg2 o i
 
+    import Sound.OSC
+    audition_at (1001,AddToHead,1,[]) gr_07
+    withSC3 (sendMessage (n_mapn 1001 [("readLocationMinima",1,19)]))
+    withSC3 (sendMessage (dumpOSC TextPrinter))
