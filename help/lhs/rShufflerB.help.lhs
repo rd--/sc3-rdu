@@ -121,5 +121,4 @@ Circulating record to buffer & static (record, use localBuf)
 
     import Sound.OSC
     audition_at (1001,AddToHead,1,[]) (out 0 gr_07)
-    withSC3 (sendMessage (n_mapn 1001 [("readLocationMinima",1,19)]))
-    withSC3 (sendMessage (dumpOSC TextPrinter))
+    withSC3 (sendMessage (n_mapn 1001 [(0,1,19)]))

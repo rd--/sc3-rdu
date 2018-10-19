@@ -20,7 +20,7 @@ typedef struct
 }
 RFreezer_Loop_t;
 
-#define LOOP_LIMIT 24
+#define LOOP_LIMIT 36
 
 struct RFreezer : public Unit
 {
@@ -168,8 +168,8 @@ void RFreezer_next(RFreezer *unit,int inNumSamples)
   rdu_check_buf(dl,1);
   rdu_on_buffer_change(dl,RFreezer_reset(unit););
   float *out = OUT(0);
-  /* Set number of active loops. */
-  unit->m_loop_n = (int) LOOP_COUNT;
+  /* Set number of active loops, silently clip to limit. */
+  unit->m_loop_n = (int) fminf(LOOP_COUNT,LOOP_LIMIT);
   /* Check phase synchronize trigger. */
   float trigger = PHASE_SYNCHRONIZE_TRIGGER;
   if(trigger > 0.0 && unit->m_phase_synchronize_trigger_state <= 0.0) {

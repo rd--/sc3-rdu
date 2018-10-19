@@ -18,7 +18,7 @@ Arrayed...
 > f_02 n o =
 >     let n = 6
 >         x = mouseX KR 0.0001 0.02 Linear 0.2
->         y = mouseY KR 0.001 0.25 Linear 0.2
+
 >         f = x * randN n 'α' 0 4
 >         d = y * randN n 'β' 0 4
 >     in splay (rShufflerL o f d) 1 1 0 True

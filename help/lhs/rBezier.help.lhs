@@ -32,7 +32,11 @@ dynamic shifting of control points
 >                                        ,0.5,0,w 'δ' 0.55 0.75,1.3,w 'ε' 0.75 0.95,1.3
 >                                        ,1,0])
 
+as oscillator
+
 > g_04 = pan2 (f_01 AR (200,205) 2) (iRand 'α' (-1) 1) 0.1
+
+as amplitude modulator
 
 > g_05 = soundIn 0 * range 0.25 1 (f_01 KR (0.15,16) 0.5)
 

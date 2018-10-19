@@ -157,7 +157,7 @@ param_rctl_node_pp nid (k,nm,def,meta) =
 
 -- | Parameters, std_I with I_meta.
 --
--- > putStrLn $ unlines $ map (param_rctl_node_pp 1000) rShufflerB_param
+-- > putStrLn $ unlines $ map param_rctl_bus_pp rShufflerB_param
 rShufflerB_param :: [Param]
 rShufflerB_param =
   let t4 a b c d = (a,b,c,d)

@@ -49,21 +49,29 @@ K-rate instances
 
 K-rate & record interface
 
-> gr_07 =
+> f_01 b (incr_l,incr_r) dgr =
 >     let n z i j = linLin (lfNoise2 z KR 0.1) (-1) 1 i j
 >         r = R.RFreezer
 >             {R.rate = AR
->             ,R.bufnum = 10
+>             ,R.bufnum = b
 >             ,R.left = n 'α' 0.3 0.4
 >             ,R.right = n 'β' 0.5 0.6
 >             ,R.gain = n 'γ' 0.3 0.6
->             ,R.increment = n 'δ' 0.05 0.15
+>             ,R.increment = n 'δ' incr_l incr_r
 >             ,R.incrementOffset = n 'ε' 0.05 0.15
 >             ,R.incrementRandom = n 'ζ' 0.05 0.15
 >             ,R.rightRandom = n 'η' 0.05 0.15
 >             ,R.syncPhaseTrigger = 0
 >             ,R.randomizePhaseTrigger = 0
->             ,R.numberOfLoops = 6}
+>             ,R.numberOfLoops = dgr}
 >     in R.mkRFreezer r
 
-    audition (out 0 (soundIn 0))
+> gr_07 = f_01 10 (0.05,0.15) 6
+
+K-rate & external input
+
+> gr_08 =
+>   let bufnum = clearBuf (localBuf 'α' 1 (48000 * 4))
+>       i = recordBuf AR bufnum (2048 * 12) 1 0 1 Loop 1 DoNothing (soundIn 0)
+>       o = f_01 bufnum (0.95,1.05) 36
+>   in mrg2 o i
