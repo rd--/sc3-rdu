@@ -119,6 +119,6 @@ Circulating record to buffer & static (record, use localBuf)
 >       i = recordBuf AR b (2048 * 12) 1 0 1 Loop 1 DoNothing (soundIn 0)
 >   in mrg2 o i
 
-    import Sound.OSC
+    import Sound.OSC {- hosc3 -}
     audition_at (1001,AddToHead,1,[]) (out 0 gr_07)
     withSC3 (sendMessage (n_mapn 1001 [(0,1,19)]))

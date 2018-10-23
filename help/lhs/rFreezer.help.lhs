@@ -71,7 +71,7 @@ K-rate & record interface
 K-rate & external input
 
 > gr_08 =
->   let bufnum = clearBuf (localBuf 'α' 1 (48000 * 4))
->       i = recordBuf AR bufnum (2048 * 12) 1 0 1 Loop 1 DoNothing (soundIn 0)
+>   let bufnum = clearBuf (localBuf 'α' 1 (48000 * 2)) -- 2 4 6 8 12
+>       i = recordBuf AR bufnum (2048 * 12) 1 0 1 Loop 1 DoNothing (soundIn 0 * 1.5)
 >       o = f_01 bufnum (0.95,1.05) 36
 >   in mrg2 o i
