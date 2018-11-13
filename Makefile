@@ -13,8 +13,8 @@ clean:
 ln-sc:
 	ln -s $(HOME)/sw/sc3-rdu/sc/rdu.sc $(prefix)/share/SuperCollider/Extensions
 
-push-sp:
-	darcs push -a rd@slavepianos.org:sw/sc3-rdu
+push-rd:
+	darcs push -a rd@rohandrape.net:sw/sc3-rdu
 
-pull-sp:
-	darcs pull -a http://rd.slavepianos.org/sw/sc3-rdu
+pull-rd:
+	darcs pull -a http://rohandrape.net/sw/sc3-rdu
