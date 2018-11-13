@@ -30,8 +30,8 @@ osc_U nm rr r i nc dsc nd = (read_meta (nm,rr,r,i,nc,dsc)) {ugen_nondet = nd}
 u_nc_input :: U -> U
 u_nc_input u = u {ugen_outputs = Nothing,ugen_nc_input = True}
 
-u_std_mce :: U -> U
-u_std_mce u = u {ugen_std_mce = True}
+u_std_mce :: Int -> U -> U
+u_std_mce n u = u {ugen_std_mce = n}
 
 u_ir :: U -> U
 u_ir u = u {ugen_fixed_rate = Just IR}
@@ -92,7 +92,7 @@ rBezier_dsc =
           ,std_I 1 "phase" 0
           ,std_I 2 "param" 0]
       dsc = "Bezier curve oscillator."
-  in u_std_mce (osc_U "RBezier" [KR,AR] AR i 1 dsc False)
+  in u_std_mce 1 (osc_U "RBezier" [KR,AR] AR i 1 dsc False)
 
 rDelayMap_dsc :: U
 rDelayMap_dsc =
@@ -100,25 +100,25 @@ rDelayMap_dsc =
             ,std_I 1 "input" 0
             ,std_I 2 "dynamic" 0
             ,std_I 3 "mapArray" 0]
-    in u_flt 1 (u_std_mce (osc_U "RDelayMap" [AR] AR i 1 "Network of delay line maps" False))
+    in u_flt 1 (u_std_mce 1 (osc_U "RDelayMap" [AR] AR i 1 "Network of delay line maps" False))
 
 rDelaySet_dsc :: U
 rDelaySet_dsc =
     let i = [std_I 0 "input" 0
             ,std_I 1 "setArray" 0]
-    in u_flt 0 (u_std_mce (osc_U "RDelaySet" [AR] AR i 1 "Delay set (RTAlloc)" False))
+    in u_flt 0 (u_std_mce 1 (osc_U "RDelaySet" [AR] AR i 1 "Delay set (RTAlloc)" False))
 
 rDelaySetB_dsc :: U
 rDelaySetB_dsc =
     let i = [std_I 0 "buffer" 0
             ,std_I 1 "input" 0
             ,std_I 2 "setArray" 0]
-    in u_flt 1 (u_std_mce (osc_U "RDelaySetB" [AR] AR i 1 "Delay set (Buffer)" False))
+    in u_flt 1 (u_std_mce 1 (osc_U "RDelaySetB" [AR] AR i 1 "Delay set (Buffer)" False))
 
 rdl_dsc :: U
 rdl_dsc =
     let i = [std_I 0 "inputs" 0]
-    in u_ar (u_std_mce (u_nc_input (osc_U "RDL" [AR] AR i 1 "Dynamic library host" False)))
+    in u_ar (u_std_mce 1 (u_nc_input (osc_U "RDL" [AR] AR i 1 "Dynamic library host" False)))
 
 rFreezer_dsc :: U
 rFreezer_dsc =
@@ -216,7 +216,7 @@ tScramble_dsc =
               ,ugen_operating_rates = [IR,KR]
               ,ugen_inputs = [std_I 0 "trigger" 0,std_I 1 "inputs" 0]
               ,ugen_summary = "Scramble inputs on trigger."
-              ,ugen_std_mce = True
+              ,ugen_std_mce = 1
               ,ugen_nc_mce = Just 0
               ,ugen_filter = Just [0]
               ,ugen_nondet = True

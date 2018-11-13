@@ -47,57 +47,51 @@ randN numChannels z lo hi = mkUGen Nothing [IR] (Left IR) "RandN" [lo,hi] Nothin
 
 -- | Bezier curve oscillator.
 --
---  RBezier [KR,AR] freq=440.0 phase=0.0 *param=0.0;    MCE
+--  RBezier [KR,AR] freq=440.0 phase=0.0 *param=0.0;    MCE=1
 rBezier :: Rate -> UGen -> UGen -> UGen -> UGen
-rBezier rate freq phase param = mkUGen Nothing [KR,AR] (Left rate) "RBezier" [freq,phase] (Just param) 1 (Special 0) NoId
+rBezier rate freq phase param = mkUGen Nothing [KR,AR] (Left rate) "RBezier" [freq,phase] (Just [param]) 1 (Special 0) NoId
 
 -- | Network of delay line maps
 --
---  RDelayMap [AR] bufnum=0.0 input=0.0 dynamic=0.0 *mapArray=0.0;    MCE, FILTER: TRUE
+--  RDelayMap [AR] bufnum=0.0 input=0.0 dynamic=0.0 *mapArray=0.0;    MCE=1, FILTER: TRUE
 rDelayMap :: UGen -> UGen -> UGen -> UGen -> UGen
-rDelayMap bufnum input dynamic mapArray = mkUGen Nothing [AR] (Right [1]) "RDelayMap" [bufnum,input,dynamic] (Just mapArray) 1 (Special 0) NoId
+rDelayMap bufnum input dynamic mapArray = mkUGen Nothing [AR] (Right [1]) "RDelayMap" [bufnum,input,dynamic] (Just [mapArray]) 1 (Special 0) NoId
 
 -- | Delay set (RTAlloc)
 --
---  RDelaySet [AR] input=0.0 *setArray=0.0;    MCE, FILTER: TRUE
+--  RDelaySet [AR] input=0.0 *setArray=0.0;    MCE=1, FILTER: TRUE
 rDelaySet :: UGen -> UGen -> UGen
-rDelaySet input setArray = mkUGen Nothing [AR] (Right [0]) "RDelaySet" [input] (Just setArray) 1 (Special 0) NoId
+rDelaySet input setArray = mkUGen Nothing [AR] (Right [0]) "RDelaySet" [input] (Just [setArray]) 1 (Special 0) NoId
 
 -- | Delay set (Buffer)
 --
---  RDelaySetB [AR] buffer=0.0 input=0.0 *setArray=0.0;    MCE, FILTER: TRUE
+--  RDelaySetB [AR] buffer=0.0 input=0.0 *setArray=0.0;    MCE=1, FILTER: TRUE
 rDelaySetB :: UGen -> UGen -> UGen -> UGen
-rDelaySetB buffer input setArray = mkUGen Nothing [AR] (Right [1]) "RDelaySetB" [buffer,input] (Just setArray) 1 (Special 0) NoId
+rDelaySetB buffer input setArray = mkUGen Nothing [AR] (Right [1]) "RDelaySetB" [buffer,input] (Just [setArray]) 1 (Special 0) NoId
 
 -- | Dynamic library host
 --
---  RDL [AR] *inputs=0.0;    MCE, NC INPUT: True
+--  RDL [AR] *inputs=0.0;    MCE=1, NC INPUT: True
 rdl :: Int -> UGen -> UGen
-rdl numChannels inputs = mkUGen Nothing [AR] (Left AR) "RDL" [] (Just inputs) numChannels (Special 0) NoId
+rdl numChannels inputs = mkUGen Nothing [AR] (Left AR) "RDL" [] (Just [inputs]) numChannels (Special 0) NoId
 
 -- | Concurrent loops at signal buffer
 --
 --  RFreezer [AR] bufnum=0.0 left=0.0 right=1.0 gain=0.1 increment=1.0 incrementOffset=0.0 incrementRandom=5.0e-2 rightRandom=5.0e-2 syncPhaseTrigger=0.0 randomizePhaseTrigger=0.0 numberOfLoops=6.0
-rFreezer :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
-rFreezer rate bufnum left right gain increment incrementOffset incrementRandom rightRandom syncPhaseTrigger randomizePhaseTrigger numberOfLoops = mkUGen Nothing [AR] (Left rate) "RFreezer" [bufnum,left,right,gain,increment,incrementOffset,incrementRandom,rightRandom,syncPhaseTrigger,randomizePhaseTrigger,numberOfLoops] Nothing 1 (Special 0) NoId
-
--- | Separate curve up/down lag.
---
---  RLagC [KR,AR] in=0.0 lagTimeU=0.1 curveU=0.0 lagTimeD=0.1 curveD=0.0;    FILTER: TRUE
-rLagC :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen
-rLagC in_ lagTimeU curveU lagTimeD curveD = mkUGen Nothing [KR,AR] (Right [0]) "RLagC" [in_,lagTimeU,curveU,lagTimeD,curveD] Nothing 1 (Special 0) NoId
+rFreezer :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
+rFreezer bufnum left right gain increment incrementOffset incrementRandom rightRandom syncPhaseTrigger randomizePhaseTrigger numberOfLoops = mkUGen Nothing [AR] (Left AR) "RFreezer" [bufnum,left,right,gain,increment,incrementOffset,incrementRandom,rightRandom,syncPhaseTrigger,randomizePhaseTrigger,numberOfLoops] Nothing 1 (Special 0) NoId
 
 -- | Play trace buffer
 --
---  RPlayTrace [AR] bufnum=0.0 degree=4.0 rate=0.0 access=1.0
+--  RPlayTrace [KR,AR] bufnum=0.0 degree=4.0 rate=0.0 access=1.0
 rPlayTrace :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen
 rPlayTrace rate bufnum degree rate_ access = mkUGen Nothing [KR,AR] (Left rate) "RPlayTrace" [bufnum,degree,rate_,access] Nothing 1 (Special 0) NoId
 
 -- | Decay bin magnitudes according to multipliers in table.
 --
 --  RPVDecayTbl [KR] fft_buf=0.0 decay_rate_buf=0.0 history_buf=0.0
-rpvDecayTbl :: UGen -> UGen -> UGen -> UGen
-rpvDecayTbl fft_buf decay_rate_buf history_buf = mkUGen Nothing [KR] (Left KR) "RPVDecayTbl" [fft_buf,decay_rate_buf,history_buf] Nothing 1 (Special 0) NoId
+rpvDecayTbl :: Rate -> UGen -> UGen -> UGen -> UGen
+rpvDecayTbl rate fft_buf decay_rate_buf history_buf = mkUGen Nothing [KR] (Left rate) "RPVDecayTbl" [fft_buf,decay_rate_buf,history_buf] Nothing 1 (Special 0) NoId
 
 -- | Generate new random values on trigger.
 --
@@ -107,13 +101,13 @@ tRandN numChannels z lo hi trigger = mkUGen Nothing [KR] (Right [2]) "TRandN" [l
 
 -- | Scramble inputs on trigger.
 --
---  TScramble [IR,KR] trigger=0.0 *inputs=0.0;    MCE, FILTER: TRUE, NONDET
+--  TScramble [IR,KR] trigger=0.0 *inputs=0.0;    MCE=1, FILTER: TRUE, NONDET
 tScramble :: ID a => a -> UGen -> UGen -> UGen
-tScramble z trigger inputs = mkUGen Nothing [IR,KR] (Right [0]) "TScramble" [trigger] (Just inputs) (length (mceChannels inputs) + 0) (Special 0) (toUId z)
+tScramble z trigger inputs = mkUGen Nothing [IR,KR] (Right [0]) "TScramble" [trigger] (Just [inputs]) (length (mceChannels inputs) + 0) (Special 0) (toUId z)
 
 -- | Signal shuffler (Buffer)
 --
---  RShufflerB [AR] bufnum=0.0 readLocationMinima=0.0 readLocationMaxima=1.0 readIncrementMinima=0.5 readIncrementMaxima=2.0 durationMinima=1.0e-3 durationMaxima=1.5e-2 envelopeAmplitudeMinima=5.0e-2 envelopeAmplitudeMaxima=0.15 envelopeShapeMinima=0.0 envelopeShapeMaxima=1.0 envelopeSkewMinima=0.0 envelopeSkewMaxima=1.0 stereoLocationMinima=0.0 stereoLocationMaxima=1.0 interOffsetTimeMinima=1.0e-3 interOffsetTimeMaxima=1.0e-2 ftableReadLocationIncrement=0.0 readIncrementQuanta=0.0 interOffsetTimeQuanta=0.0
+--  RShufflerB [AR] bufnum=0.0 readLocationMinima=0.0 readLocationMaxima=0.0 readIncrementMinima=1.0 readIncrementMaxima=1.0 durationMinima=5.0e-3 durationMaxima=0.5 envelopeAmplitudeMinima=0.5 envelopeAmplitudeMaxima=0.5 envelopeShapeMinima=0.5 envelopeShapeMaxima=0.5 envelopeSkewMinima=0.5 envelopeSkewMaxima=0.5 stereoLocationMinima=0.0 stereoLocationMaxima=1.0 interOffsetTimeMinima=5.0e-2 interOffsetTimeMaxima=5.0e-2 ftableReadLocationIncrement=1.0 readIncrementQuanta=0.0 interOffsetTimeQuanta=0.0
 rShufflerB :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 rShufflerB bufnum readLocationMinima readLocationMaxima readIncrementMinima readIncrementMaxima durationMinima durationMaxima envelopeAmplitudeMinima envelopeAmplitudeMaxima envelopeShapeMinima envelopeShapeMaxima envelopeSkewMinima envelopeSkewMaxima stereoLocationMinima stereoLocationMaxima interOffsetTimeMinima interOffsetTimeMaxima ftableReadLocationIncrement readIncrementQuanta interOffsetTimeQuanta = mkUGen Nothing [AR] (Left AR) "RShufflerB" [bufnum,readLocationMinima,readLocationMaxima,readIncrementMinima,readIncrementMaxima,durationMinima,durationMaxima,envelopeAmplitudeMinima,envelopeAmplitudeMaxima,envelopeShapeMinima,envelopeShapeMaxima,envelopeSkewMinima,envelopeSkewMaxima,stereoLocationMinima,stereoLocationMaxima,interOffsetTimeMinima,interOffsetTimeMaxima,ftableReadLocationIncrement,readIncrementQuanta,interOffsetTimeQuanta] Nothing 2 (Special 0) NoId
 
@@ -125,7 +119,7 @@ rShufflerL in_ fragmentSize maxDelay = mkUGen Nothing [AR] (Right [0]) "RShuffle
 
 -- | Read trace buffer
 --
---  RTraceRd [AR] bufnum=0.0 degree=4.0 index=0.0 access=1.0
+--  RTraceRd [KR,AR] bufnum=0.0 degree=4.0 index=0.0 access=1.0
 rTraceRd :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen
 rTraceRd rate bufnum degree index_ access = mkUGen Nothing [KR,AR] (Left rate) "RTraceRd" [bufnum,degree,index_,access] Nothing 1 (Special 0) NoId
 
