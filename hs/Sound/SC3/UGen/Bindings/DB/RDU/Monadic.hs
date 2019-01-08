@@ -1,7 +1,7 @@
 module Sound.SC3.UGen.Bindings.DB.RDU.Monadic where
 
+import Sound.SC3.Common.Rate
 import Sound.SC3.Common.UId
-import Sound.SC3.UGen.Rate
 import Sound.SC3.UGen.Type
 
 import Sound.SC3.UGen.Bindings.DB.RDU
