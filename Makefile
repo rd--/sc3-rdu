@@ -11,7 +11,7 @@ clean:
 	(cd cpp; make clean)
 
 ln-sc:
-	ln -s $(HOME)/sw/sc3-rdu/sc/rdu.sc $(prefix)/share/SuperCollider/Extensions
+	ln -s $(HOME)/sw/sc3-rdu/sc/rdu.sc $(HOME)/.local/share/SuperCollider/Extensions
 
 push-rd:
 	darcs push -a rd@rohandrape.net:sw/sc3-rdu

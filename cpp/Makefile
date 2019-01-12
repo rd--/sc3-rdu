@@ -35,6 +35,7 @@ clean:
 	rm -f $(P) *.orig
 
 install: $(P)
+	mkdir -p $(T)
 	cp $(P) $(T)
 
 uninstall:
