@@ -135,6 +135,21 @@ rFreezer_dsc =
             ,std_I 10 "numberOfLoops" 6]
     in u_ar (osc_U "RFreezer" [AR] AR i 1 "Concurrent loops at signal buffer" False)
 
+rLagC_dsc :: U
+rLagC_dsc =
+  let i = [std_I 0 "in" 0
+          ,std_I 1 "timeUp" 0.1
+          ,std_I 2 "curveUp" 0
+          ,std_I 3 "timeDown" 0.1
+          ,std_I 4 "curveDown" 0]
+  in default_u {ugen_name = "RLagC"
+               ,ugen_operating_rates = [KR]
+               ,ugen_inputs = i
+               ,ugen_summary = "LagUD variant with curve inputs."
+               ,ugen_filter = Just [0]
+               ,ugen_outputs = Just 1
+               }
+
 rpvDecayTbl_dsc :: U
 rpvDecayTbl_dsc =
     let i = [std_I 0 "fft_buf" 0
@@ -249,6 +264,7 @@ rdu_db =
     ,rDelaySetB_dsc
     ,rdl_dsc
     ,rFreezer_dsc
+    ,rLagC_dsc
     ,rPlayTrace_dsc
     ,rpvDecayTbl_dsc
     ,tRandN_dsc
