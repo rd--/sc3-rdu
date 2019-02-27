@@ -2,7 +2,7 @@ prefix = $(HOME)/opt
 
 D = $(prefix)
 T = $(D)/lib/SuperCollider/plugins
-S = $(D)/include/SuperCollider
+S = /usr/include/SuperCollider
 I = -I$(S)/plugin_interface \
     -I$(S)/common
 O = -O2 -fPIC -ffast-math -msse2
