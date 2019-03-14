@@ -28,14 +28,14 @@ void uscramble(TScramble* unit)
 
 void TScramble_Ctor(TScramble* unit)
 {
-  int i,k;
+  int i, k;
   k = unit->mNumInputs - 1;
   unit->m_store = (float*)RTAlloc(unit->mWorld, k * sizeof(float));
   unit->m_prev_t = 0;
+  SETCALC(TScramble_next);
   for (i=0;i<k;i++) {
     OUT0(i) = IN0(i+1);
   }
-  SETCALC(TScramble_next);
 }
 
 void TScramble_next(TScramble *unit,int inNumSamples)

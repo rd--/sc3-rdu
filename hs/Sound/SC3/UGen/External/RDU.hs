@@ -150,6 +150,16 @@ rLagC_dsc =
                ,ugen_outputs = Just 1
                }
 
+rObxdFilter_dsc :: U
+rObxdFilter_dsc =
+    let i = [std_I 0 "in" 0
+            ,std_I 1 "cutoff" 440.0
+            ,std_I 2 "resonance" 0.0
+            ,std_I 3 "multimode" 0.5
+            ,std_I 4 "bandpass" 0.0
+            ,std_I 5 "fourpole" 0.0]
+    in u_flt 0 (osc_U "RObxdFilter" [AR] AR i 1 "Obxd 12/24-dB multi-mode filter" False)
+
 rpvDecayTbl_dsc :: U
 rpvDecayTbl_dsc =
     let i = [std_I 0 "fft_buf" 0
@@ -267,6 +277,7 @@ rdu_db =
     ,rLagC_dsc
     ,rPlayTrace_dsc
     ,rpvDecayTbl_dsc
+    ,rObxdFilter_dsc
     ,tRandN_dsc
     ,tScramble_dsc
     ,rShufflerB_dsc

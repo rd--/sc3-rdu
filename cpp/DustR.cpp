@@ -35,8 +35,8 @@ void DustR_next(DustR *unit, int inNumSamples)
 
 void DustR_Ctor(DustR *unit)
 {
-  SETCALC(DustR_next);
   unit->mCounter = 0;
+  SETCALC(DustR_next);
   DustR_next(unit, 1);
 }
 

@@ -87,6 +87,12 @@ rFreezer bufnum left right gain increment incrementOffset incrementRandom rightR
 rLagC :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 rLagC in_ timeUp curveUp timeDown curveDown = mkUGen Nothing [KR] (Right [0]) "RLagC" [in_,timeUp,curveUp,timeDown,curveDown] Nothing 1 (Special 0) NoId
 
+-- | Obxd 12/24-dB multi-mode filter
+--
+--  RObxdFilter [AR] in=0.0 cutoff=440.0 resonance=0.0 multimode=0.5 bandpass=0.0 fourpole=0.0;    FILTER: TRUE
+rObxdFilter :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
+rObxdFilter in_ cutoff resonance multimode bandpass fourpole = mkUGen Nothing [AR] (Right [0]) "RObxdFilter" [in_,cutoff,resonance,multimode,bandpass,fourpole] Nothing 1 (Special 0) NoId
+
 -- | Play trace buffer
 --
 --  RPlayTrace [KR,AR] bufnum=0.0 degree=4.0 rate=0.0 access=1.0

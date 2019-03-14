@@ -160,6 +160,7 @@ void RFreezer_Ctor(RFreezer *unit)
   rdu_init_monitored_buf(dl);
   unit->m_phase_synchronize_trigger_state = 0.0;
   SETCALC(RFreezer_next);
+  RFreezer_next(unit,1);
 }
 
 void RFreezer_next(RFreezer *unit,int inNumSamples)

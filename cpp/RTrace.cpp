@@ -16,6 +16,7 @@ void RTraceRd_Ctor(RTraceRd *unit)
 {
   rdu_init_buf(tr);
   SETCALC(RTraceRd_next);
+  RTraceRd_next(unit,1);
 }
 
 void RTraceRd_next(RTraceRd *unit, int inNumSamples)

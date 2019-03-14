@@ -8,8 +8,8 @@
 
 static InterfaceTable *ft;
 
-#define PI           (3.14159265358979323846)
-#define TWO_PI       (2*PI)
+#define PI ((float)M_PI)
+#define TWO_PI (2*PI)
 
 typedef struct
 {
@@ -62,6 +62,7 @@ void RShufflerL_Ctor(RShufflerL *unit)
   unit->m_count = 0;
   unit->m_next = 0;
   SETCALC(RShufflerL_next);
+  RShufflerL_next(unit,1);
 }
 
 void RShufflerL_next(RShufflerL *unit,int inNumSamples)

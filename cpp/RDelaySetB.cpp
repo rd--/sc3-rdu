@@ -22,6 +22,7 @@ void RDelaySetB_Ctor(RDelaySetB *unit)
   rdu_init_buf(dl);
   rdelayset_ctor_common(2);
   SETCALC(RDelaySetB_next);
+  RDelaySetB_next(unit,1);
 }
 
 void RDelaySetB_next(RDelaySetB *unit,int inNumSamples)

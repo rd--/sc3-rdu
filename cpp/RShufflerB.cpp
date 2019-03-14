@@ -157,6 +157,7 @@ void RShufflerB_Ctor(RShufflerB *unit)
     unit->m_grain[i].active = false;
   }
   SETCALC(RShufflerB_next);
+  RShufflerB_next(unit,1);
 }
 
 void RShufflerB_next(RShufflerB *unit,int inNumSamples)

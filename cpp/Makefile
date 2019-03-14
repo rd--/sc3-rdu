@@ -16,6 +16,7 @@ P = DustR.so \
     RFreezer.so \
     RLagC.so \
     RLoopSet.so \
+    RObxdFilter.so \
     RPVDecay.so \
     RShufflerB.so RShufflerL.so \
     RTrace.so \

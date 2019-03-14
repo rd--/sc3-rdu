@@ -121,6 +121,7 @@ void RLoopSet_Ctor(RLoopSet *unit)
   rdu_init_monitored_buf(dl);
   unit->m_loop_n =(unit->mNumInputs - FIXED_INPUTS) / 4;
   SETCALC(RLoopSet_next);
+  RLoopSet_next(unit,1);
 }
 
 /* The sample loop is: sum loop value into output and increment phase,
