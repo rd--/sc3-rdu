@@ -77,9 +77,9 @@ rdl numChannels inputs = mkUGen Nothing [AR] (Left AR) "RDL" [] (Just [inputs]) 
 
 -- | DX7
 --
---  RDX7 [AR] bufnum=0.0 gate=0.0 mnn=60.0 vel=60.0
-rdx7 :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen
-rdx7 rate bufnum gate_ mnn vel = mkUGen Nothing [AR] (Left rate) "RDX7" [bufnum,gate_,mnn,vel] Nothing 1 (Special 0) NoId
+--  RDX7 [AR] bufnum=0.0 gate=0.0 data=0.0 vc=0.0 mnn=60.0 vel=60.0
+rdx7 :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
+rdx7 rate bufnum gate_ data_ vc mnn vel = mkUGen Nothing [AR] (Left rate) "RDX7" [bufnum,gate_,data_,vc,mnn,vel] Nothing 1 (Special 0) NoId
 
 -- | Concurrent loops at signal buffer
 --

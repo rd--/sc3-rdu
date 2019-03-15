@@ -127,8 +127,10 @@ rDX7_dsc =
   ,ugen_operating_rates = [AR]
   ,ugen_inputs = [std_I 0 "bufnum" 0
                  ,std_I 1 "gate" 0
-                 ,std_I 2 "mnn" 60
-                 ,std_I 3 "vel" 60]
+                 ,std_I 2 "data" 0
+                 ,std_I 3 "vc" 0
+                 ,std_I 4 "mnn" 60
+                 ,std_I 5 "vel" 99]
   ,ugen_summary = "DX7"
   ,ugen_outputs = Just 1}
 

@@ -27,14 +27,6 @@
 #include "c-common/sf-sndfile.c"
 #include "c-common/vector.c"
 
-struct RDX7
-{
-    Controllers controllers;
-    Lfo lfo;
-    Dx7Note *dx7_note;
-    uint8_t dx7_data[155];
-};
-
 /* DEXED adds switches for each OP, this set them, 0x3F turns everything on */
 void unpack_op_switch(Controllers *c,uint8_t x) {
     c->opSwitch[5] = ((x >> 5) &1) + 48;
@@ -59,6 +51,16 @@ void ctl_init(Controllers *c)
     c->core = new EngineMkI; /* ALLOC - FmCore */
     unpack_op_switch(c,0x3F);
 }
+
+#define buf_zero(b,n) for(int _i = 0; _i < n; _i++) {b.get()[_i] = 0;}
+
+struct RDX7
+{
+    Controllers controllers;
+    Lfo lfo;
+    Dx7Note *dx7_note;
+    uint8_t dx7_data[155];
+};
 
 void RDX7_init(RDX7 *d,f32 sr)
 {
@@ -92,9 +94,7 @@ void RDX7_write(const char *au_fn,RDX7 *d,f32 sr,const uint8_t *vc,int mnn,int v
         int32_t lfovalue = d->lfo.getsample();
         int32_t lfodelay = d->lfo.getdelay();
         AlignedBuf<int32_t, N> audiobuf;
-        for (int j = 0; j < N; j++) {
-            audiobuf.get()[j] = 0;
-        }
+        buf_zero(audiobuf,N);
         d->dx7_note->compute(audiobuf.get(), lfovalue, lfodelay, &(d->controllers));
         for (int j = 0; j < N; j++) {
             if(i + j == key_up_n) {
