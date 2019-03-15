@@ -105,3 +105,37 @@ diff -u /home/rohan/opt/src/dexed/Source/msfa/sin.h sin.h
  #endif
 +
 +#endif /* __SIN_H */
+diff -u /home/rohan/opt/src/dexed/Source/EngineMkI.cpp EngineMkI.cpp
+--- /home/rohan/opt/src/dexed/Source/EngineMkI.cpp	2019-02-22 15:07:55.717669662 +1100
++++ EngineMkI.cpp	2019-03-15 22:12:10.670993282 +1100
+@@ -26,8 +26,8 @@
+ #include <cmath>
+ #include <cstdlib>
+ 
+-#include "msfa/sin.h"
+-#include "msfa/exp2.h"
++#include "sin.h"
++#include "exp2.h"
+ 
+ #ifdef DEBUG
+     #include "time.h"
+diff -u /home/rohan/opt/src/dexed/Source/EngineMkI.h EngineMkI.h
+--- /home/rohan/opt/src/dexed/Source/EngineMkI.h	2019-02-22 15:07:55.717669662 +1100
++++ EngineMkI.h	2019-03-15 22:12:20.815202537 +1100
+@@ -18,11 +18,11 @@
+ #ifndef ENGINEMKI_H_INCLUDED
+ #define ENGINEMKI_H_INCLUDED
+ 
+-#include "msfa/synth.h"
+-#include "msfa/aligned_buf.h"
+-#include "msfa/fm_op_kernel.h"
+-#include "msfa/controllers.h"
+-#include "msfa/fm_core.h"
++#include "synth.h"
++#include "aligned_buf.h"
++#include "fm_op_kernel.h"
++#include "controllers.h"
++#include "fm_core.h"
+ 
+ 
+ class EngineMkI : public FmCore {

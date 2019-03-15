@@ -31,6 +31,9 @@ L = c-common/lib-c-common.a
 %.so : %.o
 	ld $< -lm -shared -o $@
 
+mk-rdx7-sf:
+	g++ -O0 -Wall -g rdx7-sf.cpp -lsndfile -o rdx7-sf
+
 all:	$(P)
 
 clean:

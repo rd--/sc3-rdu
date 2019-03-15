@@ -22,7 +22,6 @@
 #include "dx7/freqlut.h"
 #include "dx7/lfo.cc"
 #include "dx7/lfo.h"
-//#include "dx7/module.h"
 #include "dx7/pitchenv.cc"
 #include "dx7/pitchenv.h"
 #include "dx7/sin.cc"
