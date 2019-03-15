@@ -13,6 +13,7 @@ P = DustR.so \
     RDelayMap.so \
     RDelaySet.so RDelaySetB.so \
     RDL.so \
+    RDX7.so \
     RFreezer.so \
     RLagC.so \
     RLoopSet.so \

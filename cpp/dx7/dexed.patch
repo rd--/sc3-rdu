@@ -1,0 +1,107 @@
+diff -u /home/rohan/opt/src/dexed/Source/msfa/controllers.h controllers.h
+--- /home/rohan/opt/src/dexed/Source/msfa/controllers.h	2019-02-22 15:07:55.721669699 +1100
++++ controllers.h	2019-03-15 16:28:47.845379702 +1100
+@@ -18,7 +18,7 @@
+ #define __CONTROLLERS_H
+ 
+ #include "synth.h"
+-#include "../Dexed.h"
++//#include "../Dexed.h"
+ #include <stdio.h>
+ #include <string.h>
+ 
+@@ -116,7 +116,7 @@
+         if ( ! ((wheel.eg || foot.eg) || (breath.eg || at.eg)) )
+             eg_mod = 127;
+         
+-        TRACE("controllers refresh>>> amp_mod %d pitch_mod %d", amp_mod, pitch_mod);
++//        TRACE("controllers refresh>>> amp_mod %d pitch_mod %d", amp_mod, pitch_mod);
+     }
+     
+     FmCore *core;
+diff -u /home/rohan/opt/src/dexed/Source/msfa/env.cc env.cc
+--- /home/rohan/opt/src/dexed/Source/msfa/env.cc	2019-02-22 15:07:55.721669699 +1100
++++ env.cc	2019-03-15 16:29:01.705504271 +1100
+@@ -20,7 +20,7 @@
+ #include "synth.h"
+ #include "env.h"
+ 
+-#include "../Dexed.h"
++//#include "../Dexed.h"
+ //using namespace std;
+ 
+ uint32_t Env::sr_multiplier = (1<<24);
+diff -u /home/rohan/opt/src/dexed/Source/msfa/exp2.h exp2.h
+--- /home/rohan/opt/src/dexed/Source/msfa/exp2.h	2019-02-22 15:07:55.721669699 +1100
++++ exp2.h	2019-03-15 15:09:41.580196545 +1100
+@@ -14,6 +14,9 @@
+  * limitations under the License.
+  */
+ 
++#ifndef __EXP2_H
++#define __EXP2_H
++
+ class Exp2 {
+  public:
+   Exp2();
+@@ -78,3 +81,5 @@
+     return y ^ signum;
+   }
+ }
++
++#endif  // __EXP2_H
+diff -u /home/rohan/opt/src/dexed/Source/msfa/freqlut.h freqlut.h
+--- /home/rohan/opt/src/dexed/Source/msfa/freqlut.h	2019-02-22 15:07:55.721669699 +1100
++++ freqlut.h	2019-03-15 15:10:36.412645313 +1100
+@@ -14,8 +14,13 @@
+  * limitations under the License.
+  */
+ 
++#ifndef __FREQLUT_H
++#define __FREQLUT_H
++
+ class Freqlut {
+  public:
+   static void init(double sample_rate);
+   static int32_t lookup(int32_t logfreq);
+ };
++
++#endif /* __FREQLUT_H */
+diff -u /home/rohan/opt/src/dexed/Source/msfa/lfo.h lfo.h
+--- /home/rohan/opt/src/dexed/Source/msfa/lfo.h	2019-02-22 15:07:55.721669699 +1100
++++ lfo.h	2019-03-15 15:10:58.468826829 +1100
+@@ -14,6 +14,9 @@
+  * limitations under the License.
+  */
+ 
++#ifndef __LFO_H
++#define __LFO_H
++
+ // Low frequency oscillator, compatible with DX7
+ 
+ class Lfo {
+@@ -41,3 +44,5 @@
+   uint32_t delayinc_;
+   uint32_t delayinc2_;
+ };
++
++#endif /* __LFO_H */
+diff -u /home/rohan/opt/src/dexed/Source/msfa/sin.h sin.h
+--- /home/rohan/opt/src/dexed/Source/msfa/sin.h	2019-02-22 15:07:55.721669699 +1100
++++ sin.h	2019-03-15 15:11:26.273056413 +1100
+@@ -14,6 +14,9 @@
+  * limitations under the License.
+  */
+ 
++#ifndef __SIN_H
++#define __SIN_H
++
+ class Sin {
+  public:
+   Sin();
+@@ -60,3 +63,5 @@
+ #endif
+ }
+ #endif
++
++#endif /* __SIN_H */

@@ -120,6 +120,18 @@ rdl_dsc =
     let i = [std_I 0 "inputs" 0]
     in u_ar (u_std_mce 1 (u_nc_input (osc_U "RDL" [AR] AR i 1 "Dynamic library host" False)))
 
+rDX7_dsc :: U
+rDX7_dsc =
+  default_u
+  {ugen_name = "RDX7"
+  ,ugen_operating_rates = [AR]
+  ,ugen_inputs = [std_I 0 "bufnum" 0
+                 ,std_I 1 "gate" 0
+                 ,std_I 2 "mnn" 60
+                 ,std_I 3 "vel" 60]
+  ,ugen_summary = "DX7"
+  ,ugen_outputs = Just 1}
+
 rFreezer_dsc :: U
 rFreezer_dsc =
     let i = [std_I 0 "bufnum" 0
@@ -273,6 +285,7 @@ rdu_db =
     ,rDelaySet_dsc
     ,rDelaySetB_dsc
     ,rdl_dsc
+    ,rDX7_dsc
     ,rFreezer_dsc
     ,rLagC_dsc
     ,rPlayTrace_dsc

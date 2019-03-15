@@ -75,6 +75,12 @@ rDelaySetB buffer input setArray = mkUGen Nothing [AR] (Right [1]) "RDelaySetB" 
 rdl :: Int -> UGen -> UGen
 rdl numChannels inputs = mkUGen Nothing [AR] (Left AR) "RDL" [] (Just [inputs]) numChannels (Special 0) NoId
 
+-- | DX7
+--
+--  RDX7 [AR] bufnum=0.0 gate=0.0 mnn=60.0 vel=60.0
+rdx7 :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen
+rdx7 rate bufnum gate_ mnn vel = mkUGen Nothing [AR] (Left rate) "RDX7" [bufnum,gate_,mnn,vel] Nothing 1 (Special 0) NoId
+
 -- | Concurrent loops at signal buffer
 --
 --  RFreezer [AR] bufnum=0.0 left=0.0 right=1.0 gain=0.1 increment=1.0 incrementOffset=0.0 incrementRandom=5.0e-2 rightRandom=5.0e-2 syncPhaseTrigger=0.0 randomizePhaseTrigger=0.0 numberOfLoops=6.0
