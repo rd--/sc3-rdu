@@ -30,9 +30,10 @@
       > withSC3 (sendMessage (n_set1 (-1) "mnn" 69.0))
       > withSC3 (sendMessage (n_set1 (-1) "vel" 10.0))
 
-      > let syx_fn = "/home/rohan/sw/hsc3-data/data/yamaha/dx7/rom/DX7-ROM2A.syx"
-      > bnk <- DX7.dx7_load_fmt9_sysex syx_fn
       > withSC3 (async (b_alloc 0 8192 1))
+      > let syx_fn = "/home/rohan/sw/hsc3-data/data/yamaha/dx7/rom/DX7-ROM1B.syx"
+      > let syx_fn = "/home/rohan/uc/the-center-is-between-us/trees/syx/tc.000.syx"
+      > bnk <- DX7.dx7_load_fmt9_sysex syx_fn
       > withSC3 (sendMessage (dx7_data_msg 0 (concat bnk)))
 
 > g_02 =
@@ -40,7 +41,7 @@
 >       gate_ = toggleFF tr
 >       data_ = control KR "data" 0.0
 >       vc = tRand 'β' 0 31 tr
->       mnn = tRand 'γ' 30 90 tr
+>       mnn = tRand 'γ' 60 61 tr -- FRACTIONAL MIDI NOTE NUMBER
 >       vel = tRand 'δ' 10 99 tr
 >       loc = tRand 'ε' (-1) 1 tr
 >   in pan2 (rdx7 AR 0 gate_ data_ vc mnn vel) loc 1

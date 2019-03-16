@@ -1,4 +1,5 @@
 /* https://github.com/asb2m10/dexed */
+/* https://github.com/google/music-synthesizer-for-android */
 
 #include <math.h>
 #include <stdint.h>
@@ -67,7 +68,7 @@ struct RDX7 : public Unit
     uint8_t m_dx7_data[155];
     float m_prev_key_tr;
     float m_prev_data_tr;
-    bool m_offline;
+    bool m_offline; /* INITIAL STATE */
     rdu_declare_buf(data);
 };
 
@@ -83,7 +84,7 @@ void RDX7_Ctor(RDX7 *unit)
     PitchEnv::init(SAMPLERATE);
     Env::init_sr(SAMPLERATE);
     ctl_init(&(unit->m_controllers));
-    unit->m_dx7_note = new Dx7Note; /* NON-RT, SHOULD OVERRIDE CONSTRUCTOR */
+    unit->m_dx7_note = new Dx7Note; /* NON-RT, SHOULD OVER-RIDE CONSTRUCTOR */
     unit->m_prev_key_tr = 0;
     unit->m_prev_data_tr = 0;
     memcpy(unit->m_dx7_data,dx7_init_voice,155);
@@ -93,7 +94,7 @@ void RDX7_Ctor(RDX7 *unit)
     RDX7_next(unit, 1);
 }
 
-/* N = 64 ; REQUIRES inNumSamples by a multiple of N */
+/* N = 64 ; REQUIRES inNumSamples be a multiple of N */
 void RDX7_next(RDX7 *unit,int inNumSamples)
 {
     float *out = OUT(0);
@@ -102,7 +103,9 @@ void RDX7_next(RDX7 *unit,int inNumSamples)
     float key_tr = IN0(1); /* INPUT 1 = KEY GATE */
     float data_tr = IN0(2); /* INPUT 2 = DATA TRIGGER */
     int vc = (int)(IN0(3)); /* INPUT 3 = VOICE INDEX */
-    int mnn = (int)(IN0(4)); /* INPUT 4 = MIDI NOTE NUMBER */
+    float fmnn = IN0(4); /* INPUT 4 = FRACTIONAL MIDI NOTE NUMBER */
+    int mnn = (int)fmnn;
+    int cents = (int)((fmnn - (float)mnn) * 100);
     int vel = (int)(IN0(5)); /* INPUT 5 = NOTE VELOCITY */
     if (data_tr > 0.0 && unit->m_prev_data_tr <= 0.0) {
         for(int i = 0; i < 155; i++) {
@@ -116,7 +119,7 @@ void RDX7_next(RDX7 *unit,int inNumSamples)
             unit->m_dx7_data[i] = (uint8_t)(unit->m_buf_data->data[(vc * 155) + i]);
         }
         unit->m_lfo.keydown();
-        unit->m_dx7_note->init(unit->m_dx7_data, mnn + (int)(unit->m_dx7_data[144]) - 24, vel);
+        unit->m_dx7_note->init(unit->m_dx7_data, mnn + (int)(unit->m_dx7_data[144]) - 24, cents, vel);
         if (unit->m_dx7_data[136]) {
             unit->m_dx7_note->oscSync();
         }

@@ -82,9 +82,8 @@ void RDX7_write(const char *au_fn,RDX7 *d,f32 sr,const uint8_t *vc,int mnn,int v
     d->lfo.reset(d->dx7_data + 137);
     int n = (size_t)((key_dur + sus_dur) * sr);
     f32 *s = (f32*)xmalloc((size_t)n * sizeof(f32));
-    int mnn_x = mnn + (int)(d->dx7_data[144]) - 24;
     d->lfo.keydown();
-    d->dx7_note->init(d->dx7_data, mnn_x, vel);
+    d->dx7_note->init(d->dx7_data, mnn + (int)(d->dx7_data[144]) - 24, 0, vel);
     if (d->dx7_data[136]) {
         d->dx7_note->oscSync();
     }
@@ -121,7 +120,7 @@ void RDX7_free(RDX7 *d)
 int main(int argc, char **argv)
 {
     if(argc != 8) {
-        printf("rdx7-sf syx-file voice midi-note velocity key-down-dur sustain-dur au-file\n");
+        printf("rdx7-sf syx-file voice-ix midi-note velocity key-down-dur sustain-dur au-file\n");
         exit(1);
     }
     f32 sr = 48000;
