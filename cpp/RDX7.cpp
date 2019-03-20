@@ -87,7 +87,7 @@ void RDX7_Ctor(RDX7 *unit)
     unit->m_dx7_note = new Dx7Note; /* NON-RT, SHOULD OVER-RIDE CONSTRUCTOR */
     unit->m_prev_key_tr = 0;
     unit->m_prev_data_tr = 0;
-    memcpy(unit->m_dx7_data,dx7_init_voice,155);
+    dx7_init_voice(unit->m_dx7_data);
     unit->m_offline = true;
     rdu_init_buf(data);
     SETCALC(RDX7_next);

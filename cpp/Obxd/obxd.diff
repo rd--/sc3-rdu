@@ -1,0 +1,29 @@
+diff ~/opt/src/Obxd/Source/Engine/Filter.h Engine/Filter.h
+25d24
+< #include "ObxdVoice.h"
+110c109
+< 			float gpw = tanf(g *sampleRateInv * juce::float_Pi);
+---
+> 			float gpw = tanf(g *sampleRateInv * float_Pi);
+145c144
+< 			float g1 = (float)tan(g *sampleRateInv * juce::float_Pi);
+---
+> 			float g1 = (float)tan(g *sampleRateInv * float_Pi);
+185c184
+< };
+\ No newline at end of file
+---
+> };
+diff ~/opt/src/Obxd/Source/Engine/AudioUtils.h Engine/AudioUtils.h
+26,28d25
+< #include "SynthEngine.h"
+< 
+< 
+58c55
+< 	cutoff = (cutoff * srInv)*juce::float_Pi;
+---
+> 	cutoff = (cutoff * srInv)*float_Pi;
+66c63
+< 	cutoff = tan(cutoff * (srInv)* (juce::float_Pi)) ;
+---
+> 	cutoff = tan(cutoff * (srInv)* (float_Pi)) ;

@@ -1,6 +1,28 @@
-#define float_Pi ((float)M_PI)
+/*
+	==============================================================================
+	This file is part of Obxd synthesizer.
 
-/* Obxd : Filter.h */
+	Copyright © 2013-2014 Filatov Vadim
+	
+	Contact author via email :
+	justdat_@_e1.ru
+
+	This file may be licensed under the terms of of the
+	GNU General Public License Version 2 (the ``GPL'').
+
+	Software distributed under the License is distributed
+	on an ``AS IS'' basis, WITHOUT WARRANTY OF ANY KIND, either
+	express or implied. See the GPL for the specific language
+	governing rights and limitations.
+
+	You should have received a copy of the GPL along with this
+	program. If not, go to http://www.gnu.org/licenses/gpl.html
+	or write to the Free Software Foundation, Inc.,  
+	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+	==============================================================================
+ */
+#pragma once
+#include <math.h>
 class Filter
 {
 private:
@@ -55,7 +77,7 @@ public:
 		R = 1-res;
 		R24 =( 3.5 * res);
 	}
-
+	
 	inline float diodePairResistanceApprox(float x)
 	{
 		return (((((0.0103592f)*x + 0.00920833f)*x + 0.185f)*x + 0.05f )*x + 1.0f);
@@ -63,7 +85,7 @@ public:
 	}
 	//resolve 0-delay feedback
 	inline float NR(float sample, float g)
-	{
+	{ 
 		//calculating feedback non-linear transconducance and compensated for R (-1)
 		//Boosting non-linearity
 		float tCfb;
@@ -83,7 +105,7 @@ public:
 	}
 	inline float Apply(float sample,float g)
         {
-
+			
 			float gpw = tanf(g *sampleRateInv * float_Pi);
 			g = gpw;
             //float v = ((sample- R * s1*2 - g2*s1 - s2)/(1+ R*g1*2 + g1*g2));
@@ -101,7 +123,7 @@ public:
 			else
 			{
 
-				mc =2 * ( mm < 0.5 ?
+				mc =2 * ( mm < 0.5 ? 
 					((0.5 - mm) * y2 + (mm) * y1):
 					((1-mm) * y1 + (mm-0.5) * v)
 						);
@@ -123,7 +145,7 @@ public:
 			g = g1;
 
 
-
+			
 			float lpc = g / (1 + g);
 			float y0 = NR24(sample,g,lpc);
 			//first low pass in cascade

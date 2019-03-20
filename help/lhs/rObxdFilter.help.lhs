@@ -27,7 +27,8 @@ fourpole  : 0 = FALSE, 1 = TRUE     : 0 = 12/DB MULTI-MODE, 1 = 24/DB LOWPASS
 
 > g_02 =
 >   let cutoff = mouseX KR 110.0 (110.0 * 16) Exponential 0.2
->   in rObxdFilter (pinkNoise 'α' AR * 0.5) cutoff 0.0 0.0 0.0 0.0
+>       resonance = 0.0
+>   in rObxdFilter (pinkNoise 'α' AR * 0.5) cutoff resonance 0.0 0.0 0.0
 
 > g_03 =
 >   let cutoff = mouseX KR 110.0 (110.0 * 16) Exponential 0.2
