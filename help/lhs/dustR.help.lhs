@@ -1,3 +1,6 @@
+Generates triggers where the inter-offset times are generated randomly
+in the specified range (seconds) with linear distribution.
+
 > import Sound.SC3 {- hsc3 -}
 > import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}
 

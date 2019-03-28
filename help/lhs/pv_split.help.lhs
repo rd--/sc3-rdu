@@ -1,3 +1,21 @@
+Variant of `PV_Copy` that returns both signal paths.
+
+`PV_Copy` graphs have two linear orderings that are not equivalent.
+
+~~~~
+... -> fft -> ... .-> pv_copy -> pv1 -> ifft -> ...
+                  |
+                  .-> pv2 -> ifft -> ...
+~~~~
+
+`PV_Split` graphs also have two _equivalent_ linear orderings.
+
+~~~~
+                              .-> pv1 -> ifft1 -> ...
+... -> fft -> ... -> pv_split |
+                              .-> pv2 -> ifft2 -> ...
+~~~~
+
 > import Sound.SC3 {- hsc3 -}
 > import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}
 

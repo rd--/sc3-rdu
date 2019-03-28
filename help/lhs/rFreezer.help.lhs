@@ -1,3 +1,9 @@
+Concurrent loops at a signal buffer
+
+Create a set of concurrent loops at a signal buffer.  This is the
+dynamic and gestural variant of RLoopSet.  It was written after
+reading the manual for the GRM Tools 'Freeze' plugin.
+
 > import Sound.SC3 {- hsc3 -}
 > import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}
 > import qualified Sound.SC3.UGen.Record.Plain.RFreezer as R {- hsc3-rec -}

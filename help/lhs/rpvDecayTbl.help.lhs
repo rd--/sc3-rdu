@@ -1,3 +1,8 @@
+A `PV` unit generator that tracks the rise of magnitudes immediately,
+but decays them according to a set of multipliers given in a table.
+At each frame each partial decays by the amount indicated in the table,
+if the decaying value is below the input value it is reset.
+
 > import Sound.OSC {- hsc3 -}
 > import Sound.SC3 {- hsc3 -}
 > import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}

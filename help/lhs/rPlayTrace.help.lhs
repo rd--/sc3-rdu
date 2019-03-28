@@ -1,3 +1,6 @@
+Play a buffer that is arranged as a trace.  A trace is a sequence of
+tuples (T,X,Y,Z).
+
 > import Sound.OSC {- hosc -}
 > import Sound.SC3 {- hsc3 -}
 > import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}
