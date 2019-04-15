@@ -1,39 +1,36 @@
 diff -u /home/rohan/opt/src/dexed/Source/msfa/controllers.h controllers.h
 --- /home/rohan/opt/src/dexed/Source/msfa/controllers.h	2019-02-22 15:07:55.721669699 +1100
-+++ controllers.h	2019-03-15 16:28:47.845379702 +1100
-@@ -18,7 +18,7 @@
++++ controllers.h	2019-04-15 10:54:03.455890075 +1000
+@@ -18,7 +18,6 @@
  #define __CONTROLLERS_H
  
  #include "synth.h"
 -#include "../Dexed.h"
-+//#include "../Dexed.h"
  #include <stdio.h>
  #include <string.h>
  
-@@ -116,7 +116,7 @@
+@@ -116,7 +115,6 @@
          if ( ! ((wheel.eg || foot.eg) || (breath.eg || at.eg)) )
              eg_mod = 127;
          
 -        TRACE("controllers refresh>>> amp_mod %d pitch_mod %d", amp_mod, pitch_mod);
-+//        TRACE("controllers refresh>>> amp_mod %d pitch_mod %d", amp_mod, pitch_mod);
      }
      
      FmCore *core;
 diff -u /home/rohan/opt/src/dexed/Source/msfa/env.cc env.cc
 --- /home/rohan/opt/src/dexed/Source/msfa/env.cc	2019-02-22 15:07:55.721669699 +1100
-+++ env.cc	2019-03-15 16:29:01.705504271 +1100
-@@ -20,7 +20,7 @@
++++ env.cc	2019-04-15 10:54:29.224110385 +1000
+@@ -20,7 +20,6 @@
  #include "synth.h"
  #include "env.h"
  
 -#include "../Dexed.h"
-+//#include "../Dexed.h"
  //using namespace std;
  
  uint32_t Env::sr_multiplier = (1<<24);
 diff -u /home/rohan/opt/src/dexed/Source/msfa/exp2.h exp2.h
 --- /home/rohan/opt/src/dexed/Source/msfa/exp2.h	2019-02-22 15:07:55.721669699 +1100
-+++ exp2.h	2019-03-15 15:09:41.580196545 +1100
++++ exp2.h	2019-04-15 10:57:46.273770360 +1000
 @@ -14,6 +14,9 @@
   * limitations under the License.
   */
@@ -49,7 +46,7 @@ diff -u /home/rohan/opt/src/dexed/Source/msfa/exp2.h exp2.h
    }
  }
 +
-+#endif  // __EXP2_H
++#endif /* __EXP2_H */
 diff -u /home/rohan/opt/src/dexed/Source/msfa/freqlut.h freqlut.h
 --- /home/rohan/opt/src/dexed/Source/msfa/freqlut.h	2019-02-22 15:07:55.721669699 +1100
 +++ freqlut.h	2019-03-15 15:10:36.412645313 +1100
@@ -121,7 +118,7 @@ diff -u /home/rohan/opt/src/dexed/Source/EngineMkI.cpp EngineMkI.cpp
      #include "time.h"
 diff -u /home/rohan/opt/src/dexed/Source/EngineMkI.h EngineMkI.h
 --- /home/rohan/opt/src/dexed/Source/EngineMkI.h	2019-02-22 15:07:55.717669662 +1100
-+++ EngineMkI.h	2019-03-15 22:12:20.815202537 +1100
++++ EngineMkI.h	2019-03-16 00:06:26.087036412 +1100
 @@ -18,11 +18,11 @@
  #ifndef ENGINEMKI_H_INCLUDED
  #define ENGINEMKI_H_INCLUDED
