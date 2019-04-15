@@ -3,11 +3,11 @@
 
     Sound.SC3.UGen.DB.Record.u_summary Sound.SC3.UGen.External.RDU.rObxdFilter_dsc
 
-cutoff    : FREQUENCY (CPS)         :
-resonance : Q (0.0 - 1.0)           :
-multimode : FILTER MODE (0.0 - 1.0) : LOW-NOTCH/BANDPASS-HIGH | 24DB - 6DB LOWPASS
-bandpass  : 0 = FALSE, 1 = TRUE     : 0 = NOTCH, 1 = BANDPASS
-fourpole  : 0 = FALSE, 1 = TRUE     : 0 = 12/DB MULTI-MODE, 1 = 24/DB LOWPASS
+    cutoff    : FREQUENCY (CPS)         :
+    resonance : Q (0.0 - 1.0)           :
+    multimode : FILTER MODE (0.0 - 1.0) : LOW-NOTCH/BANDPASS-HIGH | 24DB - 6DB LOWPASS
+    bandpass  : 0 = FALSE, 1 = TRUE     : 0 = NOTCH, 1 = BANDPASS
+    fourpole  : 0 = FALSE, 1 = TRUE     : 0 = 12/DB MULTI-MODE, 1 = 24/DB LOWPASS
 
 > g_01 =
 >   let k = control KR

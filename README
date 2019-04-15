@@ -12,10 +12,15 @@ sc3-rdu
 - RDX7:
   [cpp](?t=sc3-rdu&e=cpp/RDX7.cpp)
   [help.lhs](?t=sc3-rdu&e=help/lhs/rdx7.help.lhs)
+  (Raph Levien, Pascal Gauthier)
 - RFreezer:
   [cpp](?t=sc3-rdu&e=cpp/RFreezer.cpp)
   [help.lhs](?t=sc3-rdu&e=help/lhs/rFreezer.help.lhs)
 - [RLoopSet](?t=sc3-rdu&e=md/sc3-rdu.md#rloopset)
+- RObxdFilter:
+  [cpp](?t=sc3-rdu&e=cpp/RObxdFilter.cpp)
+  [help.lhs](?t=sc3-rdu&e=help/lhs/rObxdFilter.help.lhs)
+  (Filatov Vadim)
 - [RPlayTrace](?t=sc3-rdu&e=md/sc3-rdu.md#rplaytrace)
 - [RPVDecayTbl](?t=sc3-rdu&e=md/sc3-rdu.md#rpvdecaytbl)
 - [RShufflerB](?t=sc3-rdu&e=md/sc3-rdu.md#rshufflerb)
