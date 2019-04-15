@@ -9,7 +9,12 @@ sc3-rdu
 - [RDelayMap](?t=sc3-rdu&e=md/sc3-rdu.md#rdelaymap)
 - [RDelaySet*](?t=sc3-rdu&e=md/sc3-rdu.md#rdelayset)
 - [RDL](?t=sc3-rdu&e=md/sc3-rdu.md#rdl)
-- [RFreezer](?t=sc3-rdu&e=md/sc3-rdu.md#rfreezer)
+- RDX7:
+  [cpp](?t=sc3-rdu&e=cpp/RDX7.cpp)
+  [help.lhs](?t=sc3-rdu&e=help/lhs/rdx7.help.lhs)
+- RFreezer:
+  [cpp](?t=sc3-rdu&e=cpp/RFreezer.cpp)
+  [help.lhs](?t=sc3-rdu&e=help/lhs/rFreezer.help.lhs)
 - [RLoopSet](?t=sc3-rdu&e=md/sc3-rdu.md#rloopset)
 - [RPlayTrace](?t=sc3-rdu&e=md/sc3-rdu.md#rplaytrace)
 - [RPVDecayTbl](?t=sc3-rdu&e=md/sc3-rdu.md#rpvdecaytbl)

@@ -48,7 +48,7 @@
 
 > g_02 = f_02 32
 
-      > let hex_fn = "/home/rohan/uc/the-center-is-between-us/trees/text/tc.hex.text"
+      > let hex_fn = "/home/rohan/uc/the-center-is-between-us/trees/text/dx7/tc.hex.text"
       > v <- DX7.dx7_load_hex hex_fn
       > length v == 221
       > withSC3 (mapM_ sendMessage (dx7_data_msg 0 (concat v)))
