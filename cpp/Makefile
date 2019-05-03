@@ -13,7 +13,7 @@ P = DustR.so \
     RDelayMap.so \
     RDelaySet.so RDelaySetB.so \
     RDL.so \
-    RDX7.so \
+    RDX7.so RDX7Env.so \
     RFreezer.so \
     RLagC.so \
     RLoopSet.so \
@@ -52,6 +52,9 @@ indent:
 
 mk-rdx7-sf:
 	g++ -O0 -Wall -g rdx7-sf.cpp -lsndfile -o rdx7-sf
+
+mk-rdx7-env-sf:
+	g++ -O0 -Wall -g rdx7-env-sf.cpp -lsndfile -o rdx7-env-sf
 
 mk-robdx-sf:
 	g++ -O0 -Wall -g robdx-sf.cpp -lsndfile -o robdx-sf

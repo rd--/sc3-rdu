@@ -134,6 +134,19 @@ rDX7_dsc =
   ,ugen_summary = "DX7"
   ,ugen_outputs = Just 1}
 
+rDX7Env_dsc :: U
+rDX7Env_dsc =
+  default_u
+  {ugen_name = "RDX7Env"
+  ,ugen_operating_rates = [AR]
+  ,ugen_inputs = [std_I 0 "gate" 0
+                 ,std_I 1 "data" 0
+                 ,std_I 2 "r1" 99,std_I 3 "r2" 99,std_I 4 "r3" 99,std_I 5 "r4" 99
+                 ,std_I 6 "l1" 99,std_I 7 "l2" 99,std_I 8 "l3" 99,std_I 9 "l4" 00
+                 ,std_I 10 "ol" 0]
+  ,ugen_summary = "DX7Env"
+  ,ugen_outputs = Just 1}
+
 rFreezer_dsc :: U
 rFreezer_dsc =
     let i = [std_I 0 "bufnum" 0
@@ -288,6 +301,7 @@ rdu_db =
     ,rDelaySetB_dsc
     ,rdl_dsc
     ,rDX7_dsc
+    ,rDX7Env_dsc
     ,rFreezer_dsc
     ,rLagC_dsc
     ,rPlayTrace_dsc
