@@ -7,10 +7,11 @@
 #include "dx7/env.cc"
 #include "dx7/exp2.cc"
 
-#include "c-common/clip.c"
+#include "c-common/int.h"
+#include "c-common/float.h"
+#include "c-common/print.h"
 #include "c-common/memory.c"
 #include "c-common/sf-sndfile.c"
-#include "c-common/vector.c"
 
 struct RDX7Env
 {
@@ -24,58 +25,63 @@ void RDX7Env_init(RDX7Env *d,f32 sr)
     Env::init_sr(sr);
 }
 
-float to_f32(int32_t x)
+/* (1 `shiftL` 24 == 0x1000000,0x8000 == 2^15,0x1000000 `shiftR` 9 == 0x8000) */
+f32 dexed_to_f32(i32 x0)
 {
-    x = x >> 4;
-    int32_t clip_x = x < -(1 << 24) ? 0x8000 : x >= (1 << 24) ? 0x7fff : x >> 9;
-    return ((f32)clip_x / (f32)0x8000);
+    i32 x1 = x0 >> 4;
+    i32 x2 = x1 < -0x1000000 ? 0x8000 : x1 >= 0x1000000 ? 0x7fff : (x1 >> 9);
+    return ((f32)x2 / (f32)0x8000);
 }
 
-/* N = 64 */
-void RDX7Env_write(const char *au_fn,RDX7Env *d,f32 sr,f32 key_dur,f32 sus_dur)
+/* EG runs once per N samples, N = 64, sr=sample-rate, r=rate, l=level, ol=output-level */
+void RDX7Env_write(const char *au_fn,RDX7Env *d,f32 sr,
+                   int r[4],int l[4],int ol0,
+                   f32 key_dur,f32 sus_dur)
 {
-    int n = (size_t)((key_dur + sus_dur) * sr);
+    int n = (size_t)((key_dur + sus_dur) * sr) / N;
     f32 *s = (f32*)xmalloc((size_t)n * sizeof(f32));
-    int r[4] = {50,50,50,50}, l[4] = {99,79,59,0}, ol = 99;
-    ol = Env::scaleoutlevel(ol);
-    ol = ol << 5;
-    printf("r=%d,%d,%d,%d l=%d,%d,%d,%d ol=%d\n",r[0],r[1],r[2],r[3],l[0],l[1],l[2],l[3],ol);
-    d->env.init(r,l,ol,0);
-    int key_up_n = int(key_dur * sr);
-    f32 prev_level_f = 0;
-    for (int i = 0; i < n; i += N) {
-        char pos;
-        d->env.getPosition(&pos);
-        int32_t env_sig = d->env.getsample();
-        int32_t next_level = Exp2::lookup(env_sig - (14 * (1 << 24)));
-        f32 next_level_f = to_f32(next_level);
-        f32 incr = (next_level_f - prev_level_f) / (f32)N;
-        printf("pos=%d env_sig=%d next_level=%d=%f incr=%f\n",
-               (int)pos,env_sig,next_level,next_level_f,incr);
-        for (int j = 0; j < N; j++) {
-            s[i + j] = prev_level_f;
-            prev_level_f += incr;
-            if(i + j == key_up_n) {
-                d->env.keydown(false);
-            }
+    int ol1 = Env::scaleoutlevel(ol0);
+    int ol2 = ol1 << 5;
+    dprintf("r=%d,%d,%d,%d l=%d,%d,%d,%d ol=%d\n",r[0],r[1],r[2],r[3],l[0],l[1],l[2],l[3],ol2);
+    d->env.init(r,l,ol2,0);
+    int key_up_n = int(key_dur * sr) / N;
+    for (int i = 0; i < n; i ++) {
+        char p;
+        d->env.getPosition(&p);
+        int32_t s0 = d->env.getsample();
+        int32_t s1 = Exp2::lookup(s0 - (14 * (1 << 24)));
+        f32 s2 = dexed_to_f32(s1);
+        dprintf("p=%d s0=%d s1=%d s2=%f\n",(int)p,s0,s1,s2 * 1000);
+        s[i] = s2;
+        if(i == key_up_n) {
+            d->env.keydown(false);
         }
-        prev_level_f = next_level_f;
     }
-    write_au_f32(au_fn,1,n,sr,s);
+    write_au_f32(au_fn,1,n,sr/N,s);
     free(s);
 }
 
+/*
+./rdx7-env-sf 66 55 44 33 99 33 88 0 99 1 2 /tmp/t.au
+hsc3-sf-draw plain pbm t f f f f 200 0 /tmp/t.au /tmp/t.pbm
+*/
 int main(int argc, char **argv)
 {
-/*
-    if(argc != 8) {
+    if(argc != 13) {
         printf("rdx7-sf r1 r2 r3 r4 l1 l2 l3 l4 ol key-down-dur sustain-dur au-file\n");
         exit(1);
     }
-*/
-    f32 sr = 48000;
+    f32 sr = 48000, d1, d2;
+    int r[4], l[4], ol;
     RDX7Env d;
+    for(int i = 0; i < 4; i++) {
+        r[i] = atoi(argv[i + 1]);
+        l[i] = atoi(argv[i + 1 + 4]);
+    }
+    ol = atoi(argv[9]);
+    d1 = atof(argv[10]);
+    d2 = atof(argv[11]);
     RDX7Env_init(&d,sr);
-    RDX7Env_write(argv[1],&d,sr,1,2);
+    RDX7Env_write(argv[12],&d,sr,r,l,ol,d1,d2);
     return 0;
 }

@@ -85,7 +85,7 @@ rdx7 rate bufnum gate_ data_ vc mnn vel = mkUGen Nothing [AR] (Left rate) "RDX7"
 --
 --  RDX7Env [AR] gate=0.0 data=0.0 r1=99.0 r2=99.0 r3=99.0 r4=99.0 l1=99.0 l2=99.0 l3=99.0 l4=0.0 ol=0.0
 rdx7Env :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
-rdx7Env rate gate_ data r1 r2 r3 r4 l1 l2 l3 l4 ol = mkUGen Nothing [AR] (Left rate) "RDX7Env" [gate_,data,r1,r2,r3,r4,l1,l2,l3,l4,ol] Nothing 1 (Special 0) NoId
+rdx7Env rate gate_ data_ r1 r2 r3 r4 l1 l2 l3 l4 ol = mkUGen Nothing [AR] (Left rate) "RDX7Env" [gate_,data_,r1,r2,r3,r4,l1,l2,l3,l4,ol] Nothing 1 (Special 0) NoId
 
 -- | Concurrent loops at signal buffer
 --
