@@ -89,7 +89,7 @@ void RDX7Env_next(RDX7Env *unit,int inNumSamples)
         for (int i = 0; i < inNumSamples; i += N) {
             i32 env_sig = unit->m_env.getsample();
             i32 next_level = Exp2::lookup(env_sig - (14 * (1 << 24)));
-            f32 next_level_f = dexed_to_f32(next_level);
+            f32 next_level_f = dexed_to_f32(next_level) * 8;
             f32 level = unit->m_prev_level_f;
             f32 incr = (next_level_f - level) / (f32)N;
             for (int j = 0; j < N; j++) {

@@ -102,7 +102,7 @@ void RDX7_write(const char *au_fn,RDX7 *d,f32 sr,const uint8_t *vc,int mnn,int v
             int32_t val = audiobuf.get()[j];
             val = val >> 4;
             int clip_val = val < -(1 << 24) ? 0x8000 : val >= (1 << 24) ? 0x7fff : val >> 9;
-            f32 f = clipf32 ((f32)clip_val / (f32)0x8000,-1,1);
+            f32 f = clip_f32 ((f32)clip_val / (f32)0x8000,-1,1);
             s[i + j] = f;
             audiobuf.get()[j] = 0;
         }
