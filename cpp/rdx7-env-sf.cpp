@@ -49,7 +49,7 @@ void RDX7Env_write(const char *au_fn,RDX7Env *d,f32 sr,
     f32 *s = (f32*)xmalloc((size_t)n * sizeof(f32));
     int ol1 = Env::scaleoutlevel(ol0);
     int ol2 = ol1 << 5;
-    dprintf("r=%d,%d,%d,%d l=%d,%d,%d,%d ol=%d\n",r[0],r[1],r[2],r[3],l[0],l[1],l[2],l[3],ol2);
+    printf("r=%d,%d,%d,%d l=%d,%d,%d,%d ol=%d\n",r[0],r[1],r[2],r[3],l[0],l[1],l[2],l[3],ol2);
     if(d->mode == 0) {
         d->env.init(r,l,ol2,0);
     } else {
@@ -69,7 +69,7 @@ void RDX7Env_write(const char *au_fn,RDX7Env *d,f32 sr,
             char p;
             d->pitchenv.getPosition(&p);
             i32 s0 = d->pitchenv.getsample();
-            f32 s1 = dexed_to_f32(s0); /* RANGE: 0 ~= -1 50 = 0 99 ~= 4 */
+            f32 s1 = dexed_to_f32(s0) * 4;
             dprintf("PITCH EG p=%d s0=%d s1=%f\n",(int)p,s0,s1);
             s[i] = s1;
         }
