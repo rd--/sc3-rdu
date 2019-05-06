@@ -32,7 +32,7 @@
 
       > withSC3 (async (b_alloc 0 65536 1)) -- 422 * 155 == 65410
 
-      > let syx_fn = "/home/rohan/sw/hsc3-data/data/yamaha/dx7/rom/DX7-ROM1B.syx"
+      > let syx_fn = "/home/rohan/sw/hsc3-data/data/yamaha/dx7ii/rom/DX7II-32A.syx"
       > bnk <- DX7.dx7_load_fmt9_sysex_err syx_fn
       > withSC3 (mapM_ sendMessage (dx7_data_msg 0 (concat bnk)))
 

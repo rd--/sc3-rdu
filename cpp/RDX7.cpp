@@ -23,14 +23,12 @@
 #include "dx7/EngineMkI.cpp"
 
 #include "c-common/cfile.c"
-#include "c-common/clip.c"
 #include "c-common/dx7.c"
 #include "c-common/float.h"
 #include "c-common/memory.c"
 #include "c-common/print.h"
-#include "c-common/vector.c"
 
-/* DEXED adds switches for each OP, this set them, 0x3F turns everything on */
+/* DEXED adds switches for each OP, this sets them, 0x3F turns everything on */
 void unpack_op_switch(Controllers *c,uint8_t x) {
     c->opSwitch[5] = ((x >> 5) &1) + 48;
     c->opSwitch[4] = ((x >> 4) &1) + 48;
@@ -43,7 +41,7 @@ void unpack_op_switch(Controllers *c,uint8_t x) {
 void ctl_init(Controllers *c)
 {
     c->values_[kControllerPitch] = 0x2000;
-    c->values_[kControllerPitchRange] = 3;
+    c->values_[kControllerPitchRange] = 1;
     c->values_[kControllerPitchStep] = 0;
     c->modwheel_cc = 0;
     c->foot_cc = 0;
@@ -62,7 +60,7 @@ static InterfaceTable *ft;
 
 struct RDX7 : public Unit
 {
-    Controllers m_controllers;
+    Controllers m_ctl;
     Lfo m_lfo;
     Dx7Note *m_dx7_note;
     uint8_t m_dx7_data[155];
@@ -83,7 +81,7 @@ void RDX7_Ctor(RDX7 *unit)
     Lfo::init(SAMPLERATE);
     PitchEnv::init(SAMPLERATE);
     Env::init_sr(SAMPLERATE);
-    ctl_init(&(unit->m_controllers));
+    ctl_init(&(unit->m_ctl));
     unit->m_dx7_note = new Dx7Note; /* NON-RT, SHOULD OVER-RIDE CONSTRUCTOR */
     unit->m_prev_key_tr = 0;
     unit->m_prev_data_tr = 0;
@@ -92,6 +90,14 @@ void RDX7_Ctor(RDX7 *unit)
     rdu_init_buf(data);
     SETCALC(RDX7_next);
     RDX7_next(unit, 1);
+}
+
+/* (1 `shiftL` 24 == 0x1000000,0x8000 == 2^15,0x1000000 `shiftR` 9 == 0x8000) */
+f32 mfsa_to_f32(i32 x0)
+{
+    i32 x1 = x0 >> 4;
+    i32 x2 = x1 < -0x1000000 ? 0x8000 : x1 >= 0x1000000 ? 0x7fff : (x1 >> 9);
+    return ((f32)x2 / (f32)0x8000);
 }
 
 /* N = 64 ; REQUIRES inNumSamples be a multiple of N */
@@ -107,6 +113,11 @@ void RDX7_next(RDX7 *unit,int inNumSamples)
     int mnn = (int)fmnn;
     int cents = (int)((fmnn - (float)mnn) * 100);
     int vel = (int)(IN0(5)); /* INPUT 5 = NOTE VELOCITY */
+    unit->m_ctl.values_[kControllerPitch] = (int)(IN0(6)); /* INPUT 6 = PITCH-WHEEL (14-BIT) */
+    unit->m_ctl.modwheel_cc = (int)(IN0(7)); /* INPUT 7 = MOD-WHEEL */
+    unit->m_ctl.breath_cc = (int)(IN0(8));  /* INPUT 8 = BREATH-CTL */
+    unit->m_ctl.foot_cc = (int)(IN0(9)); /* INPUT 9 = FOOT-CTL */
+    unit->m_ctl.refresh();
     if (data_tr > 0.0 && unit->m_prev_data_tr <= 0.0) {
         for(int i = 0; i < 155; i++) {
             unit->m_dx7_data[i] = (uint8_t)(unit->m_buf_data->data[(vc * 155) + i]);
@@ -138,13 +149,10 @@ void RDX7_next(RDX7 *unit,int inNumSamples)
         int32_t lfodelay = unit->m_lfo.getdelay();
         AlignedBuf<int32_t, N> audiobuf;
         buf_zero(audiobuf,N);
-        unit->m_dx7_note->compute(audiobuf.get(), lfovalue, lfodelay, &(unit->m_controllers));
+        unit->m_dx7_note->compute(audiobuf.get(), lfovalue, lfodelay, &(unit->m_ctl));
         for (int j = 0; j < N; j++) {
-            int32_t val = audiobuf.get()[j];
-            val = val >> 4;
-            int clip_val = val < -(1 << 24) ? 0x8000 : val >= (1 << 24) ? 0x7fff : val >> 9;
-            f32 f = clipf32 ((f32)clip_val / (f32)0x8000,-1,1);
-            out[i + j] = f;
+            int32_t x = audiobuf.get()[j];
+            out[i + j] = mfsa_to_f32(x);
             audiobuf.get()[j] = 0;
         }
     }

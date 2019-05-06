@@ -130,8 +130,12 @@ rDX7_dsc =
                  ,std_I 2 "data" 0
                  ,std_I 3 "vc" 0
                  ,std_I 4 "mnn" 60
-                 ,std_I 5 "vel" 99]
-  ,ugen_summary = "DX7"
+                 ,std_I 5 "vel" 99
+                 ,std_I 6 "pw" 0
+                 ,std_I 7 "mw" 0
+                 ,std_I 8 "bc" 0
+                 ,std_I 9 "fc" 0]
+  ,ugen_summary = "DX7 (MFSA/DEXED)"
   ,ugen_outputs = Just 1}
 
 rDX7Env_dsc :: U
