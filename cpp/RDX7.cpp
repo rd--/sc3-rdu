@@ -64,8 +64,10 @@ struct RDX7 : public Unit
     Lfo m_lfo;
     Dx7Note *m_dx7_note;
     uint8_t m_dx7_data[155];
-    float m_prev_key_tr;
+    float m_prev_note_on_tr;
+    float m_prev_note_off_tr;
     float m_prev_data_tr;
+    int m_note_on_cnt; /* NOTE RE-USE */
     bool m_offline; /* INITIAL STATE */
     rdu_declare_buf(data);
 };
@@ -83,8 +85,10 @@ void RDX7_Ctor(RDX7 *unit)
     Env::init_sr(SAMPLERATE);
     ctl_init(&(unit->m_ctl));
     unit->m_dx7_note = new Dx7Note; /* NON-RT, SHOULD OVER-RIDE CONSTRUCTOR */
-    unit->m_prev_key_tr = 0;
+    unit->m_prev_note_on_tr = 0;
+    unit->m_prev_note_off_tr = 0;
     unit->m_prev_data_tr = 0;
+    unit->m_note_on_cnt = 0;
     dx7_init_voice(unit->m_dx7_data);
     unit->m_offline = true;
     rdu_init_buf(data);
@@ -100,49 +104,79 @@ f32 mfsa_to_f32(i32 x0)
     return ((f32)x2 / (f32)0x8000);
 }
 
+int rdx7_mnn_calc(RDX7 *unit,int mnn)
+{
+    return (mnn + (int)(unit->m_dx7_data[144]) - 24);
+}
+
+void rdx7_buf_read(RDX7 *unit,int vc)
+{
+    for(int i = 0; i < 155; i++) {
+        unit->m_dx7_data[i] = (uint8_t)(unit->m_buf_data->data[(vc * 155) + i]);
+    }
+}
+
 /* N = 64 ; REQUIRES inNumSamples be a multiple of N */
 void RDX7_next(RDX7 *unit,int inNumSamples)
 {
     float *out = OUT(0);
     rdu_get_buf(data,0); /* INPUT 0 = VOICE-DATA BUFFER */
     rdu_check_buf(data,1);
-    float key_tr = IN0(1); /* INPUT 1 = KEY GATE */
-    float data_tr = IN0(2); /* INPUT 2 = DATA TRIGGER */
-    int vc = (int)(IN0(3)); /* INPUT 3 = VOICE INDEX */
-    float fmnn = IN0(4); /* INPUT 4 = FRACTIONAL MIDI NOTE NUMBER */
+    float note_on_tr = IN0(1); /* INPUT 1 = NOTE-ON TR */
+    float note_off_tr = IN0(2); /* INPUT 2 = NOTE-OFF TR */
+    float data_tr = IN0(3); /* INPUT 3 = DATA TR */
+    int vc = (int)(IN0(4)); /* INPUT 4 = VOICE INDEX (PROGRAM NUMBER) */
+    float fmnn = IN0(5); /* INPUT 5 = FRACTIONAL MIDI NOTE NUMBER */
     int mnn = (int)fmnn;
     int cents = (int)((fmnn - (float)mnn) * 100);
-    int vel = (int)(IN0(5)); /* INPUT 5 = NOTE VELOCITY */
-    unit->m_ctl.values_[kControllerPitch] = (int)(IN0(6)); /* INPUT 6 = PITCH-WHEEL (14-BIT) */
-    unit->m_ctl.modwheel_cc = (int)(IN0(7)); /* INPUT 7 = MOD-WHEEL */
-    unit->m_ctl.breath_cc = (int)(IN0(8));  /* INPUT 8 = BREATH-CTL */
-    unit->m_ctl.foot_cc = (int)(IN0(9)); /* INPUT 9 = FOOT-CTL */
+    int vel = (int)(IN0(6)); /* INPUT 6 = NOTE VELOCITY */
+    unit->m_ctl.values_[kControllerPitch] = (int)(IN0(7)); /* INPUT 7 = PITCH-WHEEL (14-BIT) */
+    unit->m_ctl.modwheel_cc = (int)(IN0(8)); /* INPUT 8 = MOD-WHEEL */
+    unit->m_ctl.breath_cc = (int)(IN0(9));  /* INPUT 9 = BREATH-CTL */
+    unit->m_ctl.foot_cc = (int)(IN0(10)); /* INPUT 10 = FOOT-CTL */
     unit->m_ctl.refresh();
+    /* DATA TR - LOAD VOICE DATA AND UPDATE */
     if (data_tr > 0.0 && unit->m_prev_data_tr <= 0.0) {
-        for(int i = 0; i < 155; i++) {
-            unit->m_dx7_data[i] = (uint8_t)(unit->m_buf_data->data[(vc * 155) + i]);
+        rdx7_buf_read(unit,vc);
+        if (!unit->m_offline) {
+            unit->m_dx7_note->update(unit->m_dx7_data, rdx7_mnn_calc(unit,mnn), cents, vel);
+            unit->m_lfo.reset(unit->m_dx7_data + 137);
         }
-        unit->m_lfo.reset(unit->m_dx7_data + 137);
     }
-    if (key_tr > 0.0 && unit->m_prev_key_tr <= 0.0) {
+    /* NOTE-ON TR */
+    if (note_on_tr > 0.0 && unit->m_prev_note_on_tr <= 0.0) {
         unit->m_offline = false;
-        for(int i = 0; i < 155; i++) {
-            unit->m_dx7_data[i] = (uint8_t)(unit->m_buf_data->data[(vc * 155) + i]);
-        }
+        rdx7_buf_read(unit,vc);
         unit->m_lfo.keydown();
-        unit->m_dx7_note->init(unit->m_dx7_data, mnn + (int)(unit->m_dx7_data[144]) - 24, cents, vel);
+        if(unit->m_note_on_cnt == 0) {
+            unit->m_dx7_note->init(unit->m_dx7_data, rdx7_mnn_calc(unit,mnn), cents, vel);
+        } else {
+            unit->m_dx7_note->update(unit->m_dx7_data, rdx7_mnn_calc(unit,mnn), cents, vel);
+        }
         if (unit->m_dx7_data[136]) {
             unit->m_dx7_note->oscSync();
         }
-    } else if (key_tr <= 0.0 && unit->m_prev_key_tr > 0.0) {
-        unit->m_dx7_note->keyup();
+        unit->m_note_on_cnt += 1;
     }
+    /* NOTE-OFF TR */
+    if (note_off_tr > 0.0 && unit->m_prev_note_off_tr <= 0.0) {
+        if(unit->m_note_on_cnt == 1) {
+            unit->m_dx7_note->keyup();
+        }
+        if(unit->m_note_on_cnt > 0) {
+            unit->m_note_on_cnt -= 1;
+        } else if(!unit->m_offline){
+            fprintf(stderr,"RDX7: unexpected note-off?\n");
+        }
+    }
+    /* OFFLINE */
     if(unit->m_offline) {
         for (int i = 0; i < inNumSamples; i ++) {
             out[i] = 0.0;
         }
         return;
     }
+    /* PROCESS */
     for (int i = 0; i < inNumSamples; i += N) {
         dprintf("RDX7: SUBFRAME: i=%d\n",i);
         int32_t lfovalue = unit->m_lfo.getsample();
@@ -156,7 +190,9 @@ void RDX7_next(RDX7 *unit,int inNumSamples)
             audiobuf.get()[j] = 0;
         }
     }
-    unit->m_prev_key_tr = key_tr;
+    /* STATE */
+    unit->m_prev_note_on_tr = note_on_tr;
+    unit->m_prev_note_off_tr = note_off_tr;
     unit->m_prev_data_tr = data_tr;
 }
 

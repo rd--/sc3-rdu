@@ -125,16 +125,17 @@ rDX7_dsc =
   default_u
   {ugen_name = "RDX7"
   ,ugen_operating_rates = [AR]
-  ,ugen_inputs = [std_I 0 "bufnum" 0
-                 ,std_I 1 "gate" 0
-                 ,std_I 2 "data" 0
-                 ,std_I 3 "vc" 0
-                 ,std_I 4 "mnn" 60
-                 ,std_I 5 "vel" 99
-                 ,std_I 6 "pw" 0
-                 ,std_I 7 "mw" 0
-                 ,std_I 8 "bc" 0
-                 ,std_I 9 "fc" 0]
+  ,ugen_inputs = [std_I  0 "bufnum" 0
+                 ,std_I  1 "on" 0 -- keydown tr
+                 ,std_I  2 "off" 0 -- keyup tr
+                 ,std_I  3 "data" 0 -- data read tr
+                 ,std_I  4 "vc" 0
+                 ,std_I  5 "mnn" 60
+                 ,std_I  6 "vel" 99
+                 ,std_I  7 "pw" 0
+                 ,std_I  8 "mw" 0
+                 ,std_I  9 "bc" 0
+                 ,std_I 10 "fc" 0]
   ,ugen_summary = "DX7 (MFSA/DEXED)"
   ,ugen_outputs = Just 1}
 
