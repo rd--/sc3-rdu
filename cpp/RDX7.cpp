@@ -64,10 +64,10 @@ struct RDX7 : public Unit
     Lfo m_lfo;
     Dx7Note *m_dx7_note;
     uint8_t m_dx7_data[155];
-    float m_prev_note_on_tr;
-    float m_prev_note_off_tr;
+    float m_prev_gate_tr;
+    float m_prev_reset_tr;
     float m_prev_data_tr;
-    int m_note_on_cnt; /* NOTE RE-USE */
+    int m_reset_cnt;
     bool m_offline; /* INITIAL STATE */
     rdu_declare_buf(data);
 };
@@ -85,10 +85,10 @@ void RDX7_Ctor(RDX7 *unit)
     Env::init_sr(SAMPLERATE);
     ctl_init(&(unit->m_ctl));
     unit->m_dx7_note = new Dx7Note; /* NON-RT, SHOULD OVER-RIDE CONSTRUCTOR */
-    unit->m_prev_note_on_tr = 0;
-    unit->m_prev_note_off_tr = 0;
+    unit->m_prev_gate_tr = 0;
+    unit->m_prev_reset_tr = 0;
     unit->m_prev_data_tr = 0;
-    unit->m_note_on_cnt = 0;
+    unit->m_reset_cnt = 0;
     dx7_init_voice(unit->m_dx7_data);
     unit->m_offline = true;
     rdu_init_buf(data);
@@ -122,8 +122,8 @@ void RDX7_next(RDX7 *unit,int inNumSamples)
     float *out = OUT(0);
     rdu_get_buf(data,0); /* INPUT 0 = VOICE-DATA BUFFER */
     rdu_check_buf(data,1);
-    float note_on_tr = IN0(1); /* INPUT 1 = NOTE-ON TR */
-    float note_off_tr = IN0(2); /* INPUT 2 = NOTE-OFF TR */
+    float gate_tr = IN0(1); /* INPUT 1 = GATE TR */
+    float reset_tr = IN0(2); /* INPUT 2 = RESET TR */
     float data_tr = IN0(3); /* INPUT 3 = DATA TR */
     int vc = (int)(IN0(4)); /* INPUT 4 = VOICE INDEX (PROGRAM NUMBER) */
     float fmnn = IN0(5); /* INPUT 5 = FRACTIONAL MIDI NOTE NUMBER */
@@ -143,28 +143,28 @@ void RDX7_next(RDX7 *unit,int inNumSamples)
             unit->m_lfo.reset(unit->m_dx7_data + 137);
         }
     }
-    /* NOTE-ON TR */
-    if (note_on_tr > 0.0 && unit->m_prev_note_on_tr <= 0.0) {
+    bool is_note_on = gate_tr > 0.0 && unit->m_prev_gate_tr <= 0.0;
+    bool is_note_off = gate_tr <= 0.0 && unit->m_prev_gate_tr > 0.0;
+    bool is_reset = reset_tr > 0.0 && unit->m_prev_reset_tr <= 0.0;
+    if (is_note_on || is_reset) {
         unit->m_offline = false;
         rdx7_buf_read(unit,vc);
-        unit->m_lfo.keydown();
-        if(unit->m_note_on_cnt == 0) {
+        unit->m_lfo.keydown(); /* ? */
+        if(is_note_on && !is_reset) {
             unit->m_dx7_note->init(unit->m_dx7_data, rdx7_mnn_calc(unit,mnn), cents, vel);
         } else {
             unit->m_dx7_note->update(unit->m_dx7_data, rdx7_mnn_calc(unit,mnn), cents, vel);
+            unit->m_reset_cnt += 1;
         }
         if (unit->m_dx7_data[136]) {
             unit->m_dx7_note->oscSync();
         }
-        unit->m_note_on_cnt += 1;
     }
-    /* NOTE-OFF TR */
-    if (note_off_tr > 0.0 && unit->m_prev_note_off_tr <= 0.0) {
-        if(unit->m_note_on_cnt == 1) {
+    if (is_note_off) {
+        if(unit->m_reset_cnt == 0) {
             unit->m_dx7_note->keyup();
-        }
-        if(unit->m_note_on_cnt > 0) {
-            unit->m_note_on_cnt -= 1;
+        } else if(unit->m_reset_cnt > 0) {
+            unit->m_reset_cnt -= 1;
         } else if(!unit->m_offline){
             fprintf(stderr,"RDX7: unexpected note-off?\n");
         }
@@ -191,8 +191,8 @@ void RDX7_next(RDX7 *unit,int inNumSamples)
         }
     }
     /* STATE */
-    unit->m_prev_note_on_tr = note_on_tr;
-    unit->m_prev_note_off_tr = note_off_tr;
+    unit->m_prev_gate_tr = gate_tr;
+    unit->m_prev_reset_tr = reset_tr;
     unit->m_prev_data_tr = data_tr;
 }
 

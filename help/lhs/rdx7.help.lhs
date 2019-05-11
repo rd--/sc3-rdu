@@ -18,16 +18,16 @@
       > withSC3 (mapM_ sendMessage (dx7_data_msg 0 DX7.dx7_init_voice))
 
 > g_01 =
->   let on = tr_control "on" 0
->       off = tr_control "off" 0
+>   let gate_ = control KR "gate" 0
+>       reset = control KR "reset" 0
 >       data_ = control KR "data" 0
 >       vc = control KR "vc" 0
 >       mnn = control KR "mnn" 60
 >       vel = control KR "vel" 99
->   in RDU.rdx7 AR 0 on off data_ vc mnn vel 0x2000 0 0 0
+>   in RDU.rdx7 AR 0 gate_ reset data_ vc mnn vel 0x2000 0 0 0
 
-      > withSC3 (sendMessage (n_set1 (-1) "on" 1.0))
-      > withSC3 (sendMessage (n_set1 (-1) "off" 1.0))
+      > withSC3 (sendMessage (n_set1 (-1) "gate" 1.0))
+      > withSC3 (sendMessage (n_set1 (-1) "gate" 0.0))
       > withSC3 (sendMessage (n_set1 (-1) "data" 0.0))
       > withSC3 (sendMessage (n_set1 (-1) "mnn" 69.0))
       > withSC3 (sendMessage (n_set1 (-1) "vel" 10.0))
@@ -40,13 +40,14 @@
 
 > f_02 nv =
 >   let tr = dust 'α' KR 2.0
->       on = toggleFF tr
->       off = 1 - on
+>       gate_ = toggleFF tr
+>       reset = 0
+>       data_ = 0
 >       vc = tRand 'β' 0 (nv - 1) tr
 >       mnn = tRand 'γ' 56.5 57.5 tr -- FRACTIONAL MIDI NOTE NUMBER -- 60 61
 >       vel = tRand 'δ' 10 29 tr
 >       loc = tRand 'ε' (-1) 1 tr
->   in pan2 (RDU.rdx7 AR 0 on off 0 vc mnn vel 0x2000 0 0 0) loc 1
+>   in pan2 (RDU.rdx7 AR 0 gate_ reset data_ vc mnn vel 0x2000 0 0 0) loc 1
 
 > g_02 = f_02 32
 
@@ -62,12 +63,12 @@
 >       mnn = iRand 'γ' 48 72
 >       vel = iRand 'δ' 10 69
 >       loc = rand 'ε' (-1) 1
->       on = 1
->       off = tDelay (impulse KR 0 0) dur
+>       gate_ = line KR 1 0 dur DoNothing
+>       reset = 0
 >       data_ = 0
 >       buf = asLocalBuf 'α' (map (constant . word8_to_double) vc)
->       s = pan2 (RDU.rdx7 AR buf on off data_ 0 mnn vel 0x2000 0 0 0) loc 1
->       d = detectSilence s 0.0001 0.1 RemoveSynth
+>       s = pan2 (RDU.rdx7 AR buf gate_ reset data_ 0 mnn vel 0x2000 0 0 0) loc 1
+>       d = detectSilence s 0.001 0.1 RemoveSynth
 >   in mrg [out 0 s,d]
 
 > g_04 = f_04 DX7.dx7_init_voice
