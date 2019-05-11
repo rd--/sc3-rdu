@@ -150,10 +150,8 @@ void RDX7_next(RDX7 *unit,int inNumSamples)
         unit->m_offline = false;
         rdx7_buf_read(unit,vc);
         unit->m_lfo.keydown(); /* ? */
-        if(is_note_on && !is_reset) {
-            unit->m_dx7_note->init(unit->m_dx7_data, rdx7_mnn_calc(unit,mnn), cents, vel);
-        } else {
-            unit->m_dx7_note->update(unit->m_dx7_data, rdx7_mnn_calc(unit,mnn), cents, vel);
+        unit->m_dx7_note->init(unit->m_dx7_data, rdx7_mnn_calc(unit,mnn), cents, vel);
+        if(!is_note_on) {
             unit->m_reset_cnt += 1;
         }
         if (unit->m_dx7_data[136]) {
