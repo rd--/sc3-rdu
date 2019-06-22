@@ -1,31 +1,29 @@
-// Allocate signal buffer.
-f = Platform.systemAppSupportDir +/+ "sounds/a11wlk01.wav";
-s.sendMsg("/b_allocRead", 10, f, 0, -1);
+// allocate signal buffer.
+(var fn = systemAppSupportDir(Platform) +/+ "sounds/a11wlk01.wav"
+;postln("alloc-read",fn)
+;sendMsg(s,"/b_allocRead",10,fn,0,-1))
 
-// Instrument definition
-SynthDef("RFreezer",{
-    arg out=0, bufnum=0, left=0, right=1, gain=1,
-        increment=1, incrementOffset=0, incrementRandom=0, rightRandom=0,
-        phaseSynchronize=0, phaseRandomize=0, numberOfLoops=4;
-    Out.ar(out,RFreezer.ar(bufnum, left, right, gain, [increment, increment+0.01],
-        incrementOffset, incrementRandom, rightRandom,
-        phaseSynchronize, phaseRandomize,
-        numberOfLoops))}).add;
+// instrument definition
+add(new(SynthDef,"RFreezer",
+{arg out=0,bufnum=0,left=0,right=1,gain=1,incr=1
+    ,incrOff=0,incrRand=0,rightRand=0,phaseSync=0,phaseRand=0,numLp=4
+;ar(Out,out,ar(RFreezer,bufnum,left,right,gain,[incr,incr + 0.01]
+              ,incrOff,incrRand,rightRand,phaseSync,phaseRand,numLp))}))
 
-// Mouse{XY} controller definitions.
-SynthDef("MouseControl", {
-    var left = MouseX.kr(0,1) * (1.0 - size);
-    var size = MouseY.kr(0.05, 0.95);
-    Out.kr(32, max(left, 0.0));
-    Out.kr(33, min(left+size, 1.0))}).add;
+// mouse{xy} controller definitions
+add(new(SynthDef,"MouseControl",
+{var size = kr(MouseY,0.05,0.95)
+;var left = kr(MouseX,0,1) * (1.0 - size)
+;kr(Out,32,max(left,0.0))
+;kr(Out,33,min(left + size,1.0))}))
 
-// Put default values onto control busses and Start instrument.
-s.sendMsg("/c_setn", 32, 10, 0.3, 0.4, 0.36, 0.35, 0.02, 0.003, 0.34, -0.5, -0.5, 6);
-s.sendMsg("/s_new", "RFreezer", 1003, 1, 0, "bufnum", 10, "gain", 0.1);
-s.sendMsg("/n_mapn", 1003, 2, 32, 10);
-s.sendMsg("/s_new", "MouseControl", 1004, 1, 0);
+// put default values onto control busses and start instrument
+sendMsg(s,"/c_setn",32,10,0.3,0.4,0.36,0.35,0.02,0.003,0.34,-0.5,-0.5,6);
+sendMsg(s,"/s_new","RFreezer",1003,1,0,"bufnum",10,"gain",0.1);
+sendMsg(s,"/n_mapn",1003,2,32,10);
+sendMsg(s,"/s_new","MouseControl",1004,1,0);
 
 // Free nodes and buffer.
-s.sendMsg("/n_free", 1003);
-s.sendMsg("/n_free", 1004);
-s.sendMsg("/b_free", 10);
+sendMsg(s,"/n_free",1003);
+sendMsg(s,"/n_free",1004);
+sendMsg(s,"/b_free",10);

@@ -1,15 +1,15 @@
-// Unary node
-{var o = SinOsc.ar([440,441], 0) * 0.2
-;var x = MouseX.kr(0.0001, 0.02)
-;var y = MouseY.kr(0.001, 0.25, 1)
-;var s = RShufflerL.ar(o, x, y)
-;Out.ar(0,s)}.play
+// unary node
+{var o = ar(SinOsc,[440,441],0) * 0.2
+;var x = kr(MouseX,0.0001,0.02)
+;var y = kr(MouseY,0.001,0.25,1)
+;var s = ar(RShufflerL,o,x,y)
+;ar(Out,0,s)}.play
 
-// Parallel node banks
+// parallel node banks
 {var n = 6
-;var o = SinOsc.ar([440,441], 0) * 0.2
-;var x = MouseX.kr(0.0001, 0.02)
-;var y = MouseY.kr(0.001, 0.25, 1)
-;var f = x * Array.fill(n,{4.0.rand})
-;var d = y * Array.fill(n,{4.0.rand})
-;Out.ar(0,Splay.ar(RShufflerL.ar(o,f,d)))}.play
+;var o = ar(SinOsc,[440,441],0) * 0.2
+;var x = kr(MouseX,0.0001,0.02)
+;var y = kr(MouseY,0.001,0.25,1)
+;var f = x * fill(Array,n,{rand(4.0)})
+;var d = y * fill(Array,n,{rand(4.0)})
+;ar(Out,0,ar(Splay,ar(RShufflerL,o,f,d)))}.play

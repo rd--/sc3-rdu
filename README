@@ -3,28 +3,45 @@ sc3-rdu
 
 [supercollider3][sc3] unit generators
 
-- [DustR](?t=sc3-rdu&e=md/sc3-rdu.md#dustr)
-- [PV_Split](?t=sc3-rdu&e=md/sc3-rdu.md#pv_split)
+- DustR
+  help.{[lhs](?t=sc3-rdu&e=help/lhs/dustR.help.lhs)
+        [scd](?t=sc3-rdu&e=help/scd/DustR.help.scd)
+        [scm](?t=sc3-rdu&e=help/scm/dust-r.help.scm)}
+- PV_Split
+  help.{[lhs](?t=sc3-rdu&e=help/lhs/pv_split.help.lhs)}
 - [*RandN](?t=sc3-rdu&e=md/sc3-rdu.md#randn)
-- [RDelayMap](?t=sc3-rdu&e=md/sc3-rdu.md#rdelaymap)
+- RDelayMap
+  help.{[lhs](?t=sc3-rdu&e=help/lhs/rDelayMap.help.lhs)
+        [scd](?t=sc3-rdu&e=help/scd/RDelayMap.help.scd)
+        [scm](?t=sc3-rdu&e=help/scm/r-delay-map.help.scm)}
 - [RDelaySet*](?t=sc3-rdu&e=md/sc3-rdu.md#rdelayset)
 - [RDL](?t=sc3-rdu&e=md/sc3-rdu.md#rdl)
 - RDX7:
   [cpp](?t=sc3-rdu&e=cpp/RDX7.cpp)
-  [help.lhs](?t=sc3-rdu&e=help/lhs/rdx7.help.lhs)
+  help.{[lhs](?t=sc3-rdu&e=help/lhs/rdx7.help.lhs)
+        [scd](?t=sc3-rdu&e=help/scd/RDX7.help.scd)}
   (Raph Levien, Pascal Gauthier)
 - RFreezer:
   [cpp](?t=sc3-rdu&e=cpp/RFreezer.cpp)
-  [help.lhs](?t=sc3-rdu&e=help/lhs/rFreezer.help.lhs)
-- [RLoopSet](?t=sc3-rdu&e=md/sc3-rdu.md#rloopset)
+  help.{[lhs](?t=sc3-rdu&e=help/lhs/rFreezer.help.lhs)
+        [scd](?t=sc3-rdu&e=help/scd/RFreezer.help.scd)}
+- RLoopSet
+  help.{[lhs](?t=sc3-rdu&e=help/lhs/rLoopSet.help.lhs)
+        [scd](?t=sc3-rdu&e=help/scd/RLoopSet.help.scd)}
 - RObxdFilter:
   [cpp](?t=sc3-rdu&e=cpp/RObxdFilter.cpp)
-  [help.lhs](?t=sc3-rdu&e=help/lhs/rObxdFilter.help.lhs)
+  help.{[lhs](?t=sc3-rdu&e=help/lhs/rObxdFilter.help.lhs)}
   (Filatov Vadim)
-- [RPlayTrace](?t=sc3-rdu&e=md/sc3-rdu.md#rplaytrace)
-- [RPVDecayTbl](?t=sc3-rdu&e=md/sc3-rdu.md#rpvdecaytbl)
-- [RShufflerB](?t=sc3-rdu&e=md/sc3-rdu.md#rshufflerb)
-- [RShufflerL](?t=sc3-rdu&e=md/sc3-rdu.md#rshufflerl)
+- RPlayTrace
+  help.{[lhs](?t=sc3-rdu&e=help/lhs/rPlayTrace.help.lhs)}
+- RPVDecayTbl
+  help.{[lhs](?t=sc3-rdu&e=help/lhs/rpvDecayTbl.help.lhs)}
+- RShufflerB
+  help.{[lhs](?t=sc3-rdu&e=help/lhs/rShufflerB.help.lhs)
+        [scd](?t=sc3-rdu&e=help/scd/RShufflerB.help.scd)}
+- RShufflerL
+  help.{[lhs](?t=sc3-rdu&e=help/lhs/rShufflerL.help.lhs)
+        [scd](?t=sc3-rdu&e=help/scd/RShufflerL.help.scd)}
 - [RTraceRd](?t=sc3-rdu&e=md/sc3-rdu.md#rtracerd)
 - [TScramble](?t=sc3-rdu&e=md/sc3-rdu.md#tscramble)
 

@@ -37,13 +37,13 @@ Check buffer.
 
 Static instances
 
-> gr_02 = rFreezer AR 10 0.35 0.4 0.6 0.1 0.05 0.02 0.1 0 0 6
+> gr_02 = rFreezer 10 0.35 0.4 0.6 0.1 0.05 0.02 0.1 0 0 6
 
-> gr_03 = rFreezer AR 10 0.3 0.4 0.6 1 0 0 0 0 0 6
+> gr_03 = rFreezer 10 0.3 0.4 0.6 1 0 0 0 0 0 6
 
-> gr_04 = rFreezer AR 10 0.3 0.7 0.6 0.35 0 0.5 0.5 0 0 6
+> gr_04 = rFreezer 10 0.3 0.7 0.6 0.35 0 0.5 0.5 0 0 6
 
-> gr_05 = rFreezer AR 10 0.2500 0.2505 0.1 1 0 0.050 0.005 0 0 24
+> gr_05 = rFreezer 10 0.2500 0.2505 0.1 1 0 0.050 0.005 0 0 24
 
 K-rate instances
 
@@ -51,7 +51,7 @@ K-rate instances
 >     let n z f i j = linLin (lfNoise2 z KR f) (-1) 1 i j
 >         left = n 'α' 1 0.3 0.8
 >         right = left + n 'β' 1 0.01 0.05
->     in rFreezer AR 10 left right 0.1 0.5 0.1 0.5 0.05 0 0 24
+>     in rFreezer 10 left right 0.1 0.5 0.1 0.5 0.05 0 0 24
 
 K-rate & record interface
 
