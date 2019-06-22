@@ -24,7 +24,11 @@
 >       vc = control KR "vc" 0
 >       mnn = control KR "mnn" 60
 >       vel = control KR "vel" 99
->   in RDU.rdx7 AR 0 gate_ reset data_ vc mnn vel 0x2000 0 0 0
+>       pw = 0x2000
+>       mw = 0
+>       bc = 0
+>       fc = 0
+>   in RDU.rdx7 AR 0 gate_ reset data_ vc mnn vel pw mw bc fc
 
       > withSC3 (sendMessage (n_set1 (-1) "gate" 1.0))
       > withSC3 (sendMessage (n_set1 (-1) "gate" 0.0))
@@ -59,14 +63,14 @@
 > g_03 = f_02 221
 
 > f_04 vc =
->   let dur = rand 'a' 0.1 10.0
->       mnn = iRand 'γ' 48 72
->       vel = iRand 'δ' 10 69
->       loc = rand 'ε' (-1) 1
+>   let dur = rand 'α' 0.1 10.0
+>       mnn = iRand 'β' 48 72
+>       vel = iRand 'γ' 10 69
+>       loc = rand 'δ' (-1) 1
 >       gate_ = line KR 1 0 dur DoNothing
 >       reset = 0
 >       data_ = 0
->       buf = asLocalBuf 'α' (map (constant . word8_to_double) vc)
+>       buf = asLocalBuf 'ε' (map (constant . word8_to_double) vc)
 >       s = pan2 (RDU.rdx7 AR buf gate_ reset data_ 0 mnn vel 0x2000 0 0 0) loc 1
 >       d = detectSilence s 0.001 0.1 RemoveSynth
 >   in mrg [out 0 s,d]
