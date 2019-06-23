@@ -3,47 +3,75 @@ sc3-rdu
 
 [supercollider3][sc3] unit generators
 
-- DustR
-  help.{[lhs](?t=sc3-rdu&e=help/lhs/dustR.help.lhs)
-        [scd](?t=sc3-rdu&e=help/scd/DustR.help.scd)
-        [scm](?t=sc3-rdu&e=help/scm/dust-r.help.scm)}
-- PV_Split
-  help.{[lhs](?t=sc3-rdu&e=help/lhs/pv_split.help.lhs)}
-- [*RandN](?t=sc3-rdu&e=md/sc3-rdu.md#randn)
-- RDelayMap
-  help.{[lhs](?t=sc3-rdu&e=help/lhs/rDelayMap.help.lhs)
+- DustR:
+  .[cpp](?t=sc3-rdu&e=cpp/DustR.cpp)
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/dustR.help.lhs)
+         [scd](?t=sc3-rdu&e=help/scd/DustR.help.scd)
+         [scm](?t=sc3-rdu&e=help/scm/dust-r.help.scm)}
+- PV_Split:
+  .[cpp](?t=sc3-rdu&e=cpp/PV_Split.cpp)
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/pv_split.help.lhs)}
+- {Exp,I,Lin,T}RandN:
+  .[cpp](?t=sc3-rdu&e=cpp/RandN.cpp)
+- ExpRandN:
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/expRandN.help.lhs)}
+- RandN:
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/randN.help.lhs)}
+- RDelayMap:
+  .[cpp](?t=sc3-rdu&e=cpp/RDelayMap.cpp)
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rDelayMap.help.lhs)
         [scd](?t=sc3-rdu&e=help/scd/RDelayMap.help.scd)
         [scm](?t=sc3-rdu&e=help/scm/r-delay-map.help.scm)}
-- [RDelaySet*](?t=sc3-rdu&e=md/sc3-rdu.md#rdelayset)
-- [RDL](?t=sc3-rdu&e=md/sc3-rdu.md#rdl)
+- RDelaySet:
+  .[cpp](?t=sc3-rdu&e=cpp/RDelaySet.cpp)
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rDelaySet.help.lhs)
+         [scd](?t=sc3-rdu&e=help/scd/RDelaySet.help.scd)}
+- RDelaySetB
+  .[cpp](?t=sc3-rdu&e=cpp/RDelaySetB.cpp)
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rDelaySetB.help.lhs)
+         [scd](?t=sc3-rdu&e=help/scd/RDelaySetB.help.scd)}
+- RDL:
+  .[cpp](?t=sc3-rdu&e=cpp/RDL.cpp)
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rdl.help.lhs)}
 - RDX7:
   [cpp](?t=sc3-rdu&e=cpp/RDX7.cpp)
-  help.{[lhs](?t=sc3-rdu&e=help/lhs/rdx7.help.lhs)
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rdx7.help.lhs)
         [scd](?t=sc3-rdu&e=help/scd/RDX7.help.scd)}
   (Raph Levien, Pascal Gauthier)
 - RFreezer:
   [cpp](?t=sc3-rdu&e=cpp/RFreezer.cpp)
-  help.{[lhs](?t=sc3-rdu&e=help/lhs/rFreezer.help.lhs)
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rFreezer.help.lhs)
         [scd](?t=sc3-rdu&e=help/scd/RFreezer.help.scd)}
-- RLoopSet
-  help.{[lhs](?t=sc3-rdu&e=help/lhs/rLoopSet.help.lhs)
+- RLoopSet:
+  .[cpp](?t=sc3-rdu&e=cpp/RLoopSet.cpp)
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rLoopSet.help.lhs)
         [scd](?t=sc3-rdu&e=help/scd/RLoopSet.help.scd)}
 - RObxdFilter:
   [cpp](?t=sc3-rdu&e=cpp/RObxdFilter.cpp)
-  help.{[lhs](?t=sc3-rdu&e=help/lhs/rObxdFilter.help.lhs)}
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rObxdFilter.help.lhs)}
   (Filatov Vadim)
-- RPlayTrace
-  help.{[lhs](?t=sc3-rdu&e=help/lhs/rPlayTrace.help.lhs)}
-- RPVDecayTbl
-  help.{[lhs](?t=sc3-rdu&e=help/lhs/rpvDecayTbl.help.lhs)}
-- RShufflerB
-  help.{[lhs](?t=sc3-rdu&e=help/lhs/rShufflerB.help.lhs)
-        [scd](?t=sc3-rdu&e=help/scd/RShufflerB.help.scd)}
-- RShufflerL
-  help.{[lhs](?t=sc3-rdu&e=help/lhs/rShufflerL.help.lhs)
-        [scd](?t=sc3-rdu&e=help/scd/RShufflerL.help.scd)}
-- [RTraceRd](?t=sc3-rdu&e=md/sc3-rdu.md#rtracerd)
-- [TScramble](?t=sc3-rdu&e=md/sc3-rdu.md#tscramble)
+- R\*Trace\*:
+  .[cpp](?t=sc3-rdu&e=cpp/RTrace.cpp)
+- RPlayTrace:
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rPlayTrace.help.lhs)}
+- RTraceRd:
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rTraceRd.help.lhs)
+        [scd](?t=sc3-rdu&e=help/scd/RTraceRd.help.scd)}
+- RPVDecay*:
+  .[cpp](?t=sc3-rdu&e=cpp/RPVDecay.cpp)
+- RPVDecayTbl:
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rpvDecayTbl.help.lhs)}
+- RShufflerB:
+  .[cpp](?t=sc3-rdu&e=cpp/RShufflerB.cpp)
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rShufflerB.help.lhs)
+         [scd](?t=sc3-rdu&e=help/scd/RShufflerB.help.scd)}
+- RShufflerL:
+  .[cpp](?t=sc3-rdu&e=cpp/RShufflerL.cpp)
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rShufflerL.help.lhs)
+         [scd](?t=sc3-rdu&e=help/scd/RShufflerL.help.scd)}
+- TScramble:
+  .[cpp](?t=sc3-rdu&e=cpp/TScramble.cpp)
+  .help.{[lhs](?t=sc3-rdu&e=help/lhs/tScramble.help.lhs)}
 
 © [rohan drape][rd], 1998-2019, [gpl][gpl].
 
