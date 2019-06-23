@@ -7,7 +7,7 @@ struct TScramble : public Unit {
   float m_prev_t;
 };
 
-void uscramble(TScramble* unit)
+void TScramble_step(TScramble* unit)
 {
   int i,j,k,m;
   float *d = unit->m_store;
@@ -31,7 +31,7 @@ void TScramble_next(TScramble *unit,int inNumSamples)
     for (i=0; i<k; i++) {
       unit->m_store[i] = IN0(i+1);
     }
-    uscramble(unit);
+    TScramble_step(unit);
   }
   for (i=0; i<k; i++) {
     OUT0(i) = unit->m_store[i];

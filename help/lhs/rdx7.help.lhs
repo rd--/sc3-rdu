@@ -1,3 +1,7 @@
+RDX7 is an SC3 UGen of the
+[Levien](https://github.com/google/music-synthesizer-for-android) /
+[Gauthier](https://github.com/asb2m10/dexed) DX7 emulator codes.
+
 > import Data.Word {- base -}
 
 > import Sound.OSC {- hosc -}

@@ -9,9 +9,9 @@ two channel sin tones, channels scramble on impulse, scramble may be identity
 >     let tr = impulse KR 1 0
 >     in sinOsc AR (tScramble 'α' tr (mce2 440 880)) 0 * 0.1
 
-c-major octave 4 sin tones across stereo field, scrambles on impulse
+c-major sin tones across stereo field, scrambles on impulse
 
 > g_02 =
 >     let tr = impulse KR 1 0
->         f = tScramble 'α' tr (mce (map midiCPS [60,62,64,65,67,69,71]))
+>         f = tScramble 'α' tr (mce (map midiCPS [60,62,64,65,67,69,71,72]))
 >     in splay (sinOsc AR f 0 * 0.1) 1 1 0 True
