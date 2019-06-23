@@ -9,4 +9,4 @@ n sine tones, set to linear-random frequencies on trigger
 >     let tr = impulse KR 1 0
 >     in splay (sinOsc AR (tRandN n 'α' 440 880 tr) 0) 1 0.1 0 True
 
-> gr_01 = f_01 12
+> g_01 = f_01 12

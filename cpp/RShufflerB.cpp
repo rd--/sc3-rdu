@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
+
 #include <SC_PlugIn.h>
 
 #include "c-common/gen-trapezoid.c"

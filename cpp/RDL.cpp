@@ -1,15 +1,12 @@
 #include <dlfcn.h>
 #include <stdio.h>
+
 #include "rdu.h"
 #include "RDL.h"
 
 static InterfaceTable *ft;
 
-extern "C" {
-  void RDL_next(RDL *unit, int inNumSamples);
-  void RDL_Ctor(RDL* unit);
-  void RDL_Dtor(RDL* unit);
-}
+rdu_prototypes_dtor(RDL)
 
 struct RDL_Command {
   Unit *unit;
@@ -115,7 +112,4 @@ void RDL_Dtor(RDL* unit) {
   unit->m_online = false;
 }
 
-PluginLoad(RDL) {
-  ft = inTable;
-  DefineDtorCantAliasUnit(RDL);
-}
+rdu_load_dtor_noalias(RDL)

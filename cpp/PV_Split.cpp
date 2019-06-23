@@ -1,14 +1,7 @@
-#include <stdio.h>
 #include <FFT_UGens.h>
+#include <SCComplex.h>
 
 InterfaceTable *ft;
-
-extern "C"
-{
-void load(InterfaceTable *inTable);
-void PV_Split_Ctor(PV_Unit *unit);
-void PV_Split_next(PV_Unit *unit, int inNumSamples);
-}
 
 void PV_Split_next(PV_Unit *unit, int inNumSamples)
 {
@@ -64,13 +57,8 @@ void PV_Split_Ctor(PV_Unit *unit)
 	ZOUT0(1) = ZIN0(1);
 }
 
-void init_SCComplex(InterfaceTable *inTable);
-
-#define DefinePVUnit(name) (*ft->fDefineUnit)(#name, sizeof(PV_Unit), (UnitCtorFunc)&name##_Ctor, 0, 0);
-
 PluginLoad(PV_Split)
 {
-  ft = inTable;
   init_SCComplex(inTable);
-  DefinePVUnit(PV_Split);
+  (*inTable->fDefineUnit)("PV_Split", sizeof(PV_Unit), (UnitCtorFunc)&PV_Split_Ctor, 0, 0);
 }

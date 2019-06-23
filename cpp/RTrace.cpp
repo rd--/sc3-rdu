@@ -1,6 +1,9 @@
 #include <stdio.h>
+
 #include <SC_PlugIn.h>
+
 #include "c-common/trace.c"
+
 #include "rdu.h"
 
 static InterfaceTable *ft;

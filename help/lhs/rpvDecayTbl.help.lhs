@@ -23,11 +23,11 @@ allocate and fill buffers
 
 pass though, sanity check
 
-> gr_00 = ifft' (fft' 10 (soundIn 0))
+> g_00 = ifft' (fft' 10 (soundIn 0))
 
 decay system
 
-> gr_01 = ifft' (rpvDecayTbl (fft' 10 (soundIn 0)) 11 12)
+> g_01 = ifft' (rpvDecayTbl KR (fft' 10 (soundIn 0)) 11 12)
 
 reset decay rate buffer
 

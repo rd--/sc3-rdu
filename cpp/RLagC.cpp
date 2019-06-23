@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #include <SC_PlugIn.h>
 
 static InterfaceTable *ft;
@@ -7,12 +8,6 @@ struct RLagC : public Unit {
   float m_in_1;
   double m_curve,m_start,m_end,m_index,m_incr;
 };
-
-extern "C" {
-  void load(InterfaceTable * inTable);
-  void RLagC_Ctor(RLagC * unit);
-  void RLagC_next(RLagC * unit, int inNumSamples);
-}
 
 double curve(double c,double x0,double x1,double t)
 {

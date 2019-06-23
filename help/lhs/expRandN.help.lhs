@@ -5,11 +5,11 @@
 
 two channel sin tones
 
-> gr_01 = sinOsc AR (expRandN 2 'α' 440 880) 0 * 0.1
+> g_01 = sinOsc AR (expRandN 2 'α' 440 880) 0 * 0.1
 
 n node klang synthesis
 
-> gr_02 =
+> g_02 =
 >     let n = 240
 >         f = expRandN n 'α' 40 18000
 >         a = expRandN n 'β' 0.1 0.3
@@ -19,6 +19,6 @@ n node klang synthesis
 
 mce...
 
-> gr_03 =
+> g_03 =
 >     let f = randN 2 'α' (mce2 440 441) 442
 >     in sinOsc AR f 0 * 0.1

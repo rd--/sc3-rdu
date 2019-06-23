@@ -1,6 +1,4 @@
-#include <stdio.h>
 #include <SC_PlugIn.h>
-#include "rdu.h"
 
 static InterfaceTable *ft;
 
@@ -8,8 +6,6 @@ struct TScramble : public Unit {
   float *m_store;
   float m_prev_t;
 };
-
-rdu_prototypes_dtor(TScramble);
 
 void uscramble(TScramble* unit)
 {
@@ -23,18 +19,6 @@ void uscramble(TScramble* unit)
     t = d[i];
     d[i] = d[j];
     d[j] = t;
-  }
-}
-
-void TScramble_Ctor(TScramble* unit)
-{
-  int i, k;
-  k = unit->mNumInputs - 1;
-  unit->m_store = (float*)RTAlloc(unit->mWorld, k * sizeof(float));
-  unit->m_prev_t = 0;
-  SETCALC(TScramble_next);
-  for (i=0;i<k;i++) {
-    OUT0(i) = IN0(i+1);
   }
 }
 
@@ -55,9 +39,25 @@ void TScramble_next(TScramble *unit,int inNumSamples)
   unit->m_prev_t = t;
 }
 
+void TScramble_Ctor(TScramble* unit)
+{
+  int i, k;
+  k = unit->mNumInputs - 1;
+  unit->m_store = (float*)RTAlloc(unit->mWorld, k * sizeof(float));
+  unit->m_prev_t = 0;
+  SETCALC(TScramble_next);
+  for (i=0;i<k;i++) {
+    OUT0(i) = IN0(i+1);
+  }
+}
+
 void TScramble_Dtor(TScramble *unit)
 {
   RTFree(unit->mWorld,unit->m_store);
 }
 
-rdu_load_dtor(TScramble);
+PluginLoad(TScramble)
+{
+  ft = inTable;
+  DefineDtorUnit(TScramble);
+}

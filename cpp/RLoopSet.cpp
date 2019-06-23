@@ -1,6 +1,9 @@
 #include <stdio.h>
+
 #include <SC_PlugIn.h>
+
 #include "c-common/signal-interpolate.c"
+
 #include "rdu.h"
 
 static InterfaceTable *ft;

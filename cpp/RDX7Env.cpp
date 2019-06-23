@@ -6,8 +6,6 @@
 
 #include <SC_PlugIn.h>
 
-#include "rdu.h"
-
 #include "dx7/env.cc"
 #include "dx7/exp2.cc"
 
@@ -25,20 +23,6 @@ struct RDX7Env : public Unit
     float m_prev_level_f;
     bool m_offline; /* INITIAL STATE */
 };
-
-rdu_prototypes(RDX7Env);
-
-void RDX7Env_Ctor(RDX7Env *unit)
-{
-    Exp2::init();
-    Env::init_sr(SAMPLERATE);
-    unit->m_prev_key_tr = 0;
-    unit->m_prev_data_tr = 0;
-    unit->m_prev_level_f = 0.0;
-    unit->m_offline = true;
-    SETCALC(RDX7Env_next);
-    RDX7Env_next(unit, 1);
-}
 
 void RDX7Env_cpy_param(RDX7Env *unit,bool is_init)
 {
@@ -103,4 +87,21 @@ void RDX7Env_next(RDX7Env *unit,int inNumSamples)
     unit->m_prev_data_tr = data_tr;
 }
 
-rdu_load(RDX7Env);
+void RDX7Env_Ctor(RDX7Env *unit)
+{
+    Exp2::init();
+    Env::init_sr(SAMPLERATE);
+    unit->m_prev_key_tr = 0;
+    unit->m_prev_data_tr = 0;
+    unit->m_prev_level_f = 0.0;
+    unit->m_offline = true;
+    SETCALC(RDX7Env_next);
+    RDX7Env_next(unit, 1);
+}
+
+PluginLoad(RDX7Env)
+{
+    ft = inTable;
+    DefineSimpleUnit(RDX7Env);
+}
+

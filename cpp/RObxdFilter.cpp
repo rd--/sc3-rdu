@@ -19,16 +19,6 @@ struct RObxdFilter : public Unit
     Filter *m_flt;
 };
 
-rdu_prototypes_dtor(RObxdFilter);
-
-void RObxdFilter_Ctor(RObxdFilter *unit)
-{
-    unit->m_flt = new Filter;
-    unit->m_flt->setSampleRate(SAMPLERATE);
-    SETCALC(RObxdFilter_next);
-    RObxdFilter_next(unit, 1);
-}
-
 void RObxdFilter_next(RObxdFilter *unit,int inNumSamples)
 {
     float *in = IN(0);
@@ -49,9 +39,21 @@ void RObxdFilter_next(RObxdFilter *unit,int inNumSamples)
     }
 }
 
+void RObxdFilter_Ctor(RObxdFilter *unit)
+{
+    unit->m_flt = new Filter;
+    unit->m_flt->setSampleRate(SAMPLERATE);
+    SETCALC(RObxdFilter_next);
+    RObxdFilter_next(unit, 1);
+}
+
 void RObxdFilter_Dtor(RObxdFilter *unit)
 {
     delete unit->m_flt;
 }
 
-rdu_load_dtor(RObxdFilter);
+PluginLoad(RObxdFilter)
+{
+    ft = inTable;
+    DefineDtorUnit(RObxdFilter);
+}

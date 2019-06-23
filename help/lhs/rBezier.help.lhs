@@ -5,21 +5,21 @@
 
 reference sine tone
 
-> gr_00 = sinOsc AR 440 0 * 0.25
+> g_00 = sinOsc AR 440 0 * 0.25
 
 bezier approximation of sin function
 
-> gr_01 = rBezier AR 440 0 (mce [0,0,0.2,-1.3,0.3,-1.3,0.5,0,0.7,1.3,0.8,1.3,1,0]) * 0.1
+> g_01 = rBezier AR 440 0 (mce [0,0,0.2,-1.3,0.3,-1.3,0.5,0,0.7,1.3,0.8,1.3,1,0]) * 0.1
 
     import Sound.SC3.Plot {- hsc3-plot -}
-    ugen_render_nrt 120 gr_01
-    plot_ugen1 0.01 gr_01
+    ugen_render_nrt (48000,64) 120 g_01
+    plot_ugen1 0.01 g_01
 
-> gr_02 =
+> g_02 =
 >     let x = mouseX KR 40 4000 Exponential 0.2
 >     in rBezier AR x 0 (mce [0,0,0.2,-1.3,0.3,-1.3,0.5,0,0.7,1.3,0.8,1.3,1,0]) * 0.1
 
-> gr_03 =
+> g_03 =
 >     let x = mouseX KR 40 4000 Exponential 0.2
 >         y = mouseY KR 0.1 0.2 Linear 0.2
 >     in rBezier AR x 0 (mce [0,0,y,-1.3,0.3,-1.3,0.5,0,0.7,1.3,0.8,1.3,1,0]) * 0.1

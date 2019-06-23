@@ -17,7 +17,7 @@ Gardner in his MS thesis _The Virtual Acoustic Room_, MIT 1992.
 
 Simple delay (static)
 
-> gr_01 =
+> g_01 =
 >     let a = mce [-1,0,0,0.5,1,-1,0,1]
 >         b = clearBuf (localBuf 'α' 1 88200)
 >         x = mouseX KR 110 440 Linear 0.1
@@ -27,7 +27,7 @@ Simple delay (static)
 
 Simple feedback circuit (static)
 
-> gr_02 =
+> g_02 =
 >     let n = whiteNoise 'α' AR
 >         b = clearBuf (localBuf 'β' 1 88200)
 >         s = decay (impulse AR (5/4) 0) 0.1 * n * 0.2
@@ -36,7 +36,7 @@ Simple feedback circuit (static)
 
 Simple feedback circuit (dynamic)
 
-> gr_03 =
+> g_03 =
 >     let n = whiteNoise 'α' AR -- soundIn 0
 >         s = decay (impulse AR (mce [1/3,5/4]) 0) 0.1 * n * 0.2
 >         x = mouseX KR 0.05 1.05 Linear 0.1

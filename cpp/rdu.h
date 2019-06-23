@@ -120,6 +120,13 @@ PluginLoad(name)                                \
     DefineDtorUnit(name);                       \
 }
 
+#define rdu_load_dtor_noalias(name)             \
+PluginLoad(name)                                \
+{                                               \
+    ft = inTable;                               \
+    DefineDtorCantAliasUnit(name);                       \
+}
+
 #define rdu_zero_outputs()                              \
     for (uint32 _i = 0; _i < unit->mNumOutputs; _i++) { \
         float *_b = OUT(_i);                            \
@@ -127,3 +134,6 @@ PluginLoad(name)                                \
             _b[_j] = 0.0;                               \
         }                                               \
     }
+
+#define rdu_define_pv_unit(ft,name) \
+  (*ft->fDefineUnit)(#name, sizeof(PV_Unit), (UnitCtorFunc)&name##_Ctor, 0, 0);

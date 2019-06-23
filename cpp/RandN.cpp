@@ -1,14 +1,8 @@
-#include <stdio.h>
 #include <SC_PlugIn.h>
-#include "rdu.h"
 
 static InterfaceTable *ft;
 
 struct ExpRandN : public Unit {};
-struct IRandN : public Unit {};
-struct LinRandN : public Unit {};
-struct RandN : public Unit {};
-struct TRandN : public Unit {float m_trig, *m_store;};
 
 void ExpRandN_Ctor(ExpRandN* unit)
 {
@@ -23,6 +17,8 @@ void ExpRandN_Ctor(ExpRandN* unit)
   }
 }
 
+struct IRandN : public Unit {};
+
 void IRandN_Ctor(IRandN* unit)
 {
   int lo = (int)IN0(0);
@@ -35,6 +31,8 @@ void IRandN_Ctor(IRandN* unit)
     OUT0(i) = (float)(rgen.irand(range) + lo);
   }
 }
+
+struct LinRandN : public Unit {};
 
 void LinRandN_Ctor(LinRandN* unit)
 {
@@ -57,6 +55,8 @@ void LinRandN_Ctor(LinRandN* unit)
   }
 }
 
+struct RandN : public Unit {};
+
 void RandN_Ctor(RandN* unit)
 {
   float l = IN0(0);
@@ -69,6 +69,8 @@ void RandN_Ctor(RandN* unit)
     OUT0(i) = rgen.frand() * d + l;
   }
 }
+
+struct TRandN : public Unit {float m_trig, *m_store;};
 
 void TRandN_gen(TRandN* unit)
 {

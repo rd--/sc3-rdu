@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <stdio.h>
+
 #include <SC_PlugIn.h>
 
 #include "c-common/bezier.c"
@@ -10,12 +11,6 @@ struct RBezier:public Unit {
   float m_phase;
   int m_points;
 };
-
-extern "C" {
-  void load(InterfaceTable * inTable);
-  void RBezier_Ctor(RBezier * unit);
-  void RBezier_next(RBezier * unit, int inNumSamples);
-}
 
 #define CFG_HALT_AFTER 100
 #define CFG_DX 0.0001

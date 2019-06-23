@@ -5,7 +5,7 @@
 
 Three one second delays...
 
-> gr_01 =
+> g_01 =
 >     let x = mouseX KR 110 660 Linear 0.2
 >         y = mouseY KR 0 0.6 Linear 0.2
 >         s = sinOsc AR x 0 * y

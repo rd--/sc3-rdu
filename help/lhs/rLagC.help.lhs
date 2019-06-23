@@ -13,6 +13,8 @@
 >       y = mouseY KR (-8) 8 Linear 0.2
 >   in sinOsc AR (mce2 p (rLagC p 0.75 x 1.5 y)) 0 * 0.1
 
+AR is not working...
+
 > g_03 =
 >   let o = lfPulse AR 50 0 0.25
 >   in mce2 o (rLagC o (1/500) 0 (1/500) 0) * 0.2

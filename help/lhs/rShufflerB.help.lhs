@@ -14,13 +14,13 @@ Allocate buffer (#10), required for all examples below.
 
 Check buffer.
 
-> gr_01 =
+> g_01 =
 >     let s = bufRateScale KR 10
 >     in playBuf 1 AR 10 s 1 0 NoLoop RemoveSynth * 0.1
 
 Static (record)
 
-> gr_02 =
+> g_02 =
 >     let r = RShufflerB
 >             {rate = AR
 >             ,bufnum = 10
@@ -47,19 +47,19 @@ Static (record)
 
 Static (parameter)
 
-> gr_03 = rShufflerB 10 0 0.05 0.95 1.05 0.035 0.05 0.1 0.2 0.4 0.6 0.4 0.6 0 1 0.005 0.01 1 0 0
+> g_03 = rShufflerB 10 0 0.05 0.95 1.05 0.035 0.05 0.1 0.2 0.4 0.6 0.4 0.6 0 1 0.005 0.01 1 0 0
 
 Static (static,quantized)
 
-> gr_04 = rShufflerB 10 0 1 0.5 2 0.025 0.075 0.2 0.6 0.1 0.9 0.1 0.9 0 1 0.005 0.05 0 0.5 0.005
+> g_04 = rShufflerB 10 0 1 0.5 2 0.025 0.075 0.2 0.6 0.1 0.9 0.1 0.9 0 1 0.005 0.05 0 0.5 0.005
 
 Static (static,pointilist)
 
-> gr_05 = rShufflerB 10 0.4 0.5 0.5 2 0.05 0.15 0.2 0.5 0.3 0.7 0.3 0.7 0 1 0.05 0.25 0 0 0
+> g_05 = rShufflerB 10 0.4 0.5 0.5 2 0.05 0.15 0.2 0.5 0.3 0.7 0.3 0.7 0 1 0.05 0.25 0 0 0
 
 Circulating record to buffer & static (record, use localBuf)
 
-> gr_06 =
+> g_06 =
 >     let r = RShufflerB
 >             {rate = AR
 >             ,bufnum = clearBuf (localBuf 'α' 1 (48000 * 4))
@@ -113,12 +113,12 @@ Circulating record to buffer & static (record, use localBuf)
 >      (k "readIncrementQuanta" 0.0 17)
 >      (k "interOffsetTimeQuanta" 0.0 18)
 
-> gr_07 =
+> g_07 =
 >   let b = clearBuf (localBuf 'α' 1 (48000 * 4))
 >       o = f_01 b
 >       i = recordBuf AR b (2048 * 12) 1 0 1 Loop 1 DoNothing (soundIn 0)
 >   in mrg2 o i
 
     import Sound.OSC {- hosc3 -}
-    audition_at (1001,AddToHead,1,[]) (out 0 gr_07)
+    audition_at (1001,AddToHead,1,[]) (out 0 g_07)
     withSC3 (sendMessage (n_mapn 1001 [(0,1,19)]))

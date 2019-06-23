@@ -1,9 +1,11 @@
 #include <math.h>
 #include <stdio.h>
+
 #include <SC_PlugIn.h>
 
 #include "c-common/rand.c"
 #include "c-common/taus88.c"
+
 #include "rdu.h"
 
 static InterfaceTable *ft;
