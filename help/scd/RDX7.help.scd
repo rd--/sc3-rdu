@@ -17,22 +17,24 @@
 ;add(sy))
 
 // setup midi (if required)
-connectAll(MIDIIn);
+connectAll(MIDIIn)
 
-// simple note on/off listeners, no voice logic
+// simple note on/off listeners, no voice logic, w/ tuning table
 (var syn = "rdx7-vc-gt"
 ;var mem = newClear(Array,128)
+;var scl = semitones(chromatic(Scale,at(Tuning,\mean4)))
+;var tun = flatten(collect(series(0,12,120),{arg n; n + scl}))
 ;noteOn(MIDIFunc,
-  {arg vel, mnn, ch, src
+  {arg vel,mnn,ch,src
   ;var nid = alloc(nodeAllocator(s))
   ;put(mem,mnn,nid)
-  ;postln(["note-on",mnn,vel,nid])
-  ;sendMsg(s,"/s_new", syn, nid, 0, 1, "mnn", mnn, "vel", vel, "gate", 1)},nil,0)
+  ;postln(["note-on",mnn,vel,nid,at(tun,mnn) - mnn])
+  ;sendMsg(s,"/s_new",syn,nid,0,1,"mnn",at(tun,mnn),"vel",vel,"gate",1)},nil,0)
 ;noteOff(MIDIFunc,
-  {arg vel, mnn, ch, src
+  {arg vel,mnn,ch,src
   ;var nid = at(mem,mnn)
   ;postln(["note-off",mnn,vel,nid])
-  ;sendMsg(s,"/n_set", nid, "gate", 0)},nil,0))
+  ;sendMsg(s,"/n_set",nid,"gate",0)},nil,0))
 
 // cleanup
 run(CmdPeriod)
