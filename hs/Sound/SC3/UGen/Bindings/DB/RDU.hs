@@ -150,8 +150,8 @@ rTraceRd rate bufnum degree index_ access = mkUGen Nothing [KR,AR] (Left rate) "
 -- * Variants
 
 -- | Variant that unpacks the output /mce/ node.
-pv_Split' :: UGen -> UGen -> (UGen,UGen)
-pv_Split' a b =
+pv_split :: UGen -> UGen -> (UGen,UGen)
+pv_split a b =
     case mceChannels (pv_Split a b) of
       [p,q] -> (p,q)
       _ -> error "pv_split"

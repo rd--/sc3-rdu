@@ -200,14 +200,14 @@ rpvDecayTbl_dsc =
     in osc_U "RPVDecayTbl" [KR] KR i 1 "Decay bin magnitudes according to multipliers in table." False
 
 -- | (k,name,default-value,meta-data)
-type Param = (Int,String,Double,C_Meta_T5 Double)
+type Ctl_Param = (Int,String,Double,C_Meta_T5 Double)
 
-param_rctl_bus_pp :: Param -> String
+param_rctl_bus_pp :: Ctl_Param -> String
 param_rctl_bus_pp (k,nm,def,meta) =
   let cs = c_meta_cs_pp meta def
   in printf "c[%d].setup(\"%s\",%s,%.4f,%d);" k nm cs def k
 
-param_rctl_node_pp :: Node_Id -> Param -> String
+param_rctl_node_pp :: Node_Id -> Ctl_Param -> String
 param_rctl_node_pp nid (k,nm,def,meta) =
   let cs = c_meta_cs_pp meta def
   in printf "c[%d].setup(\"%s\",%s,%.4f,nil,%d,\"%s\");" k nm cs def nid nm
@@ -215,7 +215,7 @@ param_rctl_node_pp nid (k,nm,def,meta) =
 -- | Parameters, std_I with I_meta.
 --
 -- > putStrLn $ unlines $ map param_rctl_bus_pp rShufflerB_param
-rShufflerB_param :: [Param]
+rShufflerB_param :: [Ctl_Param]
 rShufflerB_param =
   let t4 a b c d = (a,b,c,d)
   in [t4 0 "bufnum" 0 (0,100,"linear",1,"")
