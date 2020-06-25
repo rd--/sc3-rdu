@@ -1,15 +1,15 @@
 Name:              sc3-rdu
-Version:           0.18
+Version:           0.19
 Synopsis:          Haskell bindings to sc3-rdu (sc3 rd ugens)
 Description:       Haskell bindings to sc3-rdu (sc3 rd ugens)
 License:           GPL
 Category:          Sound
-Copyright:         (c) Rohan Drape, 1998-2018
+Copyright:         (c) Rohan Drape, 1998-2020
 Author:            Rohan Drape
 Maintainer:        rd@slavepianos.org
 Stability:         Experimental
-Homepage:          http://rd.slavepianos.org/t/sc3-rdu
-Tested-With:       GHC == 8.4.3
+Homepage:          http://rohandrape.net/t/sc3-rdu
+Tested-With:       GHC == 8.6.5
 Build-Type:        Simple
 Cabal-Version:     >= 1.8
 
@@ -18,8 +18,8 @@ Data-files:        README
 Library
   hs-source-dirs:  hs
   Build-Depends:   base == 4.*,
-                   hsc3 == 0.18.*,
-                   hsc3-db == 0.18.*
+                   hsc3 == 0.19.*,
+                   hsc3-db == 0.19.*
   GHC-Options:     -Wall -fwarn-tabs
   Exposed-modules: Sound.SC3.UGen.External.RDU
                    Sound.SC3.UGen.Bindings.DB.RDU
@@ -27,4 +27,4 @@ Library
 
 Source-Repository  head
   Type:            darcs
-  Location:        http://rd.slavepianos.org/sw/sc3-rdu
+  Location:        http://rohandrape.net/sw/sc3-rdu

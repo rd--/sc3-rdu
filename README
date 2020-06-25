@@ -1,4 +1,4 @@
-sc3-rdu
+-rdu
 -------
 
 [supercollider3][sc3] unit generators
@@ -76,8 +76,8 @@ sc3-rdu
 
 requires: [c-common](?t=c-common)
 
-© [rohan drape][rd], 1998-2019, [gpl][gpl].
+© [rohan drape][rd], 1998-2020, [gpl][gpl].
 
 [sc3]: http://audiosynth.com/
-[rd]:  http://rd.slavepianos.org/
+[rd]:  http://rohandrape.net/
 [gpl]: http://gnu.org/copyleft/
