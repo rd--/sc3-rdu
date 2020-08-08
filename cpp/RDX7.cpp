@@ -19,6 +19,7 @@
 #include "dx7/lfo.cc"
 #include "dx7/pitchenv.cc"
 #include "dx7/sin.cc"
+/* #include "dx7/tuning.cc" 0.9.5 */
 
 #include "dx7/EngineMkI.cpp"
 
@@ -41,7 +42,7 @@ void unpack_op_switch(Controllers *c,uint8_t x) {
 void ctl_init(Controllers *c)
 {
     c->values_[kControllerPitch] = 0x2000;
-    c->values_[kControllerPitchRange] = 1;
+    c->values_[kControllerPitchRange] = 1; /* 0.9.5 = Dn/Up */
     c->values_[kControllerPitchStep] = 0;
     c->modwheel_cc = 0;
     c->foot_cc = 0;
@@ -69,6 +70,7 @@ struct RDX7 : public Unit
     float m_prev_data_tr;
     int m_reset_cnt;
     bool m_offline; /* INITIAL STATE */
+    /* std::shared_ptr<TuningState> m_tuning; 0.9.5 */
     rdu_declare_buf(data);
 };
 
@@ -84,7 +86,8 @@ void RDX7_Ctor(RDX7 *unit)
     PitchEnv::init(SAMPLERATE);
     Env::init_sr(SAMPLERATE);
     ctl_init(&(unit->m_ctl));
-    unit->m_dx7_note = new Dx7Note; /* NON-RT, SHOULD OVER-RIDE CONSTRUCTOR */
+    /* unit->m_tuning = createStandardTuning(); 0 .9.5 */
+    unit->m_dx7_note = new Dx7Note(); /* NON-RT, SHOULD OVER-RIDE CONSTRUCTOR */
     unit->m_prev_gate_tr = 0;
     unit->m_prev_reset_tr = 0;
     unit->m_prev_data_tr = 0;

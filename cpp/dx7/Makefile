@@ -1,23 +1,30 @@
 DEXED_DIR = $(HOME)/opt/src/dexed/Source
 
-DEXED_H = aligned_buf controllers module synth
+DEXED_CPP = EngineMkI
 
-DEXED_CC = dx7note env exp2 fm_core fm_op_kernel freqlut lfo pitchenv sin
+MSFA_H = aligned_buf controllers module synth
 
-DEXED_O = $(DEXED_CC:=.o)
+MFSA_CC = dx7note env exp2 fm_core fm_op_kernel freqlut lfo pitchenv sin
+
+MFSA_O = $(MFSA_CC:=.o)
 
 DX7_DIR = $(HOME)/sw/sc3-rdu/cpp/dx7
 
+all:
+	echo "SEE MAKEFILE (make dexed-copy dexed-patch dexed-obj dexed-ar)"
+
 dexed-copy:
-	(cd $(DEXED_DIR)/msfa; cp -f $(DEXED_H:=.h) $(DEXED_CC:=.cc) $(DEXED_CC:=.h) $(DX7_DIR))
+	(cd $(DEXED_DIR); cp -f $(DEXED_CPP:=.cpp) $(DEXED_CPP:=.h) $(DX7_DIR))
+	(cd $(DEXED_DIR)/msfa; cp -f $(MSFA_H:=.h) $(MFSA_CC:=.cc) $(MFSA_CC:=.h) $(DX7_DIR))
 
 dexed-patch:
-	patch < dexed.patch
+	patch < ../../ext/patch/dexed-sc3-separate-0.9.4.patch
+	patch < ../../ext/patch/dexed-sc3-tuning-0.9.4.patch
 
-dexed-obj: $(DEXED_O)
+dexed-obj: $(MFSA_O)
 
-dexed-ar: $(DEXED_O)
-	ar -rcs lib-dx7.a $(DEXED_O)
+dexed-ar: $(MFSA_O)
+	ar -rcs lib-dx7.a $(MFSA_O)
 
 dexed-diff:
 	-diff -u $(DEXED_DIR)/msfa/controllers.h controllers.h
@@ -30,12 +37,15 @@ dexed-diff:
 	-diff -u $(DEXED_DIR)/EngineMkI.h EngineMkI.h
 
 dexed-rm:
-	rm -f $(DEXED_H:=.h) $(DEXED_CC:=.cc) $(DEXED_CC:=.h)
+	rm -f $(MSFA_H:=.h) $(MFSA_CC:=.cc) $(MFSA_CC:=.h)
+	rm -f $(DEXED_CPP:=.cpp) $(DEXED_CPP:=.h)
 
-all:
+dexed-all:
 	make dexed-obj
 	make dexed-ar
 
 clean:
-	rm -f $(DEXED_O)
+	make dexed-rm
+	rm -f $(MFSA_O)
+	rm -f *.orig *.rej
 	rm -f lib-dx7.a

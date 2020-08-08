@@ -1,0 +1,14 @@
+# MSFA / DEXED / RDX7
+
+The patches here are for VERSION 0.9.4 of DEXED.
+
+There are three patches:
+
+`dexed-tuning-0.9.4.patch` is applied at DEXED (it is used for the
+LX/VST also) and implements non-12-ET tuning.
+
+`dexed-sc3-separate-0.9.4.patch` is applied at SC3-RDU and alters
+include paths and add IFDEFS for separate compilation.
+
+`dexed-sc3-tuning-0.9.4.patch` is applied at SC3-RDU and add a `cents`
+tuning parameter to the note allocation and update commands.

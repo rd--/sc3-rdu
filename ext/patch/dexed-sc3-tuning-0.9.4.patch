@@ -1,0 +1,101 @@
+--- /home/rohan/opt/src/dexed/Source/msfa/dx7note.cc	2020-08-08 11:31:26.162141207 +1000
++++ dx7note.cc	2020-08-08 11:53:10.650741861 +1000
+@@ -32,11 +32,17 @@
+     tuning_tbl[k] = {d1,d2};
+ }
+ 
++struct midi_detune_t midi_detune_add_cents(struct midi_detune_t m,int cents) {
++    struct midi_detune_t r = m;
++    r.cents += cents;
++    return r;
++}
++
+ int32_t mididetune_to_logfreq(struct midi_detune_t m) {
+     const int base = 50857777;  // (1 << 24) * (log(440) / log(2) - 69/12)
+     const int step = (1 << 24) / 12;
+     const int c_step = (1 << 24) / 1200;
+-    return base + ((int)(m.midinote) * step) + ((int)(m.cents) * c_step);
++    return base + (m.midinote * step) + (m.cents * c_step);
+ }
+ 
+ int32_t midinote_to_logfreq(int midinote) {
+@@ -53,12 +59,12 @@
+     81503396, 82323963, 83117622
+ };
+ 
+-int32_t osc_freq(int midinote, int mode, int coarse, int fine, int detune) {
++int32_t osc_freq(int midinote, int cents, int mode, int coarse, int fine, int detune) {
+     // TODO: pitch randomization
+     int32_t logfreq;
+     if (mode == 0) {
+         /* RD TUNING TABLE */
+-        logfreq = mididetune_to_logfreq(tuning_tbl[midinote]);
++        logfreq = mididetune_to_logfreq(midi_detune_add_cents(tuning_tbl[midinote],cents));
+         
+         // could use more precision, closer enough for now. those numbers comes from my DX7
+         double detuneRatio = 0.0209 * exp(-0.396 * (((float)logfreq)/(1<<24))) / 7;
+@@ -159,7 +165,7 @@
+     }
+ }
+ 
+-void Dx7Note::init(const uint8_t patch[156], int midinote, int velocity) {
++void Dx7Note::init(const uint8_t patch[156], int midinote, int cents, int velocity) {
+     int rates[4];
+     int levels[4];
+     for (int op = 0; op < 6; op++) {
+@@ -184,7 +190,7 @@
+         int coarse = patch[off + 18];
+         int fine = patch[off + 19];
+         int detune = patch[off + 20];
+-        int32_t freq = osc_freq(midinote, mode, coarse, fine, detune);
++        int32_t freq = osc_freq(midinote, cents, mode, coarse, fine, detune);
+         opMode[op] = mode;
+         basepitch_[op] = freq;
+         ampmodsens_[op] = ampmodsenstab[patch[off + 14] & 3];
+@@ -274,7 +280,7 @@
+     pitchenv_.keydown(false);
+ }
+ 
+-void Dx7Note::update(const uint8_t patch[156], int midinote, int velocity) {
++void Dx7Note::update(const uint8_t patch[156], int midinote, int cents, int velocity) {
+     int rates[4];
+     int levels[4];
+     for (int op = 0; op < 6; op++) {
+@@ -283,7 +289,7 @@
+         int coarse = patch[off + 18];
+         int fine = patch[off + 19];
+         int detune = patch[off + 20];
+-        basepitch_[op] = osc_freq(midinote, mode, coarse, fine, detune);
++        basepitch_[op] = osc_freq(midinote, cents, mode, coarse, fine, detune);
+         ampmodsens_[op] = ampmodsenstab[patch[off + 14] & 3];
+         opMode[op] = mode;
+         
+--- /home/rohan/opt/src/dexed/Source/msfa/dx7note.h	2020-08-08 11:49:25.220270930 +1000
++++ dx7note.h	2020-08-08 11:53:20.330848078 +1000
+@@ -29,7 +29,7 @@
+ #include "fm_core.h"
+ 
+ /* RD TUNING TABLE */
+-struct midi_detune_t {int8_t midinote;int8_t cents;};
++struct midi_detune_t {int midinote;int cents;};
+ void tuning_tbl_set(int8_t k,int8_t d1,int8_t d2);
+ 
+ struct VoiceStatus {
+@@ -41,7 +41,7 @@
+ class Dx7Note {
+ public:
+     Dx7Note();
+-    void init(const uint8_t patch[156], int midinote, int velocity);
++    void init(const uint8_t patch[156], int midinote, int cents, int velocity);
+     
+     // Note: this _adds_ to the buffer. Interesting question whether it's
+     // worth it...
+@@ -56,7 +56,7 @@
+     // keyup, that won't work.
+     
+     // PG:add the update
+-    void update(const uint8_t patch[156], int midinote, int velocity);
++    void update(const uint8_t patch[156], int midinote, int cents, int velocity);
+     void peekVoiceStatus(VoiceStatus &status);
+     void transferState(Dx7Note& src);
+     void transferSignal(Dx7Note &src);
