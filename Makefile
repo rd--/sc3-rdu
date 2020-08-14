@@ -1,10 +1,13 @@
 prefix=$(HOME)/opt
 
 all:
-	(cd cpp; make all)
+	echo "sc3-rdu"
 
-install:
-	(cd cpp; make install)
+mk-cmd:
+	echo "sc3-rdu - NIL"
+
+mk-ugen:
+	(cd cpp; make all install)
 
 clean:
 	rm -fR dist
