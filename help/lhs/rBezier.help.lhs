@@ -12,7 +12,7 @@ bezier approximation of sin function
 > g_01 = rBezier AR 440 0 (mce [0,0,0.2,-1.3,0.3,-1.3,0.5,0,0.7,1.3,0.8,1.3,1,0]) * 0.1
 
     import Sound.SC3.Plot {- hsc3-plot -}
-    ugen_render_nrt (48000,64) 120 g_01
+    plot_ugen_nrt (48000,64) 120 g_01
     plot_ugen1 0.01 g_01
 
 > g_02 =
