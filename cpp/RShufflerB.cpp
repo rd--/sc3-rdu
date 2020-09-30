@@ -18,9 +18,9 @@ static InterfaceTable *ft;
 typedef struct
 {
   float duration;		/* seconds */
-  float read_location;		/*(0,1) */
-  float read_increment;         /*(-inf,+inf) */
-  float stereo_location;	/*(0,1) */
+  float read_location;		/* (0,1) */
+  float read_increment;         /* (-inf,+inf) */
+  float stereo_location;	/* (0,1) */
   bool active;			/* active flag */
   int sdur;			/* duration in samples */
   int scnt;			/* sample count for active grain */
@@ -34,12 +34,12 @@ grain_t;
 struct RShufflerB : public Unit
 {
   rdu_declare_buf(dl);
-  float m_buf_dl_location;     /* Current read location at the buffer */
-  long m_count;             /* number of samples processed */
-  long m_last;              /* last grain onset */
-  float m_iot;              /* inter-onset time */
-  int m_free_slot;          /* a known free grain or -1 */
-  grain_t m_grain[N_GRAINS]; /* Grain array. */
+  float m_buf_dl_location;   /* current read location at the buffer */
+  long m_count;              /* number of samples processed */
+  long m_last;               /* last grain onset */
+  float m_iot;               /* inter-onset time */
+  int m_free_slot;           /* a known free grain or -1 */
+  grain_t m_grain[N_GRAINS]; /* grain array */
 };
 
 rdu_prototypes(RShufflerB);
@@ -67,9 +67,13 @@ rdu_prototypes(RShufflerB);
 #define IOT_QUANTUM            19
 #define NUMBER_OF_CONTROLS     20
 
-/* Resolve random range set to value. */
+/* Resolve random range (LEFT,RIGHT) to value, Q = quantize */
 #define RLR_AT(l)(randf32(controls[(l)],controls[(l)+1]))
 #define RLR_AT_Q(l,q)(controls[(q)]>0.0?quantize(controls[(q)],RLR_AT((l))):RLR_AT((l)))
+
+/* Resolve random range (CENTER,DEVIATION) to value, Q = quantize */
+#define RCD_AT(l)(randf32(controls[(l)]-controls[(l)+1],controls[(l)]+controls[(l)+1]))
+#define RCD_AT_Q(l,q)(controls[(q)]>0.0?quantize(controls[(q)],RCD_AT((l))):RCD_AT((l)))
 
 /* Make a grain from control inputs. */
 inline static void
@@ -90,8 +94,7 @@ setup_grain(RShufflerB *unit,grain_t *g,float *controls)
   g->active = true;
 }
 
-/* If `z' is less than zero,or greater than or equal to `n',wrap by
-   `n' places. */
+/* If `z' is less than zero, or greater than or equal to `n',wrap by `n' places. */
 inline static void
 wrap_index(int n,float *z)
 {

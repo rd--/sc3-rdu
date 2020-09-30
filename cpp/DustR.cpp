@@ -21,7 +21,7 @@ void DustR_next(DustR *unit, int inNumSamples)
       z = (z * (iot_max - iot_min)) + iot_min;
       counter = (int32) (z * unit->mRate->mSampleRate);
     } else  {
-      out[0] = 0.f;
+      out[i] = 0.0;
     }
     counter -= 1;
   }

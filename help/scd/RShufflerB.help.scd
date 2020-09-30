@@ -53,6 +53,10 @@ s.sendMsg("/n_mapn", 1001, 2, 0, 20);
 s.sendMsg("/n_free", 1001);
 s.sendMsg("/b_free", 10);
 
+// ndef...
+
+
+
 // sc3-ctl...
 
 RGUI.midiInit;
@@ -80,7 +84,3 @@ c[17].setup("ftableReadLocationIncrement",ControlSpec.new(0.0000, 1.0000, Linear
 c[18].setup("readIncrementQuanta",ControlSpec.new(0.0000, 0.5000, LinearWarp, 0.0100, 0.0000),0.0000,18);
 c[19].setup("interOffsetTimeQuanta",ControlSpec.new(0.0000, 0.0100, LinearWarp, 0.0001, 0.0000),0.0000,19);
 )
-
-// Local Variables:
-// truncate-lines:t
-// End:

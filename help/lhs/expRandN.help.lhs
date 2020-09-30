@@ -15,7 +15,7 @@ n node klang synthesis
 >         a = expRandN n 'β' 0.1 0.3
 >         p = randN n 'γ' (-1) 1
 >         s = klangSpec_mce f a p
->     in klang AR 1 0 s * 0.05
+>     in klang AR 1 0 s * 0.01
 
 mce...
 

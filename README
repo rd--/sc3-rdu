@@ -1,7 +1,7 @@
 -rdu
 -------
 
-[supercollider3][sc3] unit generators
+[supercollider3](http://audiosynth.com/) unit generators
 
 - DustR:
   .help.{[lhs](?t=sc3-rdu&e=help/lhs/dustR.help.lhs)
@@ -76,8 +76,4 @@
 
 requires: [c-common](?t=c-common)
 
-© [rohan drape][rd], 1998-2020, [gpl][gpl].
-
-[sc3]: http://audiosynth.com/
-[rd]:  http://rohandrape.net/
-[gpl]: http://gnu.org/copyleft/
+© [rohan drape](http://rohandrape.net/), 1998-2020, [gpl](http://gnu.org/copyleft/)
