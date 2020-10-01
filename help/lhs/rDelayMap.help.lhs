@@ -8,7 +8,7 @@ location for destinations.  The operation is specified as an
 integer, zero is move, one is add, two is subtract, three is
 multiply, four is divide.  The gain is linear.  This UGen is
 useful for implementing nested filters, as described by William
-Gardner in his MS thesis _The Virtual Acoustic Room_, MIT 1992.
+Gardner in his MS thesis "The Virtual Acoustic Room", MIT 1992.
 
 > import Sound.SC3 {- hsc3 -}
 > import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}

@@ -1,7 +1,15 @@
+Linear input shuffler.
+
+A hamming window of duration 'fragmentSize' is applied to the input signal.
+The inter-offset time is a linear random value between 0 and 'maxDelay'.
+c.f. grainIn, monoGrain
+
 > import Sound.SC3 {- hsc3 -}
 > import Sound.SC3.UGen.Bindings.DB.RDU {- sc3-rdu -}
 
     Sound.SC3.UGen.DB.Record.u_summary Sound.SC3.UGen.External.RDU.rShufflerL_dsc
+
+> g_00 = rShufflerL (sinOsc AR 1200 0 * 0.1) 0.02 0.04
 
 Mouse control
 
@@ -28,4 +36,7 @@ Arrayed...
 
 > g_04 = f_02 6 (soundIn (mce2 0 1))
 
-... or Sound.SC3.UGen.Dot.draw
+Drawings:
+
+    import Sound.SC3.Plot {- hsc3-plot -}
+    plot_ugen_nrt (48000,64) 0.1 (rShufflerL (sinOsc AR 1200 0) 0.02 0.04)
