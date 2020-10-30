@@ -5,11 +5,8 @@ DustR : UGen {
 }
 
 RandN : MultiOutUGen {
-  *ar { arg  numChannels = 2, lo = 0, hi = 1;
-      ^this.multiNew('audio', numChannels, lo, hi)
-  }
-  *kr { arg numChannels = 2, lo = 0, hi = 1;
-      ^this.multiNew('control', numChannels, lo, hi)
+  *new { arg numChannels = 2, lo = 0, hi = 1;
+      ^this.multiNew('scalar', numChannels, lo, hi)
   }
   init { arg numChannels, lo, hi;
       inputs = [lo, hi];
@@ -103,6 +100,29 @@ RPlayTrace : UGen {
  *kr { arg  bufnum = 0.0, degree = 4.0, rate = 0.0, axis = 1.0, mul = 1.0, add = 0.0;
   ^this.multiNew('control', bufnum, degree, rate, axis).madd(mul, add);
  }
+}
+
+TRandN : MultiOutUGen {
+  *kr { arg numChannels = 2, lo = 0, hi = 1, trigger = 0;
+      ^this.multiNew('control', numChannels, lo, hi, trigger)
+  }
+  init { arg numChannels, lo, hi, trigger;
+      inputs = [lo, hi, trigger];
+      ^this.initOutputs(numChannels, rate)
+  }
+}
+
+TScramble : MultiOutUGen {
+  *ir { arg trigger = 0.0, inputs;
+    ^this.multiNewList(['scalar', trigger] ++ inputs);
+  }
+  *kr { arg trigger = 0.0, inputs;
+    ^this.multiNewList(['control', trigger] ++ inputs);
+  }
+  init { arg ... i;
+    inputs = i;
+    ^this.initOutputs(i.size - 1, rate)
+  }
 }
 
 PV_Split : MultiOutUGen {

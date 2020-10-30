@@ -1,18 +1,19 @@
-; dust-r
-
-(import (rsc3) (rsc3 dot))
-
-(define dust-r (mk-oscillator-id "DustR" (lo hi) 1))
-
-; density=1 ; mean-iot=1
+; dust ; density=1
 (dust ar 1)
+
+; dust-r ; mean-iot=1
 (dust-r ar 0.0001 2)
 
-; impulse
+; dust-r ; impulse (uniform iot)
 (dust-r ar 1 1)
+
+; impulse ; random gain
 (mul (impulse ar 1 0) (u:abs (white-noise ar)))
 
+; dust ; density=40
 (dust ar (/ 1 0.025))
+
+; dust-r
 (dust-r ar 0.0001 0.05)
 
 ; Courtesy Julian Rohrhuber, sc-dev/2006-January/009747.html
