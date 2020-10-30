@@ -1,3 +1,5 @@
+/* SC3 variants of OverlapTexture &etc. - rd */
+
 Texture {
 
     *add_env {
@@ -23,9 +25,7 @@ Texture {
     }
 
     *xfade {
-        arg newEventFunc, sustainTime = 4.0, transitionTime = 4.0,
-        numChannels = 2, maxRepeats = inf,
-        postProcess = nil, bus = 0;
+        arg newEventFunc, sustainTime = 4.0, transitionTime = 4.0, numChannels = 2, maxRepeats = inf, postProcess = nil, bus = 0;
         var period = sustainTime + transitionTime;
         Task({
             maxRepeats.do({
@@ -40,9 +40,7 @@ Texture {
     }
 
     *overlap {
-        arg newEventFunc, sustainTime = 4.0, transitionTime = 4.0, overlap = 2,
-        numChannels = 2, maxRepeats = inf,
-        postProcess = nil, bus = 0;
+        arg newEventFunc, sustainTime = 4.0, transitionTime = 4.0, overlap = 2, numChannels = 2, maxRepeats = inf, postProcess = nil, bus = 0;
         var period = (sustainTime + (transitionTime * 2)) / overlap;
         Task({
             maxRepeats.do({
@@ -63,6 +61,29 @@ Texture {
             z = treatment.(z);
             ReplaceOut.ar(bus,z);
         }.play(addAction: \addToTail);
+    }
+
+    *overlapGraph { // ugen graph variant
+        arg graphFunc, sustainTime = 4.0, transitionTime = 4.0, overlap = 2;
+        ^Mix.fill(overlap,{
+            arg i;
+            var trg = Impulse.kr(1 / (sustainTime + (transitionTime * 2)),i / overlap);
+            var snd = graphFunc.(trg);
+            var env = Env([0,1,1,0],[transitionTime,sustainTime,transitionTime],\sin);
+            snd * EnvGen.kr(env,trg);
+        });
+    }
+
+    *xfadeGraph { // ugen graph variant
+        arg graphFunc, sustainTime = 4.0, transitionTime = 4.0;
+        var mk = {
+            arg ph;
+            var trg = Impulse.kr(1 / (sustainTime + (transitionTime * 2)),ph);
+            var snd = graphFunc.(trg);
+            var env = Env([0,1,1,0],[transitionTime,sustainTime,transitionTime],\sin);
+            snd * EnvGen.kr(env,trg);
+        };
+        ^(mk.(0) + mk.((sustainTime + transitionTime) / (sustainTime + (transitionTime * 2))));
     }
 
 }

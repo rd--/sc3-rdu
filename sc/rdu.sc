@@ -4,6 +4,19 @@ DustR : UGen {
  }
 }
 
+RandN : MultiOutUGen {
+  *ar { arg  numChannels = 2, lo = 0, hi = 1;
+      ^this.multiNew('audio', numChannels, lo, hi)
+  }
+  *kr { arg numChannels = 2, lo = 0, hi = 1;
+      ^this.multiNew('control', numChannels, lo, hi)
+  }
+  init { arg numChannels, lo, hi;
+      inputs = [lo, hi];
+      ^this.initOutputs(numChannels, rate)
+  }
+}
+
 RDelaySet : UGen {
  *ar { arg  in = 0.0, spec ;
   ^this.multiNewList(['audio', in] ++ spec);
