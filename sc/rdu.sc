@@ -4,6 +4,16 @@ DustR : UGen {
  }
 }
 
+ExpRandN : MultiOutUGen {
+  *new { arg numChannels = 2, lo = 0, hi = 1;
+      ^this.multiNew('scalar', numChannels, lo, hi)
+  }
+  init { arg numChannels, lo, hi;
+      inputs = [lo, hi];
+      ^this.initOutputs(numChannels, rate)
+  }
+}
+
 RandN : MultiOutUGen {
   *new { arg numChannels = 2, lo = 0, hi = 1;
       ^this.multiNew('scalar', numChannels, lo, hi)
@@ -14,10 +24,19 @@ RandN : MultiOutUGen {
   }
 }
 
+RBezier : UGen {
+  *ar { arg freq = 440, phase = 0, param;
+    ^this.multiNewList(['audio', freq, phase] ++ param);
+  }
+  *kr { arg freq = 440, phase = 0, param;
+    ^this.multiNewList(['control', freq, phase] ++ param);
+  }
+}
+
 RDelaySet : UGen {
- *ar { arg  in = 0.0, spec ;
-  ^this.multiNewList(['audio', in] ++ spec);
- }
+  *ar { arg in = 0.0, spec;
+    ^this.multiNewList(['audio', in] ++ spec);
+  }
 }
 
 RDelaySetB : UGen {
@@ -48,6 +67,18 @@ RLoopSet : UGen {
  *ar { arg  bufnum = 0.0, left = 0.0, right = 1.0, gain = 1.0, increment = 1.0, spec ;
   ^this.multiNewList(['audio', bufnum, left, right, gain, increment] ++ spec);
  }
+}
+
+RObxdFilter : UGen {
+  *ar { arg in=0.0, cutoff=440.0, resonance=0.0, multimode=0.5, bandpass=0.0, fourpole=0.0;
+      ^this.multiNew('audio', in, cutoff, resonance, multimode, bandpass, fourpole);
+  }
+}
+
+RPVDecayTbl : PV_ChainUGen {
+  *new { arg fft_buf=0.0, decay_rate_buf=0.0, history_buf=0.0;
+    ^this.multiNew('control', fft_buf, decay_rate_buf, history_buf);
+  }
 }
 
 RShufflerB : MultiOutUGen {
