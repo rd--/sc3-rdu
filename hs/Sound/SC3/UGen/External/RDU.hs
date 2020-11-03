@@ -12,10 +12,10 @@ std_I :: Int -> String -> Double -> I
 std_I _ nm df = I nm df
 
 -- | In cases where inputs have clear meta-data this should be stored at hsc3-db, but it isn't.
-std_I_meta :: Int -> String -> Double -> C_Meta_T5 Double -> I
+std_I_meta :: Int -> String -> Double -> Control_Meta_T5 Double -> I
 std_I_meta ix nm df _ = std_I ix nm df
 
-c_meta_cs_pp :: C_Meta_T5 Double -> Double -> String
+c_meta_cs_pp :: Control_Meta_T5 Double -> Double -> String
 c_meta_cs_pp (lhs,rhs,warp,step,_units) def =
   let warp' = case warp of
                 "linear" -> "LinearWarp"
@@ -200,7 +200,7 @@ rpvDecayTbl_dsc =
     in osc_U "RPVDecayTbl" [KR] KR i 1 "Decay bin magnitudes according to multipliers in table." False
 
 -- | (k,name,default-value,meta-data)
-type Ctl_Param = (Int,String,Double,C_Meta_T5 Double)
+type Ctl_Param = (Int,String,Double,Control_Meta_T5 Double)
 
 param_rctl_bus_pp :: Ctl_Param -> String
 param_rctl_bus_pp (k,nm,def,meta) =
