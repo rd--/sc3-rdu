@@ -83,7 +83,7 @@ p =
 Ndef(\z,d.func).set(\bufnum, 10).play;
 p.do({arg x; Ndef(\z).addSpec(x[0].asSymbol,x[1])});
 Ndef(\z).gui;
-ProxyPresetGui(NdefPreset(\z));
+ProxyPresetGui(NdefPreset(\z,p.drop(2).collect({arg x; x[0].asSymbol}))); // skip out & bus param
 Ndef(\z).clear;
 
 // sc3-ctl...
