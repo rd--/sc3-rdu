@@ -4,74 +4,74 @@
 [supercollider3](http://audiosynth.com/) unit generators
 
 - DustR:
-  .help.{[lhs](?t=sc3-rdu&e=help/lhs/dustR.help.lhs)
+  .help.{[hs](?t=hsc3&e=Help/UGen/dustR.help.hs)
          [scd](?t=sc3-rdu&e=help/scd/DustR.help.scd)
-         [scm](?t=sc3-rdu&e=help/scm/dust-r.help.scm)}
+         [scm](?t=rsc3&e=help/ugen/dust-r.help.scm)}
   .[cpp](?t=sc3-rdu&e=cpp/DustR.cpp)
 - PV_Split:
   .help.{[lhs](?t=sc3-rdu&e=help/lhs/pv_split.help.lhs)}
   .[cpp](?t=sc3-rdu&e=cpp/PV_Split.cpp)
 - {Exp,I,Lin,T}RandN
   - ExpRandN:
-    .help.{[lhs](?t=sc3-rdu&e=help/lhs/expRandN.help.lhs)}
+    .help.{[hs](?t=hsc3&e=Help/UGen/expRandN.help.hs)}
   - RandN:
-    .help.{[lhs](?t=sc3-rdu&e=help/lhs/randN.help.lhs)}
+    .help.{[hs](?t=hsc3&e=Help/UGen/randN.help.hs)}
   - .[cpp](?t=sc3-rdu&e=cpp/RandN.cpp)
 - RDelayMap:
-  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rDelayMap.help.lhs)
+  .help.{[hs](?t=hsc3&e=Help/UGen/rDelayMap.help.hs)
         [scd](?t=sc3-rdu&e=help/scd/RDelayMap.help.scd)
-        [scm](?t=sc3-rdu&e=help/scm/r-delay-map.help.scm)}
+        [scm](?t=rsc3&e=help/ugen/r-delay-map.help.scm)}
   .[cpp](?t=sc3-rdu&e=cpp/RDelayMap.cpp)
 - RDelaySet:
-  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rDelaySet.help.lhs)
+  .help.{[hs](?t=hsc3&e=Help/UGen/rDelaySet.help.hs)
          [scd](?t=sc3-rdu&e=help/scd/RDelaySet.help.scd)}
   .[cpp](?t=sc3-rdu&e=cpp/RDelaySet.cpp)
 - RDelaySetB
-  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rDelaySetB.help.lhs)
+  .help.{[hs](?t=hsc3&e=Help/UGen/rDelaySetB.help.hs)
          [scd](?t=sc3-rdu&e=help/scd/RDelaySetB.help.scd)}
   .[cpp](?t=sc3-rdu&e=cpp/RDelaySetB.cpp)
 - RDL:
-  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rdl.help.lhs)}
+  .help.{[hs](?t=hsc3&e=Help/UGen/rdl.help.hs)}
   .[cpp](?t=sc3-rdu&e=cpp/RDL.cpp)
 - RDX7:
-  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rdx7.help.lhs)
+  .help.{[hs](?t=hsc3&e=Help/UGen/rdx7.help.hs)
         [scd](?t=sc3-rdu&e=help/scd/RDX7.help.scd)}
   .[cpp](?t=sc3-rdu&e=cpp/RDX7.cpp)
-  .[patch](sw/sc3-rdu/cpp/dx7/dexed.patch)
+  .[patch](sw/sc3-rdu/ext/patch/)
   [mk](sw/sc3-rdu/cpp/dx7/Makefile)
   (Raph Levien, Pascal Gauthier)
 - RFreezer:
-  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rFreezer.help.lhs)
+  .help.{[hs](?t=hsc3&e=Help/UGen/rFreezer.help.hs)
         [scd](?t=sc3-rdu&e=help/scd/RFreezer.help.scd)}
   .[cpp](?t=sc3-rdu&e=cpp/RFreezer.cpp)
 - RLoopSet:
-  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rLoopSet.help.lhs)
+  .help.{[hs](?t=hsc3&e=Help/UGen/rLoopSet.help.hs)
         [scd](?t=sc3-rdu&e=help/scd/RLoopSet.help.scd)}
   .[cpp](?t=sc3-rdu&e=cpp/RLoopSet.cpp)
 - RObxdFilter:
-  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rObxdFilter.help.lhs)}
+  .help.{[hs](?t=hsc3&e=Help/UGen/rObxdFilter.help.hs)}
   .[cpp](?t=sc3-rdu&e=cpp/RObxdFilter.cpp)
   (Filatov Vadim)
 - RTrace*:
   - RPlayTrace:
-    .help.{[lhs](?t=sc3-rdu&e=help/lhs/rPlayTrace.help.lhs)}
+    .help.{[hs](?t=hsc3&e=Help/UGen/rPlayTrace.help.hs)}
   - RTraceRd:
-    .help.{[lhs](?t=sc3-rdu&e=help/lhs/rTraceRd.help.lhs)
+    .help.{[hs](?t=hsc3&e=Help/UGen/rTraceRd.help.hs)
           [scd](?t=sc3-rdu&e=help/scd/RTraceRd.help.scd)}
   - .[cpp](?t=sc3-rdu&e=cpp/RTrace.cpp)
 - RPVDecayTbl:
-  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rpvDecayTbl.help.lhs)}
+  .help.{[hs](?t=hsc3&e=Help/UGen/rpvDecayTbl.help.hs)}
   .[cpp](?t=sc3-rdu&e=cpp/RPVDecay.cpp)
 - RShufflerB:
-  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rShufflerB.help.lhs)
+  .help.{[hs](?t=hsc3&e=Help/UGen/rShufflerB.help.hs)
          [scd](?t=sc3-rdu&e=help/scd/RShufflerB.help.scd)}
   .[cpp](?t=sc3-rdu&e=cpp/RShufflerB.cpp)
 - RShufflerL:
-  .help.{[lhs](?t=sc3-rdu&e=help/lhs/rShufflerL.help.lhs)
+  .help.{[hs](?t=hsc3&e=Help/UGen/rShufflerL.help.hs)
          [scd](?t=sc3-rdu&e=help/scd/RShufflerL.help.scd)}
   .[cpp](?t=sc3-rdu&e=cpp/RShufflerL.cpp)
 - TScramble:
-  .help.{[lhs](?t=sc3-rdu&e=help/lhs/tScramble.help.lhs)}
+  .help.{[hs](?t=hsc3&e=Help/UGen/tScramble.help.hs)}
   .[cpp](?t=sc3-rdu&e=cpp/TScramble.cpp)
 
 requires: [c-common](?t=c-common)
