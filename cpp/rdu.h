@@ -39,8 +39,8 @@ extern "C"                                              \
     unit->m_prev_buf_id_##nm = UINT32_MAX;           \
     unit->m_prev_buf_frames_##nm = -1;
 
-/* Set the unit field m_buf to point to the correct buffer, and
-   m_buf_id to the buffer number.  Handles local buffers.  */
+/* Set the unit field m_buf_##nm to point to the correct buffer, and
+   m_buf_id_##nm to the buffer number.  Handles local buffers.  */
 
 #define rdu_get_buf(nm,n)                                               \
     uint32 l_buf_id_##nm = (uint32) sc_max(0.f,IN0(n));                 \
