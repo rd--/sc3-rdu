@@ -19,7 +19,7 @@ P = DustR.so \
     RLoopSet.so \
     RObxdFilter.so \
     RPVDecay.so \
-    RShufflerB.so RShufflerL.so \
+    RShufflerB.so RShufflerL.so RSmplr.so \
     RTrace.so \
     TScramble.so
 
