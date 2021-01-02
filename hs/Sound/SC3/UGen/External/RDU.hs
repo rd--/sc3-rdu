@@ -8,12 +8,9 @@ import Sound.SC3 {- hsc3 -}
 import qualified Sound.SC3.UGen.DB.Bindings.Haskell as Haskell {- hsc3-db -}
 import Sound.SC3.UGen.DB.Record {- hsc3-db -}
 
-std_I :: Int -> String -> Double -> I
-std_I _ nm df = I nm df
-
 -- | In cases where inputs have clear meta-data this should be stored at hsc3-db, but it isn't.
-std_I_meta :: Int -> String -> Double -> Control_Meta_T5 Double -> I
-std_I_meta ix nm df _ = std_I ix nm df
+std_I_meta :: String -> Double -> Control_Meta_T5 Double -> I
+std_I_meta nm df _ = I nm df
 
 c_meta_cs_pp :: Control_Meta_T5 Double -> Double -> String
 c_meta_cs_pp (lhs,rhs,warp,step,_units) def =
@@ -46,78 +43,78 @@ u_flt k u = u {ugen_filter = Just [k]}
 
 dustR_dsc :: U
 dustR_dsc =
-    let i = [std_I 0 "lo" 0.0001
-            ,std_I 1 "hi" 1.0]
+    let i = [I "lo" 0.0001
+            ,I "hi" 1.0]
     in osc_U "DustR" [AR] AR i 1 "Range variant of Dust" True
 
 expRandN_dsc :: U
 expRandN_dsc =
-    let i = [std_I 0 "lo" 0.0001
-            ,std_I 1 "hi" 1.0]
+    let i = [I "lo" 0.0001
+            ,I "hi" 1.0]
         dsc = "Multi-channel variant of Rand"
     in u_ir (u_nc_input (osc_U "ExpRandN" [IR] IR i (-1) dsc True))
 
 iRandN_dsc :: U
 iRandN_dsc =
-    let i = [std_I 0 "lo" 0.0001
-            ,std_I 1 "hi" 1.0]
+    let i = [I "lo" 0.0001
+            ,I "hi" 1.0]
         dsc = "Multi-channel variant of IRand"
     in u_ir (u_nc_input (osc_U "IRandN" [IR] IR i (-1) dsc True))
 
 linRandN_dsc :: U
 linRandN_dsc =
-    let i = [std_I 0 "lo" 0.0001
-            ,std_I 1 "hi" 1.0
-            ,std_I 1 "minmax" 0.0]
+    let i = [I "lo" 0.0001
+            ,I "hi" 1.0
+            ,I "minmax" 0.0]
         dsc = "Multi-channel variant of LinRand"
     in u_ir (u_nc_input (osc_U "LinRandN" [IR] IR i (-1) dsc True))
 
 pv_Split_dsc :: U
 pv_Split_dsc =
-  let i = [std_I 0 "bufferA" 0
-          ,std_I 1 "bufferB" 0]
+  let i = [I "bufferA" 0
+          ,I "bufferB" 0]
       dsc = "Copies spectral frame (ie. PV_Copy with two outputs)."
   in osc_U "PV_Split" [KR] KR i 2 dsc False
 
 randN_dsc :: U
 randN_dsc =
-    let i = [std_I 0 "lo" 0.0001
-            ,std_I 1 "hi" 1.0]
+    let i = [I "lo" 0.0001
+            ,I "hi" 1.0]
         dsc = "Multi-channel variant of Rand"
     in u_ir (u_nc_input (osc_U "RandN" [IR] IR i (-1) dsc True))
 
 rBezier_dsc :: U
 rBezier_dsc =
-  let i = [std_I 0 "freq" 440
-          ,std_I 1 "phase" 0
-          ,std_I 2 "param" 0]
+  let i = [I "freq" 440
+          ,I "phase" 0
+          ,I "param" 0]
       dsc = "Bezier curve oscillator."
   in u_std_mce 1 (osc_U "RBezier" [KR,AR] AR i 1 dsc False)
 
 rDelayMap_dsc :: U
 rDelayMap_dsc =
-    let i = [std_I 0 "bufnum" 0
-            ,std_I 1 "input" 0
-            ,std_I 2 "dynamic" 0
-            ,std_I 3 "mapArray" 0]
+    let i = [I "bufnum" 0
+            ,I "input" 0
+            ,I "dynamic" 0
+            ,I "mapArray" 0]
     in u_flt 1 (u_std_mce 1 (osc_U "RDelayMap" [AR] AR i 1 "Network of delay line maps" False))
 
 rDelaySet_dsc :: U
 rDelaySet_dsc =
-    let i = [std_I 0 "input" 0
-            ,std_I 1 "setArray" 0]
+    let i = [I "input" 0
+            ,I "setArray" 0]
     in u_flt 0 (u_std_mce 1 (osc_U "RDelaySet" [AR] AR i 1 "Delay set (RTAlloc)" False))
 
 rDelaySetB_dsc :: U
 rDelaySetB_dsc =
-    let i = [std_I 0 "buffer" 0
-            ,std_I 1 "input" 0
-            ,std_I 2 "setArray" 0]
+    let i = [I "buffer" 0
+            ,I "input" 0
+            ,I "setArray" 0]
     in u_flt 1 (u_std_mce 1 (osc_U "RDelaySetB" [AR] AR i 1 "Delay set (Buffer)" False))
 
 rdl_dsc :: U
 rdl_dsc =
-    let i = [std_I 0 "inputs" 0]
+    let i = [I "inputs" 0]
     in u_ar (u_std_mce 1 (u_nc_input (osc_U "RDL" [AR] AR i 1 "Dynamic library host" False)))
 
 rDX7_dsc :: U
@@ -125,17 +122,17 @@ rDX7_dsc =
   default_u
   {ugen_name = "RDX7"
   ,ugen_operating_rates = [AR]
-  ,ugen_inputs = [std_I  0 "bufnum" 0
-                 ,std_I  1 "on" 0 -- keydown tr
-                 ,std_I  2 "off" 0 -- keyup tr
-                 ,std_I  3 "data" 0 -- data read tr
-                 ,std_I  4 "vc" 0
-                 ,std_I  5 "mnn" 60
-                 ,std_I  6 "vel" 99
-                 ,std_I  7 "pw" 0
-                 ,std_I  8 "mw" 0
-                 ,std_I  9 "bc" 0
-                 ,std_I 10 "fc" 0]
+  ,ugen_inputs = [I "bufnum" 0
+                 ,I "on" 0 -- keydown tr
+                 ,I "off" 0 -- keyup tr
+                 ,I "data" 0 -- data read tr
+                 ,I "vc" 0
+                 ,I "mnn" 60
+                 ,I "vel" 99
+                 ,I "pw" 0
+                 ,I "mw" 0
+                 ,I "bc" 0
+                 ,I "fc" 0]
   ,ugen_summary = "DX7 (MFSA/DEXED)"
   ,ugen_outputs = Just 1}
 
@@ -144,36 +141,36 @@ rDX7Env_dsc =
   default_u
   {ugen_name = "RDX7Env"
   ,ugen_operating_rates = [AR]
-  ,ugen_inputs = [std_I 0 "gate" 0
-                 ,std_I 1 "data" 0
-                 ,std_I 2 "r1" 99,std_I 3 "r2" 99,std_I 4 "r3" 99,std_I 5 "r4" 99
-                 ,std_I 6 "l1" 99,std_I 7 "l2" 99,std_I 8 "l3" 99,std_I 9 "l4" 00
-                 ,std_I 10 "ol" 0]
+  ,ugen_inputs = [I "gate" 0
+                 ,I "data" 0
+                 ,I "r1" 99,I "r2" 99,I "r3" 99,I "r4" 99
+                 ,I "l1" 99,I "l2" 99,I "l3" 99,I "l4" 00
+                 ,I "ol" 0]
   ,ugen_summary = "DX7Env"
   ,ugen_outputs = Just 1}
 
 rFreezer_dsc :: U
 rFreezer_dsc =
-    let i = [std_I 0 "bufnum" 0
-            ,std_I 1 "left" 0
-            ,std_I 2 "right" 1
-            ,std_I 3 "gain" 0.1
-            ,std_I 4 "increment" 1
-            ,std_I 5 "incrementOffset" 0
-            ,std_I 6 "incrementRandom" 0.05
-            ,std_I 7 "rightRandom" 0.05
-            ,std_I 8 "syncPhaseTrigger" 0
-            ,std_I 9 "randomizePhaseTrigger" 0
-            ,std_I 10 "numberOfLoops" 6]
+    let i = [I "bufnum" 0
+            ,I "left" 0
+            ,I "right" 1
+            ,I "gain" 0.1
+            ,I "increment" 1
+            ,I "incrementOffset" 0
+            ,I "incrementRandom" 0.05
+            ,I "rightRandom" 0.05
+            ,I "syncPhaseTrigger" 0
+            ,I "randomizePhaseTrigger" 0
+            ,I "numberOfLoops" 6]
     in u_ar (osc_U "RFreezer" [AR] AR i 1 "Concurrent loops at signal buffer" False)
 
 rLagC_dsc :: U
 rLagC_dsc =
-  let i = [std_I 0 "in" 0
-          ,std_I 1 "timeUp" 0.1
-          ,std_I 2 "curveUp" 0
-          ,std_I 3 "timeDown" 0.1
-          ,std_I 4 "curveDown" 0]
+  let i = [I "in" 0
+          ,I "timeUp" 0.1
+          ,I "curveUp" 0
+          ,I "timeDown" 0.1
+          ,I "curveDown" 0]
   in default_u {ugen_name = "RLagC"
                ,ugen_operating_rates = [KR]
                ,ugen_inputs = i
@@ -184,19 +181,19 @@ rLagC_dsc =
 
 rObxdFilter_dsc :: U
 rObxdFilter_dsc =
-    let i = [std_I 0 "in" 0
-            ,std_I 1 "cutoff" 440.0
-            ,std_I 2 "resonance" 0.0
-            ,std_I 3 "multimode" 0.5
-            ,std_I 4 "bandpass" 0.0
-            ,std_I 5 "fourpole" 0.0]
+    let i = [I "in" 0
+            ,I "cutoff" 440.0
+            ,I "resonance" 0.0
+            ,I "multimode" 0.5
+            ,I "bandpass" 0.0
+            ,I "fourpole" 0.0]
     in u_flt 0 (osc_U "RObxdFilter" [AR] AR i 1 "Obxd 12/24-dB multi-mode filter" False)
 
 rpvDecayTbl_dsc :: U
 rpvDecayTbl_dsc =
-    let i = [std_I 0 "fft_buf" 0
-            ,std_I 1 "decay_rate_buf" 0
-            ,std_I 2 "history_buf" 0]
+    let i = [I "fft_buf" 0
+            ,I "decay_rate_buf" 0
+            ,I "history_buf" 0]
     in osc_U "RPVDecayTbl" [KR] KR i 1 "Decay bin magnitudes according to multipliers in table." False
 
 -- | (k,name,default-value,meta-data)
@@ -212,7 +209,7 @@ param_rctl_node_pp nid (k,nm,def,meta) =
   let cs = c_meta_cs_pp meta def
   in printf "c[%d].setup(\"%s\",%s,%.4f,nil,%d,\"%s\");" k nm cs def nid nm
 
--- | Parameters, std_I with I_meta.
+-- | Parameters, I with meta.
 --
 -- > putStrLn $ unlines $ map param_rctl_bus_pp rShufflerB_param
 rShufflerB_param :: [Ctl_Param]
@@ -241,37 +238,37 @@ rShufflerB_param =
 
 rShufflerB_dsc :: U
 rShufflerB_dsc =
- let i = map (\(k,nm,def,_rng) -> std_I k nm def) rShufflerB_param
+ let i = map (\(_k,nm,def,_rng) -> I nm def) rShufflerB_param
  in osc_U "RShufflerB" [AR] AR i 2 "Signal shuffler (Buffer)" False
 
 rShufflerL_dsc :: U
 rShufflerL_dsc =
-    let i = [std_I 0 "in" 0
-            ,std_I 1 "fragmentSize" 0.005
-            ,std_I 2 "maxDelay" 0.005]
+    let i = [I "in" 0
+            ,I "fragmentSize" 0.005
+            ,I "maxDelay" 0.005]
     in u_flt 0 (osc_U "RShufflerL" [AR] AR i 1 "Signal shuffler (Linear)" False)
 
 rTraceRd_dsc :: U
 rTraceRd_dsc =
-    let i = [std_I 0 "bufnum" 0
-            ,std_I 1 "degree" 4
-            ,std_I 2 "index" 0
-            ,std_I 3 "access" 1]
+    let i = [I "bufnum" 0
+            ,I "degree" 4
+            ,I "index" 0
+            ,I "access" 1]
     in osc_U "RTraceRd" [KR,AR] AR i 1 "Read trace buffer" False
 
 rPlayTrace_dsc :: U
 rPlayTrace_dsc =
-    let i = [std_I 0 "bufnum" 0
-            ,std_I 1 "degree" 4
-            ,std_I 2 "rate" 0
-            ,std_I 3 "access" 1]
+    let i = [I "bufnum" 0
+            ,I "degree" 4
+            ,I "rate" 0
+            ,I "access" 1]
     in osc_U "RPlayTrace" [KR,AR] AR i 1 "Play trace buffer" False
 
 tScramble_dsc :: U
 tScramble_dsc =
     default_u {ugen_name = "TScramble"
               ,ugen_operating_rates = [IR,KR]
-              ,ugen_inputs = [std_I 0 "trigger" 0,std_I 1 "inputs" 0]
+              ,ugen_inputs = [I "trigger" 0,I "inputs" 0]
               ,ugen_summary = "Scramble inputs on trigger."
               ,ugen_std_mce = 1
               ,ugen_nc_mce = Just 0
@@ -283,11 +280,31 @@ tRandN_dsc :: U
 tRandN_dsc =
     default_u {ugen_name = "TRandN"
               ,ugen_operating_rates = [KR]
-              ,ugen_inputs = [std_I 0 "lo" 0,std_I 1 "hi" 1,std_I 2 "trigger" 0]
+              ,ugen_inputs = [I "lo" 0,I "hi" 1,I "trigger" 0]
               ,ugen_summary = "Generate new random values on trigger."
               ,ugen_nc_input = True
               ,ugen_filter = Just [2]
               ,ugen_nondet = True
+              }
+
+tExpRandN_dsc :: U
+tExpRandN_dsc =
+    default_u {ugen_name = "TExpRandN"
+              ,ugen_operating_rates = [KR]
+              ,ugen_inputs = [I "lo" 0,I "hi" 1,I "trigger" 0]
+              ,ugen_summary = "Generate new exponentially distributed random values on trigger."
+              ,ugen_nc_input = True
+              ,ugen_filter = Just [2]
+              ,ugen_nondet = True
+              }
+
+rSmplrIndex_dsc :: U
+rSmplrIndex_dsc =
+    default_u {ugen_name = "RSmplrIndex"
+              ,ugen_operating_rates = [KR]
+              ,ugen_inputs = [I "buf" 0,I "size" 0,I "mnn" 60]
+              ,ugen_summary = "Find buffer index and rate multiplier given table of MNN."
+              ,ugen_outputs = Just 2
               }
 
 -- * DB
@@ -312,10 +329,12 @@ rdu_db =
     ,rPlayTrace_dsc
     ,rpvDecayTbl_dsc
     ,rObxdFilter_dsc
+    ,tExpRandN_dsc
     ,tRandN_dsc
     ,tScramble_dsc
     ,rShufflerB_dsc
     ,rShufflerL_dsc
+    ,rSmplrIndex_dsc
     ,rTraceRd_dsc
     ]
 

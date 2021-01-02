@@ -117,6 +117,18 @@ rPlayTrace rate bufnum degree rate_ access = mkUGen Nothing [KR,AR] (Left rate) 
 rpvDecayTbl :: Rate -> UGen -> UGen -> UGen -> UGen
 rpvDecayTbl rate fft_buf decay_rate_buf history_buf = mkUGen Nothing [KR] (Left rate) "RPVDecayTbl" [fft_buf,decay_rate_buf,history_buf] Nothing 1 (Special 0) NoId
 
+-- | Find buffer index and rate multiplier given table of MNN.
+--
+--  RSmplrIndex [KR] buf=0.0 size=0.0 mnn=60.0
+rSmplrIndex :: Rate -> UGen -> UGen -> UGen -> UGen
+rSmplrIndex rate buf size mnn = mkUGen Nothing [KR] (Left rate) "RSmplrIndex" [buf,size,mnn] Nothing 2 (Special 0) NoId
+
+-- | Generate new random values on trigger.
+--
+--  TRandN [KR] lo=0.0 hi=1.0 trigger=0.0;    NC INPUT: True, FILTER: TRUE, NONDET
+tExpRandN :: ID a => Int -> a -> UGen -> UGen -> UGen -> UGen
+tExpRandN numChannels z lo hi trigger = mkUGen Nothing [KR] (Right [2]) "TExpRandN" [lo,hi,trigger] Nothing numChannels (Special 0) (toUId z)
+
 -- | Generate new random values on trigger.
 --
 --  TRandN [KR] lo=0.0 hi=1.0 trigger=0.0;    NC INPUT: True, FILTER: TRUE, NONDET
