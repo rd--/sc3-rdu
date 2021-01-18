@@ -40,6 +40,9 @@
   .[patch](sw/sc3-rdu/ext/patch/)
   [mk](sw/sc3-rdu/cpp/dx7/Makefile)
   (Raph Levien, Pascal Gauthier)
+- REvent:
+  .help.[scd](?t=sc3-rdu&e=help/scd/REvent.help.scd)
+  .[sc](?t=sc3-rdu&e=sc/revent.sc)
 - RFreezer:
   .help.{[hs](?t=hsc3&e=Help/UGen/rFreezer.help.hs)
         [scd](?t=sc3-rdu&e=help/scd/RFreezer.help.scd)}
@@ -76,4 +79,4 @@
 
 requires: [c-common](?t=c-common)
 
-© [rohan drape](http://rohandrape.net/), 1998-2020, [gpl](http://gnu.org/copyleft/)
+© [rohan drape](http://rohandrape.net/), 1998-2021, [gpl](http://gnu.org/copyleft/)
