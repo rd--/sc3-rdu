@@ -25,8 +25,10 @@ P = DustR.so \
 
 L = c-common/lib-c-common.a
 
+CXX=g++ # g++ clang++
+
 %.o : %.cpp
-	g++ -Wall -std=c++11 $(O) $(I) -c -shared $<
+	$(CXX) -Wall -std=c++11 $(O) $(I) -c $<
 
 %.so : %.o
 	ld $< -lm -shared -o $@
@@ -51,11 +53,11 @@ indent:
 	bcpp -yb -bcl RPVDecay.cpp
 
 mk-rdx7-sf:
-	g++ -O0 -Wall -g rdx7-sf.cpp -lsndfile -o rdx7-sf
+	$(CXX) -O0 -Wall -g rdx7-sf.cpp -lsndfile -o rdx7-sf
 
 mk-rdx7-env-sf:
-	g++ -O0 -Wall -g rdx7-env-sf.cpp -lsndfile -o rdx7-env-sf
+	$(CXX) -O0 -Wall -g rdx7-env-sf.cpp -lsndfile -o rdx7-env-sf
 
 mk-robdx-sf:
-	g++ -O0 -Wall -g robdx-sf.cpp -lsndfile -o robdx-sf
+	$(CXX) -O0 -Wall -g robdx-sf.cpp -lsndfile -o robdx-sf
 

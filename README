@@ -79,4 +79,9 @@
 
 requires: [c-common](?t=c-common)
 
+tested-with:
+
+- [gcc](http://gcc.gnu.org/) 10.2.1
+- [clang](https://clang.llvm.org/) 11.0.1
+
 © [rohan drape](http://rohandrape.net/), 1998-2021, [gpl](http://gnu.org/copyleft/)

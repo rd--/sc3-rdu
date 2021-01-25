@@ -8,9 +8,11 @@ static InterfaceTable *ft;
 
 rdu_prototypes_dtor(RDL)
 
+#define RDL_NAME_MAX 512
+
 struct RDL_Command {
   Unit *unit;
-  char dl_name[512];
+  char dl_name[RDL_NAME_MAX];
 };
 
 bool rdl_cmd_stage2(World* w, RDL_Command* cmd) {
@@ -81,7 +83,7 @@ void rdl_g_load (Unit *unit, struct sc_msg_iter *args) {
   u->m_online = false;
   RDL_Command* c = (RDL_Command*)RTAlloc(u->mWorld, sizeof(RDL_Command));
   c->unit = unit;
-  strncpy(c->dl_name,arg,512);
+  strncpy(c->dl_name,arg,RDL_NAME_MAX - 1);
   DoAsynchronousCommand(u->mWorld, 0, "", (void*)c,
                         (AsyncStageFn)rdl_cmd_stage2,
                         (AsyncStageFn)rdl_cmd_stage3,
