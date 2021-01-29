@@ -5,7 +5,8 @@ T = $(D)/lib/SuperCollider/plugins
 S = /usr/include/SuperCollider
 I = -I$(S)/plugin_interface \
     -I$(S)/common
-O = -O2 -fPIC -ffast-math -msse2
+# amd64: -msse2
+O = -O2 -fPIC -ffast-math
 P = DustR.so \
     PV_Split.so \
     RandN.so \

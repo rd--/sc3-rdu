@@ -1,4 +1,4 @@
-DEXED_DIR = $(HOME)/opt/src/dexed/Source
+DEXED_DIR = $(HOME)/opt/src/dexed-0.9.4/Source
 
 DEXED_CPP = EngineMkI
 
@@ -10,21 +10,26 @@ MFSA_O = $(MFSA_CC:=.o)
 
 DX7_DIR = $(HOME)/sw/sc3-rdu/cpp/dx7
 
+AR = ar # llvm-ar
+
 all:
-	echo "SEE MAKEFILE (make dexed-copy dexed-patch dexed-obj dexed-ar)"
+	echo "SEE MAKEFILE (make dexed-patch dexed-copy dexed-patch-sc3 dexed-obj dexed-ar)"
+
+dexed-patch:
+	(cd $(DEXED_DIR) ; patch -p1 < $(HOME)/sw/sc3-rdu/ext/patch/dexed-tuning-0.9.4.patch)
 
 dexed-copy:
 	(cd $(DEXED_DIR); cp -f $(DEXED_CPP:=.cpp) $(DEXED_CPP:=.h) $(DX7_DIR))
 	(cd $(DEXED_DIR)/msfa; cp -f $(MSFA_H:=.h) $(MFSA_CC:=.cc) $(MFSA_CC:=.h) $(DX7_DIR))
 
-dexed-patch:
+dexed-patch-sc3:
 	patch < ../../ext/patch/dexed-sc3-separate-0.9.4.patch
 	patch < ../../ext/patch/dexed-sc3-tuning-0.9.4.patch
 
 dexed-obj: $(MFSA_O)
 
 dexed-ar: $(MFSA_O)
-	ar -rcs lib-dx7.a $(MFSA_O)
+	$(AR) -rcs lib-dx7.a $(MFSA_O)
 
 dexed-diff:
 	-diff -u $(DEXED_DIR)/msfa/controllers.h controllers.h

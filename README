@@ -79,6 +79,8 @@
 
 requires: [c-common](?t=c-common)
 
+debian: supercollider-dev
+
 tested-with:
 
 - [gcc](http://gcc.gnu.org/) 10.2.1
