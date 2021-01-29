@@ -1,12 +1,16 @@
 prefix = $(HOME)/opt
 
+# amd64: -msse2
+
+CXX = g++ # g++ clang++
+CPPFLAGS = -Wall -pedantic -O2 -fPIC -ffast-math
+CXXFLAGS = -std=c++11
+
 D = $(prefix)
 T = $(D)/lib/SuperCollider/plugins
 S = /usr/include/SuperCollider
 I = -I$(S)/plugin_interface \
     -I$(S)/common
-# amd64: -msse2
-O = -O2 -fPIC -ffast-math
 P = DustR.so \
     PV_Split.so \
     RandN.so \
@@ -26,10 +30,8 @@ P = DustR.so \
 
 L = c-common/lib-c-common.a
 
-CXX=g++ # g++ clang++
-
 %.o : %.cpp
-	$(CXX) -Wall -std=c++11 $(O) $(I) -c $<
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(I) -c $<
 
 %.so : %.o
 	ld $< -lm -shared -o $@

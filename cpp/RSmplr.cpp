@@ -16,7 +16,7 @@ struct RSmplrIndex : public Unit
     float m_mul;
 };
 
-rdu_prototypes(RSmplrIndex);
+rdu_prototypes(RSmplrIndex)
 
 void RSmplrIndex_Ctor(RSmplrIndex* unit)
 {

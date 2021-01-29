@@ -13,7 +13,7 @@ tap_t;
   int m_tap_n;					\
   float *m_signal;				\
   int m_signal_n;				\
-  int m_write_index;
+  int m_write_index
 
 /* The input layout has the buffer index at zero or not at all,the
    input signal at zero or one,and then any number of triples,each
@@ -36,7 +36,7 @@ tap_t;
   }                                                     \
   unit->m_write_index = 0;                              \
   unit->m_signal_n =(int) ceil(location_max) + 1;       \
-  unit->m_signal = NULL;
+  unit->m_signal = NULL
 
 #define rdelayset_next_common(offset)				\
   float *out = OUT(0);                                          \

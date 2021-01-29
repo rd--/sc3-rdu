@@ -42,7 +42,7 @@ struct RFreezer : public Unit
   float m_phase_randomize_trigger_state;
 };
 
-rdu_prototypes(RFreezer);
+rdu_prototypes(RFreezer)
 
 #define BUFFER_NUMBER             0
 #define GROUP_LEFT                IN0(1)
@@ -209,4 +209,4 @@ void RFreezer_next(RFreezer *unit,int inNumSamples)
   }
 }
 
-rdu_load(RFreezer);
+rdu_load(RFreezer)

@@ -15,7 +15,7 @@ struct RDelaySetB : public Unit
   rdelayset_struct_common;
 };
 
-rdu_prototypes(RDelaySetB);
+rdu_prototypes(RDelaySetB)
 
 void RDelaySetB_Ctor(RDelaySetB *unit)
 {
@@ -37,4 +37,4 @@ void RDelaySetB_next(RDelaySetB *unit,int inNumSamples)
   rdelayset_next_common(1);
 }
 
-rdu_load(RDelaySetB);
+rdu_load(RDelaySetB)

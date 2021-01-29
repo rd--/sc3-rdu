@@ -30,7 +30,7 @@ struct RLoopSet : public Unit
   int m_size;
 };
 
-rdu_prototypes(RLoopSet);
+rdu_prototypes(RLoopSet)
 
 #define BUFFER_NUMBER             0
 #define GROUP_LEFT                IN0(1)
@@ -151,4 +151,4 @@ void RLoopSet_next(RLoopSet *unit,int inNumSamples)
   }
 }
 
-rdu_load(RLoopSet);
+rdu_load(RLoopSet)

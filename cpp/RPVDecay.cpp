@@ -16,7 +16,7 @@ struct RPVDecayTbl:PV_Unit
     rdu_declare_buf(dl);                          /* dhistory (delay) */
 };
 
-rdu_prototypes(RPVDecayTbl);
+rdu_prototypes(RPVDecayTbl)
 
 void RPVDecayTbl_next(RPVDecayTbl * unit, int inNumSamples)
 {

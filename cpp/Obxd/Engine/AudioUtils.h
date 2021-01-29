@@ -48,7 +48,7 @@ inline static float getPitch(float index)
 	//float ofs = index-mi;
 	//
  // return lut[mi] + (lut[mi+1] - lut[mi]) * ofs;
-};
+}
 
 inline static float tptlpupw(float & state , float inp , float cutoff , float srInv)
 {
@@ -65,7 +65,7 @@ inline static float tptlp(float& state,float inp,float cutoff,float srInv)
 	double res = v + state;
 	state = res + v;
 	return res;
-};
+}
 inline static float tptpc(float& state,float inp,float cutoff)
 {
 	double v = (inp - state) * cutoff / (1 + cutoff);

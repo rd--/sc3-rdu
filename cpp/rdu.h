@@ -17,11 +17,11 @@ extern "C"                                              \
 
 #define rdu_declare_buf(nm)                    \
     SndBuf *m_buf_##nm;                        \
-    uint32 m_buf_id_##nm;
+    uint32 m_buf_id_##nm
 
 #define rdu_init_buf(nm)                        \
     unit->m_buf_##nm = NULL;                    \
-    unit->m_buf_id_##nm = UINT32_MAX;
+    unit->m_buf_id_##nm = UINT32_MAX
 
 /* Monitored buffers are useful when the UGen needs to do considerable
    setup if the buffer changes.  The buffer ID and frame count are
@@ -31,13 +31,13 @@ extern "C"                                              \
     SndBuf *m_buf_##nm;                         \
     uint32 m_buf_id_##nm;                       \
     uint32 m_prev_buf_id_##nm;                  \
-    int m_prev_buf_frames_##nm;
+    int m_prev_buf_frames_##nm
 
 #define rdu_init_monitored_buf(nm)                   \
     unit->m_buf_##nm = NULL;                         \
     unit->m_buf_id_##nm = UINT32_MAX;                \
     unit->m_prev_buf_id_##nm = UINT32_MAX;           \
-    unit->m_prev_buf_frames_##nm = -1;
+    unit->m_prev_buf_frames_##nm = -1
 
 /* Set the unit field m_buf_##nm to point to the correct buffer, and
    m_buf_id_##nm to the buffer number.  Handles local buffers.  */

@@ -36,7 +36,7 @@ struct RDelayMap : public Unit
   int m_write_index;
 };
 
-rdu_prototypes(RDelayMap);
+rdu_prototypes(RDelayMap)
 
 /* The input layout has the buffer index at zero the input signal at
    one, a dynamic update flag at two, and then any number of
@@ -141,4 +141,4 @@ void RDelayMap_Ctor(RDelayMap *unit)
   RDelayMap_next(unit, 1);
 }
 
-rdu_load(RDelayMap);
+rdu_load(RDelayMap)

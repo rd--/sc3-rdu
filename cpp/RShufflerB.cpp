@@ -42,7 +42,7 @@ struct RShufflerB : public Unit
   grain_t m_grain[N_GRAINS]; /* grain array */
 };
 
-rdu_prototypes(RShufflerB);
+rdu_prototypes(RShufflerB)
 
 /* Symbolic names for control port indicies. */
 #define BUFFER_NUMBER          0
@@ -198,4 +198,4 @@ void RShufflerB_next(RShufflerB *unit,int inNumSamples)
   }
 }
 
-rdu_load(RShufflerB);
+rdu_load(RShufflerB)

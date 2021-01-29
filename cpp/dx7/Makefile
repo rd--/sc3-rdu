@@ -10,7 +10,10 @@ MFSA_O = $(MFSA_CC:=.o)
 
 DX7_DIR = $(HOME)/sw/sc3-rdu/cpp/dx7
 
-AR = ar # llvm-ar
+CXX = g++ # gcc clang++
+AR = ar # ar llvm-ar
+
+CPPFLAGS += -g -Wall -pedantic -O2
 
 all:
 	echo "SEE MAKEFILE (make dexed-patch dexed-copy dexed-patch-sc3 dexed-obj dexed-ar)"
@@ -49,8 +52,10 @@ dexed-all:
 	make dexed-obj
 	make dexed-ar
 
-clean:
-	make dexed-rm
+clean-build:
 	rm -f $(MFSA_O)
-	rm -f *.orig *.rej
 	rm -f lib-dx7.a
+
+clean-src:
+	make dexed-rm
+	rm -f *.orig *.rej

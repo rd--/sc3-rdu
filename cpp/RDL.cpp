@@ -34,8 +34,8 @@ bool rdl_cmd_stage2(World* w, RDL_Command* cmd) {
   int (*memreq_f)() = (int(*)()) dlsym(unit->m_dsp_fd, "dsp_memreq");
   void (*init_f)(void *) = (void (*)(void *)) dlsym(unit->m_dsp_fd, "dsp_init");
   void *step_f = dlsym(unit->m_dsp_fd, "dsp_step");
-  printf("->dlsym(memreq)=%p\n",memreq_f);
-  printf("->dlsym(init)=%p\n",init_f);
+  printf("->dlsym(memreq)=%p\n",(void *)memreq_f);
+  printf("->dlsym(init)=%p\n",(void *)init_f);
   printf("->dlsym(step)=%p\n",step_f);
   if(memreq_f == NULL || init_f == NULL || step_f == NULL) {
     printf("->dlerror=%s",dlerror());

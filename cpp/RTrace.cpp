@@ -13,7 +13,7 @@ struct RTraceRd : public Unit
   rdu_declare_buf(tr);
 };
 
-rdu_prototypes(RTraceRd);
+rdu_prototypes(RTraceRd)
 
 void RTraceRd_Ctor(RTraceRd *unit)
 {
@@ -48,7 +48,7 @@ struct RPlayTrace : public Unit
   double m_phase;
 } ;
 
-rdu_prototypes(RPlayTrace);
+rdu_prototypes(RPlayTrace)
 
 void RPlayTrace_Ctor(RPlayTrace *unit)
 {

@@ -14,7 +14,7 @@ struct RDelaySet : public Unit
   rdelayset_struct_common;
 };
 
-rdu_prototypes_dtor(RDelaySet);
+rdu_prototypes_dtor(RDelaySet)
 
 void RDelaySet_next(RDelaySet *unit,int inNumSamples)
 {
@@ -41,4 +41,4 @@ void RDelaySet_Dtor(RDelaySet *unit)
   RTFree(unit->mWorld,unit->m_signal);
 }
 
-rdu_load_dtor(RDelaySet);
+rdu_load_dtor(RDelaySet)

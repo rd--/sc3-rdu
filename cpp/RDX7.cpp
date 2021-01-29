@@ -74,7 +74,7 @@ struct RDX7 : public Unit
     rdu_declare_buf(data);
 };
 
-rdu_prototypes_dtor(RDX7);
+rdu_prototypes_dtor(RDX7)
 
 void RDX7_Ctor(RDX7 *unit)
 {
@@ -202,4 +202,4 @@ void RDX7_Dtor(RDX7 *unit)
     delete unit->m_dx7_note;
 }
 
-rdu_load_dtor(RDX7);
+rdu_load_dtor(RDX7)

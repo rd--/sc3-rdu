@@ -57,7 +57,7 @@ struct RShufflerL : public Unit
   long m_next;
 };
 
-rdu_prototypes(RShufflerL);
+rdu_prototypes(RShufflerL)
 
 void RShufflerL_Ctor(RShufflerL *unit)
 {
@@ -85,4 +85,4 @@ void RShufflerL_next(RShufflerL *unit,int inNumSamples)
   }
 }
 
-rdu_load(RShufflerL);
+rdu_load(RShufflerL)
