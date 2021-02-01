@@ -25,7 +25,7 @@ RandN : MultiOutUGen {
 }
 
 RBezier : UGen {
-  *ar { arg freq = 440, phase = 0, param;
+  *ar { arg haltAfter = 100, dx = 0.0001, freq = 440, phase = 0, param;
     ^this.multiNewList(['audio', freq, phase] ++ param);
   }
   *kr { arg freq = 440, phase = 0, param;

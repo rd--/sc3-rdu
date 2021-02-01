@@ -85,7 +85,9 @@ randN_dsc =
 
 rBezier_dsc :: U
 rBezier_dsc =
-  let i = [I "freq" 440
+  let i = [I "haltAfter" 100
+          ,I "dx" 0.0001
+          ,I "freq" 440
           ,I "phase" 0
           ,I "param" 0]
       dsc = "Bezier curve oscillator."

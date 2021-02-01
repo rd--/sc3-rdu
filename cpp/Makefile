@@ -1,9 +1,7 @@
 prefix = $(HOME)/opt
 
-# amd64: -msse2
-
 CXX = g++ # g++ clang++
-CPPFLAGS = -Wall -pedantic -O2 -fPIC -ffast-math
+CPPFLAGS = -Wall -pedantic -O3 -fPIC -ffast-math -march=native
 CXXFLAGS = -std=c++11
 
 D = $(prefix)
