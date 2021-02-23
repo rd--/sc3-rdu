@@ -1,9 +1,9 @@
 REventParam {
-    var <>g,<>x,<>y,<>z,<>o,<>rx,<>ry,<>p;
+    var <>w,<>x,<>y,<>z,<>o,<>rx,<>ry,<>p,<>px;
 
     init {
         arg paramArray;
-        g = paramArray[0];
+        w = paramArray[0];
         x = paramArray[1];
         y = paramArray[2];
         z = paramArray[3];
@@ -11,6 +11,7 @@ REventParam {
         rx = paramArray[5];
         ry = paramArray[6];
         p = paramArray[7];
+        px = paramArray[8];
     }
 
     *new {
@@ -23,7 +24,7 @@ REventParam {
 REventAddr {
     *kr {
         arg k0 = 13000, c = 0;
-        ^REventParam.new(In.kr(bus: k0 + (c * 10), numChannels: 8));
+        ^REventParam.new(In.kr(bus: k0 + (c * 10), numChannels: 9));
     }
 }
 
