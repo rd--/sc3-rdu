@@ -106,24 +106,6 @@ RTraceRd : UGen {
  }
 }
 
-RTraceRdX : UGen {
- *kr { arg bufnum = 0.0, degree = 4.0, index = 0.0, mul = 1.0, add = 0.0;
-  ^RTraceRd.kr(bufnum, degree, index, 1.0, mul, add);
- }
-}
-
-RTraceRdY : UGen {
- *kr { arg bufnum = 0.0, degree = 4.0, index = 0.0, mul = 1.0, add = 0.0;
-  ^RTraceRd.kr(bufnum, degree, index, 2.0, mul, add);
- }
-}
-
-RTraceRdZ : UGen {
- *kr { arg bufnum = 0.0, degree = 4.0, index = 0.0, mul = 1.0, add = 0.0;
-  ^RTraceRd.kr(bufnum, degree, index, 3.0, mul, add);
- }
-}
-
 RPlayTrace : UGen {
  *ar { arg  bufnum = 0.0, degree = 4.0, rate = 0.0, axis = 1.0, mul = 1.0, add = 0.0;
   ^this.multiNew('audio', bufnum, degree, rate, axis).madd(mul, add);
