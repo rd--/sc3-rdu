@@ -1,11 +1,3 @@
-/*
-
-ASPECT RATIO
-
-It is very often useful and intuitive to have both the X and Y axis be in the range (0,1).
-
-*/
-
 (var s = Server.default
 ;var opt_draw_k_text = true
 ;var opt_draw_p_text = true
@@ -14,13 +6,16 @@ It is very often useful and intuitive to have both the X and Y axis be in the ra
 ;var opt_draw_grid_p = true
 ;var opt_draw_grid_ln = true
 ;var opt_frame_rate = 60
+;var opt_aspect = 'y' // aspect ratio: i | x | y
 ;var sensel_w = 230 // mm
 ;var sensel_h = 130 // mm
 ;var sensel_mul = 5
-;var x_to_scr = {arg x; x * sensel_w * sensel_mul}
-;var y_to_scr = {arg y; (sensel_h - (y * sensel_h)) * sensel_mul}
+;var x_mul = if(opt_aspect == \y,{sensel_h * sensel_mul},{sensel_w * sensel_mul})
+;var y_mul = if(opt_aspect == \x,{sensel_w * sensel_mul},{sensel_h * sensel_mul})
+;var x_to_scr = {arg x; x * x_mul}
+;var y_to_scr = {arg y; y_mul - (y * y_mul)}
 ;var pt_to_scr = {arg p; x_to_scr.(p.x) @ y_to_scr.(p.y)}
-;var grid_fn = "/home/rohan/sw/hsc3-util/cmd/D.csv" // R-01 I K C
+;var grid_fn = "/home/rohan/sw/hsc3-util/cmd/F.csv" // R-01 I K C
 ;var grid_dat = CSVFileReader.readInterpret(grid_fn)
 ;var grid_n = grid_dat.size
 ;var grid_x = grid_dat.flop.at(2)
