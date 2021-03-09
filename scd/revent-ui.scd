@@ -1,10 +1,11 @@
 (var s = Server.default
-;var opt_draw_k_text = true
-;var opt_draw_p_text = true
+;var opt_draw_index_text = true
+;var opt_draw_pitch_text = true
 ;var opt_draw_grid_x = false
 ;var opt_draw_grid_y = false
-;var opt_draw_grid_p = true
-;var opt_draw_grid_ln = true
+;var opt_draw_grid_point = true
+;var opt_draw_grid_circle = false
+;var opt_draw_grid_polygon = true
 ;var opt_frame_rate = 60
 ;var opt_aspect = 'y' // aspect ratio: i | x | y
 ;var sensel_w = 230 // mm
@@ -15,15 +16,16 @@
 ;var x_to_scr = {arg x; x * x_mul}
 ;var y_to_scr = {arg y; y_mul - (y * y_mul)}
 ;var pt_to_scr = {arg p; x_to_scr.(p.x) @ y_to_scr.(p.y)}
-;var grid_fn = "/home/rohan/sw/hsc3-util/cmd/F.csv" // R-01 I K C
+;var grid_fn = "/home/rohan/sw/hsc3-util/cmd/G.csv" // R-01 I K C
 ;var grid_dat = CSVFileReader.readInterpret(grid_fn)
 ;var grid_n = grid_dat.size
 ;var grid_x = grid_dat.flop.at(2)
 ;var grid_y = grid_dat.flop.at(3)
 ;var grid_p = (0 .. grid_n - 1).collect({arg i; grid_x[i] @ grid_y[i]})
+;var grid_w = grid_dat.flop.at(5)
+;var grid_h = grid_dat.flop.at(6)
 ;var grid_x_loc = grid_x.as(Set).as(Array).sort
 ;var grid_y_loc = grid_y.as(Set).as(Array).sort
-;var midpoint_f = {arg x; if(x.size > 1,{(1 .. x.size - 1).collect({arg i; x[i-1] + ((x[i] - x[i-1]) / 2)})},{[]})}
 ;var grid_ln_dat = grid_dat.collect({arg e; if(e.size > 8,{e.copyRange(8,e.size-1).clump(2).collect({arg p; p[0] @ p[1]})},{[]})})
 ;var ev_k0 = 13000
 ;var ev_nparts = 16
@@ -44,14 +46,24 @@
  ;if(opt_draw_grid_y,
   {Pen.strokeColor_(Color.grey(grey: 0.65,alpha: 0.5))
   ;grid_y_loc.do({arg y; Pen.moveTo(0 @ y_to_scr.(y)); Pen.lineTo(x_to_scr.(1) @ y_to_scr.(y)); Pen.stroke})})
- ;if(opt_draw_grid_p,
+ ;if(opt_draw_grid_point,
   {Pen.fillColor_(Color.blue(val: 0.85,alpha: 0.25))
   ;grid_p.do(
    {arg p
    ;var r = 2.5
    ;var rect = Rect.new(left: x_to_scr.(p.x) - r, top: y_to_scr.(p.y) - r, width: r * 2, height: r * 2)
    ;Pen.fillOval(rect)})})
- ;if(opt_draw_grid_ln,
+ ;if(opt_draw_grid_circle,
+  {Pen.strokeColor_(Color.grey(grey: 0.35,alpha: 0.25))
+  ;(0 .. grid_n - 1).do(
+   {arg i
+   ;var p = grid_p[i]
+   ;var w = grid_w[i] * x_mul
+   ;var h = grid_h[i] * y_mul
+   ;var rect = Rect.new(left: x_to_scr.(p.x) - (w / 2), top: y_to_scr.(p.y) - (h / 2), width: w, height: h)
+   ;[p,w,h].postln
+   ;Pen.strokeOval(rect)})})
+ ;if(opt_draw_grid_polygon,
   {Pen.strokeColor_(Color.grey(grey: 0.65,alpha: 0.5))
   ;grid_ln_dat.do({arg c; Pen.moveTo(pt_to_scr.(c[c.size - 1])); (0 .. c.size - 1).do({arg i; Pen.lineTo(pt_to_scr.(c[i]))}); Pen.stroke})})
  ;ev_data.do(
@@ -65,10 +77,10 @@
    ;var ry = 0.5 + (e[6] * 35)
    ;Pen.strokeColor_(Color.black)
    ;Pen.strokeOval(rect)
-   ;if(opt_draw_p_text,
+   ;if(opt_draw_pitch_text,
     {var text_rect = Rect.new(left: x - (r_mul * 3), top: y - (r_mul * 2), width: r_mul * 6, height: r_mul * 2)
     ;Pen.stringCenteredIn((e[7] + e[8]).round(0.01).asString, text_rect, Font.sansSerif(size: 9), Color.black)})
-   ;if(opt_draw_k_text,
+   ;if(opt_draw_index_text,
     {var text_rect = Rect.new(left: x - (r_mul * 3), top: y + (r_mul * 0.25), width: r_mul * 6, height: r_mul * 2)
     ;Pen.stringCenteredIn(k.asString, text_rect, Font.sansSerif(size: 11), Color.black)})
    ;Pen.use(
