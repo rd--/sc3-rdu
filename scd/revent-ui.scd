@@ -63,7 +63,6 @@
    ;var w = grid_w[i] * x_mul
    ;var h = grid_h[i] * y_mul
    ;var rect = Rect.new(left: x_to_scr.(p.x) - (w / 2), top: y_to_scr.(p.y) - (h / 2), width: w, height: h)
-   ;[p,w,h].postln
    ;Pen.strokeOval(rect)})})
  ;if(opt_draw_grid_text,
   {Pen.strokeColor_(Color.grey(grey: 0.35,alpha: 0.25))
