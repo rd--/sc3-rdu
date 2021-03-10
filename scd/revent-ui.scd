@@ -4,10 +4,11 @@
 ;var opt_draw_grid_x = false
 ;var opt_draw_grid_y = false
 ;var opt_draw_grid_point = true
-;var opt_draw_grid_circle = false
+;var opt_draw_grid_circle = true
+;var opt_draw_grid_text = true
 ;var opt_draw_grid_polygon = true
 ;var opt_frame_rate = 60
-;var opt_aspect = 'y' // aspect ratio: i | x | y
+;var opt_aspect = 'i' // aspect ratio: i | x | y
 ;var sensel_w = 230 // mm
 ;var sensel_h = 130 // mm
 ;var sensel_mul = 5
@@ -16,7 +17,7 @@
 ;var x_to_scr = {arg x; x * x_mul}
 ;var y_to_scr = {arg y; y_mul - (y * y_mul)}
 ;var pt_to_scr = {arg p; x_to_scr.(p.x) @ y_to_scr.(p.y)}
-;var grid_fn = "/home/rohan/sw/hsc3-util/cmd/G.csv" // R-01 I K C
+;var grid_fn = "/home/rohan/sw/hsc3-util/cmd/C.csv"
 ;var grid_dat = CSVFileReader.readInterpret(grid_fn)
 ;var grid_n = grid_dat.size
 ;var grid_x = grid_dat.flop.at(2)
@@ -24,9 +25,10 @@
 ;var grid_p = (0 .. grid_n - 1).collect({arg i; grid_x[i] @ grid_y[i]})
 ;var grid_w = grid_dat.flop.at(5)
 ;var grid_h = grid_dat.flop.at(6)
+;var grid_txt = grid_dat.flop.at(7)
 ;var grid_x_loc = grid_x.as(Set).as(Array).sort
 ;var grid_y_loc = grid_y.as(Set).as(Array).sort
-;var grid_ln_dat = grid_dat.collect({arg e; if(e.size > 8,{e.copyRange(8,e.size-1).clump(2).collect({arg p; p[0] @ p[1]})},{[]})})
+;var grid_ln_dat = grid_dat.collect({arg e; if(e.size > 9,{e.copyRange(9,e.size-1).clump(2).collect({arg p; p[0] @ p[1]})},{[]})})
 ;var ev_k0 = 13000
 ;var ev_nparts = 16
 ;var ev_elem = 9
@@ -63,6 +65,16 @@
    ;var rect = Rect.new(left: x_to_scr.(p.x) - (w / 2), top: y_to_scr.(p.y) - (h / 2), width: w, height: h)
    ;[p,w,h].postln
    ;Pen.strokeOval(rect)})})
+ ;if(opt_draw_grid_text,
+  {Pen.strokeColor_(Color.grey(grey: 0.35,alpha: 0.25))
+  ;(0 .. grid_n - 1).do(
+   {arg i
+   ;var p = grid_p[i]
+   ;var w = grid_w[i] * x_mul
+   ;var h = grid_h[i] * y_mul
+   ;var txt = grid_txt[i]
+   ;var rect = Rect.new(left: x_to_scr.(p.x) - (w / 2), top: y_to_scr.(p.y) - 24, width: w, height: 12)
+   ;Pen.stringCenteredIn(txt, rect, Font.sansSerif(size: 9), Color.black)})})
  ;if(opt_draw_grid_polygon,
   {Pen.strokeColor_(Color.grey(grey: 0.65,alpha: 0.5))
   ;grid_ln_dat.do({arg c; Pen.moveTo(pt_to_scr.(c[c.size - 1])); (0 .. c.size - 1).do({arg i; Pen.lineTo(pt_to_scr.(c[i]))}); Pen.stroke})})
