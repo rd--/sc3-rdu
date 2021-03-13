@@ -135,7 +135,7 @@ TRandN : MultiOutUGen {
   }
 }
 
-TScramble : MultiOutUGen {
+RTScramble : MultiOutUGen {
   *ir { arg trigger = 0.0, inputs;
     ^this.multiNewList(['scalar', trigger] ++ inputs);
   }

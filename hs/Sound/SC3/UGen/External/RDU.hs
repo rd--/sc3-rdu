@@ -267,9 +267,9 @@ rPlayTrace_dsc =
             ,I "access" 1]
     in osc_U "RPlayTrace" [KR,AR] AR i 1 "Play trace buffer" False
 
-tScramble_dsc :: U
-tScramble_dsc =
-    default_u {ugen_name = "TScramble"
+rTScramble_dsc :: U
+rTScramble_dsc =
+    default_u {ugen_name = "RTScramble"
               ,ugen_operating_rates = [IR,KR]
               ,ugen_inputs = [I "trigger" 0,I "inputs" 0]
               ,ugen_summary = "Scramble inputs on trigger."
@@ -319,26 +319,26 @@ rdu_db =
     ,iRandN_dsc
     ,linRandN_dsc
     ,pv_Split_dsc
-    ,randN_dsc
     ,rBezier_dsc
-    ,rDelayMap_dsc
-    ,rDelaySet_dsc
-    ,rDelaySetB_dsc
-    ,rdl_dsc
-    ,rDX7_dsc
     ,rDX7Env_dsc
+    ,rDX7_dsc
+    ,rDelayMap_dsc
+    ,rDelaySetB_dsc
+    ,rDelaySet_dsc
     ,rFreezer_dsc
     ,rLagC_dsc
-    ,rPlayTrace_dsc
-    ,rpvDecayTbl_dsc
     ,rObxdFilter_dsc
-    ,tExpRandN_dsc
-    ,tRandN_dsc
-    ,tScramble_dsc
+    ,rPlayTrace_dsc
     ,rShufflerB_dsc
     ,rShufflerL_dsc
     ,rSmplrIndex_dsc
+    ,rTScramble_dsc
     ,rTraceRd_dsc
+    ,randN_dsc
+    ,rdl_dsc
+    ,rpvDecayTbl_dsc
+    ,tExpRandN_dsc
+    ,tRandN_dsc
     ]
 
 gen_hs_bindings :: IO ()

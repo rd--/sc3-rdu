@@ -23,5 +23,5 @@ linRandNM nc = liftUId3 (linRandN nc)
 randNM :: UId m => Int -> UGen -> UGen -> m UGen
 randNM nc = liftUId2 (randN nc)
 
-tScrambleM :: UId m => UGen -> UGen -> m UGen
-tScrambleM = liftUId2 tScramble
+rTScrambleM :: UId m => UGen -> UGen -> m UGen
+rTScrambleM = liftUId2 rTScramble

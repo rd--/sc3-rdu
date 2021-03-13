@@ -137,9 +137,9 @@ tRandN numChannels z lo hi trigger = mkUGen Nothing [KR] (Right [2]) "TRandN" [l
 
 -- | Scramble inputs on trigger.
 --
---  TScramble [IR,KR] trigger=0.0 *inputs=0.0;    MCE=1, FILTER: TRUE, NONDET
-tScramble :: ID a => a -> UGen -> UGen -> UGen
-tScramble z trigger inputs = mkUGen Nothing [IR,KR] (Right [0]) "TScramble" [trigger] (Just [inputs]) (length (mceChannels inputs) + 0) (Special 0) (toUId z)
+--  RTScramble [IR,KR] trigger=0.0 *inputs=0.0;    MCE=1, FILTER: TRUE, NONDET
+rTScramble :: ID a => a -> UGen -> UGen -> UGen
+rTScramble z trigger inputs = mkUGen Nothing [IR,KR] (Right [0]) "RTScramble" [trigger] (Just [inputs]) (length (mceChannels inputs) + 0) (Special 0) (toUId z)
 
 -- | Signal shuffler (Buffer)
 --

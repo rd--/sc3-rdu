@@ -23,8 +23,8 @@ P = DustR.so \
     RObxdFilter.so \
     RPVDecay.so \
     RShufflerB.so RShufflerL.so RSmplr.so \
-    RTrace.so \
-    TScramble.so
+    RTScramble.so \
+    RTrace.so
 
 L = c-common/lib-c-common.a
 
