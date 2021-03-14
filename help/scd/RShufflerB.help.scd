@@ -50,9 +50,8 @@ s.sendMsg("/s_new", "RShufflerB", 1001, 1, 0, "bufnum", 10);
 s.sendMsg("/c_setn", 0, 22, 0, 10, 0.083808, 0.152608, 0.20857142857142857, 0.4136507936507936, 1/45, 11/105, 16/63, 142/315, 128/315, 47/315, 17/105, 136/315, 1/21, 55/63, 8/315, 37/315, 0, 0, 0, 622/315);
 s.sendMsg("/n_mapn", 1001, 0, 0, 22);
 
-// de-allocate node and buffer
+// de-allocate node
 s.sendMsg("/n_free", 1001);
-s.sendMsg("/b_free", 10);
 
 // param (name,control-spec=min,max,warp,step,default)
 p =
@@ -90,3 +89,6 @@ Ndef(\z).clear;
 RGUI.midiInit;
 c = RCtlSet(server: s, opt: (rows: 3, columns: 8));
 p.do({arg x, i; c[i].setup(x[0],x[1],x[2],i)});
+
+// de-allocate buffer
+s.sendMsg("/b_free", 10);
