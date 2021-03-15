@@ -2,12 +2,12 @@
 
 static InterfaceTable *ft;
 
-struct DustR : public Unit
+struct RDustR : public Unit
 {
   int32 mCounter;
 };
 
-void DustR_next(DustR *unit, int inNumSamples)
+void RDustR_next(RDustR *unit, int inNumSamples)
 {
   float *out = OUT(0);
   float iot_min = IN0(0);
@@ -29,15 +29,15 @@ void DustR_next(DustR *unit, int inNumSamples)
   RPUT
 }
 
-void DustR_Ctor(DustR *unit)
+void RDustR_Ctor(RDustR *unit)
 {
   unit->mCounter = 0;
-  SETCALC(DustR_next);
-  DustR_next(unit, 1);
+  SETCALC(RDustR_next);
+  RDustR_next(unit, 1);
 }
 
-PluginLoad(DustR)
+PluginLoad(RDustR)
 {
   ft = inTable;
-  DefineSimpleUnit(DustR);
+  DefineSimpleUnit(RDustR);
 }

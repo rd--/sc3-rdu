@@ -9,47 +9,29 @@ import Sound.SC3.UGen.UGen
 import Sound.SC3.UGen.Analysis
 import Sound.SC3.UGen.Bindings.DB
 
--- | Range variant of Dust
---
---  DustR [AR] lo=1.0e-4 hi=1.0;    NONDET
-dustR :: ID a => a -> Rate -> UGen -> UGen -> UGen
-dustR z rate lo hi = mkUGen Nothing [AR] (Left rate) "DustR" [lo,hi] Nothing 1 (Special 0) (toUId z)
-
--- | Multi-channel variant of Rand
---
---  ExpRandN [IR] lo=1.0e-4 hi=1.0;    NC INPUT: True, NONDET
-expRandN :: ID a => Int -> a -> UGen -> UGen -> UGen
-expRandN numChannels z lo hi = mkUGen Nothing [IR] (Left IR) "ExpRandN" [lo,hi] Nothing numChannels (Special 0) (toUId z)
-
--- | Multi-channel variant of IRand
---
---  IRandN [IR] lo=1.0e-4 hi=1.0;    NC INPUT: True, NONDET
-iRandN :: ID a => Int -> a -> UGen -> UGen -> UGen
-iRandN numChannels z lo hi = mkUGen Nothing [IR] (Left IR) "IRandN" [lo,hi] Nothing numChannels (Special 0) (toUId z)
-
--- | Multi-channel variant of LinRand
---
---  LinRandN [IR] lo=1.0e-4 hi=1.0 minmax=0.0;    NC INPUT: True, NONDET
-linRandN :: ID a => Int -> a -> UGen -> UGen -> UGen -> UGen
-linRandN numChannels z lo hi minmax = mkUGen Nothing [IR] (Left IR) "LinRandN" [lo,hi,minmax] Nothing numChannels (Special 0) (toUId z)
-
 -- | Copies spectral frame (ie. PV_Copy with two outputs).
 --
 --  PV_Split [KR] bufferA=0.0 bufferB=0.0
 pv_Split :: UGen -> UGen -> UGen
 pv_Split bufferA bufferB = mkUGen Nothing [KR] (Left KR) "PV_Split" [bufferA,bufferB] Nothing 2 (Special 0) NoId
 
--- | Multi-channel variant of Rand
---
---  RandN [IR] lo=1.0e-4 hi=1.0;    NC INPUT: True, NONDET
-randN :: ID a => Int -> a -> UGen -> UGen -> UGen
-randN numChannels z lo hi = mkUGen Nothing [IR] (Left IR) "RandN" [lo,hi] Nothing numChannels (Special 0) (toUId z)
-
 -- | Bezier curve oscillator.
 --
---  RBezier [KR,AR] haltAfter=100 dx=0.0001 freq=440.0 phase=0.0 *param=0.0;    MCE=1
+--  RBezier [KR,AR] haltAfter=100.0 dx=1.0e-4 freq=440.0 phase=0.0 *param=0.0;    MCE=1
 rBezier :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 rBezier rate haltAfter dx freq phase param = mkUGen Nothing [KR,AR] (Left rate) "RBezier" [haltAfter,dx,freq,phase] (Just [param]) 1 (Special 0) NoId
+
+-- | DX7Env
+--
+--  RDX7Env [AR] gate=0.0 data=0.0 r1=99.0 r2=99.0 r3=99.0 r4=99.0 l1=99.0 l2=99.0 l3=99.0 l4=0.0 ol=0.0
+rdx7Env :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
+rdx7Env rate gate_ data_ r1 r2 r3 r4 l1 l2 l3 l4 ol = mkUGen Nothing [AR] (Left rate) "RDX7Env" [gate_,data_,r1,r2,r3,r4,l1,l2,l3,l4,ol] Nothing 1 (Special 0) NoId
+
+-- | DX7 (MFSA/DEXED)
+--
+--  RDX7 [AR] bufnum=0.0 on=0.0 off=0.0 data=0.0 vc=0.0 mnn=60.0 vel=99.0 pw=0.0 mw=0.0 bc=0.0 fc=0.0
+rdx7 :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
+rdx7 rate bufnum on off data_ vc mnn vel pw mw bc fc = mkUGen Nothing [AR] (Left rate) "RDX7" [bufnum,on,off,data_,vc,mnn,vel,pw,mw,bc,fc] Nothing 1 (Special 0) NoId
 
 -- | Network of delay line maps
 --
@@ -57,35 +39,29 @@ rBezier rate haltAfter dx freq phase param = mkUGen Nothing [KR,AR] (Left rate) 
 rDelayMap :: UGen -> UGen -> UGen -> UGen -> UGen
 rDelayMap bufnum input dynamic mapArray = mkUGen Nothing [AR] (Right [1]) "RDelayMap" [bufnum,input,dynamic] (Just [mapArray]) 1 (Special 0) NoId
 
--- | Delay set (RTAlloc)
---
---  RDelaySet [AR] input=0.0 *setArray=0.0;    MCE=1, FILTER: TRUE
-rDelaySet :: UGen -> UGen -> UGen
-rDelaySet input setArray = mkUGen Nothing [AR] (Right [0]) "RDelaySet" [input] (Just [setArray]) 1 (Special 0) NoId
-
 -- | Delay set (Buffer)
 --
 --  RDelaySetB [AR] buffer=0.0 input=0.0 *setArray=0.0;    MCE=1, FILTER: TRUE
 rDelaySetB :: UGen -> UGen -> UGen -> UGen
 rDelaySetB buffer input setArray = mkUGen Nothing [AR] (Right [1]) "RDelaySetB" [buffer,input] (Just [setArray]) 1 (Special 0) NoId
 
--- | Dynamic library host
+-- | Delay set (RTAlloc)
 --
---  RDL [AR] *inputs=0.0;    MCE=1, NC INPUT: True
-rdl :: Int -> UGen -> UGen
-rdl numChannels inputs = mkUGen Nothing [AR] (Left AR) "RDL" [] (Just [inputs]) numChannels (Special 0) NoId
+--  RDelaySet [AR] input=0.0 *setArray=0.0;    MCE=1, FILTER: TRUE
+rDelaySet :: UGen -> UGen -> UGen
+rDelaySet input setArray = mkUGen Nothing [AR] (Right [0]) "RDelaySet" [input] (Just [setArray]) 1 (Special 0) NoId
 
--- | DX7
+-- | Range variant of Dust
 --
---  RDX7 [AR] bufnum=0.0 on=0.0 off=0.0 data=0.0 vc=0.0 mnn=60.0 vel=99.0 pw=0.0 mw=0.0 bc=0.0 fc=0.0
-rdx7 :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
-rdx7 rate bufnum on off data_ vc mnn vel pw mw bc fc = mkUGen Nothing [AR] (Left rate) "RDX7" [bufnum,on,off,data_,vc,mnn,vel,pw,mw,bc,fc] Nothing 1 (Special 0) NoId
+--  RDustR [AR] lo=1.0e-4 hi=1.0;    NONDET
+rDustR :: ID a => a -> Rate -> UGen -> UGen -> UGen
+rDustR z rate lo hi = mkUGen Nothing [AR] (Left rate) "RDustR" [lo,hi] Nothing 1 (Special 0) (toUId z)
 
--- | DX7Env
+-- | Multi-channel variant of ExpRand
 --
---  RDX7Env [AR] gate=0.0 data=0.0 r1=99.0 r2=99.0 r3=99.0 r4=99.0 l1=99.0 l2=99.0 l3=99.0 l4=0.0 ol=0.0
-rdx7Env :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
-rdx7Env rate gate_ data_ r1 r2 r3 r4 l1 l2 l3 l4 ol = mkUGen Nothing [AR] (Left rate) "RDX7Env" [gate_,data_,r1,r2,r3,r4,l1,l2,l3,l4,ol] Nothing 1 (Special 0) NoId
+--  RExpRandN [IR] lo=1.0e-4 hi=1.0;    NC INPUT: True, NONDET
+rExpRandN :: ID a => Int -> a -> UGen -> UGen -> UGen
+rExpRandN numChannels z lo hi = mkUGen Nothing [IR] (Left IR) "RExpRandN" [lo,hi] Nothing numChannels (Special 0) (toUId z)
 
 -- | Concurrent loops at signal buffer
 --
@@ -95,9 +71,15 @@ rFreezer bufnum left right gain increment incrementOffset incrementRandom rightR
 
 -- | LagUD variant with curve inputs.
 --
---  LagC [KR] in=0.0 timeUp=0.1 curveUp=0.0 timeDown=0.1 curveDown=0.0;    FILTER: TRUE
+--  RLagC [KR] in=0.0 timeUp=0.1 curveUp=0.0 timeDown=0.1 curveDown=0.0;    FILTER: TRUE
 rLagC :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 rLagC in_ timeUp curveUp timeDown curveDown = mkUGen Nothing [KR] (Right [0]) "RLagC" [in_,timeUp,curveUp,timeDown,curveDown] Nothing 1 (Special 0) NoId
+
+-- | Multi-channel variant of LinRand
+--
+--  RLinRandN [IR] lo=1.0e-4 hi=1.0 minmax=0.0;    NC INPUT: True, NONDET
+rLinRandN :: ID a => Int -> a -> UGen -> UGen -> UGen -> UGen
+rLinRandN numChannels z lo hi minmax = mkUGen Nothing [IR] (Left IR) "RLinRandN" [lo,hi,minmax] Nothing numChannels (Special 0) (toUId z)
 
 -- | Obxd 12/24-dB multi-mode filter
 --
@@ -111,35 +93,11 @@ rObxdFilter in_ cutoff resonance multimode bandpass fourpole = mkUGen Nothing [A
 rPlayTrace :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen
 rPlayTrace rate bufnum degree rate_ access = mkUGen Nothing [KR,AR] (Left rate) "RPlayTrace" [bufnum,degree,rate_,access] Nothing 1 (Special 0) NoId
 
--- | Decay bin magnitudes according to multipliers in table.
+-- | Multi-channel variant of Rand
 --
---  RPVDecayTbl [KR] fft_buf=0.0 decay_rate_buf=0.0 history_buf=0.0
-rpvDecayTbl :: Rate -> UGen -> UGen -> UGen -> UGen
-rpvDecayTbl rate fft_buf decay_rate_buf history_buf = mkUGen Nothing [KR] (Left rate) "RPVDecayTbl" [fft_buf,decay_rate_buf,history_buf] Nothing 1 (Special 0) NoId
-
--- | Find buffer index and rate multiplier given table of MNN.
---
---  RSmplrIndex [KR] buf=0.0 size=0.0 mnn=60.0
-rSmplrIndex :: Rate -> UGen -> UGen -> UGen -> UGen
-rSmplrIndex rate buf size mnn = mkUGen Nothing [KR] (Left rate) "RSmplrIndex" [buf,size,mnn] Nothing 2 (Special 0) NoId
-
--- | Generate new random values on trigger.
---
---  TRandN [KR] lo=0.0 hi=1.0 trigger=0.0;    NC INPUT: True, FILTER: TRUE, NONDET
-tExpRandN :: ID a => Int -> a -> UGen -> UGen -> UGen -> UGen
-tExpRandN numChannels z lo hi trigger = mkUGen Nothing [KR] (Right [2]) "TExpRandN" [lo,hi,trigger] Nothing numChannels (Special 0) (toUId z)
-
--- | Generate new random values on trigger.
---
---  TRandN [KR] lo=0.0 hi=1.0 trigger=0.0;    NC INPUT: True, FILTER: TRUE, NONDET
-tRandN :: ID a => Int -> a -> UGen -> UGen -> UGen -> UGen
-tRandN numChannels z lo hi trigger = mkUGen Nothing [KR] (Right [2]) "TRandN" [lo,hi,trigger] Nothing numChannels (Special 0) (toUId z)
-
--- | Scramble inputs on trigger.
---
---  RTScramble [IR,KR] trigger=0.0 *inputs=0.0;    MCE=1, FILTER: TRUE, NONDET
-rTScramble :: ID a => a -> UGen -> UGen -> UGen
-rTScramble z trigger inputs = mkUGen Nothing [IR,KR] (Right [0]) "RTScramble" [trigger] (Just [inputs]) (length (mceChannels inputs) + 0) (Special 0) (toUId z)
+--  RRandN [IR] lo=1.0e-4 hi=1.0;    NC INPUT: True, NONDET
+rRandN :: ID a => Int -> a -> UGen -> UGen -> UGen
+rRandN numChannels z lo hi = mkUGen Nothing [IR] (Left IR) "RRandN" [lo,hi] Nothing numChannels (Special 0) (toUId z)
 
 -- | Signal shuffler (Buffer)
 --
@@ -153,11 +111,53 @@ rShufflerB bufnum readLocationMinima readLocationMaxima readIncrementMinima read
 rShufflerL :: UGen -> UGen -> UGen -> UGen
 rShufflerL in_ fragmentSize maxDelay = mkUGen Nothing [AR] (Right [0]) "RShufflerL" [in_,fragmentSize,maxDelay] Nothing 1 (Special 0) NoId
 
+-- | Find buffer index and rate multiplier given table of MNN.
+--
+--  RSmplrIndex [KR] buf=0.0 size=0.0 mnn=60.0
+rSmplrIndex :: Rate -> UGen -> UGen -> UGen -> UGen
+rSmplrIndex rate buf size mnn = mkUGen Nothing [KR] (Left rate) "RSmplrIndex" [buf,size,mnn] Nothing 2 (Special 0) NoId
+
 -- | Read trace buffer
 --
 --  RTraceRd [KR,AR] bufnum=0.0 degree=4.0 index=0.0 access=1.0
 rTraceRd :: Rate -> UGen -> UGen -> UGen -> UGen -> UGen
 rTraceRd rate bufnum degree index_ access = mkUGen Nothing [KR,AR] (Left rate) "RTraceRd" [bufnum,degree,index_,access] Nothing 1 (Special 0) NoId
+
+-- | Dynamic library host
+--
+--  RDL [AR] *inputs=0.0;    MCE=1, NC INPUT: True
+rdl :: Int -> UGen -> UGen
+rdl numChannels inputs = mkUGen Nothing [AR] (Left AR) "RDL" [] (Just [inputs]) numChannels (Special 0) NoId
+
+-- | Multi-channel variant of IRand
+--
+--  RIRandN [IR] lo=1.0e-4 hi=1.0;    NC INPUT: True, NONDET
+riRandN :: ID a => Int -> a -> UGen -> UGen -> UGen
+riRandN numChannels z lo hi = mkUGen Nothing [IR] (Left IR) "RIRandN" [lo,hi] Nothing numChannels (Special 0) (toUId z)
+
+-- | Decay bin magnitudes according to multipliers in table.
+--
+--  RPVDecayTbl [KR] fft_buf=0.0 decay_rate_buf=0.0 history_buf=0.0
+rpvDecayTbl :: Rate -> UGen -> UGen -> UGen -> UGen
+rpvDecayTbl rate fft_buf decay_rate_buf history_buf = mkUGen Nothing [KR] (Left rate) "RPVDecayTbl" [fft_buf,decay_rate_buf,history_buf] Nothing 1 (Special 0) NoId
+
+-- | Generate new exponentially distributed random values on trigger.
+--
+--  RTExpRandN [KR] lo=0.0 hi=1.0 trigger=0.0;    NC INPUT: True, FILTER: TRUE, NONDET
+rtExpRandN :: ID a => Int -> a -> UGen -> UGen -> UGen -> UGen
+rtExpRandN numChannels z lo hi trigger = mkUGen Nothing [KR] (Right [2]) "RTExpRandN" [lo,hi,trigger] Nothing numChannels (Special 0) (toUId z)
+
+-- | Generate new random values on trigger.
+--
+--  RTRandN [KR] lo=0.0 hi=1.0 trigger=0.0;    NC INPUT: True, FILTER: TRUE, NONDET
+rtRandN :: ID a => Int -> a -> UGen -> UGen -> UGen -> UGen
+rtRandN numChannels z lo hi trigger = mkUGen Nothing [KR] (Right [2]) "RTRandN" [lo,hi,trigger] Nothing numChannels (Special 0) (toUId z)
+
+-- | Scramble inputs on trigger.
+--
+--  RTScramble [IR,KR] trigger=0.0 *inputs=0.0;    MCE=1, FILTER: TRUE, NONDET
+rtScramble :: ID a => a -> UGen -> UGen -> UGen
+rtScramble z trigger inputs = mkUGen Nothing [IR,KR] (Right [0]) "RTScramble" [trigger] (Just [inputs]) (length (mceChannels inputs) + 0) (Special 0) (toUId z)
 
 -- * Variants
 

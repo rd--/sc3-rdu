@@ -42,33 +42,33 @@ u_flt k u = u {ugen_filter = Just [k]}
 
 -- * DSC
 
-dustR_dsc :: U
-dustR_dsc =
+rDustR_dsc :: U
+rDustR_dsc =
     let i = [I "lo" 0.0001
             ,I "hi" 1.0]
-    in osc_U "DustR" [AR] AR i 1 "Range variant of Dust" True
+    in osc_U "RDustR" [AR] AR i 1 "Range variant of Dust" True
 
-expRandN_dsc :: U
-expRandN_dsc =
+rExpRandN_dsc :: U
+rExpRandN_dsc =
     let i = [I "lo" 0.0001
             ,I "hi" 1.0]
-        dsc = "Multi-channel variant of Rand"
-    in u_ir (u_nc_input (osc_U "ExpRandN" [IR] IR i (-1) dsc True))
+        dsc = "Multi-channel variant of ExpRand"
+    in u_ir (u_nc_input (osc_U "RExpRandN" [IR] IR i (-1) dsc True))
 
-iRandN_dsc :: U
-iRandN_dsc =
+riRandN_dsc :: U
+riRandN_dsc =
     let i = [I "lo" 0.0001
             ,I "hi" 1.0]
         dsc = "Multi-channel variant of IRand"
-    in u_ir (u_nc_input (osc_U "IRandN" [IR] IR i (-1) dsc True))
+    in u_ir (u_nc_input (osc_U "RIRandN" [IR] IR i (-1) dsc True))
 
-linRandN_dsc :: U
-linRandN_dsc =
+rLinRandN_dsc :: U
+rLinRandN_dsc =
     let i = [I "lo" 0.0001
             ,I "hi" 1.0
             ,I "minmax" 0.0]
         dsc = "Multi-channel variant of LinRand"
-    in u_ir (u_nc_input (osc_U "LinRandN" [IR] IR i (-1) dsc True))
+    in u_ir (u_nc_input (osc_U "RLinRandN" [IR] IR i (-1) dsc True))
 
 pv_Split_dsc :: U
 pv_Split_dsc =
@@ -77,12 +77,12 @@ pv_Split_dsc =
       dsc = "Copies spectral frame (ie. PV_Copy with two outputs)."
   in osc_U "PV_Split" [KR] KR i 2 dsc False
 
-randN_dsc :: U
-randN_dsc =
+rRandN_dsc :: U
+rRandN_dsc =
     let i = [I "lo" 0.0001
             ,I "hi" 1.0]
         dsc = "Multi-channel variant of Rand"
-    in u_ir (u_nc_input (osc_U "RandN" [IR] IR i (-1) dsc True))
+    in u_ir (u_nc_input (osc_U "RRandN" [IR] IR i (-1) dsc True))
 
 rBezier_dsc :: U
 rBezier_dsc =
@@ -267,8 +267,8 @@ rPlayTrace_dsc =
             ,I "access" 1]
     in osc_U "RPlayTrace" [KR,AR] AR i 1 "Play trace buffer" False
 
-rTScramble_dsc :: U
-rTScramble_dsc =
+rtScramble_dsc :: U
+rtScramble_dsc =
     default_u {ugen_name = "RTScramble"
               ,ugen_operating_rates = [IR,KR]
               ,ugen_inputs = [I "trigger" 0,I "inputs" 0]
@@ -279,9 +279,9 @@ rTScramble_dsc =
               ,ugen_nondet = True
               }
 
-tRandN_dsc :: U
-tRandN_dsc =
-    default_u {ugen_name = "TRandN"
+rtRandN_dsc :: U
+rtRandN_dsc =
+    default_u {ugen_name = "RTRandN"
               ,ugen_operating_rates = [KR]
               ,ugen_inputs = [I "lo" 0,I "hi" 1,I "trigger" 0]
               ,ugen_summary = "Generate new random values on trigger."
@@ -290,9 +290,9 @@ tRandN_dsc =
               ,ugen_nondet = True
               }
 
-tExpRandN_dsc :: U
-tExpRandN_dsc =
-    default_u {ugen_name = "TExpRandN"
+rtExpRandN_dsc :: U
+rtExpRandN_dsc =
+    default_u {ugen_name = "RTExpRandN"
               ,ugen_operating_rates = [KR]
               ,ugen_inputs = [I "lo" 0,I "hi" 1,I "trigger" 0]
               ,ugen_summary = "Generate new exponentially distributed random values on trigger."
@@ -314,31 +314,31 @@ rSmplrIndex_dsc =
 
 rdu_db :: [U]
 rdu_db =
-    [dustR_dsc
-    ,expRandN_dsc
-    ,iRandN_dsc
-    ,linRandN_dsc
-    ,pv_Split_dsc
+    [pv_Split_dsc
     ,rBezier_dsc
     ,rDX7Env_dsc
     ,rDX7_dsc
     ,rDelayMap_dsc
     ,rDelaySetB_dsc
     ,rDelaySet_dsc
+    ,rDustR_dsc
+    ,rExpRandN_dsc
     ,rFreezer_dsc
     ,rLagC_dsc
+    ,rLinRandN_dsc
     ,rObxdFilter_dsc
     ,rPlayTrace_dsc
+    ,rRandN_dsc
     ,rShufflerB_dsc
     ,rShufflerL_dsc
     ,rSmplrIndex_dsc
-    ,rTScramble_dsc
     ,rTraceRd_dsc
-    ,randN_dsc
     ,rdl_dsc
+    ,riRandN_dsc
     ,rpvDecayTbl_dsc
-    ,tExpRandN_dsc
-    ,tRandN_dsc
+    ,rtExpRandN_dsc
+    ,rtRandN_dsc
+    ,rtScramble_dsc
     ]
 
 gen_hs_bindings :: IO ()
@@ -346,8 +346,3 @@ gen_hs_bindings = let f = putStrLn . unlines . Haskell.u_gen_binding in mapM_ f 
 
 gen_lisp_bindings :: IO ()
 gen_lisp_bindings = let f = putStrLn . Lisp.lisp_u_gen_binding in mapM_ f rdu_db
-
-
--- Local Variables:
--- truncate-lines:t
--- End:

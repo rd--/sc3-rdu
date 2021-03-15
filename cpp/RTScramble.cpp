@@ -2,12 +2,12 @@
 
 static InterfaceTable *ft;
 
-struct TScramble : public Unit {
+struct RTScramble : public Unit {
   float *m_store;
   float m_prev_t;
 };
 
-void TScramble_step(TScramble* unit)
+void RTScramble_step(RTScramble* unit)
 {
   int i,j,k,m;
   float *d = unit->m_store;
@@ -22,7 +22,7 @@ void TScramble_step(TScramble* unit)
   }
 }
 
-void TScramble_next(TScramble *unit,int inNumSamples)
+void RTScramble_next(RTScramble *unit,int inNumSamples)
 {
   int i;
   int k = unit->mNumInputs - 1;
@@ -31,7 +31,7 @@ void TScramble_next(TScramble *unit,int inNumSamples)
     for (i=0; i<k; i++) {
       unit->m_store[i] = IN0(i+1);
     }
-    TScramble_step(unit);
+    RTScramble_step(unit);
   }
   for (i=0; i<k; i++) {
     OUT0(i) = unit->m_store[i];
@@ -39,25 +39,25 @@ void TScramble_next(TScramble *unit,int inNumSamples)
   unit->m_prev_t = t;
 }
 
-void TScramble_Ctor(TScramble* unit)
+void RTScramble_Ctor(RTScramble* unit)
 {
   int i, k;
   k = unit->mNumInputs - 1;
   unit->m_store = (float*)RTAlloc(unit->mWorld, k * sizeof(float));
   unit->m_prev_t = 0;
-  SETCALC(TScramble_next);
+  SETCALC(RTScramble_next);
   for (i=0;i<k;i++) {
     OUT0(i) = IN0(i+1);
   }
 }
 
-void TScramble_Dtor(TScramble *unit)
+void RTScramble_Dtor(RTScramble *unit)
 {
   RTFree(unit->mWorld,unit->m_store);
 }
 
-PluginLoad(TScramble)
+PluginLoad(RTScramble)
 {
   ft = inTable;
-  DefineDtorUnit(TScramble);
+  DefineDtorUnit(RTScramble);
 }

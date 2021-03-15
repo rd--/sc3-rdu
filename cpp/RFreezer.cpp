@@ -17,13 +17,13 @@ typedef struct
   /* Instantaneous phase value. */
   float phase;
   /* The resolved right sample index.  When the phase reaches this
-     value the loop is reset,unless the group right value is shifted
+     value the loop is reset, unless the group right value is shifted
      to lie to the left of this value. */
   int right;
 }
 RFreezer_Loop_t;
 
-#define LOOP_LIMIT 36
+#define LOOP_LIMIT 64 /* Static maximum number of concurrent loops */
 
 struct RFreezer : public Unit
 {
@@ -93,13 +93,13 @@ RFreezer_loop_setup(RFreezer *unit,int index)
      traversal. The increment incorporates the global offset and
      randomizer values. */
   loop->increment  = 1.0 +(INCREMENT_OFFSET * index);
-  loop->increment *= 1.0 +(INCREMENT_RANDOM * randf32(0,1));
+  loop->increment *= 1.0 +(INCREMENT_RANDOM * rand_f32(0,1));
   /* Set calculated left and right locations.  Left is not stored,it
      is the inital phase location. The right value incorporates the
      global randomizer value. */
   loop->phase = unit->m_left;
   l_right  = 1.0;
-  l_right *= 1.0 +(RIGHT_RANDOM * randf32 (0,1));
+  l_right *= 1.0 +(RIGHT_RANDOM * rand_f32 (0,1));
   l_right  =(l_right > 1.0)? 1.0 : l_right;
   loop->right = (int)((float)unit->m_left +(l_right * (float)unit->m_size));
   /* Shift phase and right to lie on zero crossings. */
@@ -143,7 +143,7 @@ RFreezer_phase_randomize(RFreezer *unit)
   int i;
   for(i = 0; i < unit->m_loop_n; i++) {
     RFreezer_Loop_t *loop = unit->m_loop_data + i;
-    loop->phase = randf32(loop->phase,loop->right);
+    loop->phase = rand_f32(loop->phase,loop->right);
   }
 }
 

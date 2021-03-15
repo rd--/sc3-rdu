@@ -9,22 +9,27 @@ T = $(D)/lib/SuperCollider/plugins
 S = /usr/include/SuperCollider
 I = -I$(S)/plugin_interface \
     -I$(S)/common
-P = DustR.so \
-    PV_Split.so \
-    RandN.so \
+P = PV_Split.so \
     RBezier.so \
     RDelayMap.so \
     RDelaySet.so RDelaySetB.so \
     RDL.so \
+    RDustR.so \
     RDX7.so RDX7Env.so \
+    RExpRandN.so \
     RFreezer.so \
+    RIRandN.so \
     RLagC.so \
+    RLinRandN.so \
     RLoopSet.so \
     RObxdFilter.so \
     RPVDecay.so \
+    RRandN.so \
     RShufflerB.so RShufflerL.so RSmplr.so \
-    RTScramble.so \
-    RTrace.so
+    RTExpRandN.so \
+    RTrace.so \
+    RTRandN.so \
+    RTScramble.so
 
 L = c-common/lib-c-common.a
 
@@ -37,7 +42,7 @@ L = c-common/lib-c-common.a
 all:	$(P)
 
 clean:
-	rm -f $(P) *.orig
+	rm -f $(P) *.orig *~
 
 install: $(P)
 	mkdir -p $(T)

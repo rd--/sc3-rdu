@@ -29,7 +29,7 @@ typedef struct
 grain_t;
 
 /* Static limit on the number of concurrent grains. */
-#define N_GRAINS 64
+#define N_GRAINS 256
 
 struct RShufflerB : public Unit
 {
@@ -68,11 +68,11 @@ rdu_prototypes(RShufflerB)
 #define NUMBER_OF_CONTROLS     20
 
 /* Resolve random range (LEFT,RIGHT) to value, Q = quantize */
-#define RLR_AT(l)(randf32(controls[(l)],controls[(l)+1]))
+#define RLR_AT(l)(rand_f32(controls[(l)],controls[(l)+1]))
 #define RLR_AT_Q(l,q)(controls[(q)]>0.0?quantize(controls[(q)],RLR_AT((l))):RLR_AT((l)))
 
 /* Resolve random range (CENTER,DEVIATION) to value, Q = quantize */
-#define RCD_AT(l)(randf32(controls[(l)]-controls[(l)+1],controls[(l)]+controls[(l)+1]))
+#define RCD_AT(l)(rand_f32(controls[(l)]-controls[(l)+1],controls[(l)]+controls[(l)+1]))
 #define RCD_AT_Q(l,q)(controls[(q)]>0.0?quantize(controls[(q)],RCD_AT((l))):RCD_AT((l)))
 
 /* Make a grain from control inputs. */

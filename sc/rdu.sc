@@ -1,10 +1,19 @@
-DustR : UGen {
+RBezier : UGen {
+  *ar { arg haltAfter = 100, dx = 0.0001, freq = 440, phase = 0, param;
+    ^this.multiNewList(['audio', haltAfter, dx, freq, phase] ++ param);
+  }
+  *kr { arg haltAfter = 100, dx = 0.0001, freq = 440, phase = 0, param;
+    ^this.multiNewList(['control', haltAfter, dx, freq, phase] ++ param);
+  }
+}
+
+RDustR : UGen {
  *ar { arg iot_min = 0.1, iot_max = 1.0;
   ^this.multiNew('audio',iot_min,iot_max);
  }
 }
 
-ExpRandN : MultiOutUGen {
+RExpRandN : MultiOutUGen {
   *new { arg numChannels = 2, lo = 0, hi = 1;
       ^this.multiNew('scalar', numChannels, lo, hi)
   }
@@ -14,22 +23,13 @@ ExpRandN : MultiOutUGen {
   }
 }
 
-RandN : MultiOutUGen {
+RRandN : MultiOutUGen {
   *new { arg numChannels = 2, lo = 0, hi = 1;
       ^this.multiNew('scalar', numChannels, lo, hi)
   }
   init { arg numChannels, lo, hi;
       inputs = [lo, hi];
       ^this.initOutputs(numChannels, rate)
-  }
-}
-
-RBezier : UGen {
-  *ar { arg haltAfter = 100, dx = 0.0001, freq = 440, phase = 0, param;
-    ^this.multiNewList(['audio', freq, phase] ++ param);
-  }
-  *kr { arg freq = 440, phase = 0, param;
-    ^this.multiNewList(['control', freq, phase] ++ param);
   }
 }
 
@@ -115,7 +115,7 @@ RPlayTrace : UGen {
  }
 }
 
-TExpRandN : MultiOutUGen {
+RTExpRandN : MultiOutUGen {
   *kr { arg numChannels = 2, lo = 0, hi = 1, trigger = 0;
       ^this.multiNew('control', numChannels, lo, hi, trigger)
   }
@@ -125,7 +125,7 @@ TExpRandN : MultiOutUGen {
   }
 }
 
-TRandN : MultiOutUGen {
+RTRandN : MultiOutUGen {
   *kr { arg numChannels = 2, lo = 0, hi = 1, trigger = 0;
       ^this.multiNew('control', numChannels, lo, hi, trigger)
   }
