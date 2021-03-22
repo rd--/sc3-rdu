@@ -69,6 +69,24 @@ rExpRandN numChannels z lo hi = mkUGen Nothing [IR] (Left IR) "RExpRandN" [lo,hi
 rFreezer :: UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen -> UGen
 rFreezer bufnum left right gain increment incrementOffset incrementRandom rightRandom syncPhaseTrigger randomizePhaseTrigger numberOfLoops = mkUGen Nothing [AR] (Left AR) "RFreezer" [bufnum,left,right,gain,increment,incrementOffset,incrementRandom,rightRandom,syncPhaseTrigger,randomizePhaseTrigger,numberOfLoops] Nothing 1 (Special 0) NoId
 
+-- | Digital State-Variable Filter (band-pass)
+--
+--  RSVFBP [KR,AR] in=0.0 freq=440.0 q=0.0;    FILTER: TRUE
+rsvfbp :: UGen -> UGen -> UGen -> UGen
+rsvfbp in_ freq q = mkUGen Nothing [KR,AR] (Right [0]) "RSVFBP" [in_,freq,q] Nothing 1 (Special 0) NoId
+
+-- | Digital State-Variable Filter (High-pass)
+--
+--  RSVFHP [KR,AR] in=0.0 freq=440.0 q=0.0;    FILTER: TRUE
+rsvfhp :: UGen -> UGen -> UGen -> UGen
+rsvfhp in_ freq q = mkUGen Nothing [KR,AR] (Right [0]) "RSVFHP" [in_,freq,q] Nothing 1 (Special 0) NoId
+
+-- | Digital State-Variable Filter (Low-pass)
+--
+--  RSVFLP [KR,AR] in=0.0 freq=440.0 q=0.0;    FILTER: TRUE
+rsvflp :: UGen -> UGen -> UGen -> UGen
+rsvflp in_ freq q = mkUGen Nothing [KR,AR] (Right [0]) "RSVFLP" [in_,freq,q] Nothing 1 (Special 0) NoId
+
 -- | LagUD variant with curve inputs.
 --
 --  RLagC [KR] in=0.0 timeUp=0.1 curveUp=0.0 timeDown=0.1 curveDown=0.0;    FILTER: TRUE

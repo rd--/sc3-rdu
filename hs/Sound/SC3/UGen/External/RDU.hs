@@ -310,6 +310,21 @@ rSmplrIndex_dsc =
               ,ugen_outputs = Just 2
               }
 
+rsvfbp_dsc :: U
+rsvfbp_dsc =
+    let i = [I "in" 0,I "freq" 440.0,I "q" 0.0]
+    in u_flt 0 (osc_U "RSVFBP" [KR,AR] AR i 1 "Digital State-Variable Filter (Band-pass)" False)
+
+rsvfhp_dsc :: U
+rsvfhp_dsc =
+    let i = [I "in" 0,I "freq" 440.0,I "q" 0.0]
+    in u_flt 0 (osc_U "RSVFHP" [KR,AR] AR i 1 "Digital State-Variable Filter (High-pass)" False)
+
+rsvflp_dsc :: U
+rsvflp_dsc =
+    let i = [I "in" 0,I "freq" 440.0,I "q" 0.0]
+    in u_flt 0 (osc_U "RSVFLP" [KR,AR] AR i 1 "Digital State-Variable Filter (Low-pass)" False)
+
 -- * DB
 
 rdu_db :: [U]
@@ -332,6 +347,9 @@ rdu_db =
     ,rShufflerB_dsc
     ,rShufflerL_dsc
     ,rSmplrIndex_dsc
+    ,rsvfbp_dsc
+    ,rsvfhp_dsc
+    ,rsvflp_dsc
     ,rTraceRd_dsc
     ,rdl_dsc
     ,riRandN_dsc

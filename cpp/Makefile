@@ -26,6 +26,9 @@ P = PV_Split.so \
     RPVDecay.so \
     RRandN.so \
     RShufflerB.so RShufflerL.so RSmplr.so \
+    RSVFBP.so \
+    RSVFHP.so \
+    RSVFLP.so \
     RTExpRandN.so \
     RTrace.so \
     RTRandN.so \

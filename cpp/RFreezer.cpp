@@ -12,7 +12,7 @@ static InterfaceTable *ft;
 
 typedef struct
 {
-  /* Static increment for loop traversal,modified by group value. */
+  /* Static increment for loop traversal, modified by group value. */
   float increment;
   /* Instantaneous phase value. */
   float phase;
@@ -32,7 +32,7 @@ struct RFreezer : public Unit
   RFreezer_Loop_t m_loop_data[LOOP_LIMIT];
   /* The number of active loops. */
   int m_loop_n;
-  /* The resolved left and right window sample indices,and the size
+  /* The resolved left and right window sample indices, and the size
      of the window.  These are calculated once per period.  */
   int m_left;
   int m_right;
@@ -49,7 +49,7 @@ rdu_prototypes(RFreezer)
 #define GROUP_RIGHT               IN0(2)
 #define GROUP_GAIN                IN0(3)
 #define GROUP_INCREMENT           IN0(4)
-#define INCREMENT_OFFSET          IN0(5)
+#define INCREMENT_OFFSET          IN0(5) /* multiplied by loop index (number) and added to increment */
 #define INCREMENT_RANDOM          IN0(6)
 #define RIGHT_RANDOM              IN0(7)
 #define PHASE_SYNCHRONIZE_TRIGGER IN0(8)
@@ -89,11 +89,11 @@ RFreezer_loop_setup(RFreezer *unit,int index)
 {
   RFreezer_Loop_t *loop = unit->m_loop_data + index;
   float l_right;
-  /* Set increment value,this is constant for the whole loop
+  /* Set increment value, this is constant for the whole loop
      traversal. The increment incorporates the global offset and
      randomizer values. */
-  loop->increment  = 1.0 +(INCREMENT_OFFSET * index);
-  loop->increment *= 1.0 +(INCREMENT_RANDOM * rand_f32(0,1));
+  loop->increment  = 1.0 + (INCREMENT_OFFSET * index);
+  loop->increment *= 1.0 + (INCREMENT_RANDOM * rand_f32(0,1));
   /* Set calculated left and right locations.  Left is not stored,it
      is the inital phase location. The right value incorporates the
      global randomizer value. */
