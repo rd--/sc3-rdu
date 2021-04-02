@@ -1,76 +1,77 @@
 /* SC3 variants of OverlapTexture &etc. - rd */
 
-Texture {
+RTexture {
 
     *add_env {
         arg newEventFunc, i;
         ^{
-            var sustainTime = \sustainTime.kr(4);
-            var transitionTime = \transitionTime.kr(1);
-            var env = Env([0,1,1,0],[transitionTime,sustainTime,transitionTime],\sin);
-            Out.ar(0,newEventFunc.(i) * EnvGen.kr(env,doneAction: 2));
+            var sustainTime = NamedControl.kr(name: 'sustainTime', values: 4);
+            var transitionTime = NamedControl.kr(name: 'transitionTime', values: 1);
+            var env = Env.new(levels: [0,1,1,0], times: [transitionTime,sustainTime,transitionTime], curve: \sin);
+            var amp = EnvGen.kr(envelope: env, gate: 1, levelScale: 1, levelBias: 0, timeScale: 1, doneAction: 2);
+            Out.ar(bus: 0, channelsArray: newEventFunc.value(i) * amp);
         };
     }
 
     *spawn {
         arg newEventFunc, numChannels = 2, nextTime, maxRepeats = inf, postProcess = nil, bus = 0;
-        Task({
+        Task.new(func: {
             maxRepeats.do({
                 arg i;
-                {Out.ar(0,newEventFunc.(i))}.play;
+                {Out.ar(bus: 0, channelsArray: newEventFunc.(i))}.play;
                 nextTime.value.wait;
             });
         }).play;
-        if(postProcess.notNil,{Texture.post_process(postProcess,bus,numChannels)});
+        if(postProcess.notNil,{RTexture.post_process(treatment: postProcess, bus: bus, numChannels: numChannels)});
     }
 
     *xfade {
         arg newEventFunc, sustainTime = 4.0, transitionTime = 4.0, numChannels = 2, maxRepeats = inf, postProcess = nil, bus = 0;
         var period = sustainTime + transitionTime;
-        Task({
+        Task.new(func: {
             maxRepeats.do({
                 arg i;
-                Texture.add_env(newEventFunc,i).play(args:[
-                    \sustainTime:sustainTime,
-                    \transitionTime:transitionTime]);
+                RTexture.add_env(newEventFunc: newEventFunc,i: i).play(args:[
+                    \sustainTime: sustainTime,
+                    \transitionTime: transitionTime]);
                 period.wait;
             });
         }).play;
-        if(postProcess.notNil,{Texture.post_process(postProcess,bus,numChannels)});
+        if(postProcess.notNil,{RTexture.post_process(treatment: postProcess, bus: bus, numChannels: numChannels)});
     }
 
     *overlap {
         arg newEventFunc, sustainTime = 4.0, transitionTime = 4.0, overlap = 2, numChannels = 2, maxRepeats = inf, postProcess = nil, bus = 0;
         var period = (sustainTime + (transitionTime * 2)) / overlap;
-        Task({
+        Task.new(func: {
             maxRepeats.do({
                 arg i;
-                Texture.add_env(newEventFunc,i).play(args:[
-                    \sustainTime:sustainTime,
-                    \transitionTime:transitionTime]);
+                RTexture.add_env(newEventFunc: newEventFunc, i: i).play(args:[
+                    \sustainTime: sustainTime,
+                    \transitionTime: transitionTime]);
                 period.wait;
             });
         }).play;
-        if(postProcess.notNil,{Texture.post_process(postProcess,bus,numChannels)});
+        if(postProcess.notNil,{RTexture.post_process(treatment: postProcess, bus: bus, numChannels: numChannels)});
     }
 
     *post_process {
         arg treatment, bus = 0, numChannels = 2;
         {
-            var z = In.ar(bus,numChannels);
-            z = treatment.(z);
-            ReplaceOut.ar(bus,z);
+            var z = In.ar(bus: bus, numChannels: numChannels);
+            z = treatment.value(z);
+            ReplaceOut.ar(bus: bus, channelsArray: z);
         }.play(addAction: \addToTail);
     }
 
     *overlapGraph { // ugen graph variant
         arg graphFunc, sustainTime = 4.0, transitionTime = 4.0, overlap = 2;
-        ^Mix.fill(overlap,{
+        ^Mix.fill(n: overlap, function: {
             arg i;
-            var trg = Impulse.kr(1 / (sustainTime + (transitionTime * 2)),i / overlap);
-            var snd = graphFunc.(trg);
-            var env = Env([0,1,1,0],[transitionTime,sustainTime,transitionTime],\sin);
-            snd * EnvGen.kr(env,trg);
+            var trg = Impulse.kr(freq: 1 / (sustainTime + (transitionTime * 2)), phase: i / overlap);
+            var snd = graphFunc.value(trg);
+            var env = Env.new(levels: [0,1,1,0], times: [transitionTime,sustainTime,transitionTime], curve: \sin);
+            snd * EnvGen.kr(envelope: env, gate: trg, levelScale: 1, levelBias: 0, timeScale: 1, doneAction: 0);
         });
     }
 
@@ -78,12 +79,12 @@ Texture {
         arg graphFunc, sustainTime = 4.0, transitionTime = 4.0;
         var mk = {
             arg ph;
-            var trg = Impulse.kr(1 / (sustainTime + (transitionTime * 2)),ph);
-            var snd = graphFunc.(trg);
-            var env = Env([0,1,1,0],[transitionTime,sustainTime,transitionTime],\sin);
-            snd * EnvGen.kr(env,trg);
+            var trg = Impulse.kr(freq: 1 / (sustainTime + (transitionTime * 2)), phase: ph);
+            var snd = graphFunc.value(trg);
+            var env = Env.new(levels: [0,1,1,0], times: [transitionTime,sustainTime,transitionTime], curve: \sin);
+            snd * EnvGen.kr(envelope: env, gate: trg, levelScale: 1, levelBias: 0, timeScale: 1, doneAction: 0);
         };
-        ^(mk.(0) + mk.((sustainTime + transitionTime) / (sustainTime + (transitionTime * 2))));
+        ^(mk.value(0) + mk.value((sustainTime + transitionTime) / (sustainTime + (transitionTime * 2))));
     }
 
 }
