@@ -6,7 +6,7 @@ import Text.Printf {- base -}
 import Sound.SC3 {- hsc3 -}
 
 import qualified Sound.SC3.UGen.DB.Bindings.Haskell as Haskell {- hsc3-db -}
-import qualified Sound.SC3.UGen.DB.Bindings.Lisp as Lisp {- hsc3-db -}
+import qualified Sound.SC3.UGen.DB.Bindings.Scheme as Scheme {- hsc3-db -}
 import Sound.SC3.UGen.DB.Record {- hsc3-db -}
 
 -- | In cases where inputs have clear meta-data this should be stored at hsc3-db, but it isn't.
@@ -362,5 +362,5 @@ rdu_db =
 gen_hs_bindings :: IO ()
 gen_hs_bindings = let f = putStrLn . unlines . Haskell.u_gen_binding in mapM_ f rdu_db
 
-gen_lisp_bindings :: IO ()
-gen_lisp_bindings = let f = putStrLn . Lisp.lisp_u_gen_binding in mapM_ f rdu_db
+gen_scheme_bindings :: IO ()
+gen_scheme_bindings = let f = putStrLn . Scheme.scheme_u_gen_binding in mapM_ f rdu_db
