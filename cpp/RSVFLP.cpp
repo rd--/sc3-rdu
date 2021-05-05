@@ -2,7 +2,7 @@
 
 #include <SC_PlugIn.h>
 
-#include "c-common/svf.c"
+#include "c-commonr/svf.c"
 
 static InterfaceTable *ft;
 

@@ -11,14 +11,14 @@
 #include "Obxd/Engine/SynthEngine.h"
 #include "Obxd/Engine/Params.h"
 
-#include "c-common/cfile.c"
-#include "c-common/clip.c"
-#include "c-common/float.h"
-#include "c-common/memory.c"
-#include "c-common/print.h"
-#include "c-common/sf-sndfile.c"
-#include "c-common/signal-interleave.c"
-#include "c-common/vector.c"
+#include "c-commonr/cfile.c"
+#include "c-commonr/clip.c"
+#include "c-commonr/float.h"
+#include "c-commonr/memory.c"
+#include "c-commonr/print.h"
+#include "c-commonr/sf-sndfile.c"
+#include "c-commonr/signal-interleave.c"
+#include "c-commonr/vector.c"
 
 struct ROBDX
 {

@@ -34,7 +34,7 @@ P = PV_Split.so \
     RTRandN.so \
     RTScramble.so
 
-L = c-common/lib-c-common.a
+L = c-commonr/lib-c-commonr.a
 
 %.o : %.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(I) -c $<
@@ -54,9 +54,9 @@ install: $(P)
 uninstall:
 	(cd $(T) ; rm -f $(P))
 
-ln-c-common:
-	rm -f c-common
-	ln -s $(HOME)/sw/c-common .
+ln-c-commonr:
+	rm -f c-commonr
+	ln -s $(HOME)/sw/c-commonr .
 
 indent:
 	bcpp -yb -bcl RPVDecay.cpp

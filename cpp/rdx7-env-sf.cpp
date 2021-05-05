@@ -9,11 +9,11 @@
 #include "dx7/freqlut.cc"
 #include "dx7/pitchenv.cc"
 
-#include "c-common/int.h"
-#include "c-common/float.h"
-#include "c-common/print.h"
-#include "c-common/memory.c"
-#include "c-common/sf-sndfile.c"
+#include "c-commonr/int.h"
+#include "c-commonr/float.h"
+#include "c-commonr/print.h"
+#include "c-commonr/memory.c"
+#include "c-commonr/sf-sndfile.c"
 
 struct RDX7Env
 {

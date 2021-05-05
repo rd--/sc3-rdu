@@ -18,14 +18,14 @@
 
 #include "dx7/EngineMkI.cpp"
 
-#include "c-common/cfile.c"
-#include "c-common/clip.c"
-#include "c-common/dx7.c"
-#include "c-common/float.h"
-#include "c-common/memory.c"
-#include "c-common/print.h"
-#include "c-common/sf-sndfile.c"
-#include "c-common/vector.c"
+#include "c-commonr/cfile.c"
+#include "c-commonr/clip.c"
+#include "c-commonr/dx7.c"
+#include "c-commonr/float.h"
+#include "c-commonr/memory.c"
+#include "c-commonr/print.h"
+#include "c-commonr/sf-sndfile.c"
+#include "c-commonr/vector.c"
 
 /* DEXED adds switches for each OP, this set them, 0x3F turns everything on */
 void unpack_op_switch(Controllers *c,uint8_t x) {

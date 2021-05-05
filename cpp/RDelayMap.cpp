@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <SC_PlugIn.h>
 
-#include "c-common/cq.c"
-#include "c-common/signal-interpolate.c"
+#include "c-commonr/cq.c"
+#include "c-commonr/signal-interpolate.c"
 #include "rdu.h"
 
 static InterfaceTable *ft;

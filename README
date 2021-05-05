@@ -77,7 +77,7 @@ sc3-rdu
   .help.{[hs](?t=hsc3&e=Help/UGen/tScramble.help.hs)}
   .[cpp](?t=sc3-rdu&e=cpp/TScramble.cpp)
 
-requires: [c-common](?t=c-common)
+requires: [c-commonr](?t=c-commonr)
 
 debian: supercollider-dev
 

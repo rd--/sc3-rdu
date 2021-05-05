@@ -9,9 +9,9 @@
 #include "dx7/env.cc"
 #include "dx7/exp2.cc"
 
-#include "c-common/int.h"
-#include "c-common/float.h"
-#include "c-common/print.h"
+#include "c-commonr/int.h"
+#include "c-commonr/float.h"
+#include "c-commonr/print.h"
 
 static InterfaceTable *ft;
 

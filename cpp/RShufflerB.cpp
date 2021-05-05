@@ -4,12 +4,12 @@
 
 #include <SC_PlugIn.h>
 
-#include "c-common/gen-trapezoid.c"
-#include "c-common/quantize.c"
-#include "c-common/rand.c"
-#include "c-common/segment-transfer.c"
-#include "c-common/signal-interpolate.c"
-#include "c-common/taus88.c"
+#include "c-commonr/gen-trapezoid.c"
+#include "c-commonr/quantize.c"
+#include "c-commonr/rand.c"
+#include "c-commonr/segment-transfer.c"
+#include "c-commonr/signal-interpolate.c"
+#include "c-commonr/taus88.c"
 
 #include "rdu.h"
 
