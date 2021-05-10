@@ -363,4 +363,4 @@ gen_hs_bindings :: IO ()
 gen_hs_bindings = let f = putStrLn . unlines . Haskell.u_gen_binding in mapM_ f rdu_db
 
 gen_scheme_bindings :: IO ()
-gen_scheme_bindings = let f = putStrLn . Scheme.scheme_u_gen_binding in mapM_ f rdu_db
+gen_scheme_bindings = let f = putStrLn . Scheme.scheme_u_gen_binding id in mapM_ f rdu_db
