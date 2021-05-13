@@ -1,3 +1,6 @@
+GL_GIT=git@gitlab.com:rd--/sc3-rdu.git
+GL_HTTP=https://gitlab.com/rd--/sc3-rdu.git
+
 prefix=$(HOME)/opt
 
 all:
@@ -16,8 +19,14 @@ clean:
 ln-sc:
 	ln -s $(HOME)/sw/sc3-rdu/sc/rdu.sc $(HOME)/.local/share/SuperCollider/Extensions
 
-push-rd:
-	darcs push -a rd@rohandrape.net:sw/sc3-rdu
+push-gl:
+	git push $(GL_GIT)
 
-pull-rd:
-	darcs pull -a http://rohandrape.net/sw/sc3-rdu
+pull-gl:
+	git pull $(GL_HTTP)
+
+update-rd:
+	ssh rd@rohandrape.net "(cd sw/sc3-rdu; git pull $(GL_HTTP))"
+
+push-all:
+	make push-gl update-rd
