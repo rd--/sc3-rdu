@@ -23,11 +23,11 @@
 
 #include "dx7/EngineMkI.cpp"
 
-#include "c-commonr/cfile.c"
-#include "c-commonr/dx7.c"
-#include "c-commonr/float.h"
-#include "c-commonr/memory.c"
-#include "c-commonr/print.h"
+#include "r-common/c/cfile.c"
+#include "r-common/c/dx7.c"
+#include "r-common/c/float.h"
+#include "r-common/c/memory.c"
+#include "r-common/c/print.h"
 
 /* DEXED adds switches for each OP, this sets them, 0x3F turns everything on */
 void unpack_op_switch(Controllers *c,uint8_t x) {

@@ -2,7 +2,7 @@
 
 #include <SC_PlugIn.h>
 
-#include "c-commonr/signal-interpolate.c"
+#include "r-common/c/signal-interpolate.c"
 
 #include "rdu.h"
 

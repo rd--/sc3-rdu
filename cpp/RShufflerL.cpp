@@ -3,8 +3,8 @@
 
 #include <SC_PlugIn.h>
 
-#include "c-commonr/rand.c"
-#include "c-commonr/taus88.c"
+#include "r-common/c/rand.c"
+#include "r-common/c/taus88.c"
 
 #include "rdu.h"
 

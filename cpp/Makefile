@@ -25,16 +25,19 @@ P = PV_Split.so \
     RObxdFilter.so \
     RPVDecay.so \
     RRandN.so \
-    RShufflerB.so RShufflerL.so RSmplr.so \
+    RShufflerB.so \
+    RShufflerL.so \
+    RSmplr.so \
     RSVFBP.so \
     RSVFHP.so \
     RSVFLP.so \
     RTExpRandN.so \
+    RTLinRandN.so \
     RTrace.so \
     RTRandN.so \
     RTScramble.so
 
-L = c-commonr/lib-c-commonr.a
+L = r-common/c/lib-r-common.a
 
 %.o : %.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(I) -c $<
@@ -54,9 +57,9 @@ install: $(P)
 uninstall:
 	(cd $(T) ; rm -f $(P))
 
-ln-c-commonr:
-	rm -f c-commonr
-	ln -s $(HOME)/sw/c-commonr .
+ln-rcommon:
+	rm -f r-common
+	ln -s $(HOME)/sw/r-common .
 
 indent:
 	bcpp -yb -bcl RPVDecay.cpp

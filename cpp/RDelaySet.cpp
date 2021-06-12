@@ -3,8 +3,8 @@
 
 #include <SC_PlugIn.h>
 
-#include "c-commonr/cq.c"
-#include "c-commonr/signal-interpolate.c"
+#include "r-common/c/cq.c"
+#include "r-common/c/signal-interpolate.c"
 
 #include "RDelaySet.h"
 #include "rdu.h"

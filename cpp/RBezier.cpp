@@ -3,8 +3,8 @@
 
 #include <SC_PlugIn.h>
 
-#include "c-commonr/bezier.c"
-#include "c-commonr/print.h"
+#include "r-common/c/bezier.c"
+#include "r-common/c/print.h"
 
 static InterfaceTable *ft;
 

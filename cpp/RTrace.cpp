@@ -2,7 +2,7 @@
 
 #include <SC_PlugIn.h>
 
-#include "c-commonr/trace.c"
+#include "r-common/c/trace.c"
 
 #include "rdu.h"
 
