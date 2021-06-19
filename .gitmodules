@@ -1,0 +1,3 @@
+[submodule "cpp/r-common"]
+	path = cpp/r-common
+	url = https://gitlab.com/rd--/r-common
