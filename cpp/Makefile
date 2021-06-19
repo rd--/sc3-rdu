@@ -48,7 +48,7 @@ L = r-common/c/lib-r-common.a
 all:	$(P)
 
 clean:
-	rm -f $(P) *.orig *~
+	rm -f $(P) *.orig *~ dx7/*.o dx7/*.a
 
 install: $(P)
 	mkdir -p $(T)
@@ -56,10 +56,6 @@ install: $(P)
 
 uninstall:
 	(cd $(T) ; rm -f $(P))
-
-ln-rcommon:
-	rm -f r-common
-	ln -s $(HOME)/sw/r-common .
 
 indent:
 	bcpp -yb -bcl RPVDecay.cpp
