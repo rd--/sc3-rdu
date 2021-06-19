@@ -13,7 +13,7 @@ mk-ugen:
 	(cd cpp; make all install)
 
 clean:
-	rm -fR dist dist-newstyle
+	rm -fR dist dist-newstyle *~
 	(cd cpp; make clean)
 
 ln-sc:
