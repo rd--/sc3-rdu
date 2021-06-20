@@ -9,14 +9,15 @@ struct RTScramble : public Unit {
 
 void RTScramble_step(RTScramble* unit)
 {
-  int i,j,k,m;
   float *d = unit->m_store;
   RGen& rgen = *unit->mParent->mRGen;
-  k = unit->mNumInputs - 1;
-  for (i=0, m=k; i<k-1; ++i, --m) {
-    float t;
-    j = i + rgen.irand(m);
-    t = d[i];
+  int k = unit->mNumInputs - 1;
+  for (int i = 0; i < k; i++) {
+    d[i] = IN0(i+1);
+  }
+  for (int i = 0; i < k - 1; i++) {
+    int j = i + rgen.irand(k - i);
+    float t = d[i];
     d[i] = d[j];
     d[j] = t;
   }
@@ -24,16 +25,12 @@ void RTScramble_step(RTScramble* unit)
 
 void RTScramble_next(RTScramble *unit,int inNumSamples)
 {
-  int i;
   int k = unit->mNumInputs - 1;
   float t = IN0(0);
   if (t > 0.0 && unit->m_prev_t <= 0.0) {
-    for (i=0; i<k; i++) {
-      unit->m_store[i] = IN0(i+1);
-    }
     RTScramble_step(unit);
   }
-  for (i=0; i<k; i++) {
+  for (int i = 0; i < k; i++) {
     OUT0(i) = unit->m_store[i];
   }
   unit->m_prev_t = t;
@@ -41,14 +38,14 @@ void RTScramble_next(RTScramble *unit,int inNumSamples)
 
 void RTScramble_Ctor(RTScramble* unit)
 {
-  int i, k;
-  k = unit->mNumInputs - 1;
+  int k = unit->mNumInputs - 1;
   unit->m_store = (float*)RTAlloc(unit->mWorld, k * sizeof(float));
   unit->m_prev_t = 0;
   SETCALC(RTScramble_next);
-  for (i=0;i<k;i++) {
-    OUT0(i) = IN0(i+1);
+  for (int i = 0; i < k; i++) {
+    unit->m_store[i] = IN0(i + 1);
   }
+  RTScramble_next(unit, 1);
 }
 
 void RTScramble_Dtor(RTScramble *unit)
