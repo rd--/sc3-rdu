@@ -20,3 +20,4 @@ push-all:
 
 push-tags:
 	git push git@gitlab.com:rd--/sc3-rdu.git --tags
+	git push git@github.com:rd--/sc3-rdu.git --tags
