@@ -6,8 +6,6 @@
 
 static InterfaceTable *ft;
 
-/* RSmplrIndex */
-
 struct RSmplrIndex : public Unit
 {
     rdu_declare_buf(tbl);
@@ -15,18 +13,6 @@ struct RSmplrIndex : public Unit
     float m_index;
     float m_mul;
 };
-
-rdu_prototypes(RSmplrIndex)
-
-void RSmplrIndex_Ctor(RSmplrIndex* unit)
-{
-    rdu_init_buf(tbl);
-    unit->m_mnn = 0.0;
-    unit->m_index = 0.0;
-    unit->m_mul = 1.0;
-    SETCALC(RSmplrIndex_next);
-    RSmplrIndex_next(unit, 1);
-}
 
 float midi_to_ratio(float mnn)
 {
@@ -59,9 +45,17 @@ void RSmplrIndex_next(RSmplrIndex* unit, int inNumSamples)
     OUT0(1) = unit->m_mul;
 }
 
-/* LOAD */
+void RSmplrIndex_Ctor(RSmplrIndex* unit)
+{
+    rdu_init_buf(tbl);
+    unit->m_mnn = 0.0;
+    unit->m_index = 0.0;
+    unit->m_mul = 1.0;
+    SETCALC(RSmplrIndex_next);
+    RSmplrIndex_next(unit, 1);
+}
 
-PluginLoad(RSmplr)
+PluginLoad(RSmplrIndex)
 {
   ft = inTable;
   DefineSimpleUnit(RSmplrIndex);

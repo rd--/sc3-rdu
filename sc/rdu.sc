@@ -1,38 +1,3 @@
-RBezier : UGen {
-  *ar { arg haltAfter = 100, dx = 0.0001, freq = 440, phase = 0, param;
-    ^this.multiNewList(['audio', haltAfter, dx, freq, phase] ++ param);
-  }
-  *kr { arg haltAfter = 100, dx = 0.0001, freq = 440, phase = 0, param;
-    ^this.multiNewList(['control', haltAfter, dx, freq, phase] ++ param);
-  }
-}
-
-RDustR : UGen {
- *ar { arg iot_min = 0.1, iot_max = 1.0;
-  ^this.multiNew('audio',iot_min,iot_max);
- }
-}
-
-RExpRandN : MultiOutUGen {
-  *new { arg numChannels = 2, lo = 0, hi = 1;
-      ^this.multiNew('scalar', numChannels, lo, hi)
-  }
-  init { arg numChannels, lo, hi;
-      inputs = [lo, hi];
-      ^this.initOutputs(numChannels, rate)
-  }
-}
-
-RRandN : MultiOutUGen {
-  *new { arg numChannels = 2, lo = 0, hi = 1;
-      ^this.multiNew('scalar', numChannels, lo, hi)
-  }
-  init { arg numChannels, lo, hi;
-      inputs = [lo, hi];
-      ^this.initOutputs(numChannels, rate)
-  }
-}
-
 RDelaySet : UGen {
   *ar { arg in = 0.0, spec;
     ^this.multiNewList(['audio', in] ++ spec);
@@ -48,12 +13,6 @@ RDelaySetB : UGen {
 RDelayMap : UGen {
  *ar { arg  bufnum = 0.0, in = 0.0, dynamic = 0.0, spec ;
   ^this.multiNewList(['audio', bufnum, in, dynamic] ++ spec);
- }
-}
-
-RDX7 : UGen {
- *ar { arg bufnum=0, on=0, off=0, data=0, vc=0, mnn=60, vel=99, pw=0, mw=0, bc=0, fc=0;
-  ^this.multiNew('audio',bufnum,on,off,data,vc,mnn,vel,pw,mw,bc,fc);
  }
 }
 
@@ -95,67 +54,6 @@ RShufflerL : UGen {
  *ar { arg  in = 0.0, fragmentSize = 0.01, maxDelay = 0.01, mul = 1.0, add = 0.0;
   ^this.multiNew('audio', in, fragmentSize, maxDelay).madd(mul, add);
  }
-}
-
-RTraceRd : UGen {
- *ar { arg  bufnum = 0.0, degree = 4.0, index = 0.0, axis = 1.0, mul = 1.0, add = 0.0;
-  ^this.multiNew('audio', bufnum, degree, index, axis).madd(mul, add);
- }
- *kr { arg  bufnum = 0.0, degree = 4.0, index = 0.0, axis = 1.0, mul = 1.0, add = 0.0;
-  ^this.multiNew('control', bufnum, degree, index, axis).madd(mul, add);
- }
-}
-
-RPlayTrace : UGen {
- *ar { arg  bufnum = 0.0, degree = 4.0, rate = 0.0, axis = 1.0, mul = 1.0, add = 0.0;
-  ^this.multiNew('audio', bufnum, degree, rate, axis).madd(mul, add);
- }
- *kr { arg  bufnum = 0.0, degree = 4.0, rate = 0.0, axis = 1.0, mul = 1.0, add = 0.0;
-  ^this.multiNew('control', bufnum, degree, rate, axis).madd(mul, add);
- }
-}
-
-RTExpRandN : MultiOutUGen {
-  *kr { arg numChannels = 2, lo = 0, hi = 1, trigger = 0;
-      ^this.multiNew('control', numChannels, lo, hi, trigger)
-  }
-  init { arg numChannels, lo, hi, trigger;
-      inputs = [lo, hi, trigger];
-      ^this.initOutputs(numChannels, rate)
-  }
-}
-
-RTLinRandN : MultiOutUGen {
-  *kr { arg numChannels = 2, lo = 0, hi = 1, minmax = 0, trigger = 0;
-      ^this.multiNew('control', numChannels, lo, hi, minmax, trigger)
-  }
-  init { arg numChannels, lo, hi, minmax, trigger;
-      inputs = [lo, hi, minmax, trigger];
-      ^this.initOutputs(numChannels, rate)
-  }
-}
-
-RTRandN : MultiOutUGen {
-  *kr { arg numChannels = 2, lo = 0, hi = 1, trigger = 0;
-      ^this.multiNew('control', numChannels, lo, hi, trigger)
-  }
-  init { arg numChannels, lo, hi, trigger;
-      inputs = [lo, hi, trigger];
-      ^this.initOutputs(numChannels, rate)
-  }
-}
-
-RTScramble : MultiOutUGen {
-  *ir { arg trigger = 0.0, inputs;
-    ^this.multiNewList(['scalar', trigger] ++ inputs);
-  }
-  *kr { arg trigger = 0.0, inputs;
-    ^this.multiNewList(['control', trigger] ++ inputs);
-  }
-  init { arg ... i;
-    inputs = i;
-    ^this.initOutputs(i.size - 1, rate)
-  }
 }
 
 PV_Split : MultiOutUGen {

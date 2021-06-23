@@ -27,13 +27,14 @@ P = PV_Split.so \
     RRandN.so \
     RShufflerB.so \
     RShufflerL.so \
-    RSmplr.so \
+    RSmplrIndex.so \
     RSVFBP.so \
     RSVFHP.so \
     RSVFLP.so \
     RTExpRandN.so \
     RTLinRandN.so \
-    RTrace.so \
+    RTracePlay.so \
+    RTraceRd.so \
     RTRandN.so \
     RTScramble.so
 
