@@ -19,6 +19,7 @@ option(STRICT "Use strict warning flags" OFF)
 option(NOVA_SIMD "Build plugins with nova-simd support." OFF)
 
 sc_add_server_plugin("sc3-rdu" "RBezier" "cpp/RBezier.cpp" "sc/RBezier.sc" "help/scd/RBezier.help.scd")
+sc_add_server_plugin("sc3-rdu" "RDelayMap" "cpp/RDelayMap.cpp" "sc/RDelayMap.sc" "help/scd/RDelayMap.help.scd")
 sc_add_server_plugin("sc3-rdu" "RDustR" "cpp/RDustR.cpp" "sc/RDustR.sc" "help/scd/RDustR.help.scd")
 sc_add_server_plugin("sc3-rdu" "RDX7" "cpp/RDX7.cpp" "sc/RDX7.sc" "help/scd/RDX7.help.scd")
 sc_add_server_plugin("sc3-rdu" "RExpRandN" "cpp/RExpRandN.cpp" "sc/RExpRandN.sc" "help/scd/RExpRandN.help.scd")
