@@ -23,7 +23,6 @@ sc_add_server_plugin("sc3-rdu" "RBezier" "cpp/RBezier.cpp" "sc/RBezier.sc" "help
 sc_add_server_plugin("sc3-rdu" "RDelayMap" "cpp/RDelayMap.cpp" "sc/RDelayMap.sc" "help/scd/RDelayMap.help.scd")
 sc_add_server_plugin("sc3-rdu" "RDelaySet" "cpp/RDelaySet.cpp" "sc/RDelaySet.sc" "help/scd/RDelaySet.help.scd")
 sc_add_server_plugin("sc3-rdu" "RDelaySetBuf" "cpp/RDelaySetBuf.cpp" "sc/RDelaySetBuf.sc" "help/scd/RDelaySetBuf.help.scd")
-sc_add_server_plugin("sc3-rdu" "RDL" "cpp/RDL.cpp" "sc/RDL.sc" "help/scd/RDL.help.scd")
 sc_add_server_plugin("sc3-rdu" "RDustR" "cpp/RDustR.cpp" "sc/RDustR.sc" "help/scd/RDustR.help.scd")
 sc_add_server_plugin("sc3-rdu" "RDX7" "cpp/RDX7.cpp" "sc/RDX7.sc" "help/scd/RDX7.help.scd")
 sc_add_server_plugin("sc3-rdu" "RDX7Env" "cpp/RDX7Env.cpp" "sc/RDX7Env.sc" "help/scd/RDX7Env.help.scd")
@@ -48,3 +47,7 @@ sc_add_server_plugin("sc3-rdu" "RTracePlay" "cpp/RTracePlay.cpp" "sc/RTracePlay.
 sc_add_server_plugin("sc3-rdu" "RTraceRd" "cpp/RTraceRd.cpp" "sc/RTraceRd.sc" "help/scd/RTraceRd.help.scd")
 sc_add_server_plugin("sc3-rdu" "RTRandN" "cpp/RTRandN.cpp" "sc/RTRandN.sc" "help/scd/RTRandN.help.scd")
 sc_add_server_plugin("sc3-rdu" "RTScramble" "cpp/RTScramble.cpp" "sc/RTScramble.sc" "help/scd/RTScramble.help.scd")
+
+if (NOT WIN32)
+  sc_add_server_plugin("sc3-rdu" "RDL" "cpp/RDL.cpp" "sc/RDL.sc" "help/scd/RDL.help.scd")
+endif()
