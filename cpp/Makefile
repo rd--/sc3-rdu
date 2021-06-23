@@ -25,7 +25,7 @@ P = PV_Split.so \
     RLinRandN.so \
     RLoopSet.so \
     RObxdFilter.so \
-    RPVDecay.so \
+    RPVDecayTbl.so \
     RRandN.so \
     RShufflerB.so \
     RShufflerL.so \

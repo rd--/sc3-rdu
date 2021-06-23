@@ -10,9 +10,6 @@
 
 static InterfaceTable *ft;
 
-#define PI ((float)M_PI)
-#define TWO_PI (2*PI)
-
 typedef struct
 {
   int phase;
@@ -33,7 +30,7 @@ grain_init(grain_t *g,int size)
 {
   g->phase = 0;
   g->size = size;
-  g->freq = TWO_PI /(float)size;
+  g->freq = (float)TWO_PI / (float)size;
   g->angle = 0.0;
 }
 

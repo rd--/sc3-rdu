@@ -1,19 +1,11 @@
 /* https://github.com/2DaT/Obxd */
 
-#include <math.h>
+#include "rdu.h" /* PI */
 
-#include <SC_PlugIn.h>
-
-#ifndef M_PI /* Microsoft Corporation */
-#define M_PI 3.14159265358979323846
-#endif
-
-#define float_Pi (float)(M_PI)
+#define float_Pi (float)(PI)
 
 #include "Obxd/Engine/AudioUtils.h"
 #include "Obxd/Engine/Filter.h"
-
-#include "rdu.h"
 
 /* SC3 */
 static InterfaceTable *ft;

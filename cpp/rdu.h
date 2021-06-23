@@ -1,3 +1,13 @@
+#include <math.h>
+#include <SC_PlugIn.h>
+
+#ifndef M_PI /* Microsoft Corporation */
+#define M_PI 3.14159265358979323846
+#endif
+
+#define PI (M_PI)
+#define TWO_PI (2.0 * PI)
+
 #define rdu_prototypes(name)                            \
 extern "C"                                              \
 {                                                       \
