@@ -14,8 +14,8 @@ clean:
 	(cd cpp; make clean)
 
 push-all:
-	git push git@gitlab.com:rd--/sc3-rdl.git
+	git push git@gitlab.com:rd--/sc3-rdu.git
 	ssh rd@rohandrape.net "(cd sw/sc3-rdu; git pull https://gitlab.com/rd--/sc3-rdu.git)"
 
 push-tags:
-	git push git@gitlab.com:rd--/sc3-rdl.git --tags
+	git push git@gitlab.com:rd--/sc3-rdu.git --tags
