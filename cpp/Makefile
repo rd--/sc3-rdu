@@ -12,7 +12,8 @@ I = -I$(S)/plugin_interface \
 P = PV_Split.so \
     RBezier.so \
     RDelayMap.so \
-    RDelaySet.so RDelaySetB.so \
+    RDelaySet.so \
+    RDelaySetBuf.so \
     RDL.so \
     RDustR.so \
     RDX7.so RDX7Env.so \

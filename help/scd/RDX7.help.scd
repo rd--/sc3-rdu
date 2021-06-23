@@ -15,6 +15,8 @@
  ;Pan2.ar(in: dx7, pos: (e.o * 2 - 1), level: 1)}
 ;Mix.ar(REvent.voicer(numVoices: 16, voiceFunc: voiceFunc))}
 
+//---- ui
+REventUI.new(frameRate: 25, areaWidth: 230, areaHeight: 130, areaScaling: 2.5, gridFileName: nil).makeWindow;
 
 
 

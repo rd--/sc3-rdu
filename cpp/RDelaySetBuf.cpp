@@ -9,23 +9,23 @@
 
 static InterfaceTable *ft;
 
-struct RDelaySetB : public Unit
+struct RDelaySetBuf : public Unit
 {
   rdu_declare_buf(dl);
   rdelayset_struct_common;
 };
 
-rdu_prototypes(RDelaySetB)
+rdu_prototypes(RDelaySetBuf)
 
-void RDelaySetB_Ctor(RDelaySetB *unit)
+void RDelaySetBuf_Ctor(RDelaySetBuf *unit)
 {
   rdu_init_buf(dl);
   rdelayset_ctor_common(2);
-  SETCALC(RDelaySetB_next);
-  RDelaySetB_next(unit,1);
+  SETCALC(RDelaySetBuf_next);
+  RDelaySetBuf_next(unit,1);
 }
 
-void RDelaySetB_next(RDelaySetB *unit,int inNumSamples)
+void RDelaySetBuf_next(RDelaySetBuf *unit,int inNumSamples)
 {
   rdu_get_buf(dl,0);
   rdu_check_buf(dl,1);
@@ -37,4 +37,4 @@ void RDelaySetB_next(RDelaySetB *unit,int inNumSamples)
   rdelayset_next_common(1);
 }
 
-rdu_load(RDelaySetB)
+rdu_load(RDelaySetBuf)

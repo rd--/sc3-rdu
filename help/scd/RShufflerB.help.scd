@@ -1,10 +1,10 @@
-// allocate buffer
-f = Platform.systemAppSupportDir +/+ "sounds/a11wlk01.wav";
-s.sendMsg("/b_allocRead", 10, f, 0, -1);
-
 // static (parameter)
 {var s = RShufflerB.ar(10,0,0.05,0.95,1.05,0.035,0.050,0.1,0.2,0.4,0.6,0.4,0.6,0,1,0.005,0.010,1,0,0)
 ;Out.ar(0,s)}
+
+//---- allocate buffer
+f = Platform.systemAppSupportDir +/+ "sounds/a11wlk01.wav";
+s.sendMsg("/b_allocRead", 10, f, 0, -1);
 
 // instrument
 d = SynthDef("RShufflerB",{
