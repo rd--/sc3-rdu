@@ -1,6 +1,3 @@
-GL_GIT=git@gitlab.com:rd--/sc3-rdu.git
-GL_HTTP=https://gitlab.com/rd--/sc3-rdu.git
-
 prefix=$(HOME)/opt
 
 all:
@@ -16,20 +13,9 @@ clean:
 	rm -fR dist dist-newstyle *~
 	(cd cpp; make clean)
 
-ln-sc:
-	ln -s $(HOME)/sw/sc3-rdu/sc/rdu.sc $(HOME)/.local/share/SuperCollider/Extensions
-
-push-gl:
-	git push $(GL_GIT)
-
-pull-gl:
-	git pull $(GL_HTTP)
+push-all:
+	git push git@gitlab.com:rd--/sc3-rdl.git
+	ssh rd@rohandrape.net "(cd sw/sc3-rdu; git pull https://gitlab.com/rd--/sc3-rdu.git)"
 
 push-tags:
-	git push $(GL_GIT) --tags
-
-update-rd:
-	ssh rd@rohandrape.net "(cd sw/sc3-rdu; git pull $(GL_HTTP))"
-
-push-all:
-	make push-gl update-rd
+	git push git@gitlab.com:rd--/sc3-rdl.git --tags
