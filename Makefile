@@ -1,5 +1,3 @@
-prefix=$(HOME)/opt
-
 all:
 	echo "sc3-rdu"
 
@@ -14,10 +12,9 @@ clean:
 	(cd cpp; make clean)
 
 push-all:
-	git push git@gitlab.com:rd--/sc3-rdu.git
-	git push git@github.com:rd--/sc3-rdu.git
-	ssh rd@rohandrape.net "(cd sw/sc3-rdu; git pull https://gitlab.com/rd--/sc3-rdu.git)"
+	r.gitlab-push.sh sc3-rdu
+	r.github-push.sh sc3-rdu
 
 push-tags:
-	git push git@gitlab.com:rd--/sc3-rdu.git --tags
-	git push git@github.com:rd--/sc3-rdu.git --tags
+	r.gitlab-push.sh sc3-rdu --tags
+	r.github-push.sh sc3-rdu --tags

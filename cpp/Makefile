@@ -16,7 +16,8 @@ P = PV_Split.so \
     RDelaySetBuf.so \
     RDL.so \
     RDustR.so \
-    RDX7.so RDX7Env.so \
+    RDX7.so \
+    RDX7Env.so \
     RExpRandN.so \
     RFreezer.so \
     RIRandN.so \
