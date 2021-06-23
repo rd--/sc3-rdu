@@ -1,7 +1,6 @@
 #define rdu_prototypes(name)                            \
 extern "C"                                              \
 {                                                       \
-    void load(InterfaceTable *inTable);                 \
     void name##_Ctor(name *unit);                       \
     void name##_next(name *unit,int inNumSamples);      \
 }
@@ -9,7 +8,6 @@ extern "C"                                              \
 #define rdu_prototypes_dtor(name)                       \
 extern "C"                                              \
 {                                                       \
-    void load(InterfaceTable *inTable);                 \
     void name##_Ctor(name *unit);                       \
     void name##_next(name *unit,int inNumSamples);      \
     void name##_Dtor(name *unit);                       \
