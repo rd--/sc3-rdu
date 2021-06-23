@@ -15,6 +15,7 @@ clean:
 
 push-all:
 	git push git@gitlab.com:rd--/sc3-rdu.git
+        git push git@github.com:rd--/sc3-rdu.git
 	ssh rd@rohandrape.net "(cd sw/sc3-rdu; git pull https://gitlab.com/rd--/sc3-rdu.git)"
 
 push-tags:
