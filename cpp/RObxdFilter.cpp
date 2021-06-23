@@ -4,6 +4,10 @@
 
 #include <SC_PlugIn.h>
 
+#ifndef M_PI /* Microsoft Corporation */
+#define M_PI 3.14159265358979323846
+#endif
+
 #define float_Pi (float)(M_PI)
 
 #include "Obxd/Engine/AudioUtils.h"
