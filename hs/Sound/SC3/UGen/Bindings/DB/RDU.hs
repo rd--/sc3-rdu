@@ -156,8 +156,8 @@ riRandN numChannels z lo hi = mkUGen Nothing [IR] (Left IR) "RIRandN" [lo,hi] No
 -- | Decay bin magnitudes according to multipliers in table.
 --
 --  RPVDecayTbl [KR] fft_buf=0.0 decay_rate_buf=0.0 history_buf=0.0
-rpvDecayTbl :: Rate -> UGen -> UGen -> UGen -> UGen
-rpvDecayTbl rate fft_buf decay_rate_buf history_buf = mkUGen Nothing [KR] (Left rate) "RPVDecayTbl" [fft_buf,decay_rate_buf,history_buf] Nothing 1 (Special 0) NoId
+rpvDecayTbl :: UGen -> UGen -> UGen -> UGen
+rpvDecayTbl fft_buf decay_rate_buf history_buf = mkUGen Nothing [KR] (Left KR) "RPVDecayTbl" [fft_buf,decay_rate_buf,history_buf] Nothing 1 (Special 0) NoId
 
 -- | Generate new exponentially distributed random values on trigger.
 --
