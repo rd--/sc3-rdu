@@ -1,3 +1,5 @@
-UGen descriptions are in the haskell help files.
+UGen descriptions are in the Haskell help files.
 
-SuperCollider and Lisp help files only have examples and brief annotations.
+SuperCollider and Scheme help files only have examples and brief annotations.
+
+The Haskell and Scheme files are at hsc3 and rsc3 respectively.

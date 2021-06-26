@@ -1,7 +1,7 @@
 // RBezier - reference sine tone
 {SinOsc.ar(freq: 440, phase: 0) * 0.1}
 
-// RBezier - bezier approximation of sin function
+// RBezier - Bézier curve oscillator ; bezier approximation of sin function
 {RBezier.ar(freq: 440, phase: 0, param: [0,0,0.2,-1.3,0.3,-1.3,0.5,0,0.7,1.3,0.8,1.3,1,0]) * 0.1}
 
 // RBezier - mouse control of frequency

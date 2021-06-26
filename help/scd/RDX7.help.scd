@@ -18,22 +18,6 @@
 //---- ui
 REventUI.new(frameRate: 25, areaWidth: 230, areaHeight: 130, areaScaling: 2.5, gridFileName: nil).makeWindow;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //---- midi control ; make graph and add synthdef, voice data at local buffer
 (var vc =
   [[25,21,98,38,99, 0,99, 0,36,17,87,2,1,0,0,0,59, 0, 1,1,8]
