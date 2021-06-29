@@ -32,10 +32,10 @@ u_std_mce :: Int -> U -> U
 u_std_mce n u = u {ugen_std_mce = n}
 
 u_ir :: U -> U
-u_ir u = u {ugen_fixed_rate = Just IR}
+u_ir u = u {ugen_fixed_rate = Just ir}
 
 u_ar :: U -> U
-u_ar u = u {ugen_fixed_rate = Just AR}
+u_ar u = u {ugen_fixed_rate = Just ar}
 
 u_flt :: Int -> U -> U
 u_flt k u = u {ugen_filter = Just [k]}
@@ -46,21 +46,21 @@ rDustR_dsc :: U
 rDustR_dsc =
     let i = [I "lo" 0.0001
             ,I "hi" 1.0]
-    in osc_U "RDustR" [AR] AR i 1 "Range variant of Dust" True
+    in osc_U "RDustR" [ar] ar i 1 "Range variant of Dust" True
 
 rExpRandN_dsc :: U
 rExpRandN_dsc =
     let i = [I "lo" 0.0001
             ,I "hi" 1.0]
         dsc = "Multi-channel variant of ExpRand"
-    in u_ir (u_nc_input (osc_U "RExpRandN" [IR] IR i (-1) dsc True))
+    in u_ir (u_nc_input (osc_U "RExpRandN" [ir] ir i (-1) dsc True))
 
 riRandN_dsc :: U
 riRandN_dsc =
     let i = [I "lo" 0.0001
             ,I "hi" 1.0]
-        dsc = "Multi-channel variant of IRand"
-    in u_ir (u_nc_input (osc_U "RIRandN" [IR] IR i (-1) dsc True))
+        dsc = "Multi-channel variant of irand"
+    in u_ir (u_nc_input (osc_U "RirandN" [ir] ir i (-1) dsc True))
 
 rLinRandN_dsc :: U
 rLinRandN_dsc =
@@ -68,21 +68,21 @@ rLinRandN_dsc =
             ,I "hi" 1.0
             ,I "minmax" 0.0]
         dsc = "Multi-channel variant of LinRand"
-    in u_ir (u_nc_input (osc_U "RLinRandN" [IR] IR i (-1) dsc True))
+    in u_ir (u_nc_input (osc_U "RLinRandN" [ir] ir i (-1) dsc True))
 
 pv_Split_dsc :: U
 pv_Split_dsc =
   let i = [I "bufferA" 0
           ,I "bufferB" 0]
       dsc = "Copies spectral frame (ie. PV_Copy with two outputs)."
-  in osc_U "PV_Split" [KR] KR i 2 dsc False
+  in osc_U "PV_Split" [kr] kr i 2 dsc False
 
 rRandN_dsc :: U
 rRandN_dsc =
     let i = [I "lo" 0.0001
             ,I "hi" 1.0]
         dsc = "Multi-channel variant of Rand"
-    in u_ir (u_nc_input (osc_U "RRandN" [IR] IR i (-1) dsc True))
+    in u_ir (u_nc_input (osc_U "RRandN" [ir] ir i (-1) dsc True))
 
 rBezier_dsc :: U
 rBezier_dsc =
@@ -92,7 +92,7 @@ rBezier_dsc =
           ,I "phase" 0
           ,I "param" 0]
       dsc = "Bezier curve oscillator."
-  in u_std_mce 1 (osc_U "RBezier" [KR,AR] AR i 1 dsc False)
+  in u_std_mce 1 (osc_U "RBezier" [kr,ar] ar i 1 dsc False)
 
 rDelayMap_dsc :: U
 rDelayMap_dsc =
@@ -100,31 +100,31 @@ rDelayMap_dsc =
             ,I "input" 0
             ,I "dynamic" 0
             ,I "mapArray" 0]
-    in u_flt 1 (u_std_mce 1 (osc_U "RDelayMap" [AR] AR i 1 "Network of delay line maps" False))
+    in u_flt 1 (u_std_mce 1 (osc_U "RDelayMap" [ar] ar i 1 "Network of delay line maps" False))
 
 rDelaySet_dsc :: U
 rDelaySet_dsc =
     let i = [I "input" 0
             ,I "setArray" 0]
-    in u_flt 0 (u_std_mce 1 (osc_U "RDelaySet" [AR] AR i 1 "Delay set (RTAlloc)" False))
+    in u_flt 0 (u_std_mce 1 (osc_U "RDelaySet" [ar] ar i 1 "Delay set (RTAlloc)" False))
 
 rDelaySetB_dsc :: U
 rDelaySetB_dsc =
     let i = [I "buffer" 0
             ,I "input" 0
             ,I "setArray" 0]
-    in u_flt 1 (u_std_mce 1 (osc_U "RDelaySetB" [AR] AR i 1 "Delay set (Buffer)" False))
+    in u_flt 1 (u_std_mce 1 (osc_U "RDelaySetB" [ar] ar i 1 "Delay set (Buffer)" False))
 
 rdl_dsc :: U
 rdl_dsc =
     let i = [I "inputs" 0]
-    in u_ar (u_std_mce 1 (u_nc_input (osc_U "RDL" [AR] AR i 1 "Dynamic library host" False)))
+    in u_ar (u_std_mce 1 (u_nc_input (osc_U "RDL" [ar] ar i 1 "Dynamic library host" False)))
 
 rDX7_dsc :: U
 rDX7_dsc =
   default_u
   {ugen_name = "RDX7"
-  ,ugen_operating_rates = [AR]
+  ,ugen_operating_rates = [ar]
   ,ugen_inputs = [I "bufnum" 0
                  ,I "on" 0 -- keydown tr
                  ,I "off" 0 -- keyup tr
@@ -143,7 +143,7 @@ rDX7Env_dsc :: U
 rDX7Env_dsc =
   default_u
   {ugen_name = "RDX7Env"
-  ,ugen_operating_rates = [AR]
+  ,ugen_operating_rates = [ar]
   ,ugen_inputs = [I "gate" 0
                  ,I "data" 0
                  ,I "r1" 99,I "r2" 99,I "r3" 99,I "r4" 99
@@ -165,7 +165,7 @@ rFreezer_dsc =
             ,I "syncPhaseTrigger" 0
             ,I "randomizePhaseTrigger" 0
             ,I "numberOfLoops" 6]
-    in u_ar (osc_U "RFreezer" [AR] AR i 1 "Concurrent loops at signal buffer" False)
+    in u_ar (osc_U "RFreezer" [ar] ar i 1 "Concurrent loops at signal buffer" False)
 
 rLagC_dsc :: U
 rLagC_dsc =
@@ -175,7 +175,7 @@ rLagC_dsc =
           ,I "timeDown" 0.1
           ,I "curveDown" 0]
   in default_u {ugen_name = "RLagC"
-               ,ugen_operating_rates = [KR]
+               ,ugen_operating_rates = [kr]
                ,ugen_inputs = i
                ,ugen_summary = "LagUD variant with curve inputs."
                ,ugen_filter = Just [0]
@@ -190,14 +190,14 @@ rObxdFilter_dsc =
             ,I "multimode" 0.5
             ,I "bandpass" 0.0
             ,I "fourpole" 0.0]
-    in u_flt 0 (osc_U "RObxdFilter" [AR] AR i 1 "Obxd 12/24-dB multi-mode filter" False)
+    in u_flt 0 (osc_U "RObxdFilter" [ar] ar i 1 "Obxd 12/24-dB multi-mode filter" False)
 
 rpvDecayTbl_dsc :: U
 rpvDecayTbl_dsc =
     let i = [I "fft_buf" 0
             ,I "decay_rate_buf" 0
             ,I "history_buf" 0]
-    in osc_U "RPVDecayTbl" [KR] KR i 1 "Decay bin magnitudes according to multipliers in table." False
+    in osc_U "RPVDecayTbl" [kr] kr i 1 "Decay bin magnitudes according to multipliers in table." False
 
 -- | (k,name,default-value,meta-data)
 type Ctl_Param = (Int,String,Double,Control_Meta_T5 Double)
@@ -242,14 +242,14 @@ rShufflerB_param =
 rShufflerB_dsc :: U
 rShufflerB_dsc =
  let i = map (\(_k,nm,def,_rng) -> I nm def) rShufflerB_param
- in osc_U "RShufflerB" [AR] AR i 2 "Signal shuffler (Buffer)" False
+ in osc_U "RShufflerB" [ar] ar i 2 "Signal shuffler (Buffer)" False
 
 rShufflerL_dsc :: U
 rShufflerL_dsc =
     let i = [I "in" 0
             ,I "fragmentSize" 0.005
             ,I "maxDelay" 0.005]
-    in u_flt 0 (osc_U "RShufflerL" [AR] AR i 1 "Signal shuffler (Linear)" False)
+    in u_flt 0 (osc_U "RShufflerL" [ar] ar i 1 "Signal shuffler (Linear)" False)
 
 rTraceRd_dsc :: U
 rTraceRd_dsc =
@@ -257,7 +257,7 @@ rTraceRd_dsc =
             ,I "degree" 4
             ,I "index" 0
             ,I "access" 1]
-    in osc_U "RTraceRd" [KR,AR] AR i 1 "Read trace buffer" False
+    in osc_U "RTraceRd" [kr,ar] ar i 1 "Read trace buffer" False
 
 rPlayTrace_dsc :: U
 rPlayTrace_dsc =
@@ -265,12 +265,12 @@ rPlayTrace_dsc =
             ,I "degree" 4
             ,I "rate" 0
             ,I "access" 1]
-    in osc_U "RPlayTrace" [KR,AR] AR i 1 "Play trace buffer" False
+    in osc_U "RPlayTrace" [kr,ar] ar i 1 "Play trace buffer" False
 
 rtScramble_dsc :: U
 rtScramble_dsc =
     default_u {ugen_name = "RTScramble"
-              ,ugen_operating_rates = [IR,KR]
+              ,ugen_operating_rates = [ir,kr]
               ,ugen_inputs = [I "trigger" 0,I "inputs" 0]
               ,ugen_summary = "Scramble inputs on trigger."
               ,ugen_std_mce = 1
@@ -282,7 +282,7 @@ rtScramble_dsc =
 rtRandN_dsc :: U
 rtRandN_dsc =
     default_u {ugen_name = "RTRandN"
-              ,ugen_operating_rates = [KR]
+              ,ugen_operating_rates = [kr]
               ,ugen_inputs = [I "lo" 0,I "hi" 1,I "trigger" 0]
               ,ugen_summary = "Generate new random values on trigger."
               ,ugen_nc_input = True
@@ -293,7 +293,7 @@ rtRandN_dsc =
 rtExpRandN_dsc :: U
 rtExpRandN_dsc =
     default_u {ugen_name = "RTExpRandN"
-              ,ugen_operating_rates = [KR]
+              ,ugen_operating_rates = [kr]
               ,ugen_inputs = [I "lo" 0,I "hi" 1,I "trigger" 0]
               ,ugen_summary = "Generate new exponentially distributed random values on trigger."
               ,ugen_nc_input = True
@@ -304,7 +304,7 @@ rtExpRandN_dsc =
 rSmplrIndex_dsc :: U
 rSmplrIndex_dsc =
     default_u {ugen_name = "RSmplrIndex"
-              ,ugen_operating_rates = [KR]
+              ,ugen_operating_rates = [kr]
               ,ugen_inputs = [I "buf" 0,I "size" 0,I "mnn" 60]
               ,ugen_summary = "Find buffer index and rate multiplier given table of MNN."
               ,ugen_outputs = Just 2
@@ -313,17 +313,17 @@ rSmplrIndex_dsc =
 rsvfbp_dsc :: U
 rsvfbp_dsc =
     let i = [I "in" 0,I "freq" 440.0,I "q" 0.0]
-    in u_flt 0 (osc_U "RSVFBP" [KR,AR] AR i 1 "Digital State-Variable Filter (Band-pass)" False)
+    in u_flt 0 (osc_U "RSVFBP" [kr,ar] ar i 1 "Digital State-Variable Filter (Band-pass)" False)
 
 rsvfhp_dsc :: U
 rsvfhp_dsc =
     let i = [I "in" 0,I "freq" 440.0,I "q" 0.0]
-    in u_flt 0 (osc_U "RSVFHP" [KR,AR] AR i 1 "Digital State-Variable Filter (High-pass)" False)
+    in u_flt 0 (osc_U "RSVFHP" [kr,ar] ar i 1 "Digital State-Variable Filter (High-pass)" False)
 
 rsvflp_dsc :: U
 rsvflp_dsc =
     let i = [I "in" 0,I "freq" 440.0,I "q" 0.0]
-    in u_flt 0 (osc_U "RSVFLP" [KR,AR] AR i 1 "Digital State-Variable Filter (Low-pass)" False)
+    in u_flt 0 (osc_U "RSVFLP" [kr,ar] ar i 1 "Digital State-Variable Filter (Low-pass)" False)
 
 -- * DB
 
@@ -360,7 +360,7 @@ rdu_db =
     ]
 
 gen_hs_bindings :: IO ()
-gen_hs_bindings = let f = putStrLn . unlines . Haskell.u_gen_binding in mapM_ f rdu_db
+gen_hs_bindings = let f = putStrLn . unlines . Haskell.u_gen_binding_set in mapM_ f rdu_db
 
 gen_scheme_bindings :: IO ()
 gen_scheme_bindings = let f = putStrLn . Scheme.scheme_u_gen_binding id in mapM_ f rdu_db

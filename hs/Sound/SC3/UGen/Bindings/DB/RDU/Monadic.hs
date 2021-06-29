@@ -9,19 +9,19 @@ import Sound.SC3.UGen.Bindings.DB.RDU
 -- * Monadic
 
 rDustRM :: UId m => Rate -> UGen -> UGen -> m UGen
-rDustRM = liftUId3 rDustR
+rDustRM = liftUId3 rDustRId
 
 rExpRandNM :: UId m => Int -> UGen -> UGen -> m UGen
-rExpRandNM nc = liftUId2 (rExpRandN nc)
+rExpRandNM nc = liftUId2 (rExpRandNId nc)
 
-riRandNM :: UId m => Int -> UGen -> UGen -> m UGen
-riRandNM nc = liftUId2 (riRandN nc)
+rirandNM :: UId m => Int -> UGen -> UGen -> m UGen
+rirandNM nc = liftUId2 (rirandNId nc)
 
 rLinRandNM :: UId m => Int -> UGen -> UGen -> UGen -> m UGen
-rLinRandNM nc = liftUId3 (rLinRandN nc)
+rLinRandNM nc = liftUId3 (rLinRandNId nc)
 
 rRandNM :: UId m => Int -> UGen -> UGen -> m UGen
-rRandNM nc = liftUId2 (rRandN nc)
+rRandNM nc = liftUId2 (rRandNId nc)
 
 rtScrambleM :: UId m => UGen -> UGen -> m UGen
-rtScrambleM = liftUId2 rtScramble
+rtScrambleM = liftUId2 rtScrambleId
