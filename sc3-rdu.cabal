@@ -1,8 +1,8 @@
 cabal-version:     2.4
 Name:              sc3-rdu
 Version:           0.20
-Synopsis:          Haskell bindings to sc3-rdu (sc3 rd ugens)
-Description:       Haskell bindings to sc3-rdu (sc3 rd ugens)
+synopsis:          haskell sc3-rdu (sc3 rd ugens)
+description:       haskell sc3-rdu (sc3 rd ugens)
 License:           GPL-3.0-only
 Category:          Sound
 Copyright:         (c) Rohan Drape, 1998-2021
@@ -23,8 +23,6 @@ Library
   default-language:Haskell2010
   GHC-Options:     -Wall -fwarn-tabs
   Exposed-modules: Sound.SC3.UGen.External.RDU
-                   Sound.SC3.UGen.Bindings.DB.RDU
-                   Sound.SC3.UGen.Bindings.DB.RDU.Monadic
 
 Source-Repository  head
   Type:            git
