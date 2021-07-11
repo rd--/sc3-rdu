@@ -23,7 +23,7 @@ c_meta_cs_pp (lhs,rhs,warp,step,_units) def =
 
 -- | Name, allowed rates, default rate, inputs, number of channels, description, non-det flag.
 osc_U :: String -> [Rate] -> Rate -> [I] -> Int -> String -> Bool -> U
-osc_U nm rr r i nc dsc nd = (read_meta (nm,rr,r,i,nc,dsc)) {ugen_nondet = nd}
+osc_U nm rr r i nc dsc nd = (read_meta (nm,rr,r,i,nc,dsc,not nd)) {ugen_nondet = nd}
 
 u_nc_input :: U -> U
 u_nc_input u = u {ugen_outputs = Nothing,ugen_nc_input = True}
