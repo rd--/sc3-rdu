@@ -1,4 +1,4 @@
-// RTXLine ; exponential ramp from 220 to 440 over 5 seconds, every 10 seconds
+// RTXLine ; psuedo-ugen ; exponential ramp from 220 to 440 over 5 seconds, every 10 seconds
 {SinOsc.ar(freq: RTXLine.kr(start: 220, end: 440, dur: 5, trig: Impulse.kr(freq: 1/10, phase: 0)), phase: 0) * 0.1}
 
 // RTXLine ; linear ramp from 220 to 110 over 2 seconds, every 4 seconds
