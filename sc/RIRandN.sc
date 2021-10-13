@@ -1,5 +1,5 @@
 RIRandN : MultiOutUGen {
-    *new {
+    *ir {
         arg numChannels = 2, lo = 0, hi = 127;
         ^this.multiNew('scalar', numChannels, lo, hi)
     }
