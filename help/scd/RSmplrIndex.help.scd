@@ -13,4 +13,4 @@
  ;var b1 = b0 + idx.at(0)
  ;var sig = PlayBuf.ar(2, b1, BufRateScale.kr(b1) * idx.at(1) * rt, e.w, 0, 0, 0)
  ;sig * e.z * LagUD.kr(e.w, 0, 4)}
-;Mix.ar(REvent.voicer(numVoices: 16, voiceFunc: voiceFunc))}
+;Mix.ar(Voicer.ar(numVoices: 16, voiceFunc: voiceFunc))}

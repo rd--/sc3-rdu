@@ -14,7 +14,7 @@
  ;var f = (e.x * 24 + 48).midicps
  ;var o = SinOsc.ar(freq: f, phase: 0) * e.z * Lag.kr(in: e.w, lagTime: 5)
  ;[RDelayMap.ar(bufnum: b, in: o, dynamic: 0, spec: a),o]}
-;Mix.ar(REvent.voicer(numVoices: 16, voiceFunc: voiceFunc))}
+;Mix.ar(Voicer.ar(numVoices: 16, voiceFunc: voiceFunc))}
 
 //---- ui
 REventUI.new(frameRate: 60, areaWidth: 230, areaHeight: 130, areaScaling: 2.5, gridFileName: nil).makeWindow;
