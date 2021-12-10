@@ -48,6 +48,8 @@ sc_add_server_plugin("sc3-rdu" "RTraceRd" "cpp/RTraceRd.cpp" "sc/RTraceRd.sc" "h
 sc_add_server_plugin("sc3-rdu" "RTRandN" "cpp/RTRandN.cpp" "sc/RTRandN.sc" "help/scd/RTRandN.help.scd")
 sc_add_server_plugin("sc3-rdu" "RTScramble" "cpp/RTScramble.cpp" "sc/RTScramble.sc" "help/scd/RTScramble.help.scd")
 
+sc_add_server_plugin("sc3-rdu" "BEASTMulchLoris" "cpp/BEASTMulchLoris.cpp" "sc/RTScramble.sc" "help/scd/RTScramble.help.scd")
+
 if (NOT WIN32)
   sc_add_server_plugin("sc3-rdu" "RDL" "cpp/RDL.cpp" "sc/RDL.sc" "help/scd/RDL.help.scd")
 endif()
