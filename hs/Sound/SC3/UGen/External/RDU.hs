@@ -267,9 +267,9 @@ rPlayTrace_dsc =
             ,I "access" 1]
     in osc_U "RPlayTrace" [kr,ar] ar i 1 "Play trace buffer" False
 
-rtScramble_dsc :: U
-rtScramble_dsc =
-    default_u {ugen_name = "RTScramble"
+tScramble_dsc :: U
+tScramble_dsc =
+    default_u {ugen_name = "TScramble"
               ,ugen_operating_rates = [ir,kr]
               ,ugen_inputs = [I "trigger" 0,I "inputs" 0]
               ,ugen_summary = "Scramble inputs on trigger."
@@ -356,7 +356,7 @@ rdu_db =
     ,rpvDecayTbl_dsc
     ,rtExpRandN_dsc
     ,rtRandN_dsc
-    ,rtScramble_dsc
+    ,tScramble_dsc
     ]
 
 gen_hs_bindings :: IO ()

@@ -38,7 +38,7 @@ P = PV_Split.so \
     RTracePlay.so \
     RTraceRd.so \
     RTRandN.so \
-    RTScramble.so
+    TScramble.so
 
 L = r-common/c/lib-r-common.a
 
