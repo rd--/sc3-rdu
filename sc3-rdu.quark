@@ -1,0 +1,10 @@
+(
+\name: "sc3-rdu",
+\summary: "UGens and Pseudo-UGens. Env (ADSR, AR, LinSeq), Trig (TLine, TXLine)"
+\author: "rd",
+\url: "https://gitlab.com/rd--/sc3-rdu",
+\helpdoc: "help/scd/sc3-rdu.help.scd",
+\version: "0.0.1",
+\since: "1998",
+\status: "experimental"
+)

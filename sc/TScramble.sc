@@ -7,6 +7,10 @@ TScramble : MultiOutUGen {
         arg trigger = 0.0, inputs;
         ^this.multiNewList(['control', trigger] ++ inputs);
     }
+    *ar {
+        arg trigger = 0.0, inputs;
+        ^this.multiNewList(['audio', trigger] ++ inputs);
+    }
     init {
         arg ... i;
         inputs = i;
