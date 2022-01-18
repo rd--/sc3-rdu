@@ -3,7 +3,7 @@
 Pseudo-UGens:
 
 ADSR - Attack-decay-sustain-release envelope (Env, EnvGen)
-AR - Attack-release envelope (Env, EnvGen)
+ASR - Attack-sustain-release envelope (Env, EnvGen)
 Cc - Continous controller input (In)
 LinSeg - Line segment envelope (Env, EnvGen)
 RingzBank - Bank of Ringz filters (Klank, Ref)
