@@ -1,6 +1,4 @@
-/*
-
-Pseudo-UGens:
+//---- Pseudo-UGens:
 
 ADSR - Attack-decay-sustain-release envelope (Env, EnvGen)
 ASR - Attack-sustain-release envelope (Env, EnvGen)
@@ -14,5 +12,3 @@ TLine - Line envelope (Env, EnvGen)
 TLineTo - Line envelope (TLine, TDelay, Latch)
 TXLine - Line envelope (Env, EnvGen)
 TXLineTo - Line envelope (TXLine, TDelay, Latch)
-
-*/
