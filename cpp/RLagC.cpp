@@ -72,7 +72,7 @@ void RLagC_Ctor(RLagC* unit)
   RLagC_next(unit, 1);
 }
 
-PluginLoad(name) {
+PluginLoad(RLagC) {
   ft = inTable;
   DefineSimpleUnit(RLagC);
 }

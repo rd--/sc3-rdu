@@ -11,7 +11,7 @@ var voiceFunc = {
     arg e;
     var x0 = Latch.kr(in: e.x, trig: e.w);
     var buf = LocalBuf.newFrom(voiceData.flatten);
-    var dx7 = RDX7.ar(bufnum: buf, on: e.w, off: 0, data: 0, vc: 0, mnn: e.p, vel: e.z, pw: (0x2000 * (e.x - x0)), mw: 0, bc: 0, fc: 0);
+    var dx7 = RDX7.ar(bufnum: buf, on: e.w, off: 0, data: 0, vc: 0, mnn: e.p * 127, vel: e.z, pw: (0x2000 * (e.x - x0)), mw: 0, bc: 0, fc: 0);
     Pan2.ar(in: dx7, pos: (e.o * 2 - 1), level: e.z) };
 Mix.ar(Voicer.ar(numVoices: 16, voiceFunc: voiceFunc))
 

@@ -48,7 +48,7 @@ void RTracePlay_next(RTracePlay *unit, int inNumSamples)
   }
 }
 
-PluginLoad(RTraceRd)
+PluginLoad(RTracePlay)
 {
   ft = inTable;
   DefineSimpleUnit(RTracePlay);

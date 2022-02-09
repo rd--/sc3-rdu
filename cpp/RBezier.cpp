@@ -75,7 +75,7 @@ void RBezier_Ctor(RBezier * unit) {
   RBezier_next(unit, 1);
 }
 
-PluginLoad(name) {
+PluginLoad(RBezier) {
   ft = inTable;
   DefineSimpleUnit(RBezier);
 }
