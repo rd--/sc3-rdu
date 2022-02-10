@@ -2,23 +2,23 @@
 
 static InterfaceTable *ft;
 
-struct RExpRandN : public Unit {};
+struct RandN : public Unit {};
 
-void RExpRandN_Ctor(RExpRandN* unit)
+void RandN_Ctor(RandN* unit)
 {
   float l = IN0(0);
   float r = IN0(1);
-  float z = r / l;
+  float d = r - l;
   uint32 nc = unit->mNumOutputs;
   RGen& rgen = *unit->mParent->mRGen;
   uint32 i;
   for (i=0;i<nc;i++) {
-    OUT0(i) = pow(z,rgen.frand()) * l;
+    OUT0(i) = rgen.frand() * d + l;
   }
 }
 
-PluginLoad(RExpRandN)
+PluginLoad(RandN)
 {
   ft = inTable;
-  DefineSimpleUnit(RExpRandN);
+  DefineSimpleUnit(RandN);
 }

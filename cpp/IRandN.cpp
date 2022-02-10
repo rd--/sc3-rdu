@@ -2,9 +2,9 @@
 
 static InterfaceTable *ft;
 
-struct RIRandN : public Unit {};
+struct IRandN : public Unit {};
 
-void RIRandN_Ctor(RIRandN* unit)
+void IRandN_Ctor(IRandN* unit)
 {
   int lo = (int)IN0(0);
   int hi = (int)IN0(1);
@@ -17,8 +17,8 @@ void RIRandN_Ctor(RIRandN* unit)
   }
 }
 
-PluginLoad(RIRandN)
+PluginLoad(IRandN)
 {
   ft = inTable;
-  DefineSimpleUnit(RIRandN);
+  DefineSimpleUnit(IRandN);
 }

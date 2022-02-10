@@ -48,27 +48,27 @@ rDustR_dsc =
             ,I "hi" 1.0]
     in osc_U "RDustR" [ar] ar i 1 "Range variant of Dust" True
 
-rExpRandN_dsc :: U
-rExpRandN_dsc =
+expRandN_dsc :: U
+expRandN_dsc =
     let i = [I "lo" 0.0001
             ,I "hi" 1.0]
         dsc = "Multi-channel variant of ExpRand"
-    in u_ir (u_nc_input (osc_U "RExpRandN" [ir] ir i (-1) dsc True))
+    in u_ir (u_nc_input (osc_U "ExpRandN" [ir] ir i (-1) dsc True))
 
-riRandN_dsc :: U
-riRandN_dsc =
+iRandN_dsc :: U
+iRandN_dsc =
     let i = [I "lo" 0.0001
             ,I "hi" 1.0]
         dsc = "Multi-channel variant of irand"
-    in u_ir (u_nc_input (osc_U "RirandN" [ir] ir i (-1) dsc True))
+    in u_ir (u_nc_input (osc_U "IRandN" [ir] ir i (-1) dsc True))
 
-rLinRandN_dsc :: U
-rLinRandN_dsc =
+linRandN_dsc :: U
+linRandN_dsc =
     let i = [I "lo" 0.0001
             ,I "hi" 1.0
             ,I "minmax" 0.0]
         dsc = "Multi-channel variant of LinRand"
-    in u_ir (u_nc_input (osc_U "RLinRandN" [ir] ir i (-1) dsc True))
+    in u_ir (u_nc_input (osc_U "LinRandN" [ir] ir i (-1) dsc True))
 
 pv_Split_dsc :: U
 pv_Split_dsc =
@@ -77,12 +77,12 @@ pv_Split_dsc =
       dsc = "Copies spectral frame (ie. PV_Copy with two outputs)."
   in osc_U "PV_Split" [kr] kr i 2 dsc False
 
-rRandN_dsc :: U
-rRandN_dsc =
+randN_dsc :: U
+randN_dsc =
     let i = [I "lo" 0.0001
             ,I "hi" 1.0]
         dsc = "Multi-channel variant of Rand"
-    in u_ir (u_nc_input (osc_U "RRandN" [ir] ir i (-1) dsc True))
+    in u_ir (u_nc_input (osc_U "RandN" [ir] ir i (-1) dsc True))
 
 rBezier_dsc :: U
 rBezier_dsc =
@@ -279,9 +279,9 @@ tScramble_dsc =
               ,ugen_nondet = True
               }
 
-rtRandN_dsc :: U
-rtRandN_dsc =
-    default_u {ugen_name = "RTRandN"
+tRandN_dsc :: U
+tRandN_dsc =
+    default_u {ugen_name = "TRandN"
               ,ugen_operating_rates = [kr]
               ,ugen_inputs = [I "lo" 0,I "hi" 1,I "trigger" 0]
               ,ugen_summary = "Generate new random values on trigger."
@@ -290,9 +290,9 @@ rtRandN_dsc =
               ,ugen_nondet = True
               }
 
-rtExpRandN_dsc :: U
-rtExpRandN_dsc =
-    default_u {ugen_name = "RTExpRandN"
+tExpRandN_dsc :: U
+tExpRandN_dsc =
+    default_u {ugen_name = "TExpRandN"
               ,ugen_operating_rates = [kr]
               ,ugen_inputs = [I "lo" 0,I "hi" 1,I "trigger" 0]
               ,ugen_summary = "Generate new exponentially distributed random values on trigger."
@@ -337,13 +337,13 @@ rdu_db =
     ,rDelaySetB_dsc
     ,rDelaySet_dsc
     ,rDustR_dsc
-    ,rExpRandN_dsc
+    ,expRandN_dsc
     ,rFreezer_dsc
     ,rLagC_dsc
-    ,rLinRandN_dsc
+    ,linRandN_dsc
     ,rObxdFilter_dsc
     ,rPlayTrace_dsc
-    ,rRandN_dsc
+    ,randN_dsc
     ,rShufflerB_dsc
     ,rShufflerL_dsc
     ,rSmplrIndex_dsc
@@ -352,10 +352,10 @@ rdu_db =
     ,rsvflp_dsc
     ,rTraceRd_dsc
     ,rdl_dsc
-    ,riRandN_dsc
+    ,iRandN_dsc
     ,rpvDecayTbl_dsc
-    ,rtExpRandN_dsc
-    ,rtRandN_dsc
+    ,tExpRandN_dsc
+    ,tRandN_dsc
     ,tScramble_dsc
     ]
 

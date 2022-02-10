@@ -2,9 +2,9 @@
 
 static InterfaceTable *ft;
 
-struct RTRandN : public Unit {float m_trig, *m_store;};
+struct TRandN : public Unit {float m_trig, *m_store;};
 
-void RTRandN_gen(RTRandN* unit)
+void TRandN_gen(TRandN* unit)
 {
     uint32 nc = unit->mNumOutputs;
     float lo = IN0(0);
@@ -17,7 +17,7 @@ void RTRandN_gen(RTRandN* unit)
     }
 }
 
-void RTRandN_cpy(RTRandN* unit)
+void TRandN_cpy(TRandN* unit)
 {
     uint32 nc = unit->mNumOutputs;
     uint32 i;
@@ -26,33 +26,33 @@ void RTRandN_cpy(RTRandN* unit)
     }
 }
 
-void RTRandN_next_k(RTRandN* unit, int inNumSamples)
+void TRandN_next_k(TRandN* unit, int inNumSamples)
 {
     float trig = IN0(2);
     if (trig > 0.f && unit->m_trig <= 0.f) {
-	RTRandN_gen(unit);
+	TRandN_gen(unit);
     }
-    RTRandN_cpy(unit);
+    TRandN_cpy(unit);
     unit->m_trig = trig;
 }
 
-void RTRandN_Ctor(RTRandN* unit)
+void TRandN_Ctor(TRandN* unit)
 {
     unit->m_store = (float*)RTAlloc(unit->mWorld,unit->mNumOutputs * sizeof(float));
-    RTRandN_gen(unit);
-    RTRandN_cpy(unit);
-    SETCALC(RTRandN_next_k);
+    TRandN_gen(unit);
+    TRandN_cpy(unit);
+    SETCALC(TRandN_next_k);
     unit->m_trig = IN0(2);
-    RTRandN_next_k(unit, 1);
+    TRandN_next_k(unit, 1);
 }
 
-void RTRandN_Dtor(RTRandN *unit)
+void TRandN_Dtor(TRandN *unit)
 {
     RTFree(unit->mWorld,unit->m_store);
 }
 
-PluginLoad(RTRandN)
+PluginLoad(TRandN)
 {
   ft = inTable;
-  DefineDtorUnit(RTRandN);
+  DefineDtorUnit(TRandN);
 }

@@ -2,9 +2,9 @@
 
 static InterfaceTable *ft;
 
-struct RTExpRandN : public Unit {float m_trig, *m_store;};
+struct TExpRandN : public Unit {float m_trig, *m_store;};
 
-void RTExpRandN_gen(RTExpRandN* unit)
+void TExpRandN_gen(TExpRandN* unit)
 {
     uint32 nc = unit->mNumOutputs;
     float lo = IN0(0);
@@ -17,7 +17,7 @@ void RTExpRandN_gen(RTExpRandN* unit)
     }
 }
 
-void RTExpRandN_cpy(RTExpRandN* unit)
+void TExpRandN_cpy(TExpRandN* unit)
 {
     uint32 nc = unit->mNumOutputs;
     uint32 i;
@@ -26,33 +26,33 @@ void RTExpRandN_cpy(RTExpRandN* unit)
     }
 }
 
-void RTExpRandN_next_k(RTExpRandN* unit, int inNumSamples)
+void TExpRandN_next_k(TExpRandN* unit, int inNumSamples)
 {
     float trig = IN0(2);
     if (trig > 0.f && unit->m_trig <= 0.f) {
-	RTExpRandN_gen(unit);
+	TExpRandN_gen(unit);
     }
-    RTExpRandN_cpy(unit);
+    TExpRandN_cpy(unit);
     unit->m_trig = trig;
 }
 
-void RTExpRandN_Ctor(RTExpRandN* unit)
+void TExpRandN_Ctor(TExpRandN* unit)
 {
     unit->m_store = (float*)RTAlloc(unit->mWorld,unit->mNumOutputs * sizeof(float));
-    RTExpRandN_gen(unit);
-    RTExpRandN_cpy(unit);
-    SETCALC(RTExpRandN_next_k);
+    TExpRandN_gen(unit);
+    TExpRandN_cpy(unit);
+    SETCALC(TExpRandN_next_k);
     unit->m_trig = IN0(2);
-    RTExpRandN_next_k(unit, 1);
+    TExpRandN_next_k(unit, 1);
 }
 
-void RTExpRandN_Dtor(RTExpRandN *unit)
+void TExpRandN_Dtor(TExpRandN *unit)
 {
     RTFree(unit->mWorld,unit->m_store);
 }
 
-PluginLoad(RTExpRandN)
+PluginLoad(TExpRandN)
 {
   ft = inTable;
-  DefineDtorUnit(RTExpRandN);
+  DefineDtorUnit(TExpRandN);
 }

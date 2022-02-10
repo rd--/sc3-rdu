@@ -1,4 +1,4 @@
-RLinRandN : MultiOutUGen {
+LinRandN : MultiOutUGen {
     *ir {
         arg numChannels = 2, lo = 0, hi = 1, minmax = 0;
         ^this.multiNew('scalar', numChannels, lo, hi, minmax)

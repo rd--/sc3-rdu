@@ -1,6 +1,6 @@
-RExpRandN : MultiOutUGen {
+IRandN : MultiOutUGen {
     *ir {
-        arg numChannels = 2, lo = 0, hi = 1;
+        arg numChannels = 2, lo = 0, hi = 127;
         ^this.multiNew('scalar', numChannels, lo, hi)
     }
     init {

@@ -10,34 +10,34 @@ S = /usr/include/SuperCollider
 I = -I$(S)/plugin_interface \
     -I$(S)/common
 P = PV_Split.so \
+    ExpRandN.so \
+    IRandN.so \
+    LinRandN.so \
     RBezier.so \
+    RDL.so \
+    RDX7.so \
+    RDX7Env.so \
     RDelayMap.so \
     RDelaySet.so \
     RDelaySetBuf.so \
-    RDL.so \
     RDustR.so \
-    RDX7.so \
-    RDX7Env.so \
-    RExpRandN.so \
     RFreezer.so \
-    RIRandN.so \
     RLagC.so \
-    RLinRandN.so \
     RLoopSet.so \
     RObxdFilter.so \
     RPVDecayTbl.so \
-    RRandN.so \
-    RShufflerB.so \
-    RShufflerL.so \
-    RSmplrIndex.so \
     RSVFBP.so \
     RSVFHP.so \
     RSVFLP.so \
-    RTExpRandN.so \
-    RTLinRandN.so \
+    RShufflerB.so \
+    RShufflerL.so \
+    RSmplrIndex.so \
     RTracePlay.so \
     RTraceRd.so \
-    RTRandN.so \
+    RandN.so \
+    TExpRandN.so \
+    TLinRandN.so \
+    TRandN.so \
     TScramble.so
 
 L = r-common/c/lib-r-common.a
