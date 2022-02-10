@@ -10,6 +10,7 @@ S = /usr/include/SuperCollider
 I = -I$(S)/plugin_interface \
     -I$(S)/common
 P = PV_Split.so \
+    DustRange.so \
     ExpRandN.so \
     IRandN.so \
     LinRandN.so \
@@ -20,7 +21,6 @@ P = PV_Split.so \
     RDelayMap.so \
     RDelaySet.so \
     RDelaySetBuf.so \
-    RDustR.so \
     RFreezer.so \
     RLagC.so \
     RLoopSet.so \

@@ -42,11 +42,11 @@ u_flt k u = u {ugen_filter = Just [k]}
 
 -- * DSC
 
-rDustR_dsc :: U
-rDustR_dsc =
+dustRange_dsc :: U
+dustRange_dsc =
     let i = [I "lo" 0.0001
             ,I "hi" 1.0]
-    in osc_U "RDustR" [ar] ar i 1 "Range variant of Dust" True
+    in osc_U "DustRange" [ar] ar i 1 "Range variant of Dust" True
 
 expRandN_dsc :: U
 expRandN_dsc =
@@ -336,7 +336,7 @@ rdu_db =
     ,rDelayMap_dsc
     ,rDelaySetB_dsc
     ,rDelaySet_dsc
-    ,rDustR_dsc
+    ,dustRange_dsc
     ,expRandN_dsc
     ,rFreezer_dsc
     ,rLagC_dsc
