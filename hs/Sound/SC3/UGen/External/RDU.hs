@@ -84,15 +84,15 @@ randN_dsc =
         dsc = "Multi-channel variant of Rand"
     in u_ir (u_nc_input (osc_U "RandN" [ir] ir i (-1) dsc True))
 
-rBezier_dsc :: U
-rBezier_dsc =
+bezier_dsc :: U
+bezier_dsc =
   let i = [I "haltAfter" 100
           ,I "dx" 0.0001
           ,I "freq" 440
           ,I "phase" 0
           ,I "param" 0]
       dsc = "Bezier curve oscillator."
-  in u_std_mce 1 (osc_U "RBezier" [kr,ar] ar i 1 dsc False)
+  in u_std_mce 1 (osc_U "Bezier" [kr,ar] ar i 1 dsc False)
 
 rDelayMap_dsc :: U
 rDelayMap_dsc =
@@ -120,10 +120,10 @@ rdl_dsc =
     let i = [I "inputs" 0]
     in u_ar (u_std_mce 1 (u_nc_input (osc_U "RDL" [ar] ar i 1 "Dynamic library host" False)))
 
-rDX7_dsc :: U
-rDX7_dsc =
+dx7_dsc :: U
+dx7_dsc =
   default_u
-  {ugen_name = "RDX7"
+  {ugen_name = "DX7"
   ,ugen_operating_rates = [ar]
   ,ugen_inputs = [I "bufnum" 0
                  ,I "on" 0 -- keydown tr
@@ -139,10 +139,10 @@ rDX7_dsc =
   ,ugen_summary = "DX7 (MFSA/DEXED)"
   ,ugen_outputs = Just 1}
 
-rDX7Env_dsc :: U
-rDX7Env_dsc =
+dx7Env_dsc :: U
+dx7Env_dsc =
   default_u
-  {ugen_name = "RDX7Env"
+  {ugen_name = "DX7Env"
   ,ugen_operating_rates = [ar]
   ,ugen_inputs = [I "gate" 0
                  ,I "data" 0
@@ -330,9 +330,9 @@ rsvflp_dsc =
 rdu_db :: [U]
 rdu_db =
     [pv_Split_dsc
-    ,rBezier_dsc
-    ,rDX7Env_dsc
-    ,rDX7_dsc
+    ,bezier_dsc
+    ,dx7Env_dsc
+    ,dx7_dsc
     ,rDelayMap_dsc
     ,rDelaySetB_dsc
     ,rDelaySet_dsc

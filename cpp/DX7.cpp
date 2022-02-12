@@ -59,7 +59,7 @@ void ctl_init(Controllers *c)
 /* SC3 */
 static InterfaceTable *ft;
 
-struct RDX7 : public Unit
+struct DX7 : public Unit
 {
     Controllers m_ctl;
     Lfo m_lfo;
@@ -74,9 +74,9 @@ struct RDX7 : public Unit
     rdu_declare_buf(data);
 };
 
-rdu_prototypes_dtor(RDX7)
+rdu_prototypes_dtor(DX7)
 
-void RDX7_Ctor(RDX7 *unit)
+void DX7_Ctor(DX7 *unit)
 {
     Freqlut::init(SAMPLERATE);
     Exp2::init();
@@ -95,8 +95,8 @@ void RDX7_Ctor(RDX7 *unit)
     dx7_init_voice(unit->m_dx7_data);
     unit->m_offline = true;
     rdu_init_buf(data);
-    SETCALC(RDX7_next);
-    RDX7_next(unit, 1);
+    SETCALC(DX7_next);
+    DX7_next(unit, 1);
 }
 
 /* (1 `shiftL` 24 == 0x1000000,0x8000 == 2^15,0x1000000 `shiftR` 9 == 0x8000) */
@@ -107,12 +107,12 @@ f32 mfsa_to_f32(i32 x0)
     return ((f32)x2 / (f32)0x8000);
 }
 
-int rdx7_mnn_calc(RDX7 *unit,int mnn)
+int dx7_mnn_calc(DX7 *unit,int mnn)
 {
     return (mnn + (int)(unit->m_dx7_data[144]) - 24);
 }
 
-void rdx7_buf_read(RDX7 *unit,int vc)
+void dx7_buf_read(DX7 *unit,int vc)
 {
     for(int i = 0; i < 155; i++) {
         unit->m_dx7_data[i] = (uint8_t)(unit->m_buf_data->data[(vc * 155) + i]);
@@ -120,7 +120,7 @@ void rdx7_buf_read(RDX7 *unit,int vc)
 }
 
 /* N = 64 ; REQUIRES inNumSamples be a multiple of N */
-void RDX7_next(RDX7 *unit,int inNumSamples)
+void DX7_next(DX7 *unit,int inNumSamples)
 {
     float *out = OUT(0);
     rdu_get_buf(data,0); /* INPUT 0 = VOICE-DATA BUFFER */
@@ -140,9 +140,9 @@ void RDX7_next(RDX7 *unit,int inNumSamples)
     unit->m_ctl.refresh();
     /* DATA TR - LOAD VOICE DATA AND UPDATE */
     if (data_tr > 0.0 && unit->m_prev_data_tr <= 0.0) {
-        rdx7_buf_read(unit,vc);
+        dx7_buf_read(unit,vc);
         if (!unit->m_offline) {
-            unit->m_dx7_note->update(unit->m_dx7_data, rdx7_mnn_calc(unit,mnn), cents, vel);
+            unit->m_dx7_note->update(unit->m_dx7_data, dx7_mnn_calc(unit,mnn), cents, vel);
             unit->m_lfo.reset(unit->m_dx7_data + 137);
         }
     }
@@ -151,9 +151,9 @@ void RDX7_next(RDX7 *unit,int inNumSamples)
     bool is_reset = reset_tr > 0.0 && unit->m_prev_reset_tr <= 0.0;
     if (is_note_on || is_reset) {
         unit->m_offline = false;
-        rdx7_buf_read(unit,vc);
+        dx7_buf_read(unit,vc);
         unit->m_lfo.keydown(); /* ? */
-        unit->m_dx7_note->init(unit->m_dx7_data, rdx7_mnn_calc(unit,mnn), cents, vel);
+        unit->m_dx7_note->init(unit->m_dx7_data, dx7_mnn_calc(unit,mnn), cents, vel);
         if(!is_note_on) {
             unit->m_reset_cnt += 1;
         }
@@ -167,7 +167,7 @@ void RDX7_next(RDX7 *unit,int inNumSamples)
         } else if(unit->m_reset_cnt > 0) {
             unit->m_reset_cnt -= 1;
         } else if(!unit->m_offline){
-            fprintf(stderr,"RDX7: unexpected note-off?\n");
+            fprintf(stderr,"DX7: unexpected note-off?\n");
         }
     }
     /* OFFLINE */
@@ -179,7 +179,7 @@ void RDX7_next(RDX7 *unit,int inNumSamples)
     }
     /* PROCESS */
     for (int i = 0; i < inNumSamples; i += N) {
-        dprintf("RDX7: SUBFRAME: i=%d\n",i);
+        dprintf("DX7: SUBFRAME: i=%d\n",i);
         int32_t lfovalue = unit->m_lfo.getsample();
         int32_t lfodelay = unit->m_lfo.getdelay();
         AlignedBuf<int32_t, N> audiobuf;
@@ -197,9 +197,9 @@ void RDX7_next(RDX7 *unit,int inNumSamples)
     unit->m_prev_data_tr = data_tr;
 }
 
-void RDX7_Dtor(RDX7 *unit)
+void DX7_Dtor(DX7 *unit)
 {
     delete unit->m_dx7_note;
 }
 
-rdu_load_dtor(RDX7)
+rdu_load_dtor(DX7)

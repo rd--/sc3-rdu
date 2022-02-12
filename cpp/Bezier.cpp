@@ -8,7 +8,7 @@
 
 static InterfaceTable *ft;
 
-struct RBezier:public Unit {
+struct Bezier:public Unit {
   int m_halt_after;
   float m_dx;
   float m_phase;
@@ -22,7 +22,7 @@ struct RBezier:public Unit {
                                                          x0 y0 cx0 cy0 cx1 cy1 x1 y1
 */
 
-void RBezier_next(RBezier * unit, int inNumSamples) {
+void Bezier_next(Bezier * unit, int inNumSamples) {
   float *out = OUT(0);
   int halt_after = unit->m_halt_after;
   float dx = unit->m_dx;
@@ -53,7 +53,7 @@ void RBezier_next(RBezier * unit, int inNumSamples) {
       }
     }
     if (!coherent) {
-      dprintf("RBezier: incoherent, ph = %f\n", ph);
+      dprintf("Bezier: incoherent, ph = %f\n", ph);
     }
     ph += ph_incr;
     if (ph > 1.0) {
@@ -63,19 +63,19 @@ void RBezier_next(RBezier * unit, int inNumSamples) {
   unit->m_phase = ph;
 }
 
-void RBezier_Ctor(RBezier * unit) {
+void Bezier_Ctor(Bezier * unit) {
   unit->m_halt_after = (int)IN0(0);
   unit->m_dx = IN0(1);
   unit->m_phase = IN0(3);
   unit->m_points = 1 + ((unit->mNumInputs - 4) / 6);
-  dprintf("RBezier: initial-phase = %0.3f, # points = %d\n", unit->m_phase, unit->m_points);
-  SETCALC(RBezier_next);
+  dprintf("Bezier: initial-phase = %0.3f, # points = %d\n", unit->m_phase, unit->m_points);
+  SETCALC(Bezier_next);
   assert(IN0(3) >= 0.0 && IN0(3) <= 1.0);
   assert((int) unit->mNumInputs == ((unit->m_points - 1) * 6) + 6);
-  RBezier_next(unit, 1);
+  Bezier_next(unit, 1);
 }
 
-PluginLoad(RBezier) {
+PluginLoad(Bezier) {
   ft = inTable;
-  DefineSimpleUnit(RBezier);
+  DefineSimpleUnit(Bezier);
 }

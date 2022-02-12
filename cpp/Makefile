@@ -10,13 +10,13 @@ S = /usr/include/SuperCollider
 I = -I$(S)/plugin_interface \
     -I$(S)/common
 P = PV_Split.so \
+    Bezier.so \
+    DX7.so \
     DustRange.so \
     ExpRandN.so \
     IRandN.so \
     LinRandN.so \
-    RBezier.so \
     RDL.so \
-    RDX7.so \
     RDX7Env.so \
     RDelayMap.so \
     RDelaySet.so \
