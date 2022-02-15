@@ -11,6 +11,7 @@ I = -I$(S)/plugin_interface \
     -I$(S)/common
 P = PV_Split.so \
     Bezier.so \
+    BufMemCpy.so \
     DX7.so \
     DustRange.so \
     ExpRandN.so \
