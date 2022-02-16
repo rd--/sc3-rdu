@@ -1,6 +1,7 @@
 #include <SC_PlugIn.h>
 
 #include "r-common/c/byte-order.c"
+#include "r-common/c/memory.c"
 
 static InterfaceTable* ft;
 

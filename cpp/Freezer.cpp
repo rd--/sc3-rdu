@@ -21,15 +21,15 @@ typedef struct
      to lie to the left of this value. */
   int right;
 }
-RFreezer_Loop_t;
+Freezer_Loop_t;
 
 #define LOOP_LIMIT 64 /* Static maximum number of concurrent loops */
 
-struct RFreezer : public Unit
+struct Freezer : public Unit
 {
   rdu_declare_monitored_buf(dl);
   /* The loop data array. */
-  RFreezer_Loop_t m_loop_data[LOOP_LIMIT];
+  Freezer_Loop_t m_loop_data[LOOP_LIMIT];
   /* The number of active loops. */
   int m_loop_n;
   /* The resolved left and right window sample indices, and the size
@@ -42,7 +42,7 @@ struct RFreezer : public Unit
   float m_phase_randomize_trigger_state;
 };
 
-rdu_prototypes(RFreezer)
+rdu_prototypes(Freezer)
 
 #define BUFFER_NUMBER             0
 #define GROUP_LEFT                IN0(1)
@@ -60,7 +60,7 @@ rdu_prototypes(RFreezer)
    crossing at `sound'. If no zero crossing is located returns
    `index'. */
 inline static int
-RFreezer_find_near_zero_crossing(float *sound,int sound_n,int index)
+Freezer_find_near_zero_crossing(float *sound,int sound_n,int index)
 {
   float s;
   int i;
@@ -85,9 +85,9 @@ RFreezer_find_near_zero_crossing(float *sound,int sound_n,int index)
 
 /* Setup loop for single traversal. */
 inline static void
-RFreezer_loop_setup(RFreezer *unit,int index)
+Freezer_loop_setup(Freezer *unit,int index)
 {
-  RFreezer_Loop_t *loop = unit->m_loop_data + index;
+  Freezer_Loop_t *loop = unit->m_loop_data + index;
   float l_right;
   /* Set increment value, this is constant for the whole loop
      traversal. The increment incorporates the global offset and
@@ -103,10 +103,10 @@ RFreezer_loop_setup(RFreezer *unit,int index)
   l_right  =(l_right > 1.0)? 1.0 : l_right;
   loop->right = (int)((float)unit->m_left +(l_right * (float)unit->m_size));
   /* Shift phase and right to lie on zero crossings. */
-  loop->phase = (float)RFreezer_find_near_zero_crossing(unit->m_buf_dl->data,
+  loop->phase = (float)Freezer_find_near_zero_crossing(unit->m_buf_dl->data,
                                                         unit->m_buf_dl->frames,
                                                         (int)loop->phase);
-  loop->right = RFreezer_find_near_zero_crossing(unit->m_buf_dl->data,
+  loop->right = Freezer_find_near_zero_crossing(unit->m_buf_dl->data,
 						   unit->m_buf_dl->frames,
 						   loop->right);
 }
@@ -114,85 +114,85 @@ RFreezer_loop_setup(RFreezer *unit,int index)
 /* Setup group data. This resolves 0-1 user inputs to buffer relative
    values.  */
 inline static void
-RFreezer_group_setup(RFreezer *unit)
+Freezer_group_setup(Freezer *unit)
 {
   unit->m_left = (int)(unit->m_buf_dl->frames * GROUP_LEFT);
   unit->m_right = (int)(unit->m_buf_dl->frames * GROUP_RIGHT);
   unit->m_size = unit->m_right - unit->m_left;
   /* Shift right to lie on a zero crossing,this is relevant since it
      is a reset point for individual loops. */
-  unit->m_right = RFreezer_find_near_zero_crossing(unit->m_buf_dl->data,
+  unit->m_right = Freezer_find_near_zero_crossing(unit->m_buf_dl->data,
 						     unit->m_buf_dl->frames,
 						     unit->m_right);
 }
 
 inline static void
-RFreezer_reset(RFreezer *unit)
+Freezer_reset(Freezer *unit)
 {
-  RFreezer_group_setup(unit);
+  Freezer_group_setup(unit);
   for(int i = 0; i < LOOP_LIMIT; i++) {
-    RFreezer_loop_setup(unit,i);
+    Freezer_loop_setup(unit,i);
   }
 }
 
 /* Shift the phase of all active loops to a random value between the
    current phase location and the loop end point. */
 inline static void
-RFreezer_phase_randomize(RFreezer *unit)
+Freezer_phase_randomize(Freezer *unit)
 {
   int i;
   for(i = 0; i < unit->m_loop_n; i++) {
-    RFreezer_Loop_t *loop = unit->m_loop_data + i;
+    Freezer_Loop_t *loop = unit->m_loop_data + i;
     loop->phase = rand_f32(loop->phase,loop->right);
   }
 }
 
 /* Reset all active loops. */
 inline static void
-RFreezer_phase_synchronize(RFreezer *unit)
+Freezer_phase_synchronize(Freezer *unit)
 {
   int i;
-  RFreezer_group_setup(unit);
+  Freezer_group_setup(unit);
   for(i = 0; i < unit->m_loop_n; i++) {
-    RFreezer_loop_setup(unit,i);
+    Freezer_loop_setup(unit,i);
   }
 }
 
-void RFreezer_Ctor(RFreezer *unit)
+void Freezer_Ctor(Freezer *unit)
 {
   rdu_init_monitored_buf(dl);
   unit->m_phase_synchronize_trigger_state = 0.0;
-  SETCALC(RFreezer_next);
-  RFreezer_next(unit,1);
+  SETCALC(Freezer_next);
+  Freezer_next(unit,1);
 }
 
-void RFreezer_next(RFreezer *unit,int inNumSamples)
+void Freezer_next(Freezer *unit,int inNumSamples)
 {
   rdu_get_buf(dl,BUFFER_NUMBER);
   rdu_check_buf(dl,1);
-  rdu_on_buffer_change(dl,RFreezer_reset(unit););
+  rdu_on_buffer_change(dl,Freezer_reset(unit););
   float *out = OUT(0);
   /* Set number of active loops, silently clip to limit. */
   unit->m_loop_n = (int) fminf(LOOP_COUNT,LOOP_LIMIT);
   /* Check phase synchronize trigger. */
   float trigger = PHASE_SYNCHRONIZE_TRIGGER;
   if(trigger > 0.0 && unit->m_phase_synchronize_trigger_state <= 0.0) {
-    RFreezer_phase_synchronize(unit);
+    Freezer_phase_synchronize(unit);
   }
   unit->m_phase_synchronize_trigger_state = trigger;
   /* Check phase randomize trigger. */
   trigger = PHASE_RANDOMIZE_TRIGGER;
   if(trigger > 0.0 && unit->m_phase_randomize_trigger_state <= 0.0) {
-    RFreezer_phase_randomize(unit);
+    Freezer_phase_randomize(unit);
   }
   unit->m_phase_randomize_trigger_state = trigger;
   /* Reset the group data. */
-  RFreezer_group_setup(unit);
+  Freezer_group_setup(unit);
   for(int i = 0; i < inNumSamples; i++) {
     /* Zero output. */
     out[i] = 0.0;
     for(int j = 0; j < unit->m_loop_n; j++) {
-      RFreezer_Loop_t *loop = unit->m_loop_data + j;
+      Freezer_Loop_t *loop = unit->m_loop_data + j;
       /* Sum loop value into output and increment phase. */
       out[i] += signal_interpolate(unit->m_buf_dl->data,
 				     unit->m_buf_dl->frames,
@@ -201,7 +201,7 @@ void RFreezer_next(RFreezer *unit,int inNumSamples)
       /* Reset loop if required.  Loops reset at their own 'right'
 	 value,or at the group 'right' value.  */
       if(loop->phase >= loop->right || loop->phase >= unit->m_right) {
-	RFreezer_loop_setup(unit,j);
+	Freezer_loop_setup(unit,j);
       }
     }
     /* Apply group gain. */
@@ -209,4 +209,4 @@ void RFreezer_next(RFreezer *unit,int inNumSamples)
   }
 }
 
-rdu_load(RFreezer)
+rdu_load(Freezer)

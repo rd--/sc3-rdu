@@ -31,7 +31,7 @@ grain_t;
 /* Static limit on the number of concurrent grains. */
 #define N_GRAINS 256
 
-struct RShufflerB : public Unit
+struct ShufflerB : public Unit
 {
   rdu_declare_buf(dl);
   float m_buf_dl_location;   /* current read location at the buffer */
@@ -42,7 +42,7 @@ struct RShufflerB : public Unit
   grain_t m_grain[N_GRAINS]; /* grain array */
 };
 
-rdu_prototypes(RShufflerB)
+rdu_prototypes(ShufflerB)
 
 /* Symbolic names for control port indicies. */
 #define BUFFER_NUMBER          0
@@ -77,7 +77,7 @@ rdu_prototypes(RShufflerB)
 
 /* Make a grain from control inputs. */
 inline static void
-setup_grain(RShufflerB *unit,grain_t *g,float *controls)
+setup_grain(ShufflerB *unit,grain_t *g,float *controls)
 {
   g->read_location = RLR_AT(READ_LOCATION_L);
   g->read_location *= unit->m_buf_dl->frames - 1;
@@ -108,7 +108,7 @@ wrap_index(int n,float *z)
 /* Locate the next free grain slot after index `n' and store the slot
    number.  If there is no such slot return 0,else 1. */
 inline static int
-locate_free_slot(RShufflerB *unit,int i)
+locate_free_slot(ShufflerB *unit,int i)
 {
   if(unit->m_free_slot != -1) {
     return 1;
@@ -130,7 +130,7 @@ locate_free_slot(RShufflerB *unit,int i)
    from the control inputs and the required fields are mapped into the
    current context. */
 inline static void
-enqueue_grain(RShufflerB *unit,float *controls)
+enqueue_grain(ShufflerB *unit,float *controls)
 {
   if((unit->m_count - unit->m_last) <= unit->m_iot) {
     return;
@@ -149,7 +149,7 @@ enqueue_grain(RShufflerB *unit,float *controls)
   locate_free_slot(unit,unit->m_free_slot + 1);
 }
 
-void RShufflerB_Ctor(RShufflerB *unit)
+void ShufflerB_Ctor(ShufflerB *unit)
 {
   rdu_init_buf(dl);
   unit->m_buf_dl_location = 0.0;
@@ -160,11 +160,11 @@ void RShufflerB_Ctor(RShufflerB *unit)
   for(int i = 0; i < N_GRAINS; i++) {
     unit->m_grain[i].active = false;
   }
-  SETCALC(RShufflerB_next);
-  RShufflerB_next(unit,1);
+  SETCALC(ShufflerB_next);
+  ShufflerB_next(unit,1);
 }
 
-void RShufflerB_next(RShufflerB *unit,int inNumSamples)
+void ShufflerB_next(ShufflerB *unit,int inNumSamples)
 {
   rdu_get_buf(dl,BUFFER_NUMBER);
   rdu_check_buf(dl,1);
@@ -198,4 +198,4 @@ void RShufflerB_next(RShufflerB *unit,int inNumSamples)
   }
 }
 
-rdu_load(RShufflerB)
+rdu_load(ShufflerB)

@@ -6,12 +6,12 @@
 
 static InterfaceTable *ft;
 
-struct RSVFBP : public Unit
+struct SvfBp : public Unit
 {
     float m_z1, m_z2;
 };
 
-void RSVFBP_next(RSVFBP *unit,int inNumSamples)
+void SvfBp_next(SvfBp *unit,int inNumSamples)
 {
     float *in = IN(0);
     float f = IN0(1) / unit->mRate->mSampleRate;
@@ -34,16 +34,16 @@ void RSVFBP_next(RSVFBP *unit,int inNumSamples)
     unit->m_z2 = z2;
 }
 
-void RSVFBP_Ctor(RSVFBP *unit)
+void SvfBp_Ctor(SvfBp *unit)
 {
     unit->m_z1 = 0.0;
     unit->m_z2 = 0.0;
-    SETCALC(RSVFBP_next);
-    RSVFBP_next(unit, 1);
+    SETCALC(SvfBp_next);
+    SvfBp_next(unit, 1);
 }
 
-PluginLoad(RSVFBP)
+PluginLoad(SvfBp)
 {
     ft = inTable;
-    DefineSimpleUnit(RSVFBP);
+    DefineSimpleUnit(SvfBp);
 }

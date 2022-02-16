@@ -10,12 +10,12 @@
 /* SC3 */
 static InterfaceTable *ft;
 
-struct RObxdFilter : public Unit
+struct ObxdFilter : public Unit
 {
     Filter *m_flt;
 };
 
-void RObxdFilter_next(RObxdFilter *unit,int inNumSamples)
+void ObxdFilter_next(ObxdFilter *unit,int inNumSamples)
 {
     float *in = IN(0);
     float *out = OUT(0);
@@ -35,21 +35,21 @@ void RObxdFilter_next(RObxdFilter *unit,int inNumSamples)
     }
 }
 
-void RObxdFilter_Ctor(RObxdFilter *unit)
+void ObxdFilter_Ctor(ObxdFilter *unit)
 {
     unit->m_flt = new Filter;
     unit->m_flt->setSampleRate(SAMPLERATE);
-    SETCALC(RObxdFilter_next);
-    RObxdFilter_next(unit, 1);
+    SETCALC(ObxdFilter_next);
+    ObxdFilter_next(unit, 1);
 }
 
-void RObxdFilter_Dtor(RObxdFilter *unit)
+void ObxdFilter_Dtor(ObxdFilter *unit)
 {
     delete unit->m_flt;
 }
 
-PluginLoad(RObxdFilter)
+PluginLoad(ObxdFilter)
 {
     ft = inTable;
-    DefineDtorUnit(RObxdFilter);
+    DefineDtorUnit(ObxdFilter);
 }

@@ -15,27 +15,27 @@ P = PV_Split.so \
     DX7.so \
     DustRange.so \
     ExpRandN.so \
+    Freezer.so \
     IRandN.so \
     LinRandN.so \
+    ObxdFilter.so \
     RDL.so \
     RDX7Env.so \
     RDelayMap.so \
     RDelaySet.so \
     RDelaySetBuf.so \
-    RFreezer.so \
     RLagC.so \
     RLoopSet.so \
-    RObxdFilter.so \
     RPVDecayTbl.so \
-    RSVFBP.so \
-    RSVFHP.so \
-    RSVFLP.so \
-    RShufflerB.so \
     RShufflerL.so \
     RSmplrIndex.so \
     RTracePlay.so \
     RTraceRd.so \
     RandN.so \
+    ShufflerB.so \
+    SvfBp.so \
+    SvfHp.so \
+    SvfLp.so \
     TExpRandN.so \
     TLinRandN.so \
     TRandN.so \
