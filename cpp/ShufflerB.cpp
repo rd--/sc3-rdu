@@ -6,10 +6,8 @@
 
 #include "r-common/c/gen-trapezoid.c"
 #include "r-common/c/quantize.c"
-#include "r-common/c/rand.c"
 #include "r-common/c/segment-transfer.c"
 #include "r-common/c/signal-interpolate.c"
-#include "r-common/c/taus88.c"
 
 #include "rdu.h"
 
@@ -68,26 +66,27 @@ rdu_prototypes(ShufflerB)
 #define NUMBER_OF_CONTROLS     20
 
 /* Resolve random range (LEFT,RIGHT) to value, Q = quantize */
-#define RLR_AT(l)(rand_f32(controls[(l)],controls[(l)+1]))
-#define RLR_AT_Q(l,q)(controls[(q)]>0.0?quantize(controls[(q)],RLR_AT((l))):RLR_AT((l)))
+#define RLR_AT(rgen, l) (rdu_frand_range(rgen, controls[l], controls[(l) + 1]))
+#define RLR_AT_Q(rgen, l, q) (controls[q] > 0.0 ? quantize(controls[q], RLR_AT(rgen, l)) : RLR_AT(rgen, l))
 
 /* Resolve random range (CENTER,DEVIATION) to value, Q = quantize */
-#define RCD_AT(l)(rand_f32(controls[(l)]-controls[(l)+1],controls[(l)]+controls[(l)+1]))
-#define RCD_AT_Q(l,q)(controls[(q)]>0.0?quantize(controls[(q)],RCD_AT((l))):RCD_AT((l)))
+#define RCD_AT(rgen, l) (rdu_frand_range(rgen, controls[l] - controls[(l) + 1], controls[l] + controls[(l) + 1]))
+#define RCD_AT_Q(rgen, l, q) (controls[q] > 0.0 ? quantize(controls[q], RCD_AT(rgen, l)) : RCD_AT(rgen, l))
 
 /* Make a grain from control inputs. */
 inline static void
 setup_grain(ShufflerB *unit,grain_t *g,float *controls)
 {
-  g->read_location = RLR_AT(READ_LOCATION_L);
+  RGen& rgen = *unit->mParent->mRGen;
+  g->read_location = RLR_AT(rgen, READ_LOCATION_L);
   g->read_location *= unit->m_buf_dl->frames - 1;
   g->read_location += unit->m_buf_dl_location;
-  g->read_increment = RLR_AT_Q(READ_INCREMENT_L,READ_INCREMENT_QUANTUM);
-  g->duration = RLR_AT(DURATION_L);
-  float env_amplitude = RLR_AT(ENV_AMPLITUDE_L);
-  float env_shape = RLR_AT(ENV_SHAPE_L);
-  float env_skew = RLR_AT(ENV_SKEW_L);
-  g->stereo_location = RLR_AT(STEREO_LOCATION_L);
+  g->read_increment = RLR_AT_Q(rgen, READ_INCREMENT_L, READ_INCREMENT_QUANTUM);
+  g->duration = RLR_AT(rgen, DURATION_L);
+  float env_amplitude = RLR_AT(rgen, ENV_AMPLITUDE_L);
+  float env_shape = RLR_AT(rgen, ENV_SHAPE_L);
+  float env_skew = RLR_AT(rgen, ENV_SKEW_L);
+  g->stereo_location = RLR_AT(rgen, STEREO_LOCATION_L);
   gen_trapezoid(g->e,8,env_amplitude,env_shape,env_skew);
   g->sdur =(int)(g->duration * SAMPLERATE);
   g->scnt = 0;
@@ -132,6 +131,7 @@ locate_free_slot(ShufflerB *unit,int i)
 inline static void
 enqueue_grain(ShufflerB *unit,float *controls)
 {
+  RGen& rgen = *unit->mParent->mRGen;
   if((unit->m_count - unit->m_last) <= unit->m_iot) {
     return;
   }
@@ -139,7 +139,7 @@ enqueue_grain(ShufflerB *unit,float *controls)
     return;
   }
   unit->m_last = unit->m_count;
-  unit->m_iot = RLR_AT_Q(IOT_L,IOT_QUANTUM) * SAMPLERATE;
+  unit->m_iot = RLR_AT_Q(rgen, IOT_L, IOT_QUANTUM) * SAMPLERATE;
   setup_grain(unit,&(unit->m_grain[unit->m_free_slot]),controls);
   /* This grain slot is no longer free.  In the belief that slot
      availability when busy is more or less linear we try here to find

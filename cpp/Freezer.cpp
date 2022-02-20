@@ -2,9 +2,7 @@
 
 #include <SC_PlugIn.h>
 
-#include "r-common/c/rand.c"
 #include "r-common/c/signal-interpolate.c"
-#include "r-common/c/taus88.c"
 
 #include "rdu.h"
 
@@ -88,18 +86,19 @@ inline static void
 Freezer_loop_setup(Freezer *unit,int index)
 {
   Freezer_Loop_t *loop = unit->m_loop_data + index;
+  RGen& rgen = *unit->mParent->mRGen;
   float l_right;
   /* Set increment value, this is constant for the whole loop
      traversal. The increment incorporates the global offset and
      randomizer values. */
   loop->increment  = 1.0 + (INCREMENT_OFFSET * index);
-  loop->increment *= 1.0 + (INCREMENT_RANDOM * rand_f32(0,1));
+  loop->increment *= 1.0 + (INCREMENT_RANDOM * rgen.frand());
   /* Set calculated left and right locations.  Left is not stored,it
      is the inital phase location. The right value incorporates the
      global randomizer value. */
   loop->phase = unit->m_left;
   l_right  = 1.0;
-  l_right *= 1.0 +(RIGHT_RANDOM * rand_f32 (0,1));
+  l_right *= 1.0 +(RIGHT_RANDOM * rgen.frand());
   l_right  =(l_right > 1.0)? 1.0 : l_right;
   loop->right = (int)((float)unit->m_left +(l_right * (float)unit->m_size));
   /* Shift phase and right to lie on zero crossings. */
@@ -140,10 +139,10 @@ Freezer_reset(Freezer *unit)
 inline static void
 Freezer_phase_randomize(Freezer *unit)
 {
-  int i;
-  for(i = 0; i < unit->m_loop_n; i++) {
+  RGen& rgen = *unit->mParent->mRGen;
+  for(int i = 0; i < unit->m_loop_n; i++) {
     Freezer_Loop_t *loop = unit->m_loop_data + i;
-    loop->phase = rand_f32(loop->phase,loop->right);
+    loop->phase = rgen.frand() * ((float)loop->right - loop->phase) + loop->phase;
   }
 }
 

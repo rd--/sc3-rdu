@@ -1,14 +1,12 @@
 // RShufflerL - unary node
-{var o = ar(SinOsc,[440,441],0) * 0.2
-;var x = kr(MouseX,0.0001,0.2)
-;var y = kr(MouseY,0.001,0.2,\exponential)
-;ar(RShufflerL,o,x,y)}
+var o = SinOsc.ar([440, 441], 0) * 0.2;
+var x = MouseX.kr(0.0001, 0.2, 0, 0.2);
+var y = MouseY.kr(0.001, 0.2, 1, 0.2);
+RShufflerL.ar(o, x, y)
 
 // RShufflerL - parallel node banks
-{var n = 6
-;var o = ar(SinOsc,[440,441],0) * 0.2
-;var x = kr(MouseX,0.0001,0.02)
-;var y = kr(MouseY,0.001,0.25,1)
-;var f = x * fill(Array,n,{rand(4.0)})
-;var d = y * fill(Array,n,{rand(4.0)})
-;ar(Splay,ar(RShufflerL,o,f,d))}
+var n = 6;
+var o = SinOsc.ar([440, 441], 0) * 0.2;
+var x = MouseX.kr(0.0001, 0.2, 0, 0.2);
+var y = MouseY.kr(0.001, 0.2, 1, 0.2);
+RShufflerL.ar(o, x * { Rand.ir(0, 4) }.dup(n), y * { Rand.ir(0, 4) }.dup(n)).splay2

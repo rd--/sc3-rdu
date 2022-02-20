@@ -1,6 +1,9 @@
 all:
 	echo "sc3-rdu"
 
+update-submodules:
+	git submodule foreach git pull
+
 mk-cmd:
 	echo "sc3-rdu - NIL"
 

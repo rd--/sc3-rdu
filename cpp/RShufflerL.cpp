@@ -3,9 +3,6 @@
 
 #include <SC_PlugIn.h>
 
-#include "r-common/c/rand.c"
-#include "r-common/c/taus88.c"
-
 #include "rdu.h"
 
 static InterfaceTable *ft;
@@ -70,11 +67,12 @@ void RShufflerL_next(RShufflerL *unit,int inNumSamples)
   float *out = OUT(0);
   float fragment_size = IN0(1);
   float max_delay = IN0(2);
+  RGen& rgen = *unit->mParent->mRGen;
   for(int i = 0; i < inNumSamples; i++) {
     if(unit->m_next == unit->m_count) {
       int size = int(fragment_size * SAMPLERATE);
       grain_init(&(unit->m_grain),size);
-      int delay = int(rand_f32(0,1) * max_delay * SAMPLERATE);
+      int delay = int(rgen.frand() * max_delay * SAMPLERATE);
       unit->m_next = unit->m_count + size + delay;
     }
     out[i] = grain_step(&(unit->m_grain),in[i]);

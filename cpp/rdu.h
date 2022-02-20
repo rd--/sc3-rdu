@@ -145,3 +145,5 @@ PluginLoad(name)                                \
 
 #define rdu_define_pv_unit(ft,name) \
   (*ft->fDefineUnit)(#name, sizeof(PV_Unit), (UnitCtorFunc)&name##_Ctor, 0, 0);
+
+#define rdu_frand_range(rgen, lo, hi) (rgen.frand() * (hi - lo) + lo)
