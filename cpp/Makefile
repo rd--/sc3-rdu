@@ -19,6 +19,7 @@ P = PV_Split.so \
     IRandN.so \
     LinRandN.so \
     ObxdFilter.so \
+    PinkingFilterPk3.so \
     RDL.so \
     RDX7Env.so \
     RDelayMap.so \
