@@ -33,8 +33,8 @@ sc3-rdu
 
 Pseudo unit generators:
 
-- ADSR - Attack-decay-sustain-release envelope (Env, EnvGen)
-- ASR - Attack-sustain-release envelope (Env, EnvGen)
+- Adsr - Attack-decay-sustain-release envelope (Env, EnvGen)
+- Asr - Attack-sustain-release envelope (Env, EnvGen)
 - Cc - Continous controller input (In)
 - Cutoff - Sustain time and release time envelope (Env, EnvGen)
 - LinSeg - Line segment envelope (Env, EnvGen)
