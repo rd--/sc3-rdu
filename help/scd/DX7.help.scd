@@ -6,36 +6,40 @@ var voiceData = [
     [97, 69, 60, 35, 99, 91, 98,  0,  0,  0,  0,  0,  0, 0, 0, 1, 68,  0, 22, 0, 7],
     [78, 63, 53, 28, 99, 52, 62,  3, 38, 11, 80,  3,  0, 0, 0, 0, 77,  0,  7, 0, 0],
     [98, 56, 63, 23, 99, 89, 74,  2,  0,  4,  1,  0,  0, 0, 0, 0, 99,  0,  1, 0, 7],
-    [99, 99, 99, 99, 50, 50, 50, 50,  3,  2,  1, 29, 99, 1, 0, 0,  0,  1, 24] ];
+    [99, 99, 99, 99, 50, 50, 50, 50,  3,  2,  1, 29, 99, 1, 0, 0,  0,  1, 24]
+];
 var voiceFunc = {
     arg e;
     var x0 = Latch.kr(in: e.x, trig: e.w);
     var buf = LocalBuf.newFrom(voiceData.flatten);
-    var dx7 = RDX7.ar(bufnum: buf, on: e.w, off: 0, data: 0, vc: 0, mnn: e.p * 127, vel: e.z, pw: (0x2000 * (e.x - x0)), mw: 0, bc: 0, fc: 0);
-    Pan2.ar(in: dx7, pos: (e.o * 2 - 1), level: e.z) };
-Mix.ar(Voicer.ar(numVoices: 16, voiceFunc: voiceFunc))
+    var dx7 = DX7.ar(bufnum: buf, on: e.w, off: 0, data: 0, vc: 0, mnn: e.p * 127, vel: e.z, pw: (0x2000 * (e.x - x0)), mw: 0, bc: 0, fc: 0);
+    Pan2.ar(in: dx7, pos: (e.o * 2 - 1), level: e.z)
+};
+Mix.ar(array: Voicer.ar(numVoices: 16, voiceFunc: voiceFunc))
 
 //---- ui
-REventUI.new(frameRate: 25, areaWidth: 230, areaHeight: 130, areaScaling: 2.5, gridFileName: nil, deriveXFromP: true).makeWindow;
+CcEventUi(frameRate: 25, areaWidth: 230, areaHeight: 130, areaScaling: 2.5, gridFileName: nil, deriveXFromP: false).makeWindow;
 
 //---- event/routine control ; event pattern ; c.f. CmdPeriod.freeServers or R.cmdPeriodRetainServerState
 Pbind(
-    \p, Pwhite([3, 4, 7], 8) * 12 + Pwrand([0, 1, 2, 3, 4, 5], [2, 1, 2, 3, 1, 2].normalizeSum, inf).degreeToKey(Scale.yu(\pythagorean)),
+    \w, 1,
+    \p, (Pwhite([3, 4, 7], 8) * 12 + Pwrand([0, 1, 2, 3, 4, 5], [2, 1, 2, 3, 1, 2].normalizeSum, inf).degreeToKey(Scale.yu(\pythagorean))) / 127,
     \y, Pbrown([0, 0.5], [0.5, 1]),
     \z, Pbrown(0.05, 0.25),
     \o, Pwhite(),
-    \dur, Pwrand([0.1, 0.2, 0.3, 0.4, 0.6], [16, 8, 4, 2, 1].normalizeSum, inf)).re(16)
+    \dur, Pwrand([0.1, 0.2, 0.3, 0.4, 0.6], [16, 8, 4, 2, 1].normalizeSum, inf)).ccEventPlayer(16)
 
 //---- event/routine control ; event function
-{ (p: {36 + 48.rand}.dup(5.rand + 1), x: 1.0.rand, y: 1.0.rand, z: 0.25.rand, o: 1.0.rand, dur: 1.0.rand) }.re(16)
+{ (w: 1, p: { (36 + 48.rand) / 127 }.dup(5.rand + 1), y: 1.0.rand, z: 0.25.rand, o: 1.0.rand, dur: 1.0.rand) }.ccEventPlayer(16)
 
 //---- event/routine control ; event pattern
 Pbind(
+    \w, 1,
     \p, Pwhite([4, 6, 7], 7) * 12 + Pbrown(0,5).degreeToKey(Scale.yu(\pythagorean)),
     \y, Pbrown(),
     \z, Pbrown(0, 0.2),
     \o, Pbrown(),
-    \dur, Pbrown(0.05, 0.15)).re(16)
+    \dur, Pbrown(0.05, 0.15)).ccEventPlayer(16)
 
 //---- midi control ; make graph and add synthdef, voice data at local buffer
 (var vc =
