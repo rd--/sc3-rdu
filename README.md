@@ -4,32 +4,38 @@ sc3-rdu
 [supercollider3](http://audiosynth.com/) unit generators
 
 - Bezier - Bézier curve oscillator
-- DX7 - Raph Levien and Pascal Gauthier DX7 emulation
+- BufMemCpy - ?
 - DustRange - Dust variant with inter-offset times generated randomly within range
+- DX7 - Raph Levien and Pascal Gauthier DX7 emulation
 - ExpRandN - n-channel variant of ExpRand
 - Freezer - variant of GRM Freeze processor
 - IRandN - n-channel variant of IRand
 - LinRandN - n-channel variant of LinRand
 - ObxdFilter - Filatov Vadim filter from Obxd
-- PV_Split - copy PV buffer, graph coherent variant of PV_Copy
+- PinkingFilterPk3 - Paul Kellet's refined method
+- PV\_Split - copy PV buffer, graph coherent variant of PV_Copy
+- RandN - n-channel variant of Rand
 - RDL - load DSP code from dynamic library
-- RDelayMap - ?
 - RDelaySet - ?
 - RDelaySetB - ?
+- RDelayMap - ?
 - RDX7Env - ?
+- RLagC - ?
 - RLoopSet - ?
 - RPVDecayTbl - ?
-- RPlayTrace - ?
 - RShufflerL - ?
+- RTracePlay - ?
 - RTraceRd - ?
-- RandN - n-channel variant of Rand
+- SamplerIndex - ?
+- ShufflerB - variant of GRM Shuffling processor
 - SvfBp - band-pass state variable filter
 - SvfHp - high-pass state variable filter
 - SvfLp - low-pass state variable filter
-- ShufflerB - variant of GRM Shuffling processor
-- TRandN - n-channel variant of TRand
+- TExpRandN - n-channel variant of TExpRand
 - TLinRandN - n-channel variant of TLinRand
+- TRandN - n-channel variant of TRand
 - TScramble - signal router, scramble mapping on trigger
+- TSort - signal router, sort mapping on trigger
 
 Pseudo unit generators:
 

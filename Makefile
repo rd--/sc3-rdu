@@ -10,9 +10,13 @@ mk-cmd:
 mk-ugen:
 	(cd cpp; make all install)
 
+mk-ugen-cmake:
+	(mkdir -p build ; cd build ; cmake -DSC_PATH=$(HOME)/opt/src/SuperCollider3/supercollider/supercollider .. ; make)
+
 clean:
 	rm -fR dist dist-newstyle *~
-	(cd cpp; make clean)
+	( cd cpp; make clean )
+	rm -fR build
 
 push-all:
 	r.gitlab-push.sh sc3-rdu
