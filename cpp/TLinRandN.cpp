@@ -2,18 +2,21 @@
 
 static InterfaceTable *ft;
 
-struct TLinRandN : public Unit {float m_trig, *m_store;};
+struct TLinRandN : public Unit {
+    float m_trig;
+    float *m_store;
+};
 
-void TLinRandN_gen(TLinRandN* unit)
+void TLinRandN_gen(TLinRandN *unit)
 {
     uint32 nc = unit->mNumOutputs;
     float lo = IN0(0);
     float hi = IN0(1);
     int minmax = (int)IN0(2);
     float range = hi - lo;
-    RGen& rgen = *unit->mParent->mRGen;
+    RGen &rgen = *unit->mParent->mRGen;
     uint32 i;
-    for (i=0;i<nc;i++) {
+    for (i = 0; i < nc; i++) {
         float a = rgen.frand();
         float b = rgen.frand();
         if (minmax <= 0) {
@@ -24,28 +27,28 @@ void TLinRandN_gen(TLinRandN* unit)
     }
 }
 
-void TLinRandN_cpy(TLinRandN* unit)
+void TLinRandN_cpy(TLinRandN *unit)
 {
     uint32 nc = unit->mNumOutputs;
     uint32 i;
-    for (i=0;i<nc;i++) {
-	OUT0(i) = unit->m_store[i];
+    for (i = 0; i < nc; i++) {
+        OUT0(i) = unit->m_store[i];
     }
 }
 
-void TLinRandN_next_k(TLinRandN* unit, int inNumSamples)
+void TLinRandN_next_k(TLinRandN *unit, int inNumSamples)
 {
     float trig = IN0(3);
     if (trig > 0.f && unit->m_trig <= 0.f) {
-	TLinRandN_gen(unit);
+        TLinRandN_gen(unit);
     }
     TLinRandN_cpy(unit);
     unit->m_trig = trig;
 }
 
-void TLinRandN_Ctor(TLinRandN* unit)
+void TLinRandN_Ctor(TLinRandN *unit)
 {
-    unit->m_store = (float*)RTAlloc(unit->mWorld,unit->mNumOutputs * sizeof(float));
+    unit->m_store = (float *)RTAlloc(unit->mWorld, unit->mNumOutputs * sizeof(float));
     TLinRandN_gen(unit);
     TLinRandN_cpy(unit);
     SETCALC(TLinRandN_next_k);
@@ -55,11 +58,11 @@ void TLinRandN_Ctor(TLinRandN* unit)
 
 void TLinRandN_Dtor(TLinRandN *unit)
 {
-    RTFree(unit->mWorld,unit->m_store);
+    RTFree(unit->mWorld, unit->m_store);
 }
 
 PluginLoad(TLinRandN)
 {
-  ft = inTable;
-  DefineDtorUnit(TLinRandN);
+    ft = inTable;
+    DefineDtorUnit(TLinRandN);
 }
