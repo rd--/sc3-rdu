@@ -30,13 +30,14 @@
 #include "r-common/c/print.h"
 
 /* DEXED adds switches for each OP, this sets them, 0x3F turns everything on */
-void unpack_op_switch(Controllers *c,uint8_t x) {
-    c->opSwitch[5] = ((x >> 5) &1) + 48;
-    c->opSwitch[4] = ((x >> 4) &1) + 48;
-    c->opSwitch[3] = ((x >> 3) &1) + 48;
-    c->opSwitch[2] = ((x >> 2) &1) + 48;
-    c->opSwitch[1] = ((x >> 1) &1) + 48;
-    c->opSwitch[0] = ((x >> 0) &1) + 48;
+void unpack_op_switch(Controllers *c, uint8_t x)
+{
+    c->opSwitch[5] = ((x >> 5) & 1) + 48;
+    c->opSwitch[4] = ((x >> 4) & 1) + 48;
+    c->opSwitch[3] = ((x >> 3) & 1) + 48;
+    c->opSwitch[2] = ((x >> 2) & 1) + 48;
+    c->opSwitch[1] = ((x >> 1) & 1) + 48;
+    c->opSwitch[0] = ((x >> 0) & 1) + 48;
 }
 
 void ctl_init(Controllers *c)
@@ -51,16 +52,18 @@ void ctl_init(Controllers *c)
     c->masterTune = 0;
     c->refresh();
     c->core = new EngineMkI; /* ALLOC - FmCore */
-    unpack_op_switch(c,0x3F);
+    unpack_op_switch(c, 0x3F);
 }
 
-#define buf_zero(b,n) for(int _i = 0; _i < n; _i++) {b.get()[_i] = 0;}
+#define buf_zero(b, n)               \
+    for (int _i = 0; _i < n; _i++) { \
+        b.get()[_i] = 0;             \
+    }
 
 /* SC3 */
 static InterfaceTable *ft;
 
-struct DX7 : public Unit
-{
+struct DX7 : public Unit {
     Controllers m_ctl;
     Lfo m_lfo;
     Dx7Note *m_dx7_note;
@@ -76,7 +79,7 @@ struct DX7 : public Unit
 
 rdu_prototypes_dtor(DX7)
 
-void DX7_Ctor(DX7 *unit)
+    void DX7_Ctor(DX7 *unit)
 {
     Freqlut::init(SAMPLERATE);
     Exp2::init();
@@ -103,28 +106,28 @@ void DX7_Ctor(DX7 *unit)
 f32 mfsa_to_f32(i32 x0)
 {
     i32 x1 = x0 >> 4;
-    i32 x2 = x1 < -0x1000000 ? 0x8000 : x1 >= 0x1000000 ? 0x7fff : (x1 >> 9);
+    i32 x2 = x1 < -0x1000000 ? 0x8000 : (x1 >= 0x1000000 ? 0x7fff : (x1 >> 9));
     return ((f32)x2 / (f32)0x8000);
 }
 
-int dx7_mnn_calc(DX7 *unit,int mnn)
+int dx7_mnn_calc(DX7 *unit, int mnn)
 {
     return (mnn + (int)(unit->m_dx7_data[144]) - 24);
 }
 
-void dx7_buf_read(DX7 *unit,int vc)
+void dx7_buf_read(DX7 *unit, int vc)
 {
-    for(int i = 0; i < 155; i++) {
+    for (int i = 0; i < 155; i++) {
         unit->m_dx7_data[i] = (uint8_t)(unit->m_buf_data->data[(vc * 155) + i]);
     }
 }
 
 /* N = 64 ; REQUIRES inNumSamples be a multiple of N */
-void DX7_next(DX7 *unit,int inNumSamples)
+void DX7_next(DX7 *unit, int inNumSamples)
 {
     float *out = OUT(0);
-    rdu_get_buf(data,0); /* INPUT 0 = VOICE-DATA BUFFER */
-    rdu_check_buf(data,1);
+    rdu_get_buf(data, 0); /* INPUT 0 = VOICE-DATA BUFFER */
+    rdu_check_buf(data, 1);
     float gate_tr = IN0(1); /* INPUT 1 = GATE TR */
     float reset_tr = IN0(2); /* INPUT 2 = RESET TR */
     float data_tr = IN0(3); /* INPUT 3 = DATA TR */
@@ -135,14 +138,14 @@ void DX7_next(DX7 *unit,int inNumSamples)
     int vel = (int)(IN0(6)); /* INPUT 6 = NOTE VELOCITY */
     unit->m_ctl.values_[kControllerPitch] = (int)(IN0(7)); /* INPUT 7 = PITCH-WHEEL (14-BIT) */
     unit->m_ctl.modwheel_cc = (int)(IN0(8)); /* INPUT 8 = MOD-WHEEL */
-    unit->m_ctl.breath_cc = (int)(IN0(9));  /* INPUT 9 = BREATH-CTL */
+    unit->m_ctl.breath_cc = (int)(IN0(9)); /* INPUT 9 = BREATH-CTL */
     unit->m_ctl.foot_cc = (int)(IN0(10)); /* INPUT 10 = FOOT-CTL */
     unit->m_ctl.refresh();
     /* DATA TR - LOAD VOICE DATA AND UPDATE */
     if (data_tr > 0.0 && unit->m_prev_data_tr <= 0.0) {
-        dx7_buf_read(unit,vc);
+        dx7_buf_read(unit, vc);
         if (!unit->m_offline) {
-            unit->m_dx7_note->update(unit->m_dx7_data, dx7_mnn_calc(unit,mnn), cents, vel);
+            unit->m_dx7_note->update(unit->m_dx7_data, dx7_mnn_calc(unit, mnn), cents, vel);
             unit->m_lfo.reset(unit->m_dx7_data + 137);
         }
     }
@@ -151,10 +154,10 @@ void DX7_next(DX7 *unit,int inNumSamples)
     bool is_reset = reset_tr > 0.0 && unit->m_prev_reset_tr <= 0.0;
     if (is_note_on || is_reset) {
         unit->m_offline = false;
-        dx7_buf_read(unit,vc);
+        dx7_buf_read(unit, vc);
         unit->m_lfo.keydown(); /* ? */
-        unit->m_dx7_note->init(unit->m_dx7_data, dx7_mnn_calc(unit,mnn), cents, vel);
-        if(!is_note_on) {
+        unit->m_dx7_note->init(unit->m_dx7_data, dx7_mnn_calc(unit, mnn), cents, vel);
+        if (!is_note_on) {
             unit->m_reset_cnt += 1;
         }
         if (unit->m_dx7_data[136]) {
@@ -162,28 +165,28 @@ void DX7_next(DX7 *unit,int inNumSamples)
         }
     }
     if (is_note_off) {
-        if(unit->m_reset_cnt == 0) {
+        if (unit->m_reset_cnt == 0) {
             unit->m_dx7_note->keyup();
-        } else if(unit->m_reset_cnt > 0) {
+        } else if (unit->m_reset_cnt > 0) {
             unit->m_reset_cnt -= 1;
-        } else if(!unit->m_offline){
-            fprintf(stderr,"DX7: unexpected note-off?\n");
+        } else if (!unit->m_offline) {
+            fprintf(stderr, "DX7: unexpected note-off?\n");
         }
     }
     /* OFFLINE */
-    if(unit->m_offline) {
-        for (int i = 0; i < inNumSamples; i ++) {
+    if (unit->m_offline) {
+        for (int i = 0; i < inNumSamples; i++) {
             out[i] = 0.0;
         }
         return;
     }
     /* PROCESS */
     for (int i = 0; i < inNumSamples; i += N) {
-        dprintf("DX7: SUBFRAME: i=%d\n",i);
+        dprintf("DX7: SUBFRAME: i=%d\n", i);
         int32_t lfovalue = unit->m_lfo.getsample();
         int32_t lfodelay = unit->m_lfo.getdelay();
         AlignedBuf<int32_t, N> audiobuf;
-        buf_zero(audiobuf,N);
+        buf_zero(audiobuf, N);
         unit->m_dx7_note->compute(audiobuf.get(), lfovalue, lfodelay, &(unit->m_ctl));
         for (int j = 0; j < N; j++) {
             int32_t x = audiobuf.get()[j];

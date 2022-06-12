@@ -29,10 +29,10 @@ P = PV_Split.so \
     RLoopSet.so \
     RPVDecayTbl.so \
     RShufflerL.so \
-    RSmplrIndex.so \
     RTracePlay.so \
     RTraceRd.so \
     RandN.so \
+    SamplerIndex.so \
     ShufflerB.so \
     SvfBp.so \
     SvfHp.so \

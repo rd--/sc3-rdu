@@ -8,10 +8,11 @@ struct PinkingFilterPk3 : public Unit {
     float b0, b1, b2, b3, b4, b5, b6;
 };
 
-void PinkingFilterPk3_next(PinkingFilterPk3 * unit, int inNumSamples) {
+void PinkingFilterPk3_next(PinkingFilterPk3 *unit, int inNumSamples)
+{
     float *in = IN(0);
     float *out = OUT(0);
-    for(int i = 0; i < inNumSamples; i++) {
+    for (int i = 0; i < inNumSamples; i++) {
         float white = in[i];
         float pink;
         unit->b0 = (0.99886 * unit->b0) + (white * 0.0555179);
@@ -26,13 +27,15 @@ void PinkingFilterPk3_next(PinkingFilterPk3 * unit, int inNumSamples) {
     }
 }
 
-void PinkingFilterPk3_Ctor(PinkingFilterPk3 * unit) {
+void PinkingFilterPk3_Ctor(PinkingFilterPk3 *unit)
+{
     unit->b0 = unit->b1 = unit->b2 = unit->b3 = unit->b4 = unit->b5 = unit->b6 = 0.0;
     SETCALC(PinkingFilterPk3_next);
     PinkingFilterPk3_next(unit, 1);
 }
 
-PluginLoad(PinkingFilterPk3) {
+PluginLoad(PinkingFilterPk3)
+{
     ft = inTable;
     DefineSimpleUnit(PinkingFilterPk3);
 }
