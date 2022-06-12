@@ -1,10 +1,6 @@
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> // qsort
 
 #include <SC_PlugIn.h>
-
-#define TSort_debug false
 
 static InterfaceTable *ft;
 
@@ -17,8 +13,7 @@ int TSort_compare(const void *p1, const void *p2)
 {
     float f1 = *((float *)p1);
     float f2 = *((float *)p2);
-    if(TSort_debug) fprintf(stderr, "TSort_compare: %f, %f\n", f1, f2);
-    return (f1 > f2 ? 1 : (f1 < f2 ? -1  :0));
+    return f1 > f2 ? 1 : (f1 < f2 ? -1  :0);
 }
 
 void TSort_step(TSort* unit)
@@ -27,14 +22,8 @@ void TSort_step(TSort* unit)
   int k = unit->mNumInputs - 1;
   for (int i = 0; i < k; i++) {
     d[i] = IN0(i+1);
-    if(TSort_debug) fprintf(stderr, "TSort_step: pre: %d -> %f\n", i, d[i]);
   }
   qsort(d, k, sizeof(float), TSort_compare);
-  if(TSort_debug) {
-      for (int i = 0; i < k; i++) {
-          fprintf(stderr, "TSort_step: post: %d -> %f\n", i, d[i]);
-      }
-  }
 }
 
 void TSort_next(TSort *unit,int inNumSamples)
