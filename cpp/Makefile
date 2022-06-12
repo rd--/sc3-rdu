@@ -40,7 +40,8 @@ P = PV_Split.so \
     TExpRandN.so \
     TLinRandN.so \
     TRandN.so \
-    TScramble.so
+    TScramble.so \
+    TSort.so
 
 L = r-common/c/lib-r-common.a
 

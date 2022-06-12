@@ -15,7 +15,7 @@ var voiceFunc = {
     var dx7 = DX7.ar(bufnum: buf, on: e.w, off: 0, data: 0, vc: 0, mnn: e.p * 127, vel: e.z, pw: (0x2000 * (e.x - x0)), mw: 0, bc: 0, fc: 0);
     Pan2.ar(in: dx7, pos: (e.o * 2 - 1), level: e.z)
 };
-Mix.ar(array: Voicer.ar(numVoices: 16, voiceFunc: voiceFunc))
+Voicer.ar(numVoices: 16, voiceFunc: voiceFunc).sum
 
 //---- ui
 CcEventUi(frameRate: 25, areaWidth: 230, areaHeight: 130, areaScaling: 2.5, gridFileName: nil, deriveXFromP: false).makeWindow;
