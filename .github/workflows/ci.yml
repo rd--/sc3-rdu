@@ -20,7 +20,7 @@ jobs:
       shell: powershell
       run: Install-Module 7Zip4PowerShell -Force -Verbose
 
-    - name: Get SC source code
+    - name: Clone SuperCollider
       run: git clone https://github.com/supercollider/supercollider.git ${{github.workspace}}/supercollider
 
     - name: Create Build Environment
@@ -61,17 +61,6 @@ jobs:
       shell: pwsh
       working-directory: ${{github.workspace}}\build
       run: Compress-7Zip "install\sc3-rdu" -ArchiveFileName "sc3-rdu-${{runner.os}}.zip" -Format Zip
-
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.run_id }}
-        release_name: sc3-rdu-${{ github.run_id }}
-        draft: false
-        prerelease: false
 
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
