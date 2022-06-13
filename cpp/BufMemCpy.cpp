@@ -27,6 +27,8 @@ void BufMemCpy(World *world, struct SndBuf *buf, struct sc_msg_iter *msg)
             memcpy(&nextValue, nextAddress, 4);
             ntoh32_to_buf(nextAddress, nextValue);
         }
+    } else {
+        Print("BufMemCpy.memcpy: illegal input data for buffer, data size and buffer size must be equal");
     }
 }
 

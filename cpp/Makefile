@@ -12,6 +12,7 @@ I = -I$(S)/plugin_interface \
 P = PV_Split.so \
     Bezier.so \
     BufMemCpy.so \
+    BufSort.so \
     DX7.so \
     DustRange.so \
     ExpRandN.so \

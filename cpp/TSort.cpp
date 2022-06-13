@@ -2,19 +2,14 @@
 
 #include <SC_PlugIn.h>
 
+#include "r-common/c/compare.h"
+
 static InterfaceTable *ft;
 
 struct TSort : public Unit {
     float *m_store;
     float m_prev_t;
 };
-
-int TSort_compare(const void *p1, const void *p2)
-{
-    float f1 = *((float *)p1);
-    float f2 = *((float *)p2);
-    return f1 > f2 ? 1 : (f1 < f2 ? -1 : 0);
-}
 
 void TSort_step(TSort *unit)
 {
@@ -23,7 +18,7 @@ void TSort_step(TSort *unit)
     for (int i = 0; i < k; i++) {
         d[i] = IN0(i + 1);
     }
-    qsort(d, k, sizeof(float), TSort_compare);
+    qsort(d, k, sizeof(float), compare_float);
 }
 
 void TSort_next(TSort *unit, int inNumSamples)
