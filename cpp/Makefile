@@ -39,6 +39,7 @@ P = PV_Split.so \
     SvfHp.so \
     SvfLp.so \
     TExpRandN.so \
+    TLinRand.so \
     TLinRandN.so \
     TRandN.so \
     TScramble.so \
