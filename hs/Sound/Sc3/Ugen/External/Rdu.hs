@@ -1,13 +1,13 @@
--- | RDU UGen definitions.
-module Sound.SC3.UGen.External.RDU where
+-- | Rdu Ugen definitions.
+module Sound.Sc3.Ugen.External.Rdu where
 
 import Text.Printf {- base -}
 
-import Sound.SC3 {- hsc3 -}
+import Sound.Sc3 {- hsc3 -}
 
-import qualified Sound.SC3.UGen.DB.Bindings.Haskell as Haskell {- hsc3-db -}
-import qualified Sound.SC3.UGen.DB.Bindings.Scheme as Scheme {- hsc3-db -}
-import Sound.SC3.UGen.DB.Record {- hsc3-db -}
+import qualified Sound.Sc3.Ugen.Db.Bindings.Haskell as Haskell {- hsc3-db -}
+import qualified Sound.Sc3.Ugen.Db.Bindings.Scheme as Scheme {- hsc3-db -}
+import Sound.Sc3.Ugen.Db.Record {- hsc3-db -}
 
 -- | In cases where inputs have clear meta-data this should be stored at hsc3-db, but it isn't.
 std_I_meta :: String -> Double -> Control_Meta_T5 Double -> I
@@ -325,7 +325,7 @@ rsvflp_dsc =
     let i = [I "in" 0,I "freq" 440.0,I "q" 0.0]
     in u_flt 0 (osc_U "RSVFLP" [kr,ar] ar i 1 "Digital State-Variable Filter (Low-pass)" False)
 
--- * DB
+-- * Db
 
 rdu_db :: [U]
 rdu_db =

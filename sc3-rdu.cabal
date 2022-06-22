@@ -22,7 +22,7 @@ Library
                    hsc3-db == 0.20.*
   default-language:Haskell2010
   GHC-Options:     -Wall -fwarn-tabs
-  Exposed-modules: Sound.SC3.UGen.External.RDU
+  Exposed-modules: Sound.Sc3.Ugen.External.Rdu
 
 Source-Repository  head
   Type:            git
