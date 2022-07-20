@@ -8,7 +8,7 @@ PingPongDelay {
         var leftDelayedSignal = BufRd(1, leftBuffer, Wrap(phase - (delayTime * SampleRate.ir), 0, delaySize), 1, 2); // tap the left delay line
         var rightDelayedSignal = BufRd(1, rightBuffer, Wrap(phase - (delayTime * SampleRate.ir), 0, delaySize), 1, 2); // tap the left delay line
         var output = [leftDelayedSignal + left, rightDelayedSignal + right]; // mix the delayed signal with the input
-        var writer = DelayWrite([rightBuffer, leftBuffer], output * 0.8); // feedback to buffers in reverse order
+        var writer = DelayWrite([rightBuffer, leftBuffer], output * feedback); // feedback to buffers in reverse order
         ^output.mrg(writer)  // output the mixed signal and force the DelayWr into the call graph
 	}
 	*new {

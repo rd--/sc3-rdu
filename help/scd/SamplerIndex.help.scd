@@ -17,4 +17,3 @@ var voiceFunc = {
     sig * e.z * LagUD.kr(e.w, 0, 4)
 };
 Voicer.ar(numVoices: 16, voiceFunc: voiceFunc).sum
-

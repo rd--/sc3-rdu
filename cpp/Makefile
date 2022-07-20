@@ -19,6 +19,7 @@ P = PV_Split.so \
     Freezer.so \
     IRandN.so \
     LinRandN.so \
+    MVerb.so \
     ObxdFilter.so \
     PinkingFilterPk3.so \
     RDL.so \

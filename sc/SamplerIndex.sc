@@ -1,4 +1,4 @@
-RSmplrIndex : PureMultiOutUGen {
+SamplerIndex : PureMultiOutUGen {
     *kr {
         arg buf = 0.0, size = 0.0, mnn = 60.0;
         ^this.multiNew('control',buf,size,mnn);

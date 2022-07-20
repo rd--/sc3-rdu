@@ -27,6 +27,7 @@ sc_add_server_plugin("sc3-rdu" "Freezer" "cpp/Freezer.cpp" "sc/Freezer.sc" "help
 sc_add_server_plugin("sc3-rdu" "IRandN" "cpp/IRandN.cpp" "sc/IRandN.sc" "help/scd/IRandN.help.scd")
 sc_add_server_plugin("sc3-rdu" "LinRandN" "cpp/LinRandN.cpp" "sc/LinRandN.sc" "help/scd/LinRandN.help.scd")
 sc_add_server_plugin("sc3-rdu" "ObxdFilter" "cpp/ObxdFilter.cpp" "sc/ObxdFilter.sc" "help/scd/ObxdFilter.help.scd")
+sc_add_server_plugin("sc3-rdu" "MVerb" "cpp/MVerb.cpp" "sc/MVerb.sc" "help/scd/MVerb.help.scd")
 sc_add_server_plugin("sc3-rdu" "PinkingFilterPk3" "cpp/PinkingFilterPk3.cpp" "sc/PinkingFilterPk3.sc" "help/scd/PinkingFilterPk3.help.scd")
 sc_add_server_plugin("sc3-rdu" "PV_Split" "cpp/PV_Split.cpp" "sc/PV_Split.sc" "help/scd/PV_Split.help.scd")
 sc_add_server_plugin("sc3-rdu" "RandN" "cpp/RandN.cpp" "sc/RandN.sc" "help/scd/RandN.help.scd")

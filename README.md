@@ -11,6 +11,7 @@ sc3-rdu
 - Freezer - variant of GRM Freeze processor
 - IRandN - n-channel variant of IRand
 - LinRandN - n-channel variant of LinRand
+- MVerb - Dattorro’s figure-of-eight reverb structure by Martin Eastwood
 - ObxdFilter - Filatov Vadim filter from Obxd
 - PinkingFilterPk3 - Paul Kellet's refined method
 - PV\_Split - copy PV buffer, graph coherent variant of PV_Copy
@@ -64,5 +65,11 @@ tested-with:
 
 - [gcc](http://gcc.gnu.org/) 11.2.0
 - [clang](https://clang.llvm.org/) 13.0.1
+
+references:
+
+- msfa: <https://github.com/google/music-synthesizer-for-android>
+- dexed: <https://github.com/asb2m10/dexed>
+- mverb: <https://github.com/martineastwood/mverb>
 
 © [rohan drape](http://rohandrape.net/), 1998-2022, [gpl](http://gnu.org/copyleft/)
