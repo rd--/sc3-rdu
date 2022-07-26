@@ -11,7 +11,7 @@ mk-ugen:
 	(cd cpp; make all install)
 
 mk-ugen-cmake:
-	(mkdir -p build ; cd build ; cmake -DSC_PATH=$(HOME)/opt/src/SuperCollider3/supercollider/supercollider .. ; make)
+	(mkdir -p build ; cd build ; cmake -DSC_PATH=$(HOME)/opt/src/supercollider/supercollider .. ; make)
 
 clean:
 	rm -fR dist dist-newstyle *~

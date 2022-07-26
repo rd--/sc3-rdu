@@ -6,7 +6,7 @@ CXXFLAGS = -std=c++11
 
 D = $(prefix)
 T = $(D)/lib/SuperCollider/plugins
-S = $(D)/src/SuperCollider3/supercollider/supercollider/include
+S = $(D)/src/supercollider/supercollider/include
 I = -I$(S)/plugin_interface \
     -I$(S)/common
 P = Bezier.so \
