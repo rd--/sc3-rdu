@@ -27,9 +27,9 @@ sc3-rdu
 - SamplerIndex - ?
 - ShufflerB - variant of Grm Shuffling processor
 - ShufflerL - ?
-- SvfBp - band-pass state variable filter
-- SvfHp - high-pass state variable filter
-- SvfLp - low-pass state variable filter
+- SvfBp - Fons Adriaensen's band-pass state variable filter
+- SvfHp - Fons Adriaensen's high-pass state variable filter
+- SvfLp - Fons Adriaensen's low-pass state variable filter
 - TExpRandN - n-channel variant of TExpRand
 - TLinRandN - n-channel variant of TLinRand
 - TRandN - n-channel variant of TRand
@@ -70,6 +70,9 @@ references:
 
 - msfa: <https://github.com/google/music-synthesizer-for-android>
 - dexed: <https://github.com/asb2m10/dexed>
+- obxd: <https://github.com/2DaT/Obxd>
+- svf: <https://kokkinizita.linuxaudio.org/papers/digsvfilt.pdf>
+- pk: <https://www.firstpr.com.au/dsp/pink-noise/>
 - mverb: <https://github.com/martineastwood/mverb>
 
 © [rohan drape](http://rohandrape.net/), 1998-2022, [gpl](http://gnu.org/copyleft/)
