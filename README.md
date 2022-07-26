@@ -5,30 +5,28 @@ sc3-rdu
 
 - Bezier - Bézier curve oscillator
 - BufMemCpy - ?
+- Dl - load dsp code from dynamic library (.so)
+- DelayMap - ?
+- DelaySet - ?
+- DelaySetBuf - ?
 - DustRange - Dust variant with inter-offset times generated randomly within range
-- DX7 - Raph Levien and Pascal Gauthier DX7 emulation
+- Dx7 - Raph Levien and Pascal Gauthier Dx7 emulation
+- Dx7Env - ?
 - ExpRandN - n-channel variant of ExpRand
-- Freezer - variant of GRM Freeze processor
+- Freezer - variant of Grm Freeze processor
 - IRandN - n-channel variant of IRand
+- LagC - ?
 - LinRandN - n-channel variant of LinRand
+- LoopSet - ?
 - MVerb - Dattorro’s figure-of-eight reverb structure by Martin Eastwood
 - ObxdFilter - Filatov Vadim filter from Obxd
-- PinkingFilterPk3 - Paul Kellet's refined method
 - PV\_Split - copy PV buffer, graph coherent variant of PV_Copy
+- PV\_DecayTable - ?
+- PinkingFilterPk3 - Paul Kellet's refined method
 - RandN - n-channel variant of Rand
-- RDL - load DSP code from dynamic library
-- RDelaySet - ?
-- RDelaySetB - ?
-- RDelayMap - ?
-- RDX7Env - ?
-- RLagC - ?
-- RLoopSet - ?
-- RPVDecayTbl - ?
-- RShufflerL - ?
-- RTracePlay - ?
-- RTraceRd - ?
 - SamplerIndex - ?
-- ShufflerB - variant of GRM Shuffling processor
+- ShufflerB - variant of Grm Shuffling processor
+- ShufflerL - ?
 - SvfBp - band-pass state variable filter
 - SvfHp - high-pass state variable filter
 - SvfLp - low-pass state variable filter
@@ -37,15 +35,17 @@ sc3-rdu
 - TRandN - n-channel variant of TRand
 - TScramble - signal router, scramble mapping on trigger
 - TSort - signal router, sort mapping on trigger
+- TracePlay - ?
+- TraceRead - ?
 
 Pseudo unit generators:
 
 - Adsr - Attack-decay-sustain-release envelope (Env, EnvGen)
 - Asr - Attack-sustain-release envelope (Env, EnvGen)
 - Cc - Continous controller input (In)
+- CcEvent - ?
 - Cutoff - Sustain time and release time envelope (Env, EnvGen)
 - LinSeg - Line segment envelope (Env, EnvGen)
-- REvent - ?
 - RingzBank - Bank of Ringz filters (Klank, Ref)
 - Select2 - Predicate to select one of two signals (*, -, +)
 - SinOscBank - Bank of FSinOsc oscillators (Klang, Ref)

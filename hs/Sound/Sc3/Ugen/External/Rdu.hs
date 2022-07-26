@@ -40,7 +40,7 @@ u_ar u = u {ugen_fixed_rate = Just ar}
 u_flt :: Int -> U -> U
 u_flt k u = u {ugen_filter = Just [k]}
 
--- * DSC
+-- * Dsc
 
 dustRange_dsc :: U
 dustRange_dsc =
@@ -94,31 +94,31 @@ bezier_dsc =
       dsc = "Bezier curve oscillator."
   in u_std_mce 1 (osc_U "Bezier" [kr,ar] ar i 1 dsc False)
 
-rDelayMap_dsc :: U
-rDelayMap_dsc =
+delayMap_dsc :: U
+delayMap_dsc =
     let i = [I "bufnum" 0
             ,I "input" 0
             ,I "dynamic" 0
             ,I "mapArray" 0]
-    in u_flt 1 (u_std_mce 1 (osc_U "RDelayMap" [ar] ar i 1 "Network of delay line maps" False))
+    in u_flt 1 (u_std_mce 1 (osc_U "DelayMap" [ar] ar i 1 "Network of delay line maps" False))
 
-rDelaySet_dsc :: U
-rDelaySet_dsc =
+delaySet_dsc :: U
+delaySet_dsc =
     let i = [I "input" 0
             ,I "setArray" 0]
-    in u_flt 0 (u_std_mce 1 (osc_U "RDelaySet" [ar] ar i 1 "Delay set (RTAlloc)" False))
+    in u_flt 0 (u_std_mce 1 (osc_U "DelaySet" [ar] ar i 1 "Delay set (RTAlloc)" False))
 
-rDelaySetB_dsc :: U
-rDelaySetB_dsc =
+delaySetBuf_dsc :: U
+delaySetBuf_dsc =
     let i = [I "buffer" 0
             ,I "input" 0
             ,I "setArray" 0]
-    in u_flt 1 (u_std_mce 1 (osc_U "RDelaySetB" [ar] ar i 1 "Delay set (Buffer)" False))
+    in u_flt 1 (u_std_mce 1 (osc_U "DelaySetBuf" [ar] ar i 1 "Delay set (Buffer)" False))
 
-rdl_dsc :: U
-rdl_dsc =
+dl_dsc :: U
+dl_dsc =
     let i = [I "inputs" 0]
-    in u_ar (u_std_mce 1 (u_nc_input (osc_U "RDL" [ar] ar i 1 "Dynamic library host" False)))
+    in u_ar (u_std_mce 1 (u_nc_input (osc_U "Dl" [ar] ar i 1 "Dynamic library host" False)))
 
 dx7_dsc :: U
 dx7_dsc =
@@ -152,8 +152,8 @@ dx7Env_dsc =
   ,ugen_summary = "DX7Env"
   ,ugen_outputs = Just 1}
 
-rFreezer_dsc :: U
-rFreezer_dsc =
+freezer_dsc :: U
+freezer_dsc =
     let i = [I "bufnum" 0
             ,I "left" 0
             ,I "right" 1
@@ -165,16 +165,16 @@ rFreezer_dsc =
             ,I "syncPhaseTrigger" 0
             ,I "randomizePhaseTrigger" 0
             ,I "numberOfLoops" 6]
-    in u_ar (osc_U "RFreezer" [ar] ar i 1 "Concurrent loops at signal buffer" False)
+    in u_ar (osc_U "Freezer" [ar] ar i 1 "Concurrent loops at signal buffer" False)
 
-rLagC_dsc :: U
-rLagC_dsc =
+lagC_dsc :: U
+lagC_dsc =
   let i = [I "in" 0
           ,I "timeUp" 0.1
           ,I "curveUp" 0
           ,I "timeDown" 0.1
           ,I "curveDown" 0]
-  in default_u {ugen_name = "RLagC"
+  in default_u {ugen_name = "LagC"
                ,ugen_operating_rates = [kr]
                ,ugen_inputs = i
                ,ugen_summary = "LagUD variant with curve inputs."
@@ -182,22 +182,22 @@ rLagC_dsc =
                ,ugen_outputs = Just 1
                }
 
-rObxdFilter_dsc :: U
-rObxdFilter_dsc =
+obxdFilter_dsc :: U
+obxdFilter_dsc =
     let i = [I "in" 0
             ,I "cutoff" 440.0
             ,I "resonance" 0.0
             ,I "multimode" 0.5
             ,I "bandpass" 0.0
             ,I "fourpole" 0.0]
-    in u_flt 0 (osc_U "RObxdFilter" [ar] ar i 1 "Obxd 12/24-dB multi-mode filter" False)
+    in u_flt 0 (osc_U "ObxdFilter" [ar] ar i 1 "Obxd 12/24-dB multi-mode filter" False)
 
-rpvDecayTbl_dsc :: U
-rpvDecayTbl_dsc =
+pv_DecayTable_dsc :: U
+pv_DecayTable_dsc =
     let i = [I "fft_buf" 0
             ,I "decay_rate_buf" 0
             ,I "history_buf" 0]
-    in osc_U "RPVDecayTbl" [kr] kr i 1 "Decay bin magnitudes according to multipliers in table." False
+    in osc_U "PV_DecayTable" [kr] kr i 1 "Decay bin magnitudes according to multipliers in table." False
 
 -- | (k,name,default-value,meta-data)
 type Ctl_Param = (Int,String,Double,Control_Meta_T5 Double)
@@ -214,9 +214,9 @@ param_rctl_node_pp nid (k,nm,def,meta) =
 
 -- | Parameters, I with meta.
 --
--- > putStrLn $ unlines $ map param_rctl_bus_pp rShufflerB_param
-rShufflerB_param :: [Ctl_Param]
-rShufflerB_param =
+-- > putStrLn $ unlines $ map param_rctl_bus_pp shufflerB_param
+shufflerB_param :: [Ctl_Param]
+shufflerB_param =
   let t4 a b c d = (a,b,c,d)
   in [t4 0 "bufnum" 0 (0,100,"linear",1,"")
      ,t4 1 "readLocationMinima" 0 (0,1,"linear",0.01,"")
@@ -239,33 +239,33 @@ rShufflerB_param =
      ,t4 18 "readIncrementQuanta" 0 (0,0.5,"linear",0.01,"s")
      ,t4 19 "interOffsetTimeQuanta" 0 (0,0.01,"linear",0.0001,"s")]
 
-rShufflerB_dsc :: U
-rShufflerB_dsc =
- let i = map (\(_k,nm,def,_rng) -> I nm def) rShufflerB_param
- in osc_U "RShufflerB" [ar] ar i 2 "Signal shuffler (Buffer)" False
+shufflerB_dsc :: U
+shufflerB_dsc =
+ let i = map (\(_k,nm,def,_rng) -> I nm def) shufflerB_param
+ in osc_U "ShufflerB" [ar] ar i 2 "Signal shuffler (Buffer)" False
 
-rShufflerL_dsc :: U
-rShufflerL_dsc =
+shufflerL_dsc :: U
+shufflerL_dsc =
     let i = [I "in" 0
             ,I "fragmentSize" 0.005
             ,I "maxDelay" 0.005]
-    in u_flt 0 (osc_U "RShufflerL" [ar] ar i 1 "Signal shuffler (Linear)" False)
+    in u_flt 0 (osc_U "ShufflerL" [ar] ar i 1 "Signal shuffler (Linear)" False)
 
-rTraceRd_dsc :: U
-rTraceRd_dsc =
+traceRead_dsc :: U
+traceRead_dsc =
     let i = [I "bufnum" 0
             ,I "degree" 4
             ,I "index" 0
             ,I "access" 1]
-    in osc_U "RTraceRd" [kr,ar] ar i 1 "Read trace buffer" False
+    in osc_U "TraceRead" [kr,ar] ar i 1 "Read trace buffer" False
 
-rPlayTrace_dsc :: U
-rPlayTrace_dsc =
+tracePlay_dsc :: U
+tracePlay_dsc =
     let i = [I "bufnum" 0
             ,I "degree" 4
             ,I "rate" 0
             ,I "access" 1]
-    in osc_U "RPlayTrace" [kr,ar] ar i 1 "Play trace buffer" False
+    in osc_U "TracePlay" [kr,ar] ar i 1 "Play trace buffer" False
 
 tScramble_dsc :: U
 tScramble_dsc =
@@ -301,29 +301,29 @@ tExpRandN_dsc =
               ,ugen_nondet = True
               }
 
-rSmplrIndex_dsc :: U
-rSmplrIndex_dsc =
-    default_u {ugen_name = "RSmplrIndex"
+samplerIndex_dsc :: U
+samplerIndex_dsc =
+    default_u {ugen_name = "SamplerIndex"
               ,ugen_operating_rates = [kr]
               ,ugen_inputs = [I "buf" 0,I "size" 0,I "mnn" 60]
-              ,ugen_summary = "Find buffer index and rate multiplier given table of MNN."
+              ,ugen_summary = "Find buffer index and rate multiplier given table of mnn."
               ,ugen_outputs = Just 2
               }
 
-rsvfbp_dsc :: U
-rsvfbp_dsc =
+svfBp_dsc :: U
+svfBp_dsc =
     let i = [I "in" 0,I "freq" 440.0,I "q" 0.0]
-    in u_flt 0 (osc_U "RSVFBP" [kr,ar] ar i 1 "Digital State-Variable Filter (Band-pass)" False)
+    in u_flt 0 (osc_U "SvfBp" [kr,ar] ar i 1 "Digital State-Variable Filter (Band-pass)" False)
 
-rsvfhp_dsc :: U
-rsvfhp_dsc =
+svfHp_dsc :: U
+svfHp_dsc =
     let i = [I "in" 0,I "freq" 440.0,I "q" 0.0]
-    in u_flt 0 (osc_U "RSVFHP" [kr,ar] ar i 1 "Digital State-Variable Filter (High-pass)" False)
+    in u_flt 0 (osc_U "SvfHp" [kr,ar] ar i 1 "Digital State-Variable Filter (High-pass)" False)
 
-rsvflp_dsc :: U
-rsvflp_dsc =
+svfLp_dsc :: U
+svfLp_dsc =
     let i = [I "in" 0,I "freq" 440.0,I "q" 0.0]
-    in u_flt 0 (osc_U "RSVFLP" [kr,ar] ar i 1 "Digital State-Variable Filter (Low-pass)" False)
+    in u_flt 0 (osc_U "SvflP" [kr,ar] ar i 1 "Digital State-Variable Filter (Low-pass)" False)
 
 -- * Db
 
@@ -331,32 +331,32 @@ rdu_db :: [U]
 rdu_db =
     [pv_Split_dsc
     ,bezier_dsc
+    ,delayMap_dsc
+    ,delaySetBuf_dsc
+    ,delaySet_dsc
+    ,dl_dsc
+    ,dustRange_dsc
     ,dx7Env_dsc
     ,dx7_dsc
-    ,rDelayMap_dsc
-    ,rDelaySetB_dsc
-    ,rDelaySet_dsc
-    ,dustRange_dsc
     ,expRandN_dsc
-    ,rFreezer_dsc
-    ,rLagC_dsc
-    ,linRandN_dsc
-    ,rObxdFilter_dsc
-    ,rPlayTrace_dsc
-    ,randN_dsc
-    ,rShufflerB_dsc
-    ,rShufflerL_dsc
-    ,rSmplrIndex_dsc
-    ,rsvfbp_dsc
-    ,rsvfhp_dsc
-    ,rsvflp_dsc
-    ,rTraceRd_dsc
-    ,rdl_dsc
+    ,freezer_dsc
     ,iRandN_dsc
-    ,rpvDecayTbl_dsc
+    ,lagC_dsc
+    ,linRandN_dsc
+    ,obxdFilter_dsc
+    ,pv_DecayTable_dsc
+    ,randN_dsc
+    ,svfBp_dsc
+    ,svfHp_dsc
+    ,svfLp_dsc
+    ,samplerIndex_dsc
+    ,shufflerB_dsc
+    ,shufflerL_dsc
     ,tExpRandN_dsc
     ,tRandN_dsc
     ,tScramble_dsc
+    ,tracePlay_dsc
+    ,traceRead_dsc
     ]
 
 gen_hs_bindings :: IO ()

@@ -6,36 +6,34 @@ CXXFLAGS = -std=c++11
 
 D = $(prefix)
 T = $(D)/lib/SuperCollider/plugins
-S = /usr/include/SuperCollider
+S = $(D)/src/SuperCollider3/supercollider/supercollider/include
 I = -I$(S)/plugin_interface \
     -I$(S)/common
-P = PV_Split.so \
-    Bezier.so \
+P = Bezier.so \
     BufMemCpy.so \
     BufSort.so \
-    DX7.so \
+    DelayMap.so \
+    DelaySet.so \
+    DelaySetBuf.so \
+    Dl.so \
     DustRange.so \
+    Dx7.so \
+    Dx7Env.so \
     ExpRandN.so \
     Freezer.so \
     IRandN.so \
+    LagC.so \
     LinRandN.so \
+    LoopSet.so \
     MVerb.so \
     ObxdFilter.so \
+    PV_Split.so \
+    PV_DecayTable.so \
     PinkingFilterPk3.so \
-    RDL.so \
-    RDX7Env.so \
-    RDelayMap.so \
-    RDelaySet.so \
-    RDelaySetBuf.so \
-    RLagC.so \
-    RLoopSet.so \
-    RPVDecayTbl.so \
-    RShufflerL.so \
-    RTracePlay.so \
-    RTraceRd.so \
     RandN.so \
     SamplerIndex.so \
     ShufflerB.so \
+    ShufflerL.so \
     SvfBp.so \
     SvfHp.so \
     SvfLp.so \
@@ -44,7 +42,9 @@ P = PV_Split.so \
     TLinRandN.so \
     TRandN.so \
     TScramble.so \
-    TSort.so
+    TSort.so \
+    TracePlay.so \
+    TraceRead.so
 
 L = r-common/c/lib-r-common.a
 
