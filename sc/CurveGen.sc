@@ -1,14 +1,23 @@
 CurveGen {
-    *new {
-        arg gate, levels, times, curves;
-        ^EnvGen.ar(Env(levels, times, curves, nil, nil, 0), gate, 1, 0, 1, 0);
-    }
-    *ar {
-        arg gate, levels, times, curves;
-        ^this.new(gate, levels, times, curves)
-    }
-    *kr {
-        arg gate, levels, times, curves;
-        ^EnvGen.kr(Env(levels, times, curves, nil, nil, 0), gate, 1, 0, 1, 0);
-    }
+
+	*envFor {
+		arg levels, times, curves;
+		^Env([levels[0]] ++ levels, [0] ++ times, [0] ++ curves.extendCyclically(times.size), nil, nil, 0)
+	}
+
+	*new {
+		arg gate, levels, times, curves;
+		^this.ar(gate, levels, times, curves)
+	}
+
+	*ar {
+		arg gate, levels, times, curves;
+		^EnvGen.ar(this.envFor(levels, times, curves), gate, 1, 0, 1, 0)
+	}
+
+	*kr {
+		arg gate, levels, times, curves;
+		^EnvGen.kr(this.envFor(levels, times, curves), gate, 1, 0, 1, 0)
+	}
+
 }
