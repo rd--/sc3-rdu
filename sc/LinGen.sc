@@ -1,9 +1,4 @@
-LinGen {
-
-	*new {
-		arg gate, levels, times;
-		^CurveGen(gate, levels, times, ['lin'])
-	}
+LinGen : PseudoUgen {
 
 	*ar {
 		arg gate, levels, times;
@@ -13,6 +8,11 @@ LinGen {
 	*kr {
 		arg gate, levels, times;
 		^CurveGen.kr(gate, levels, times, ['lin'])
+	}
+
+	*new {
+		arg gate, levels, times;
+		^LinGen.ar(gate, levels, times)
 	}
 
 }

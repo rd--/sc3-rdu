@@ -1,4 +1,4 @@
-TXLineTo {
+TXLineTo : PseudoUgen {
 
 	*kr {
 		arg endFunc = nil, dur = 10, trig = 0;

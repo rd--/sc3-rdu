@@ -1,4 +1,4 @@
-Asr {
+Asr : PseudoUgen {
 
 	*ar {
 		arg gate = 1, attackTime = 0.01, releaseTime = 1, curves = -4;

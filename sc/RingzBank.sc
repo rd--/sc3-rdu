@@ -1,4 +1,4 @@
-RingzBank {
+RingzBank : PseudoUgen {
 
 	*ar {
 		arg input, freq, amp, time;

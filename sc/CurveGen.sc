@@ -1,4 +1,4 @@
-CurveGen {
+CurveGen : PseudoUgen {
 
 	*envFor {
 		arg levels, times, curves;

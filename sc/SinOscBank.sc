@@ -1,4 +1,4 @@
-SinOscBank {
+SinOscBank : PseudoUgen {
 
 	*ar {
 		arg freq, amp, phase;

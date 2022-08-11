@@ -1,4 +1,4 @@
-Adsr {
+Adsr : PseudoUgen {
 
 	*ar {
 		arg gate = 1, attackTime = 0.01, decayTime = 0.3, sustainLevel = 0.5, releaseTime = 1, curves = -4;

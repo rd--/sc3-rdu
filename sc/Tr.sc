@@ -1,4 +1,4 @@
-Tr {
+Tr : PseudoUgen {
 
 	*kr {
 		arg tr;

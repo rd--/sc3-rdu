@@ -1,4 +1,4 @@
-Select2 {
+Select2 : PseudoUgen {
 
 	*new {
 		arg predicate, ifTrue, ifFalse;

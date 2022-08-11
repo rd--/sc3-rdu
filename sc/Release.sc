@@ -1,5 +1,5 @@
 // c.f. Cutoff
-Release {
+Release : PseudoUgen {
 
 	*ar {
 		arg in, attackTime = 0.02, dur = 5, releaseTime = 0.02;
