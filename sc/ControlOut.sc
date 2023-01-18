@@ -7,7 +7,7 @@ ControlOut : PseudoUgen {
 
 	*new {
 		arg bus = 0, channelsArray;
-		^ControlOut.kr(bus, channelsArray)
+		^ControlOut.kr(bus, channelsArray.kr)
 	}
 
 }

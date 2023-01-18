@@ -1,4 +1,4 @@
-TXLine : PseudoUgen {
+TxLine : PseudoUgen {
 
 	*ar {
 		arg start = 0.0, end = 1.0, dur = 10, trig = 0;
@@ -14,7 +14,7 @@ TXLine : PseudoUgen {
 
 	*new {
 		arg start = 0.0, end = 1.0, dur = 10, trig = 0;
-		^TXLine.ar(start, end, dur, trig)
+		^TxLine.ar(start, end, dur, trig)
 	}
 
 	/*
