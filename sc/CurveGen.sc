@@ -2,7 +2,14 @@ CurveGen : PseudoUgen {
 
 	*envFor {
 		arg levels, times, curves;
-		^Env([levels[0]] ++ levels, [0] ++ times, [0] ++ curves.extendCyclically(times.size), nil, nil, 0)
+		^Env(
+			[levels.first] ++ levels,
+			[0] ++ times,
+			[0] ++ curves.extendCyclically(times.size),
+			nil,
+			nil,
+			0
+		)
 	}
 
 	*new {

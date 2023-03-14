@@ -10,7 +10,7 @@ Author:            Rohan Drape
 Maintainer:        rd@slavepianos.org
 Stability:         Experimental
 Homepage:          http://rohandrape.net/t/sc3-rdu
-Tested-With:       GHC == 9.4.3
+Tested-With:       GHC == 9.6.1
 Build-Type:        Simple
 
 Data-files:        README.md
