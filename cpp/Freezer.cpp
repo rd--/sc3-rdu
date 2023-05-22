@@ -193,7 +193,7 @@ void Freezer_next(Freezer *unit,int inNumSamples)
     for(int j = 0; j < unit->m_loop_n; j++) {
       Freezer_Loop_t *loop = unit->m_loop_data + j;
       /* Sum loop value into output and increment phase. */
-      out[i] += signal_interpolate(unit->m_buf_dl->data,
+      out[i] += signal_interpolate_circular(unit->m_buf_dl->data,
 				     unit->m_buf_dl->frames,
 				     loop->phase);
       loop->phase += loop->increment * GROUP_INCREMENT;

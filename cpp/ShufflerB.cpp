@@ -184,7 +184,7 @@ void ShufflerB_next(ShufflerB *unit,int inNumSamples)
 	continue;
       }
       wrap_index(unit->m_buf_dl->frames,&(g->read_location));
-      float s =  signal_interpolate(unit->m_buf_dl->data,unit->m_buf_dl->frames,g->read_location);
+      float s =  signal_interpolate_circular(unit->m_buf_dl->data,unit->m_buf_dl->frames,g->read_location);
       s *= segment_transfer_lookup_linear(g->e,8,(float)(g->scnt) /(float)(g->sdur));
       out_l[i] += s *(1.0 - g->stereo_location);
       out_r[i] += s * g->stereo_location;
