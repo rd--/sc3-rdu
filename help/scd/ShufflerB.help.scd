@@ -84,15 +84,15 @@ p = [
 
 // ndef
 Ndef(\z,d.func).set(\bufnum, 10).play;
-p.do({arg x; Ndef(\z).addSpec(x[0].asSymbol,x[1])});
+p.do { | x | Ndef(\z).addSpec(x[0].asSymbol,x[1]) };
 Ndef(\z).gui;
-ProxyPresetGui(NdefPreset(\z,p.drop(2).collect({arg x; x[0].asSymbol}))); // skip out & bus param
+ProxyPresetGui(NdefPreset(\z,p.drop(2).collect { | x | x[0].asSymbol})); // skip out & bus param
 Ndef(\z).clear;
 
 // sc3-ctl...
 RGUI.midiInit;
 c = RCtlSet(server: s, opt: (rows: 3, columns: 8));
-p.do({arg x, i; c[i].setup(x[0],x[1],x[2],i)});
+p.do { | x i | c[i].setup(x[0],x[1],x[2],i) };
 
 // de-allocate buffer
 s.sendMsg("/b_free", 10);

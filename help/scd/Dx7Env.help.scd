@@ -1,4 +1,4 @@
-// Dx7Env
+// Dx7Env - mouse control
 var r1 = 35, r2 = 64, r3 = 55, r4 = 25;
 var l1 = 99, l2 = 65, l3 = 75, l4 = 0;
 var ol = 99;

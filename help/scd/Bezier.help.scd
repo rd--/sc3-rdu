@@ -14,8 +14,7 @@ var y = MouseY.kr(minval: 0.1, maxval: 0.2, warp: 'linear', lag: 0.2);
 Bezier.ar(freq: x, phase: 0, param: [0, 0, y, -1.3, 0.3, -1.3, 0.5, 0, 0.7, 1.3, 0.8, 1.3, 1, 0]) * 0.1
 
 // Bezier - dynamic shifting of control points, as oscillator
-var w = {
-	arg l, r;
+var w = { | l r |
 	LFDNoise3.ar(freq: 2).range(lo: l, hi: r)
 };
 var f = {
@@ -26,10 +25,8 @@ var f = {
 f.dup(4).sum
 
 // Bezier ; event control
-var voiceFunc = {
-    arg e;
-    var w = {
-        arg l, r;
+var voiceFunc = { | e |
+    var w = { | l r |
         LFDNoise3.ar(freq: e.rx * 5).range(lo: l, hi: r)
     };
     {

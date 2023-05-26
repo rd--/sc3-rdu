@@ -12,7 +12,7 @@ var f = {
 	var right = left + (1.0 - left).rand;
 	[left, right, (12/n).rand, 0.166 + 0.166.rand]
 };
-var a = Array.fill(n, f).flatten;
+var a = (f ! n).flatten;
 LoopSet.ar(buf, 0, 0.1, [1, 3/2], i, a)
 
 //---- ; load buffer
@@ -22,7 +22,7 @@ s.sendMsg("/b_allocRead", 10, f, 0, -1);
 //---- ; notes ; Concurrent loops at a signal buffer
 
 Create a set of concurrent loops at a signal buffer.  This is the
-static and composed variant of RFreezer.  There are five global
+static and composed variant of Freezer.  There are five global
 inputs, the buffer and then: left, right, gain and increment.  The
 first two are initialization rate, the second two control rate.
 Each loop is defined by a quadruple: left, right, gain and

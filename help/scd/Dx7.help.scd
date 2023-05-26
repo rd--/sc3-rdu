@@ -9,8 +9,7 @@ var voiceData = [
     [99, 99, 99, 99, 50, 50, 50, 50,  3,  2,  1, 29, 99, 1, 0, 0,  0,  1, 24]
 ];
 var buf = LocalBuf.newFrom(voiceData.flatten);
-var voiceFunc = {
-	arg e;
+var voiceFunc = { | e |
 	var x0 = Latch.kr(in: e.x, trig: e.w);
 	var dx7 = Dx7.ar(bufnum: buf, on: e.w, off: 0, data: 0, vc: 0, mnn: e.p * 127, vel: e.z, pw: (0x2000 * (e.x - x0)), mw: 0, bc: 0, fc: 0);
 	Pan2.ar(in: dx7, pos: (e.o * 2 - 1), level: e.z)
@@ -68,16 +67,14 @@ MIDIIn.connectAll
 var syn = "rdx7-vc-gt";
 var mem = Array.newClear(128);
 var scl = Scale.chromatic(Tuning.at(\mean4)).semitones; // [0, 0.755, 1.93, 3.105, 3.86, 5.035, 5.79, 6.965, 7.72, 8.895, 10.07, 10.82]
-var tun = 0.series(12,120).collect({ arg n; n + scl }).flatten;
-MIDIFunc.noteOn({
-	arg vel, mnn, ch, src;
+var tun = 0.series(12,120).collect { | n | n + scl }.flatten;
+MIDIFunc.noteOn({ | vel mnn ch src |
 	var nid = s.nodeAllocator.alloc;
 	mem.put(mnn,nid);
 	["note-on", mnn, vel, nid, tun.at(mnn) - mnn].postln;
 	s.sendMsg("/s_new", syn, nid, 0, 1, "mnn", tun.at(mnn), "vel", vel, "gate", 1)
 }, nil, 0);
-MIDIFunc.noteOff({
-	arg vel,  mnn,  ch,  src;
+MIDIFunc.noteOff({ | vel  mnn  ch  src |
 	var nid = mem.at(mnn);
 	["note-off", mnn, vel, nid].postln;
 	s.sendMsg("/n_set", nid, "gate", 0)
