@@ -1,5 +1,5 @@
-// DelaySetBuf - three one second delays
-var b = LocalBuf(numFrames: 5 * s.sampleRate, numChannels: 1).clear;
+// DelaySetBuf - three one second delays ; note fixed sample rate (the server may not be running when the graph is constructed)
+var b = LocalBuf(numFrames: 5 * 48000, numChannels: 1).clear;
 var x = MouseX.kr(minval: 110, maxval: 660, warp: 0, lag: 0.1);
 var y = MouseY.kr(minval: 0, maxval: 0.4, warp: 0, lag: 0.2);
 var i = SinOsc.ar(freq: x, phase: 0, mul: y);

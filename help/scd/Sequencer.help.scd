@@ -10,7 +10,7 @@ var x = RLPF.ar(
 var trig2 = ImpulseSequencer.kr(valueArray: [0.4, 0.0, 0.1, 0.1, 0.4, 0.1, 0.1, 0.1], trig: clock);
 var freq = (Sequencer.kr(valueArray: [33, 33, 35, 36, 45, 47, 38, 40, 33, 33, 35, 36, 47, 48, 50, 52], trig: clock) + root).midiCps;
 var z = VarSaw.ar(freq: freq * [1, 1.505], iphase: 0, width: MouseY.kr(0, 1, 0, 0.2)) * Decay2.kr(in: trig2, attackTime: 0.005, decayTime: 1.4);
-CombN.ar(in: x + z * 0.5, maxdelaytime: 0.26, delaytime: 0.26, decaytime: 4).softClip
+CombN.ar(in: x + z * 0.5, maxdelaytime: 0.26, delaytime: 0.26, decaytime: 4).softclip
 
 // Sequencer ; jmcc
 var p = Drand.dr([
@@ -47,7 +47,7 @@ var y = SinOsc.ar((root + 24).midiCps, 0) * Decay2.kr(trig4, 0.005, 0.2);
 var trig5 = ImpulseSequencer.kr([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1] * 0.3, clock);
 var w = SinOsc.ar((root + 24 + 7).midiCps, 0) * Decay2.kr(trig5, 0.005, 0.2);
 var snd = (r * 0.1 + x + z + [y, w]) * 0.4;
-(CombN.ar(snd, 0.51, 0.51, 4) * 0.4 + snd.reverse).softClip
+(CombN.ar(snd, 0.51, 0.51, 4) * 0.4 + snd.reverse).softclip
 
 // Sequencer ; jmcc
 var z = 0, a = 0.1, b = 0.2, c = 0.4;

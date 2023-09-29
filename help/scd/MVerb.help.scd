@@ -4,7 +4,7 @@ MVerb.ar(in[0], in[1], dampingFreq: 0.1, density: 0.5, bandwidthFreq: 0.9, decay
 
 // MVerb
 var freq = [1, 2.1, 2.9].collect { | item | item * 1000 };
-var src = Resonz(in: { Dust(density: [0.25, 0.5]) } ! 3, freq: freq, bwr: 0.01).sum * 10;
+var src = Resonz.ar(in: { Dust.ar(density: [0.25, 0.5]) } ! 3, freq: freq, bwr: 0.01).sum * 10;
 var noiseIn = { | min max | LinLin.kr(in: LFNoise2.kr(freq: 1), srclo: -1, srchi: 1, dstlo: min, dsthi: max) };
 var dampingFreq = 0.1;
 var density = noiseIn.value(0.1, 0.9);

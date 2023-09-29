@@ -41,6 +41,7 @@ P = Bezier.so \
     TLinRand.so \
     TLinRandN.so \
     TRandN.so \
+    TrigAllocator.so \
     TScramble.so \
     TSort.so \
     TracePlay.so \
