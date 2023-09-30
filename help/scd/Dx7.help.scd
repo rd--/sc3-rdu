@@ -22,24 +22,14 @@ ContinuousEventUi(frameRate: 25, areaWidth: 230, areaHeight: 130, areaScaling: 2
 //---- event/routine control ; event pattern ; c.f. CmdPeriod.freeServers or R.cmdPeriodRetainServerState
 Pbind(
 	'w', 1,
-	'x', Pwhite(0,15, 0.85, inf),
-	'y', Pbrown(0.15, 0.85, 0.05, inf),
-	'z', Pbrown(0.05, 0.25, 0.05, inf),
-	'i', Pwhite(0.15, 0.85, inf),
-	'dur', Pwhite(1, 3, inf)
+	'p', (Pwhite([4, 6, 7], 7) * 12 + Pbrown(0,5).degreeToKey(Scale.yu('pythagorean'))) / 127,
+	'y', Pbrown(),
+	'z', Pbrown(0.0, 0.2),
+	'i', Pbrown(),
+	'dur', Pbrown(0.05, 0.15)
 ).continuousEventPlayer(16)
 
-//---- event/routine control ; event pattern ; c.f. CmdPeriod.freeServers or R.cmdPeriodRetainServerState
-Pbind(
-	'w', 1,
-	'p', (Pwhite([3, 4, 7], 8) * 12 + Pwrand([0, 1, 2, 3, 4, 5], [2, 1, 2, 3, 1, 2].normalizeSum, inf).degreeToKey(Scale.yu('pythagorean'))) / 127,
-	'y', Pbrown([0, 0.5], [0.5, 1]),
-	'z', Pbrown(0.05, 0.25),
-	'i', Pwhite(),
-	'dur', Pwrand([0.1, 0.2, 0.3, 0.4, 0.6], [16, 8, 4, 2, 1].normalizeSum, inf)
-).continuousEventPlayer(16)
-
-//---- event/routine control ; event function
+//---- event/routine control ; event function ; c.f. CmdPeriod.freeServers or R.cmdPeriodRetainServerState
 {
 	(
 		w: 1,
@@ -51,14 +41,17 @@ Pbind(
 	)
 }.continuousEventPlayer(16)
 
-//---- event/routine control ; event pattern
+//---- event/routine control ; event pattern ; c.f. CmdPeriod.freeServers or R.cmdPeriodRetainServerState
 Pbind(
 	'w', 1,
-	'p', (Pwhite([4, 6, 7], 7) * 12 + Pbrown(0,5).degreeToKey(Scale.yu('pythagorean'))) / 127,
-	'y', Pbrown(),
-	'z', Pbrown(0, 0.2),
-	'i', Pbrown(),
-	'dur', Pbrown(0.05, 0.15)
+	'p', (
+		Pwhite([3, 4, 7], 8) * 12 +
+		Pwrand([0, 1, 2, 3, 4, 5], [2, 1, 2, 3, 1, 2].normalizeSum, inf).degreeToKey(Scale.yu('pythagorean'))
+	) / 127,
+	'y', Pbrown([0, 0.5], [0.5, 1]),
+	'z', Pbrown(0.05, 0.25),
+	'i', Pwhite(),
+	'dur', Pwrand([0.1, 0.2, 0.3, 0.4, 0.6], [16, 8, 4, 2, 1].normalizeSum, inf)
 ).continuousEventPlayer(16)
 
 //---- midi control ; make graph and add synthdef, voice data at local buffer
