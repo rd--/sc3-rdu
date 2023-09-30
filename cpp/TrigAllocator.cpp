@@ -51,7 +51,7 @@ bool TrigAllocator_locate_index(TrigAllocator *unit, int algorithm, int *index) 
 void TrigAllocator_next(TrigAllocator *unit, int inNumSamples)
 {
     float *algorithm = IN(0);
-    float *trig = IN(1);
+    float *in = IN(1);
     float *dur = IN(2);
     for(int i = 0; i < inNumSamples; i++) {
 	unit->m_time += 1;
@@ -65,11 +65,11 @@ void TrigAllocator_next(TrigAllocator *unit, int inNumSamples)
 		// fprintf(stderr, "TrigAllocator: free=%d, end=%ld, time=%ld\n", j, unit->m_end_time[j], unit->m_time);
 	    }
 	}
-	if(trig[i] > 0.0 && unit->m_trig <= 0.0) {
+	if(in[i] > 0.0 && unit->m_trig <= 0.0) {
 	    int k = -1;
 	    bool stolen = TrigAllocator_locate_index(unit, (int)(algorithm[i]), &k);
 	    if(k >= 0) {
-		unit->m_gate[k] = stolen ? (-1.0 - trig[i]) : trig[i];
+		unit->m_gate[k] = stolen ? (-1.0 - in[i]) : in[i];
 		unit->m_in_use[k] = true;
 		unit->m_start_time[k] = unit->m_time;
 		unit->m_end_time[k] = unit->m_time + (uint32_t)(dur[i] * unit->mRate->mSampleRate);
@@ -78,7 +78,7 @@ void TrigAllocator_next(TrigAllocator *unit, int inNumSamples)
 		// fprintf(stderr, "TrigAllocator: no index located: stolen=%d time=%ld\n", (int)stolen, unit->m_time);
 	    }
 	}
-	unit->m_trig = trig[i];
+	unit->m_trig = in[i];
 	for(uint32_t j = 0; j < unit->m_num_outputs; j++) {
 	    OUT(j)[i] = unit->m_gate[j];
 	}

@@ -12,33 +12,54 @@ var buf = LocalBuf.newFrom(voiceData.flatten);
 var voiceFunc = { | e |
 	var x0 = Latch.kr(in: e.x, trig: e.w);
 	var dx7 = Dx7.ar(bufnum: buf, on: e.w, off: 0, data: 0, vc: 0, mnn: e.p * 127, vel: e.z, pw: (0x2000 * (e.x - x0)), mw: 0, bc: 0, fc: 0);
-	Pan2.ar(in: dx7, pos: (e.o * 2 - 1), level: e.z)
+	Pan2.ar(in: dx7, pos: (e.i * 2 - 1), level: e.z)
 };
 Voicer.ar(numVoices: 16, voiceFunc: voiceFunc).sum
 
 //---- ui
-CcEventUi(frameRate: 25, areaWidth: 230, areaHeight: 130, areaScaling: 2.5, gridFileName: nil, deriveXFromP: false).makeWindow;
+ContinuousEventUi(frameRate: 25, areaWidth: 230, areaHeight: 130, areaScaling: 2.5, gridFileName: nil, deriveXFromP: false).makeWindow;
 
 //---- event/routine control ; event pattern ; c.f. CmdPeriod.freeServers or R.cmdPeriodRetainServerState
 Pbind(
-	\w, 1,
-	\p, (Pwhite([3, 4, 7], 8) * 12 + Pwrand([0, 1, 2, 3, 4, 5], [2, 1, 2, 3, 1, 2].normalizeSum, inf).degreeToKey(Scale.yu(\pythagorean))) / 127,
-	\y, Pbrown([0, 0.5], [0.5, 1]),
-	\z, Pbrown(0.05, 0.25),
-	\o, Pwhite(),
-	\dur, Pwrand([0.1, 0.2, 0.3, 0.4, 0.6], [16, 8, 4, 2, 1].normalizeSum, inf)).ccEventPlayer(16)
+	'w', 1,
+	'x', Pwhite(0,15, 0.85, inf),
+	'y', Pbrown(0.15, 0.85, 0.05, inf),
+	'z', Pbrown(0.05, 0.25, 0.05, inf),
+	'i', Pwhite(0.15, 0.85, inf),
+	'dur', Pwhite(1, 3, inf)
+).continuousEventPlayer(16)
+
+//---- event/routine control ; event pattern ; c.f. CmdPeriod.freeServers or R.cmdPeriodRetainServerState
+Pbind(
+	'w', 1,
+	'p', (Pwhite([3, 4, 7], 8) * 12 + Pwrand([0, 1, 2, 3, 4, 5], [2, 1, 2, 3, 1, 2].normalizeSum, inf).degreeToKey(Scale.yu('pythagorean'))) / 127,
+	'y', Pbrown([0, 0.5], [0.5, 1]),
+	'z', Pbrown(0.05, 0.25),
+	'i', Pwhite(),
+	'dur', Pwrand([0.1, 0.2, 0.3, 0.4, 0.6], [16, 8, 4, 2, 1].normalizeSum, inf)
+).continuousEventPlayer(16)
 
 //---- event/routine control ; event function
-{ (w: 1, p: { (36 + 48.rand) / 127 }.dup(5.rand + 1), y: 1.0.rand, z: 0.25.rand, o: 1.0.rand, dur: 1.0.rand) }.ccEventPlayer(16)
+{
+	(
+		w: 1,
+		p: { (36 + 48.rand) / 127 } ! (5.rand + 1),
+		y: 1.0.rand,
+		z: 0.25.rand,
+		i: 1.0.rand,
+		dur: 1.0.rand
+	)
+}.continuousEventPlayer(16)
 
 //---- event/routine control ; event pattern
 Pbind(
-	\w, 1,
-	\p, (Pwhite([4, 6, 7], 7) * 12 + Pbrown(0,5).degreeToKey(Scale.yu(\pythagorean))) / 127,
-	\y, Pbrown(),
-	\z, Pbrown(0, 0.2),
-	\o, Pbrown(),
-	\dur, Pbrown(0.05, 0.15)).ccEventPlayer(16)
+	'w', 1,
+	'p', (Pwhite([4, 6, 7], 7) * 12 + Pbrown(0,5).degreeToKey(Scale.yu('pythagorean'))) / 127,
+	'y', Pbrown(),
+	'z', Pbrown(0, 0.2),
+	'i', Pbrown(),
+	'dur', Pbrown(0.05, 0.15)
+).continuousEventPlayer(16)
 
 //---- midi control ; make graph and add synthdef, voice data at local buffer
 var vc = [
