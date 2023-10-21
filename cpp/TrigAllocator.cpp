@@ -12,6 +12,7 @@ struct TrigAllocator : public Unit {
     uint32_t m_num_outputs;
     uint64_t m_time;
     float m_trig;
+    uint32_t m_last_index_allocated;
     float m_gate[TrigAllocatorMax];
     bool m_in_use[TrigAllocatorMax];
     uint64_t m_start_time[TrigAllocatorMax];
@@ -20,8 +21,10 @@ struct TrigAllocator : public Unit {
 
 bool TrigAllocator_locate_index(TrigAllocator *unit, int algorithm, int *index) {
     for(uint32_t i = 0; i < unit->m_num_outputs; i++) {
-	if(!unit->m_in_use[i]) {
-	    *index = (int)i;
+	uint32_t ix = (i + (unit->m_last_index_allocated + 1)) % unit->m_num_outputs;
+	if(!unit->m_in_use[ix]) {
+	    *index = (int)ix;
+	    unit->m_last_index_allocated = ix;
 	    return false;
 	}
     }
@@ -93,6 +96,7 @@ void TrigAllocator_Ctor(TrigAllocator *unit)
     }
     unit->m_time = 0;
     unit->m_trig = 0;
+    unit->m_last_index_allocated = -1;
     for (uint32_t i = 0; i < unit->m_num_outputs; i++) {
         unit->m_gate[i] = 0.0;
         unit->m_in_use[i] = false;

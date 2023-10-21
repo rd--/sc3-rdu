@@ -15,3 +15,11 @@ var e = Asr.ar(w, 0.01, d / 2, -4) * TRand.kr(0.1, 0.2, w);
 var f = TIRand.kr(48, 72, w).midiCps + TRand.kr(-9, 9, w);
 var o = SinOsc.ar(f, 0) * e;
 o.splay2
+
+// TrigAllocator ; cycle when not stealing
+var t = Impulse.kr(4, 0);
+var w = TrigAllocator.kr(16, 0, t, 0.001);
+var e = Decay2.kr(w, 0.01, 4);
+var f = TIRand.kr(84, 96, w).midiCps + TRand.kr(-9, 9, w);
+var o = SinOsc.ar(f, 0) * e * 0.1;
+o.splay2
