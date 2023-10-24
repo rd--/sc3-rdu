@@ -37,6 +37,7 @@ sc3-rdu
 - TSort - signal router, sort mapping on trigger
 - TracePlay - ?
 - TraceRead - ?
+- TrigAllocator - ?
 
 Pseudo unit generators:
 
