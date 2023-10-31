@@ -10,7 +10,7 @@ Author:            Rohan Drape
 Maintainer:        rd@slavepianos.org
 Stability:         Experimental
 Homepage:          http://rohandrape.net/t/sc3-rdu
-Tested-With:       GHC == 9.6.1
+Tested-With:       GHC == 9.8.1
 Build-Type:        Simple
 
 Data-files:        README.md
@@ -18,11 +18,17 @@ Data-files:        README.md
 Library
   hs-source-dirs:  hs
   Build-Depends:   base == 4.*,
+                   bytestring,
+                   hosc == 0.21.*,
                    hsc3 == 0.21.*,
-                   hsc3-db == 0.21.*
+                   hsc3-db == 0.21.*,
+                   hsc3-sf == 0.21.*,
+                   hsc3-sf-hsndfile == 0.21.*,
+                   vector
   default-language:Haskell2010
   GHC-Options:     -Wall -fwarn-tabs
-  Exposed-modules: Sound.Sc3.Ugen.External.Rdu
+  Exposed-modules: Sound.Sc3.Server.Command.MemCpy
+                   Sound.Sc3.Ugen.External.Rdu
 
 Source-Repository  head
   Type:            git
