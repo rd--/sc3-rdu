@@ -30,7 +30,7 @@ b_memcpy bufferNumber numFrames numChannels sampleRate bufferData byteSwap =
   ,Osc.int32 byteSwap]
 
 -- | Allocate buffer space and send a locally read sound file.
-b_allocSend :: Sc3.Buffer_Id -> String -> Sc3.Buffer_Ix -> Sc3.Buffer_Ix -> IO [Osc.Message]
+b_allocSend :: Sc3.Buffer_Id -> String -> Sc3.Buffer_Ix -> Sc3.Buffer_Ix -> IO Osc.Message
 b_allocSend bufferNumber fileName startFrame frameCount = do
   (hdr,dat) <- Sf.read_vec_f32 fileName
   let frameCount' =
@@ -39,20 +39,22 @@ b_allocSend bufferNumber fileName startFrame frameCount = do
         else min frameCount (Sf.frameCount hdr - startFrame)
       dat' = Vector.take (frameCount' * Sf.channelCount hdr) (Vector.drop (startFrame * Sf.channelCount hdr) dat)
   bytes <- Sf.vec_f32_bytestring dat'
-  return [Sc3.b_alloc
-           bufferNumber
-           frameCount'
-           (Sf.channelCount hdr)
-         ,b_memcpy
-           bufferNumber
-           frameCount'
-           (Sf.channelCount hdr)
-           (Sf.sampleRate hdr)
-           (ByteString.Lazy.fromStrict bytes)
-           0]
+  return
+    (Sc3.withCm
+     (Sc3.b_alloc
+       bufferNumber
+       frameCount'
+       (Sf.channelCount hdr))
+      (b_memcpy
+       bufferNumber
+        frameCount'
+        (Sf.channelCount hdr)
+        (Sf.sampleRate hdr)
+        (ByteString.Lazy.fromStrict bytes)
+        0))
 
 -- | Allocate buffer space and send a locally read sound file.
-b_allocSendChannel :: Sc3.Buffer_Id -> String -> Sc3.Buffer_Ix -> Sc3.Buffer_Ix -> [Int] -> IO [Osc.Message]
+b_allocSendChannel :: Sc3.Buffer_Id -> String -> Sc3.Buffer_Ix -> Sc3.Buffer_Ix -> [Int] -> IO Osc.Message
 b_allocSendChannel bufferNumber fileName startFrame frameCount channels = do
   (hdr,dat) <- Sf.read_vec_f32 fileName
   print ("b_allocSendChannel", hdr)
@@ -65,30 +67,32 @@ b_allocSendChannel bufferNumber fileName startFrame frameCount channels = do
       dat' = Vector.vec_interleave (map (datCh !!) channels)
       dat'' = Vector.take (frameCount' * Sf.channelCount hdr) (Vector.drop (startFrame * Sf.channelCount hdr) dat')
   bytes <- Sf.vec_f32_bytestring dat''
-  return [Sc3.b_alloc
-           bufferNumber
-           frameCount'
-           (Sf.channelCount hdr)
-         ,b_memcpy
-           bufferNumber
-           frameCount'
-           (Sf.channelCount hdr)
-           (Sf.sampleRate hdr)
-           (ByteString.Lazy.fromStrict bytes)
-           0]
+  return
+    (Sc3.withCm
+      (Sc3.b_alloc
+        bufferNumber
+        frameCount'
+        (Sf.channelCount hdr))
+      (b_memcpy
+        bufferNumber
+        frameCount'
+        (Sf.channelCount hdr)
+        (Sf.sampleRate hdr)
+        (ByteString.Lazy.fromStrict bytes)
+        0))
 
 -- | If ScIsRemote then load locally and send, else load directly at server.
-b_allocReadOrSend :: Sc3.Buffer_Id -> String -> Sc3.Buffer_Ix -> Sc3.Buffer_Ix -> IO [Osc.Message]
+b_allocReadOrSend :: Sc3.Buffer_Id -> String -> Sc3.Buffer_Ix -> Sc3.Buffer_Ix -> IO Osc.Message
 b_allocReadOrSend b p f n = do
   isRemote <- lookupEnv "ScIsRemote"
   if isRemote == Nothing || isRemote == Just "False"
-    then return [Sc3.b_allocRead b p f n]
+    then return (Sc3.b_allocRead b p f n)
     else b_allocSend b p f n
 
 -- | If ScIsRemote then load locally and send, else load directly at server.
-b_allocReadOrSendChannel :: Sc3.Buffer_Id -> String -> Sc3.Buffer_Ix -> Sc3.Buffer_Ix -> [Int] -> IO [Osc.Message]
+b_allocReadOrSendChannel :: Sc3.Buffer_Id -> String -> Sc3.Buffer_Ix -> Sc3.Buffer_Ix -> [Int] -> IO Osc.Message
 b_allocReadOrSendChannel b p f n ch = do
   isRemote <- lookupEnv "ScIsRemote"
   if isRemote == Nothing || isRemote == Just "False"
-    then return [Sc3.b_allocReadChannel b p f n ch]
+    then return (Sc3.b_allocReadChannel b p f n ch)
     else b_allocSendChannel b p f n ch
