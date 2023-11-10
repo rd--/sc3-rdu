@@ -53,6 +53,7 @@ sc_add_server_plugin("sc3-rdu" "TSort" "cpp/TSort.cpp" "sc/TSort.sc" "help/scd/T
 sc_add_server_plugin("sc3-rdu" "TracePlay" "cpp/TracePlay.cpp" "sc/TracePlay.sc" "help/scd/TracePlay.help.scd")
 sc_add_server_plugin("sc3-rdu" "TraceRead" "cpp/TraceRead.cpp" "sc/TraceRead.sc" "help/scd/TraceRead.help.scd")
 sc_add_server_plugin("sc3-rdu" "TrigAllocator" "cpp/TrigAllocator.cpp" "sc/TrigAllocator.sc" "help/scd/TrigAllocator.help.scd")
+sc_add_server_plugin("sc3-rdu" "TrigRoundRobin" "cpp/TrigRoundRobin.cpp" "sc/TrigRoundRobin.sc" "help/scd/TrigRoundRobin.help.scd")
 
 if (NOT WIN32)
   sc_add_server_plugin("sc3-rdu" "Dl" "cpp/Dl.cpp" "sc/Dl.sc" "help/scd/Dl.help.scd")

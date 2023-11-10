@@ -15,6 +15,7 @@ P = Bezier.so \
     DelayMap.so \
     DelaySet.so \
     DelaySetBuf.so \
+    Demultiplexer.so \
     Dl.so \
     DustRange.so \
     Dx7.so \
@@ -42,6 +43,7 @@ P = Bezier.so \
     TLinRandN.so \
     TRandN.so \
     TrigAllocator.so \
+    TrigRoundRobin.so \
     TScramble.so \
     TSort.so \
     TracePlay.so \

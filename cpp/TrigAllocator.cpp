@@ -6,7 +6,7 @@
 
 static InterfaceTable *ft;
 
-#define TrigAllocatorMax 24
+#define TrigAllocatorMax 32
 
 struct TrigAllocator : public Unit {
     uint32_t m_num_outputs;
