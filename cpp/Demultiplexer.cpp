@@ -41,6 +41,7 @@ void Demultiplexer_Ctor(Demultiplexer *unit)
     unit->m_num_outputs = unit->mNumOutputs;
     if(unit->m_num_outputs > DemultiplexerMax) {
 	unit->m_num_outputs = DemultiplexerMax;
+        fprintf(stderr, "Demultiplexer: output count limited %d\n", unit->m_num_outputs);
     }
     SETCALC(Demultiplexer_next);
     Demultiplexer_next(unit, 1);

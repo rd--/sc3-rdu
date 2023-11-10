@@ -44,6 +44,7 @@ void TrigRoundRobin_Ctor(TrigRoundRobin *unit)
     unit->m_num_outputs = unit->mNumOutputs;
     if(unit->m_num_outputs > TrigRoundRobinMax) {
 	unit->m_num_outputs = TrigRoundRobinMax;
+        fprintf(stderr, "TrigRoundRobin: output count limited %d\n", unit->m_num_outputs);
     }
     unit->m_trig = 0.0;
     unit->m_last_index_allocated = -1;
