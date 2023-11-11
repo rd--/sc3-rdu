@@ -65,7 +65,7 @@ debian: supercollider-dev
 tested-with:
 
 - [gcc](http://gcc.gnu.org/) 12.2.0
-- [clang](https://clang.llvm.org/) 13.0.1
+- [clang](https://clang.llvm.org/) 14.0.3
 
 references:
 
