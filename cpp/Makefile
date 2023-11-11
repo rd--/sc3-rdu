@@ -26,6 +26,7 @@ P = Bezier.so \
     LagC.so \
     LinRandN.so \
     LoopSet.so \
+    Multiplexer.so \
     MVerb.so \
     ObxdFilter.so \
     PV_Split.so \

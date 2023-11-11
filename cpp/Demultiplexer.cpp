@@ -20,7 +20,7 @@ void Demultiplexer_next(Demultiplexer *unit, int inNumSamples)
 	float out[DemultiplexerMax];
 	uint32_t selected = (uint32_t)selector[i];
 	if(selected < 0 || selected >= unit->m_num_outputs) {
-	    selected = 0;
+	    fprintf(stderr, "Demultiplexer: selector invalid: %d\n", selected);
 	}
 	for(uint32_t j = 0; j < unit->m_num_outputs; j++) {
 	    if(j == selected) {

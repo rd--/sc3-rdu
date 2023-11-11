@@ -9,30 +9,27 @@ struct TScramble : public Unit {
 
 void TScramble_step(TScramble *unit)
 {
-    float *d = unit->m_store;
-    RGen &rgen = *unit->mParent->mRGen;
-    int k = unit->mNumInputs - 1;
-    for (int i = 0; i < k; i++) {
-        d[i] = IN0(i + 1);
+    uint32_t inputCount = unit->mNumInputs - 1;
+    for (uint32_t i = 0; i < inputCount; i++) {
+        unit->m_store[i] = IN0(i + 1);
     }
-    for (int i = 0; i < k - 1; i++) {
-        int j = i + rgen.irand(k - i);
-        float t = d[i];
-        d[i] = d[j];
-        d[j] = t;
+    for (uint32_t i = 0; i < inputCount - 1; i++) {
+        int32_t j = (int32_t)i + unit->mParent->mRGen->irand((int32_t)inputCount - i);
+        float tmp = unit->m_store[i];
+        unit->m_store[i] = unit->m_store[j];
+        unit->m_store[j] = tmp;
     }
 }
 
 void TScramble_next(TScramble *unit, int inNumSamples)
 {
     float *in = IN(0);
-    int k = unit->mNumInputs - 1;
     for (int i = 0; i < inNumSamples; i++) {
         float t = in[i];
         if (t > 0.0 && unit->m_prev_t <= 0.0) {
             TScramble_step(unit);
         }
-        for (int j = 0; j < k; j++) {
+        for (uint32_t j = 0; j < unit->mNumInputs - 1; j++) {
             OUT(j)[i] = unit->m_store[j];
         }
         unit->m_prev_t = t;
@@ -41,11 +38,11 @@ void TScramble_next(TScramble *unit, int inNumSamples)
 
 void TScramble_Ctor(TScramble *unit)
 {
-    int k = unit->mNumInputs - 1;
-    unit->m_store = (float *)RTAlloc(unit->mWorld, k * sizeof(float));
+    uint32_t inputCount = unit->mNumInputs - 1;
+    unit->m_store = (float *)RTAlloc(unit->mWorld, inputCount * sizeof(float));
     unit->m_prev_t = 0;
     SETCALC(TScramble_next);
-    for (int i = 0; i < k; i++) {
+    for (uint32_t i = 0; i < inputCount; i++) {
         unit->m_store[i] = IN0(i + 1);
     }
     TScramble_next(unit, 1);
