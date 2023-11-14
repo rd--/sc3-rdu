@@ -20,6 +20,7 @@ P = Bezier.so \
     DustRange.so \
     Dx7.so \
     Dx7Env.so \
+    EnvTrapezoid.so \
     ExpRandN.so \
     Freezer.so \
     IRandN.so \
