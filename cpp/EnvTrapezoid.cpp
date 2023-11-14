@@ -25,7 +25,7 @@ void EnvTrapezoid_next(EnvTrapezoid *unit,int inNumSamples)
         if(trig[i] > 0.0 && unit->trig <= 0.0) {
             unit->count = 0;
             unit->dur = dur * unit->mRate->mSampleRate;
-            fprintf(stderr, "EnvTrapezoid: %f %f %f %f, %d %d\n", trig[i], dur, shape, skew, unit->count, unit->dur);
+            // fprintf(stderr, "EnvTrapezoid: %f %f %f %f, %d\n", trig[i], dur, shape, skew, unit->dur);
             gen_trapezoid(unit->env, 8, 1, shape, skew);
         }
         if(unit->count < unit->dur) {
