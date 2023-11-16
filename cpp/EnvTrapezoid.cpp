@@ -15,13 +15,15 @@ struct EnvTrapezoid : public Unit
     float env[8];
 };
 
+#define getInput(k, i) ((unit->mInput[k]->mCalcRate == calc_FullRate) ? unit->mInBuf[k][i] : unit->mInBuf[k][0])
+
 void EnvTrapezoid_next(EnvTrapezoid *unit,int inNumSamples)
 {
     float *trig = IN(0);
-    float dur = IN0(1);
-    float shape = IN0(2);
-    float skew = IN0(3);
     for(int i = 0; i < inNumSamples; i++) {
+	float dur = getInput(1, i);
+	float shape = getInput(2, i);
+	float skew = getInput(3, i);
         if(trig[i] > 0.0 && unit->trig <= 0.0) {
             unit->count = 0;
             unit->dur = dur * unit->mRate->mSampleRate;
