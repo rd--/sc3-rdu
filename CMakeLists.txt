@@ -27,6 +27,7 @@ sc_add_server_plugin("sc3-rdu" "Demultiplexer" "cpp/Demultiplexer.cpp" "sc/Demul
 sc_add_server_plugin("sc3-rdu" "DustRange" "cpp/DustRange.cpp" "sc/DustRange.sc" "help/scd/DustRange.help.scd")
 sc_add_server_plugin("sc3-rdu" "Dx7" "cpp/Dx7.cpp" "sc/Dx7.sc" "help/scd/Dx7.help.scd")
 sc_add_server_plugin("sc3-rdu" "Dx7Env" "cpp/Dx7Env.cpp" "sc/Dx7Env.sc" "help/scd/Dx7Env.help.scd")
+sc_add_server_plugin("sc3-rdu" "EnvTrapezoid" "cpp/EnvTrapezoid.cpp" "sc/EnvTrapezoid.sc" "help/scd/EnvTrapezoid.help.scd")
 sc_add_server_plugin("sc3-rdu" "ExpRandN" "cpp/ExpRandN.cpp" "sc/ExpRandN.sc" "help/scd/ExpRandN.help.scd")
 sc_add_server_plugin("sc3-rdu" "Freezer" "cpp/Freezer.cpp" "sc/Freezer.sc" "help/scd/Freezer.help.scd")
 sc_add_server_plugin("sc3-rdu" "IRandN" "cpp/IRandN.cpp" "sc/IRandN.sc" "help/scd/IRandN.help.scd")
