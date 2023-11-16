@@ -6,22 +6,19 @@
 
 static InterfaceTable *ft;
 
-#define TrigAllocatorMax 32
-
 struct TrigAllocator : public Unit {
-    uint32_t m_num_outputs;
     uint64_t m_time;
     float m_trig;
     uint32_t m_last_index_allocated;
-    float m_gate[TrigAllocatorMax];
-    bool m_in_use[TrigAllocatorMax];
-    uint64_t m_start_time[TrigAllocatorMax];
-    uint64_t m_end_time[TrigAllocatorMax];
+    float *m_gate;
+    bool *m_in_use;
+    uint64_t *m_start_time;
+    uint64_t *m_end_time;
 };
 
 bool TrigAllocator_locate_index(TrigAllocator *unit, int algorithm, int *index) {
-    for(uint32_t i = 0; i < unit->m_num_outputs; i++) {
-    uint32_t ix = (i + (unit->m_last_index_allocated + 1)) % unit->m_num_outputs;
+    for(uint32_t i = 0; i < unit->mNumOutputs; i++) {
+    uint32_t ix = (i + (unit->m_last_index_allocated + 1)) % unit->mNumOutputs;
     if(!unit->m_in_use[ix]) {
         *index = (int)ix;
         unit->m_last_index_allocated = ix;
@@ -30,7 +27,7 @@ bool TrigAllocator_locate_index(TrigAllocator *unit, int algorithm, int *index) 
     }
     if(algorithm == 1) {
     uint64_t earliest_end_time = UINT64_MAX;
-    for(uint32_t i = 0; i < unit->m_num_outputs; i++) {
+    for(uint32_t i = 0; i < unit->mNumOutputs; i++) {
         if(unit->m_end_time[i] < earliest_end_time) {
         earliest_end_time = unit->m_end_time[i];
         *index = i;
@@ -40,7 +37,7 @@ bool TrigAllocator_locate_index(TrigAllocator *unit, int algorithm, int *index) 
     }
     if(algorithm == 2) {
     uint64_t earliest_start_time = UINT64_MAX;
-    for(uint32_t i = 0; i < unit->m_num_outputs; i++) {
+    for(uint32_t i = 0; i < unit->mNumOutputs; i++) {
         if(unit->m_start_time[i] < earliest_start_time) {
         earliest_start_time = unit->m_start_time[i];
         *index = i;
@@ -58,7 +55,7 @@ void TrigAllocator_next(TrigAllocator *unit, int inNumSamples)
     float *dur = IN(2);
     for(int i = 0; i < inNumSamples; i++) {
     unit->m_time += 1;
-    for(uint32_t j = 0; j < unit->m_num_outputs; j++) {
+    for(uint32_t j = 0; j < unit->mNumOutputs; j++) {
         if(unit->m_gate[j] < 0.0) {
         unit->m_gate[j] = -1.0 - unit->m_gate[j];
         }
@@ -82,7 +79,7 @@ void TrigAllocator_next(TrigAllocator *unit, int inNumSamples)
         }
     }
     unit->m_trig = in[i];
-    for(uint32_t j = 0; j < unit->m_num_outputs; j++) {
+    for(uint32_t j = 0; j < unit->mNumOutputs; j++) {
         OUT(j)[i] = unit->m_gate[j];
     }
     }
@@ -90,15 +87,14 @@ void TrigAllocator_next(TrigAllocator *unit, int inNumSamples)
 
 void TrigAllocator_Ctor(TrigAllocator *unit)
 {
-    unit->m_num_outputs = unit->mNumOutputs;
-    if(unit->m_num_outputs > TrigAllocatorMax) {
-        unit->m_num_outputs = TrigAllocatorMax;
-        fprintf(stderr, "TrigAllocator: output count limited %d\n", unit->m_num_outputs);
-    }
+    unit->m_gate = (float *)RTAlloc(unit->mWorld, unit->mNumOutputs * sizeof(float));
+    unit->m_in_use = (bool *)RTAlloc(unit->mWorld, unit->mNumOutputs * sizeof(bool));
+    unit->m_start_time = (uint64_t *)RTAlloc(unit->mWorld, unit->mNumOutputs * sizeof(uint64_t));
+    unit->m_end_time = (uint64_t *)RTAlloc(unit->mWorld, unit->mNumOutputs * sizeof(uint64_t));
     unit->m_time = 0;
     unit->m_trig = 0;
     unit->m_last_index_allocated = -1;
-    for (uint32_t i = 0; i < unit->m_num_outputs; i++) {
+    for (uint32_t i = 0; i < unit->mNumOutputs; i++) {
         unit->m_gate[i] = 0.0;
         unit->m_in_use[i] = false;
         unit->m_start_time[i] = 0;
@@ -108,8 +104,16 @@ void TrigAllocator_Ctor(TrigAllocator *unit)
     TrigAllocator_next(unit, 1);
 }
 
+void TrigAllocator_Dtor(TrigAllocator *unit)
+{
+    RTFree(unit->mWorld, unit->m_gate);
+    RTFree(unit->mWorld, unit->m_in_use);
+    RTFree(unit->mWorld, unit->m_start_time);
+    RTFree(unit->mWorld, unit->m_end_time);
+}
+
 PluginLoad(TrigAllocator)
 {
     ft = inTable;
-    DefineSimpleUnit(TrigAllocator);
+    DefineDtorUnit(TrigAllocator);
 }
