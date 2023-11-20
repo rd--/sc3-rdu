@@ -29,7 +29,10 @@ b_memcpy bufferNumber numFrames numChannels sampleRate bufferData byteSwap =
   ,Osc.Blob bufferData
   ,Osc.int32 byteSwap]
 
--- | Allocate buffer space and send a locally read sound file.
+{- | Allocate buffer space and send a locally read sound file.
+Arguments are as for b_allocRead,
+including that a frameCount of zero indicates the complete file.
+-}
 b_allocSend :: Sc3.Buffer_Id -> String -> Sc3.Buffer_Ix -> Sc3.Buffer_Ix -> IO Osc.Message
 b_allocSend bufferNumber fileName startFrame frameCount = do
   (hdr,dat) <- Sf.read_vec_f32 fileName
