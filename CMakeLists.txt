@@ -47,6 +47,7 @@ sc_add_server_plugin("sc3-rdu" "ShufflerL" "cpp/ShufflerL.cpp" "sc/ShufflerL.sc"
 sc_add_server_plugin("sc3-rdu" "SvfBp" "cpp/SvfBp.cpp" "sc/SvfBp.sc" "help/scd/SvfBp.help.scd")
 sc_add_server_plugin("sc3-rdu" "SvfHp" "cpp/SvfHp.cpp" "sc/SvfHp.sc" "help/scd/SvfHp.help.scd")
 sc_add_server_plugin("sc3-rdu" "SvfLp" "cpp/SvfLp.cpp" "sc/SvfLp.sc" "help/scd/SvfLp.help.scd")
+sc_add_server_plugin("sc3-rdu" "TableRand" "cpp/TableRand.cpp" "sc/TableRand.sc" "help/scd/TableRand.help.scd")
 sc_add_server_plugin("sc3-rdu" "TExpRandN" "cpp/TExpRandN.cpp" "sc/TExpRandN.sc" "help/scd/TExpRandN.help.scd")
 sc_add_server_plugin("sc3-rdu" "TLinRand" "cpp/TLinRand.cpp" "sc/TLinRand.sc" "help/scd/TLinRand.help.scd")
 sc_add_server_plugin("sc3-rdu" "TLinRandN" "cpp/TLinRandN.cpp" "sc/TLinRandN.sc" "help/scd/TLinRandN.help.scd")
