@@ -15,4 +15,4 @@ var index = [
 	tbl.(tr, [0,0,1], 1, 23),
 	tbl.(tr, [1,0,0], 1, 23)
 ];
-GrainFM.ar(1, tr, 1 / 5, carFreq, modFreq, index, 0, -1, 512) / 23
+GrainFM.ar(1, tr, 1 / 5, carFreq, modFreq, index, 0, -1, 512).sum / 23
