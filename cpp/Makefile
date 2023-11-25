@@ -40,6 +40,7 @@ P = Bezier.so \
     SvfBp.so \
     SvfHp.so \
     SvfLp.so \
+    TableRand.so \
     TExpRandN.so \
     TLinRand.so \
     TLinRandN.so \

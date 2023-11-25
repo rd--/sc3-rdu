@@ -45,7 +45,7 @@ void TExpRandN_Ctor(TExpRandN *unit)
     TExpRandN_gen(unit);
     TExpRandN_cpy(unit);
     SETCALC(TExpRandN_next_k);
-    unit->m_trig = IN0(2);
+    unit->m_trig = 0;
     TExpRandN_next_k(unit, 1);
 }
 
