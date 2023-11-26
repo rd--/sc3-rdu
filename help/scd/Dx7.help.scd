@@ -46,7 +46,7 @@ ContinuousEventUi(
 	areaScaling: 2.5,
 	gridFileName: nil,
 	deriveXFromP: false
-).makeWindow;
+).makeWindow
 
 //---- event/routine control ; event pattern ; c.f. CmdPeriod.freeServers or R.cmdPeriodRetainServerState
 Pbind(

@@ -17,4 +17,10 @@ var voiceFunc = { | e |
 Mix.ar(Voicer.ar(numVoices: 16, voiceFunc: voiceFunc))
 
 //---- ui
-ContinuousEventUi(frameRate: 60, areaWidth: 230, areaHeight: 130, areaScaling: 2.5, gridFileName: nil).makeWindow;
+ContinuousEventUi(
+	frameRate: 25,
+	areaWidth: 230,
+	areaHeight: 130,
+	areaScaling: 2.5,
+	gridFileName: nil
+).makeWindow
