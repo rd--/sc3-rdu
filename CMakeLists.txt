@@ -42,6 +42,7 @@ sc_add_server_plugin("sc3-rdu" "PV_Split" "cpp/PV_Split.cpp" "sc/PV_Split.sc" "h
 sc_add_server_plugin("sc3-rdu" "PinkingFilterPk3" "cpp/PinkingFilterPk3.cpp" "sc/PinkingFilterPk3.sc" "help/scd/PinkingFilterPk3.help.scd")
 sc_add_server_plugin("sc3-rdu" "RandN" "cpp/RandN.cpp" "sc/RandN.sc" "help/scd/RandN.help.scd")
 sc_add_server_plugin("sc3-rdu" "SamplerIndex" "cpp/SamplerIndex.cpp" "sc/SamplerIndex.sc" "help/scd/SamplerIndex.help.scd")
+sc_add_server_plugin("sc3-rdu" "SendToNearest" "cpp/SendToNearest.cpp" "sc/SendToNearest.sc" "help/scd/SendToNearest.help.scd")
 sc_add_server_plugin("sc3-rdu" "ShufflerB" "cpp/ShufflerB.cpp" "sc/ShufflerB.sc" "help/scd/ShufflerB.help.scd")
 sc_add_server_plugin("sc3-rdu" "ShufflerL" "cpp/ShufflerL.cpp" "sc/ShufflerL.sc" "help/scd/ShufflerL.help.scd")
 sc_add_server_plugin("sc3-rdu" "SvfBp" "cpp/SvfBp.cpp" "sc/SvfBp.sc" "help/scd/SvfBp.help.scd")

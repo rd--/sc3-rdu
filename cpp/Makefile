@@ -35,6 +35,7 @@ P = Bezier.so \
     PinkingFilterPk3.so \
     RandN.so \
     SamplerIndex.so \
+    SendToNearest.so \
     ShufflerB.so \
     ShufflerL.so \
     SvfBp.so \
