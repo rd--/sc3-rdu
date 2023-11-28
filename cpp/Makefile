@@ -35,14 +35,15 @@ P = Bezier.so \
     PinkingFilterPk3.so \
     RandN.so \
     SamplerIndex.so \
-    SendToNearest.so \
     ShufflerB.so \
     ShufflerL.so \
     SvfBp.so \
     SvfHp.so \
     SvfLp.so \
     TableRand.so \
+    TDistances.so \
     TExpRandN.so \
+    TkNearest.so \
     TLinRand.so \
     TLinRandN.so \
     TRandN.so \
