@@ -1,5 +1,5 @@
 // TkNearest
-var t = Impulse.kr(60, 0);
+var t = Impulse.kr(50, 0);
 var x = MouseX.kr(-1, 1, 0, 0.2);
 var y = MouseY.kr(-1, 1, 0, 0.2);
 var c = [-45, 45, 135, -135].collect { | each |

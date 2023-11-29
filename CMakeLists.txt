@@ -49,8 +49,6 @@ sc_add_server_plugin("sc3-rdu" "SvfHp" "cpp/SvfHp.cpp" "sc/SvfHp.sc" "help/scd/S
 sc_add_server_plugin("sc3-rdu" "SvfLp" "cpp/SvfLp.cpp" "sc/SvfLp.sc" "help/scd/SvfLp.help.scd")
 sc_add_server_plugin("sc3-rdu" "TableRand" "cpp/TableRand.cpp" "sc/TableRand.sc" "help/scd/TableRand.help.scd")
 sc_add_server_plugin("sc3-rdu" "TExpRandN" "cpp/TExpRandN.cpp" "sc/TExpRandN.sc" "help/scd/TExpRandN.help.scd")
-sc_add_server_plugin("sc3-rdu" "TDistances" "cpp/TDistances.cpp" "sc/TDistances.sc" "help/scd/TDistances.help.scd")
-sc_add_server_plugin("sc3-rdu" "TkNearest" "cpp/TkNearest.cpp" "sc/TkNearest.sc" "help/scd/TkNearest.help.scd")
 sc_add_server_plugin("sc3-rdu" "TLinRand" "cpp/TLinRand.cpp" "sc/TLinRand.sc" "help/scd/TLinRand.help.scd")
 sc_add_server_plugin("sc3-rdu" "TLinRandN" "cpp/TLinRandN.cpp" "sc/TLinRandN.sc" "help/scd/TLinRandN.help.scd")
 sc_add_server_plugin("sc3-rdu" "TRandN" "cpp/TRandN.cpp" "sc/TRandN.sc" "help/scd/TRandN.help.scd")
@@ -60,6 +58,8 @@ sc_add_server_plugin("sc3-rdu" "TracePlay" "cpp/TracePlay.cpp" "sc/TracePlay.sc"
 sc_add_server_plugin("sc3-rdu" "TraceRead" "cpp/TraceRead.cpp" "sc/TraceRead.sc" "help/scd/TraceRead.help.scd")
 sc_add_server_plugin("sc3-rdu" "TrigAllocator" "cpp/TrigAllocator.cpp" "sc/TrigAllocator.sc" "help/scd/TrigAllocator.help.scd")
 sc_add_server_plugin("sc3-rdu" "TrigRoundRobin" "cpp/TrigRoundRobin.cpp" "sc/TrigRoundRobin.sc" "help/scd/TrigRoundRobin.help.scd")
+sc_add_server_plugin("sc3-rdu" "WDistances" "cpp/WDistances.cpp" "sc/WDistances.sc" "help/scd/WDistances.help.scd")
+sc_add_server_plugin("sc3-rdu" "WkNearest" "cpp/WkNearest.cpp" "sc/WkNearest.sc" "help/scd/WkNearest.help.scd")
 
 if (NOT WIN32)
   sc_add_server_plugin("sc3-rdu" "Dl" "cpp/Dl.cpp" "sc/Dl.sc" "help/scd/Dl.help.scd")

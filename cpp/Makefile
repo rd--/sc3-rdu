@@ -41,9 +41,7 @@ P = Bezier.so \
     SvfHp.so \
     SvfLp.so \
     TableRand.so \
-    TDistances.so \
     TExpRandN.so \
-    TkNearest.so \
     TLinRand.so \
     TLinRandN.so \
     TRandN.so \
@@ -52,7 +50,9 @@ P = Bezier.so \
     TScramble.so \
     TSort.so \
     TracePlay.so \
-    TraceRead.so
+    TraceRead.so \
+    WDistances.so \
+    WkNearest.so
 
 L = r-common/c/lib-r-common.a
 
