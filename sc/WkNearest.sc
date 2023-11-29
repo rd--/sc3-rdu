@@ -31,3 +31,17 @@ TkNearest : PseudoUgen {
 	}
 
 }
+
+KNearest : PseudoUgen {
+
+	*ar {
+		arg numChannels = 1, x = 0.0, y = 0.0, z = 0.0, coordinateArray;
+		^WkNearest.ar(numChannels, 1, x, y, z, coordinateArray);
+	}
+
+	*kr {
+		arg numChannels = 1, x = 0.0, y = 0.0, z = 0.0, coordinateArray;
+		^WkNearest.kr(numChannels, 1, x, y, z, coordinateArray);
+	}
+
+}
