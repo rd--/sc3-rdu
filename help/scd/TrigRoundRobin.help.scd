@@ -13,3 +13,9 @@ var e = Decay2.ar(w, 0.05, 2) * TRand.ar(0.25, 1, w);
 var f = TIRand.ar(48, 84, w).midiCps;
 var o = SinOsc.ar(f, 0) * e;
 o.splay2
+
+// ---- TrigRoundRobin ; envelope array generator (for plotting)
+var d = 1 / 1000;
+var t = Impulse.ar(1 / d, 0);
+var w = TrigRoundRobin.ar(4, t);
+Sine.ar(w, d * 2);

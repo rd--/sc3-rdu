@@ -75,7 +75,10 @@ uninstall:
 	(cd $(T) ; rm -f $(P))
 
 indent:
-	bcpp -yb -bcl RPVDecay.cpp
+	clang-format -i *.cpp
+
+diff-ignoring-whitespace:
+	git diff --ignore-space-at-eol --ignore-space-change --ignore-all-space
 
 mk-rdx7-sf:
 	$(CXX) -O0 -Wall -g rdx7-sf.cpp -lsndfile -o rdx7-sf
