@@ -53,9 +53,9 @@ bool TrigAllocator_locate_index(TrigAllocator *unit, int algorithm, int *index)
 
 void TrigAllocator_next(TrigAllocator *unit, int inNumSamples)
 {
-	float *algorithm = IN(0);
-	float *in = IN(1);
-	float *dur = IN(2);
+	float *algorithm = unit->mInBuf[0];
+	float *in = unit->mInBuf[1];
+	float *dur = unit->mInBuf[2];
 	for (int i = 0; i < inNumSamples; i++) {
 		unit->m_time += 1;
 		for (uint32_t j = 0; j < unit->mNumOutputs; j++) {
@@ -86,8 +86,7 @@ void TrigAllocator_next(TrigAllocator *unit, int inNumSamples)
 		}
 		unit->m_trig = in[i];
 		for (uint32_t j = 0; j < unit->mNumOutputs; j++) {
-			OUT(j)
-			[i] = unit->m_gate[j];
+			unit->mOutBuf[j][i] = unit->m_gate[j];
 		}
 	}
 }

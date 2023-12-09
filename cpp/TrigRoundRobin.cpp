@@ -18,7 +18,7 @@ struct TrigRoundRobin : public Unit {
 
 void TrigRoundRobin_next(TrigRoundRobin *unit, int inNumSamples)
 {
-	float *in = IN(0);
+	float *in = unit->mInBuf[0];
 	for (int i = 0; i < inNumSamples; i++) {
 		/* Zero outputs */
 		for (uint32_t j = 0; j < unit->mNumOutputs; j++) {
@@ -34,8 +34,7 @@ void TrigRoundRobin_next(TrigRoundRobin *unit, int inNumSamples)
 		unit->m_trig = in[i];
 		/* Write outputs */
 		for (uint32_t j = 0; j < unit->mNumOutputs; j++) {
-			OUT(j)
-			[i] = unit->m_out[j];
+			unit->mOutBuf[j][i] = unit->m_out[j];
 		}
 	}
 }

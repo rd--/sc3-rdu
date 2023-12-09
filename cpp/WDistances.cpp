@@ -32,8 +32,7 @@ void WDistances_next(WDistances *unit, int inNumSamples)
 	}
 	for (int i = 0; i < inNumSamples; i++) {
 		for (uint32_t j = 0; j < unit->m_num_outputs; j++) {
-			OUT(j)
-			[i] = unit->m_distances[j];
+			unit->mOutBuf[j][i] = unit->m_distances[j];
 		}
 	}
 }

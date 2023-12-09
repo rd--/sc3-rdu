@@ -14,16 +14,14 @@ var f = TIRand.ar(48, 84, w).midiCps;
 var o = SinOsc.ar(f, 0) * e;
 o.splay2
 
-// ---- TrigRoundRobin ; envelope array generator (for plotting)
+// ---- TrigRoundRobin ; plot
 var z = 2000;
 var t = Impulse.ar(z, 0);
 var w = TrigRoundRobin.ar(4, t);
 Sine.ar(w, 2 / z)
 
-// ---- TrigRoundRobin ; envelope array generator (for plotting)
-var z = 5000;
-var t = TDuty.ar(Dseq([5, 2, 3] / z, inf), 0, 1, 0, 0);
+// ---- TrigRoundRobin ; plot ; note required delay
+var z = 4000;
+var t = DurationPhasor.ar([5, 2, 3] / z);
 var w = TrigRoundRobin.ar(4, t);
-var d = 5 / z; // ?
-Sine.ar(w, d)
-
+Sine.ar(DelayN.ar(w, 64/48000, 64/48000), Latch.ar(w, w) * 2)
