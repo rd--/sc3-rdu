@@ -30,11 +30,12 @@ void EnvTrapezoid_next(EnvTrapezoid *unit, int inNumSamples)
 			gen_trapezoid(unit->env, 8, 1, shape, skew);
 		}
 		if (unit->count < unit->dur) {
-			OUT(0)
-			[i] = segment_transfer_lookup_linear(unit->env, 8, (float)(unit->count) / (float)(unit->dur));
+			unit->mOutBuf[0][i] = segment_transfer_lookup_linear(
+				unit->env,
+				8,
+				(float)(unit->count) / (float)(unit->dur));
 		} else {
-			OUT(0)
-			[i] = 0;
+			unit->mOutBuf[0][i] = 0;
 		}
 		unit->count += 1;
 		unit->trig = trig[i];

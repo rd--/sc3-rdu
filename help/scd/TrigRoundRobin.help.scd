@@ -20,8 +20,12 @@ var t = Impulse.ar(z, 0);
 var w = TrigRoundRobin.ar(4, t);
 Sine.ar(w, 2 / z)
 
-// ---- TrigRoundRobin ; plot ; note required delay
-var z = 4000;
-var t = DurationPhasor.ar([5, 2, 3] / z);
+// ---- TrigRoundRobin ; plot
+var t = DurationPhasor.ar([5, 2, 3] / 10000);
 var w = TrigRoundRobin.ar(4, t);
-Sine.ar(DelayN.ar(w, 64/48000, 64/48000), Latch.ar(w, w) * 2)
+EnvTrapezoid.ar(w, Latch.ar(w, w) * 2, 0, 0.5)
+
+// ---- TrigRoundRobin ; plot ; ?
+var t = DurationPhasor.ar([5, 2, 3] / 10000);
+var w = TrigRoundRobin.ar(4, t);
+Sine.ar(w, Latch.ar(w, w) * 2)
