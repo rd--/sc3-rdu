@@ -53,9 +53,9 @@ void ctl_init(Controllers *c)
 	unpack_op_switch(c, 0x3F);
 }
 
-#define buf_zero(b, n)               \
+#define buf_zero(b, n) \
 	for (int _i = 0; _i < n; _i++) { \
-		b.get()[_i] = 0;             \
+		b.get()[_i] = 0; \
 	}
 
 struct RDX7 {

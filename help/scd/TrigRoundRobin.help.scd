@@ -15,7 +15,15 @@ var o = SinOsc.ar(f, 0) * e;
 o.splay2
 
 // ---- TrigRoundRobin ; envelope array generator (for plotting)
-var d = 1 / 1000;
-var t = Impulse.ar(1 / d, 0);
+var z = 2000;
+var t = Impulse.ar(z, 0);
 var w = TrigRoundRobin.ar(4, t);
-Sine.ar(w, d * 2);
+Sine.ar(w, 2 / z)
+
+// ---- TrigRoundRobin ; envelope array generator (for plotting)
+var z = 5000;
+var t = TDuty.ar(Dseq([5, 2, 3] / z, inf), 0, 1, 0, 0);
+var w = TrigRoundRobin.ar(4, t);
+var d = 5 / z; // ?
+Sine.ar(w, d)
+

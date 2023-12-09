@@ -1,25 +1,23 @@
 Sine : PseudoUgen {
 
-	*ar {
-		arg trig, dur = 1;
-		^ Sine.new(trig, dur)
+	*ar { | trig, dur = 1 |
+		^Sine.new(trig, dur)
 	}
 
-	*kr {
-		arg trig, dur = 1;
-		^ Sine.new(trig, dur)
+	*kr { | trig, dur = 1 |
+		^Sine.new(trig, dur)
 	}
 
-	*new {
-		arg trig, dur = 1;
-		^ Env.new(
+	*new { | trig, dur = 1 |
+		var env = Env.new(
 			[0, 0, 1, 0],
 			[0, dur / 2, dur / 2],
 			\sine,
 			nil,
-			1,
+			nil,
 			0
-		).asEnvGen(trig)
+		);
+		^env.asEnvGen(trig)
 	}
 
 }

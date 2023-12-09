@@ -28,4 +28,4 @@ o.splay2
 var d = 1 / 1000;
 var t = Impulse.ar(1 / d, 0);
 var w = TrigAllocator.ar(4, 0, t, SampleDur.ir());
-Sine.ar(w, d * 2);
+Sine.ar(w, d * 2)
