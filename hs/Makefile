@@ -1,0 +1,2 @@
+indent:
+	fourmolu -i Sound
