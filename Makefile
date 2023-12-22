@@ -25,3 +25,10 @@ push-all:
 push-tags:
 	r.gitlab-push.sh sc3-rdu --tags
 	r.github-push.sh sc3-rdu --tags
+
+indent:
+	(cd cpp ; make indent)
+	(cd hs ; make indent)
+
+doctest:
+	doctest -Wno-x-partial -Wno-incomplete-uni-patterns hs/Sound
