@@ -31,8 +31,7 @@ void TSort_next(TSort *unit, int inNumSamples)
 			TSort_step(unit);
 		}
 		for (int j = 0; j < k; j++) {
-			OUT(j)
-			[i] = unit->m_store[j];
+			unit->mOutBuf[j][i] = unit->m_store[j];
 		}
 		unit->m_prev_t = t;
 	}

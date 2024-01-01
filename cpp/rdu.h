@@ -149,13 +149,15 @@
 /* If input k is audio rate, fetch i-th value, else fetch zero-th value.
 This will give sample accurate values for audio rate inputs, and quantized values for control rate.
 It requires checking the input rate at every sample, even though it is fixed.
-The "correct" approach is to define separate "calculate" functions for each rate permutation.
+The "correct" approach is to define separate "calculate" functions for each rate permutation, and to interpolate locally.
+See also rdu.hpp which defines a lambda expression allowing checking mCalcRate only once per control period.
 */
 #define rdu_get_input(k, i) \
 	((unit->mInput[k]->mCalcRate == calc_FullRate) ? unit->mInBuf[k][i] : unit->mInBuf[k][0])
 
 /*
-float rduGetInput(Unit *unit, int k, int i) {
+inline float getInput(Unit *unit, int k, int i)
+{
 	return (unit->mInput[k]->mCalcRate == calc_FullRate) ? unit->mInBuf[k][i] : unit->mInBuf[k][i];
 }
 */

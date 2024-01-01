@@ -31,8 +31,7 @@ void Demultiplexer_next(Demultiplexer *unit, int inNumSamples)
 		}
 		/* Write outputs */
 		for (uint32_t j = 0; j < unit->m_num_outputs; j++) {
-			OUT(j)
-			[i] = out[j];
+			unit->mOutBuf[j][i] = out[j];
 		}
 	}
 }

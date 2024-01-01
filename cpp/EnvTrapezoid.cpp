@@ -5,6 +5,8 @@
 #include "r-common/c/gen-trapezoid.c"
 #include "r-common/c/segment-transfer.c"
 
+#include "rdu.hpp"
+
 static InterfaceTable *ft;
 
 struct EnvTrapezoid : public Unit {
@@ -14,20 +16,18 @@ struct EnvTrapezoid : public Unit {
 	float env[8];
 };
 
-#define getInput(k, i) ((unit->mInput[k]->mCalcRate == calc_FullRate) ? unit->mInBuf[k][i] : unit->mInBuf[k][0])
-
 void EnvTrapezoid_next(EnvTrapezoid *unit, int inNumSamples)
 {
 	float *trig = IN(0);
+	GetInput getDur = genGet(unit, 1);
+	GetInput getShape = genGet(unit, 2);
+	GetInput getSkew = genGet(unit, 3);
 	for (int i = 0; i < inNumSamples; i++) {
-		float dur = getInput(1, i);
-		float shape = getInput(2, i);
-		float skew = getInput(3, i);
 		if (trig[i] > 0.0 && unit->trig <= 0.0) {
 			unit->count = 0;
-			unit->dur = dur * unit->mRate->mSampleRate;
-			// fprintf(stderr, "EnvTrapezoid: %f %f %f %f, %d\n", trig[i], dur, shape, skew, unit->dur);
-			gen_trapezoid(unit->env, 8, 1, shape, skew);
+			unit->dur = getDur(i) * unit->mRate->mSampleRate;
+			// fprintf(stderr, "EnvTrapezoid: %f %f %f %f, %d\n", trig[i], getDur(i), getShape(i), getSkew(i), unit->dur);
+			gen_trapezoid(unit->env, 8, 1, getShape(i), getSkew(i));
 		}
 		if (unit->count < unit->dur) {
 			unit->mOutBuf[0][i] = segment_transfer_lookup_linear(

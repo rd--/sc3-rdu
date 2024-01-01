@@ -4,6 +4,8 @@
 
 #include <SC_PlugIn.h>
 
+#include "rdu.hpp"
+
 #define dprintf(...)
 
 static InterfaceTable *ft;
@@ -53,9 +55,9 @@ bool TrigAllocator_locate_index(TrigAllocator *unit, int algorithm, int *index)
 
 void TrigAllocator_next(TrigAllocator *unit, int inNumSamples)
 {
-	float *algorithm = unit->mInBuf[0];
+	GetInput getAlgorithm = genGet(unit, 0);
 	float *in = unit->mInBuf[1];
-	float *dur = unit->mInBuf[2];
+	GetInput getDur = genGet(unit, 2);
 	for (int i = 0; i < inNumSamples; i++) {
 		unit->m_time += 1;
 		for (uint32_t j = 0; j < unit->mNumOutputs; j++) {
@@ -71,12 +73,12 @@ void TrigAllocator_next(TrigAllocator *unit, int inNumSamples)
 		}
 		if (in[i] > 0.0 && unit->m_trig <= 0.0) {
 			int k = -1;
-			bool stolen = TrigAllocator_locate_index(unit, (int)(algorithm[i]), &k);
+			bool stolen = TrigAllocator_locate_index(unit, (int)(getAlgorithm(i)), &k);
 			if (k >= 0) {
 				unit->m_gate[k] = stolen ? (-1.0 - in[i]) : in[i];
 				unit->m_in_use[k] = true;
 				unit->m_start_time[k] = unit->m_time;
-				unit->m_end_time[k] = unit->m_time + (uint32_t)(dur[i] * unit->mRate->mSampleRate);
+				unit->m_end_time[k] = unit->m_time + (uint32_t)(getDur(i) * unit->mRate->mSampleRate);
 				dprintf("TrigAllocator: allocate=%d, stolen=%d, end=%ld, time=%ld\n",
 					k, (int)stolen, unit->m_end_time[k], unit->m_time);
 			} else {

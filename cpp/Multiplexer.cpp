@@ -18,8 +18,7 @@ void Multiplexer_next(Multiplexer *unit, int inNumSamples)
 		if (selected < 0 || selected >= inputCount) {
 			fprintf(stderr, "Multiplexer: selector invalid: %d\n", selected);
 		} else {
-			OUT(0)
-			[i] = IN(selected + 1)[i];
+			unit->mOutBuf[0][i] = IN(selected + 1)[i];
 		}
 	}
 }
