@@ -1,12 +1,10 @@
 Multiplexer : PureUGen {
 
-	*kr {
-		arg selector = 0.0, inputArray;
+	*kr { |selector inputArray|
 		^this.multiNewList(['control', selector] ++ inputArray);
 	}
 
-	*ar {
-		arg selector = 0.0, inputArray;
+	*ar { |selector inputArray|
 		^this.multiNewList(['audio', selector] ++ inputArray);
 	}
 

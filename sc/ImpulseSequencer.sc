@@ -1,18 +1,19 @@
 ImpulseSequencer : PseudoUgen {
 
-	*ar {
-		arg valueArray, trig;
-		^ Sequencer.ar(valueArray, trig) * trig
+	*ar { |inArray trig|
+		^Sequencer.ar(inArray, trig) * trig
 	}
 
-	*kr {
-		arg valueArray, trig;
-		^ Sequencer.kr(valueArray, trig) * trig
+	*kr { |inArray trig|
+		^Sequencer.kr(inArray, trig) * trig
 	}
 
-	*new {
-		arg valueArray, trig;
-		^ Sequencer.new(valueArray, trig) * trig
+}
+
++ImpulseSequencer {
+
+	*new { |inArray trig|
+		^ImpulseSequencer.ar(inArray, trig)
 	}
 
 }

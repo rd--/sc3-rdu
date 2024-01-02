@@ -4,6 +4,8 @@
 
 #include <SC_PlugIn.h>
 
+#include "rdu.hpp"
+
 static InterfaceTable *ft;
 
 #define DemultiplexerMax 32
@@ -14,17 +16,17 @@ struct Demultiplexer : public Unit {
 
 void Demultiplexer_next(Demultiplexer *unit, int inNumSamples)
 {
-	float *input = IN(0);
-	float *selector = IN(1);
+	GetInput getInput = genGet(unit, 0);
+	GetInput getSelector = genGet(unit, 1);
 	for (int i = 0; i < inNumSamples; i++) {
 		float out[DemultiplexerMax];
-		uint32_t selected = (uint32_t)selector[i];
+		uint32_t selected = (uint32_t)getSelector(i);
 		if (selected < 0 || selected >= unit->m_num_outputs) {
 			printf("Demultiplexer: selector invalid: %d\n", selected);
 		}
 		for (uint32_t j = 0; j < unit->m_num_outputs; j++) {
 			if (j == selected) {
-				out[j] = input[i];
+				out[j] = getInput(i);
 			} else {
 				out[j] = 0.0;
 			}

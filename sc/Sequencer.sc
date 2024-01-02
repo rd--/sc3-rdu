@@ -1,18 +1,13 @@
 Sequencer : PseudoUgen {
 
-	*ar {
-		arg valueArray, trig;
-		^ Demand.ar(trig, 0, Dseq.dr(valueArray, inf))
+	*ar { |inArray trig|
+		var index = Stepper.ar(trig, 0, 0, inArray.size - 1, 1, 0);
+		^Select.ar(index, inArray)
 	}
 
-	*kr {
-		arg valueArray, trig;
-		^ Demand.kr(trig, 0, Dseq.dr(valueArray, inf))
-	}
-
-	*new {
-		arg valueArray, trig;
-		^ Sequencer.ar(valueArray, trig)
+	*kr { |inArray trig|
+		var index = Stepper.kr(trig, 0, 0, inArray.size - 1, 1, 0);
+		^Select.kr(index, inArray)
 	}
 
 }

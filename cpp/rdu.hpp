@@ -17,3 +17,11 @@ GetInput genGet(Unit *unit, int k) {
 	}
 	return getInput;
 }
+
+inline float getInput(Unit *unit, int k, int i) {
+	if (unit->mInput[k]->mCalcRate == calc_FullRate) {
+		return unit->mInBuf[k][i];
+	} else {
+		return unit->mInBuf[k][0];
+	}
+}

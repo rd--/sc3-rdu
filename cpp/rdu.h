@@ -152,12 +152,9 @@ It requires checking the input rate at every sample, even though it is fixed.
 The "correct" approach is to define separate "calculate" functions for each rate permutation, and to interpolate locally.
 See also rdu.hpp which defines a lambda expression allowing checking mCalcRate only once per control period.
 */
-#define rdu_get_input(k, i) \
-	((unit->mInput[k]->mCalcRate == calc_FullRate) ? unit->mInBuf[k][i] : unit->mInBuf[k][0])
-
-/*
 inline float getInput(Unit *unit, int k, int i)
 {
-	return (unit->mInput[k]->mCalcRate == calc_FullRate) ? unit->mInBuf[k][i] : unit->mInBuf[k][i];
+	return (unit->mInput[k]->mCalcRate == calc_FullRate) ? unit->mInBuf[k][i] : unit->mInBuf[k][0];
 }
-*/
+
+#define rdu_get_input(k, i) getInput(unit, k, i)
