@@ -1,5 +1,7 @@
 #include <SC_PlugIn.h>
 
+#include "rdu.hpp"
+
 static InterfaceTable *ft;
 
 struct TLinRandN : public Unit {
@@ -7,19 +9,14 @@ struct TLinRandN : public Unit {
 	float *m_store;
 };
 
-void TLinRandN_gen(TLinRandN *unit)
+void TLinRandN_gen(TLinRandN *unit, float lo, float hi, float minMax)
 {
-	uint32 nc = unit->mNumOutputs;
-	float lo = IN0(0);
-	float hi = IN0(1);
-	int minmax = (int)IN0(2);
 	float range = hi - lo;
 	RGen &rgen = *unit->mParent->mRGen;
-	uint32 i;
-	for (i = 0; i < nc; i++) {
+	for (uint32 i = 0; i < unit->mNumOutputs; i++) {
 		float a = rgen.frand();
 		float b = rgen.frand();
-		if (minmax <= 0) {
+		if (minMax <= 0) {
 			unit->m_store[i] = sc_min(a, b) * range + lo;
 		} else {
 			unit->m_store[i] = sc_max(a, b) * range + lo;
@@ -27,33 +24,31 @@ void TLinRandN_gen(TLinRandN *unit)
 	}
 }
 
-void TLinRandN_cpy(TLinRandN *unit)
+void TLinRandN_next(TLinRandN *unit, int inNumSamples)
 {
-	uint32 nc = unit->mNumOutputs;
-	uint32 i;
-	for (i = 0; i < nc; i++) {
-		OUT0(i) = unit->m_store[i];
+	GetInput getLo = genGet(unit, 0);
+	GetInput getHi = genGet(unit, 1);
+	GetInput getMinMax = genGet(unit, 2);
+	GetInput getTrig = genGet(unit, 3);
+	for (int i = 0; i < inNumSamples; i++) {
+		float trig = getTrig(i);
+		if (trig > 0.f && unit->m_trig <= 0.f) {
+			TLinRandN_gen(unit, getLo(i), getHi(i), getMinMax(i));
+		}
+		for (uint32 j = 0; j < unit->mNumOutputs; j++) {
+			unit->mOutBuf[j][i] = unit->m_store[j];
+		}
+		unit->m_trig = trig;
 	}
-}
-
-void TLinRandN_next_k(TLinRandN *unit, int inNumSamples)
-{
-	float trig = IN0(3);
-	if (trig > 0.f && unit->m_trig <= 0.f) {
-		TLinRandN_gen(unit);
-	}
-	TLinRandN_cpy(unit);
-	unit->m_trig = trig;
 }
 
 void TLinRandN_Ctor(TLinRandN *unit)
 {
 	unit->m_store = (float *)RTAlloc(unit->mWorld, unit->mNumOutputs * sizeof(float));
-	TLinRandN_gen(unit);
-	TLinRandN_cpy(unit);
-	SETCALC(TLinRandN_next_k);
 	unit->m_trig = IN0(3);
-	TLinRandN_next_k(unit, 1);
+	TLinRandN_gen(unit, IN0(0), IN0(1), IN0(2));
+	SETCALC(TLinRandN_next);
+	TLinRandN_next(unit, 1);
 }
 
 void TLinRandN_Dtor(TLinRandN *unit)

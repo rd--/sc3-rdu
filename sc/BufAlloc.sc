@@ -1,6 +1,6 @@
 BufAlloc {
 
-	*new { arg numChannels, numFrames;
+	*new { |numChannels numFrames|
 		^LocalBuf(numFrames, numChannels)
 	}
 

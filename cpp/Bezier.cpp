@@ -6,6 +6,8 @@
 #include "r-common/c/bezier.c"
 #include "r-common/c/print.h"
 
+#include "rdu.hpp"
+
 static InterfaceTable *ft;
 
 struct Bezier : public Unit {
@@ -15,13 +17,7 @@ struct Bezier : public Unit {
 	int m_points;
 };
 
-/*
-  k dx fr ph
-			 x0 y0 cx0 cy0 cx1 cy1 x1 y1
-								   x0 y0 cx0 cy0 cx1 cy1 x1 y1
-														 x0 y0 cx0 cy0 cx1 cy1 x1 y1
-*/
-
+/* k dx fr ph {x0 y0} cx0 cy0 cx1 cy1 x1 y1 ... */
 void Bezier_next(Bezier *unit, int inNumSamples)
 {
 	float *out = OUT(0);
@@ -36,20 +32,20 @@ void Bezier_next(Bezier *unit, int inNumSamples)
 		assert(ph >= 0.0 && ph <= 1.0);
 		for (int j = 0; j < unit->m_points; j++) {
 			int pt = 4 + (j * 6);
-			float x0 = IN0(pt + 0);
-			float x3 = IN0(pt + 6);
-			/* printf("i=%i, j=%i, pt=%d, ph=%.3f, x0=%.3f, x3=%.3f\n",i, j, pt, ph, x0, x3); */
+			float x0 = getInput(unit, pt + 0, i);
+			float x3 = getInput(unit, pt + 6, i);
+			dprintf("i=%i, j=%i, pt=%d, ph=%.3f, x0=%.3f, x3=%.3f\n",i, j, pt, ph, x0, x3);
 			if (ph >= x0 && ph <= x3) {
-				float y0 = IN0(pt + 1);
-				float x1 = IN0(pt + 2);
-				float y1 = IN0(pt + 3);
-				float x2 = IN0(pt + 4);
-				float y2 = IN0(pt + 5);
-				float y3 = IN0(pt + 7);
-				/* printf("(%.3f,.3%f) (%.3f,%.3f) (%.3f,%.3f) (%.3f,%.3f)\n", x0, y0, x1, y1, x2, y2, x3, y3); */
+				float y0 = getInput(unit, pt + 1, i);
+				float x1 = getInput(unit, pt + 2, i);
+				float y1 = getInput(unit, pt + 3, i);
+				float x2 = getInput(unit, pt + 4, i);
+				float y2 = getInput(unit, pt + 5, i);
+				float y3 = getInput(unit, pt + 7, i);
+				dprintf("(%.3f,.3%f) (%.3f,%.3f) (%.3f,%.3f) (%.3f,%.3f)\n", x0, y0, x1, y1, x2, y2, x3, y3);
 				out[i] = bezier4_y_mt(halt_after, dx, x0, y0, x1, y1, x2, y2, x3, y3, ph);
 				coherent = true;
-				/* printf("out[i]=%.3f\n",out[i]); */
+				dprintf("out[i]=%.3f\n",out[i]);
 				break;
 			}
 		}

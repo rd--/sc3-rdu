@@ -1,5 +1,7 @@
 #include <SC_PlugIn.h>
 
+#include "rdu.hpp"
+
 static InterfaceTable *ft;
 
 struct DustRange : public Unit {
@@ -9,22 +11,20 @@ struct DustRange : public Unit {
 void DustRange_next(DustRange *unit, int inNumSamples)
 {
 	float *out = OUT(0);
-	float iot_min = IN0(0);
-	float iot_max = IN0(1);
-	int32 counter = unit->mCounter;
+	GetInput getIotMin = genGet(unit, 0);
+	GetInput getIotMax = genGet(unit, 1);
 	RGen &rgen = *unit->mParent->mRGen;
 	for (int32 i = 0; i < inNumSamples; i++) {
-		if (counter <= 0) {
+		if (unit->mCounter <= 0) {
 			float z = rgen.frand();
+			float wait = (z * (getIotMax(i) - getIotMin(i))) + getIotMin(i);
 			out[i] = z;
-			z = (z * (iot_max - iot_min)) + iot_min;
-			counter = (int32)(z * unit->mRate->mSampleRate);
+			unit->mCounter = (int32)(wait * unit->mRate->mSampleRate);
 		} else {
 			out[i] = 0.0;
 		}
-		counter -= 1;
+		unit->mCounter -= 1;
 	}
-	unit->mCounter = counter;
 }
 
 void DustRange_Ctor(DustRange *unit)

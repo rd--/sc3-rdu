@@ -42,7 +42,7 @@ void TrigRoundRobin_next(TrigRoundRobin *unit, int inNumSamples)
 void TrigRoundRobin_Ctor(TrigRoundRobin *unit)
 {
 	unit->m_out = (float *)RTAlloc(unit->mWorld, unit->mNumOutputs * sizeof(float));
-	unit->m_trig = 0.0;
+	unit->m_trig = IN0(0);
 	unit->m_last_index_allocated = -1;
 	SETCALC(TrigRoundRobin_next);
 	TrigRoundRobin_next(unit, 1);

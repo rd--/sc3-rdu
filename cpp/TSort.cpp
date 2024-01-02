@@ -4,11 +4,13 @@
 
 #include "r-common/c/compare.h"
 
+#include "rdu.hpp"
+
 static InterfaceTable *ft;
 
 struct TSort : public Unit {
 	float *m_store;
-	float m_prev_t;
+	float m_prev_trig;
 };
 
 void TSort_step(TSort *unit)
@@ -23,27 +25,27 @@ void TSort_step(TSort *unit)
 
 void TSort_next(TSort *unit, int inNumSamples)
 {
-	float *in = IN(0);
-	int k = unit->mNumInputs - 1;
+	GetInput getTrig = genGet(unit, 0);
+	int inputCount = unit->mNumInputs - 1;
 	for (int i = 0; i < inNumSamples; i++) {
-		float t = in[i];
-		if (t > 0.0 && unit->m_prev_t <= 0.0) {
+		float trig = getTrig(i);
+		if (trig > 0.0 && unit->m_prev_trig <= 0.0) {
 			TSort_step(unit);
 		}
-		for (int j = 0; j < k; j++) {
+		for (int j = 0; j < inputCount; j++) {
 			unit->mOutBuf[j][i] = unit->m_store[j];
 		}
-		unit->m_prev_t = t;
+		unit->m_prev_trig = trig;
 	}
 }
 
 void TSort_Ctor(TSort *unit)
 {
-	int k = unit->mNumInputs - 1;
-	unit->m_store = (float *)RTAlloc(unit->mWorld, k * sizeof(float));
-	unit->m_prev_t = 0;
+	int inputCount = unit->mNumInputs - 1;
+	unit->m_store = (float *)RTAlloc(unit->mWorld, inputCount * sizeof(float));
+	unit->m_prev_trig = IN0(0);
 	SETCALC(TSort_next);
-	for (int i = 0; i < k; i++) {
+	for (int i = 0; i < inputCount; i++) {
 		unit->m_store[i] = IN0(i + 1);
 	}
 	TSort_next(unit, 1);

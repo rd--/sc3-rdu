@@ -1,5 +1,7 @@
 #include <SC_PlugIn.h>
 
+#include "rdu.hpp"
+
 static InterfaceTable *ft;
 
 struct TRandN : public Unit {
@@ -7,46 +9,39 @@ struct TRandN : public Unit {
 	float *m_store;
 };
 
-void TRandN_gen(TRandN *unit)
+void TRandN_gen(TRandN *unit, float lo, float hi)
 {
-	uint32 nc = unit->mNumOutputs;
-	float lo = IN0(0);
-	float hi = IN0(1);
 	float range = hi - lo;
 	RGen &rgen = *unit->mParent->mRGen;
-	uint32 i;
-	for (i = 0; i < nc; i++) {
+	for (uint32 i = 0; i < unit->mNumOutputs; i++) {
 		unit->m_store[i] = rgen.frand() * range + lo;
 	}
 }
 
-void TRandN_cpy(TRandN *unit)
+void TRandN_next(TRandN *unit, int inNumSamples)
 {
-	uint32 nc = unit->mNumOutputs;
-	uint32 i;
-	for (i = 0; i < nc; i++) {
-		OUT0(i) = unit->m_store[i];
+	GetInput getLo = genGet(unit, 0);
+	GetInput getHi = genGet(unit, 1);
+	GetInput getTrig = genGet(unit, 2);
+	for (int i = 0; i < inNumSamples; i++) {
+		float trig = getTrig(i);
+		if (trig > 0.f && unit->m_trig <= 0.f) {
+			TRandN_gen(unit, getLo(i), getHi(i));
+		}
+		for (uint32 j = 0; j < unit->mNumOutputs; j++) {
+			unit->mOutBuf[j][i] = unit->m_store[j];
+		}
+		unit->m_trig = trig;
 	}
-}
-
-void TRandN_next_k(TRandN *unit, int inNumSamples)
-{
-	float trig = IN0(2);
-	if (trig > 0.f && unit->m_trig <= 0.f) {
-		TRandN_gen(unit);
-	}
-	TRandN_cpy(unit);
-	unit->m_trig = trig;
 }
 
 void TRandN_Ctor(TRandN *unit)
 {
 	unit->m_store = (float *)RTAlloc(unit->mWorld, unit->mNumOutputs * sizeof(float));
-	TRandN_gen(unit);
-	TRandN_cpy(unit);
-	SETCALC(TRandN_next_k);
 	unit->m_trig = IN0(2);
-	TRandN_next_k(unit, 1);
+	TRandN_gen(unit, IN0(0), IN0(1));
+	SETCALC(TRandN_next);
+	TRandN_next(unit, 1);
 }
 
 void TRandN_Dtor(TRandN *unit)

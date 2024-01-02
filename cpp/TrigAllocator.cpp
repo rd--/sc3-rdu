@@ -100,7 +100,7 @@ void TrigAllocator_Ctor(TrigAllocator *unit)
 	unit->m_start_time = (uint64_t *)RTAlloc(unit->mWorld, unit->mNumOutputs * sizeof(uint64_t));
 	unit->m_end_time = (uint64_t *)RTAlloc(unit->mWorld, unit->mNumOutputs * sizeof(uint64_t));
 	unit->m_time = 0;
-	unit->m_trig = 0;
+	unit->m_trig = IN0(1);
 	unit->m_last_index_allocated = -1;
 	for (uint32_t i = 0; i < unit->mNumOutputs; i++) {
 		unit->m_gate[i] = 0.0;

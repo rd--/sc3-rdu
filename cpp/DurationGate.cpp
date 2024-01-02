@@ -2,9 +2,9 @@
 
 #include <SC_PlugIn.h>
 
-#include "rdu.hpp"
-
 #include "r-common/c/print.h"
+
+#include "rdu.hpp"
 
 static InterfaceTable *ft;
 
