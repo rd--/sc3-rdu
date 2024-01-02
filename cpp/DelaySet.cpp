@@ -27,7 +27,7 @@ void DelaySet_Ctor(DelaySet *unit)
 			unit->m_signal_n * sizeof(float));
 		memset((void *)unit->m_signal, 0, unit->m_signal_n * sizeof(float));
 	} catch (...) {
-		fprintf(stderr, "DelaySet_Ctor: RTAlloc failed...\n");
+		printf("DelaySet_Ctor: RTAlloc failed...\n");
 		unit->m_tap_n = 0;
 	}
 	SETCALC(DelaySet_next);

@@ -1,6 +1,8 @@
 #include <dlfcn.h>
 #include <stdio.h>
 
+#include "r-common/c/print.h"
+
 #include "Dl.h"
 #include "rdu.h"
 
@@ -16,39 +18,39 @@ struct Dl_Command {
 bool dl_cmd_stage2(World *w, Dl_Command *cmd)
 {
 	Dl *unit = (Dl *)cmd->unit;
-	printf("dl_cmd_stage2\n");
+	dprintf("dl_cmd_stage2\n");
 	unit->m_online = false;
 	unit->m_dsp_step = NULL;
 	if (unit->m_dsp_fd) {
-		printf("->dlclose()\n");
+		dprintf("->dlclose()\n");
 		dlclose(unit->m_dsp_fd);
 	}
-	printf("->dlopen(%s)\n", cmd->dl_name);
+	dprintf("->dlopen(%s)\n", cmd->dl_name);
 	unit->m_dsp_fd = dlopen(cmd->dl_name, RTLD_LAZY);
 	if (unit->m_dsp_fd == NULL) {
-		printf("->dlerror=%s", dlerror());
+		dprintf("->dlerror=%s", dlerror());
 		return false;
 	}
-	printf("->m_dsp_fd=%p\n", unit->m_dsp_fd);
+	dprintf("->m_dsp_fd=%p\n", unit->m_dsp_fd);
 	int (*memreq_f)() = (int (*)())dlsym(unit->m_dsp_fd, "dsp_memreq");
 	void (*init_f)(void *) = (void (*)(void *))dlsym(unit->m_dsp_fd, "dsp_init");
 	void *step_f = dlsym(unit->m_dsp_fd, "dsp_step");
-	printf("->dlsym(memreq)=%p\n", (void *)memreq_f);
-	printf("->dlsym(init)=%p\n", (void *)init_f);
-	printf("->dlsym(step)=%p\n", step_f);
+	dprintf("->dlsym(memreq)=%p\n", (void *)memreq_f);
+	dprintf("->dlsym(init)=%p\n", (void *)init_f);
+	dprintf("->dlsym(step)=%p\n", step_f);
 	if (memreq_f == NULL || init_f == NULL || step_f == NULL) {
 		printf("->dlerror=%s", dlerror());
 		return false;
 	}
-	printf("->memreq_f()\n");
+	dprintf("->memreq_f()\n");
 	size_t k = memreq_f();
-	printf("->k=%zd\n", k);
+	dprintf("->k=%zd\n", k);
 	if (unit->m_dsp_st) {
 		RTFree(w, unit->m_dsp_st);
 	}
 	unit->m_dsp_st = (void *)RTAlloc(w, k);
-	printf("->rtalloc=%p\n", unit->m_dsp_st);
-	printf("->init_f()\n");
+	dprintf("->rtalloc=%p\n", unit->m_dsp_st);
+	dprintf("->init_f()\n");
 	init_f(unit->m_dsp_st);
 	unit->m_dsp_step = (void (*)(void *, int))step_f;
 	return true;
@@ -56,11 +58,11 @@ bool dl_cmd_stage2(World *w, Dl_Command *cmd)
 
 bool dl_cmd_stage3(World *world, Dl_Command *cmd)
 {
-	printf("dl_cmd_stage3\n");
+	dprintf("dl_cmd_stage3\n");
 	Dl *unit = (Dl *)cmd->unit;
 	if (unit->m_dsp_step) {
 		unit->m_online = true;
-		printf("->online = true\n");
+		dprintf("->online = true\n");
 	} else {
 		printf("->dl_cmd_stage2 failed, offline...\n");
 	}
@@ -82,7 +84,7 @@ void dl_g_load(Unit *unit, struct sc_msg_iter *args)
 {
 	Dl *u = (Dl *)unit;
 	const char *arg = args->gets();
-	printf("dl_g_load: %s\n", arg);
+	dprintf("dl_g_load: %s\n", arg);
 	u->m_online = false;
 	Dl_Command *c = (Dl_Command *)RTAlloc(u->mWorld, sizeof(Dl_Command));
 	c->unit = unit;

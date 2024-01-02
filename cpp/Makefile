@@ -17,12 +17,14 @@ P = Bezier.so \
     DelaySetBuf.so \
     Demultiplexer.so \
     Dl.so \
+    DurationGate.so \
     DustRange.so \
     Dx7.so \
     Dx7Env.so \
     EnvTrapezoid.so \
     ExpRandN.so \
     Freezer.so \
+    Hold.so \
     IRandN.so \
     LagC.so \
     LinRandN.so \

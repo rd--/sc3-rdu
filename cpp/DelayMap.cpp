@@ -120,7 +120,7 @@ void DelayMap_next(DelayMap *unit, int inNumSamples)
 	float *out = OUT(0);
 	float *in = IN(1);
 	if (unit->m_buf_dl->frames - 1 < unit->m_signal_n) {
-		fprintf(stderr, "DelayMap_next: m_buf_dl->frames < m_signal_n\n");
+		printf("DelayMap_next: m_buf_dl->frames < m_signal_n\n");
 		return;
 	} else {
 		unit->m_signal = unit->m_buf_dl->data;

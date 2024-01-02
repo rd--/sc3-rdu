@@ -30,6 +30,7 @@ sc_add_server_plugin("sc3-rdu" "Dx7Env" "cpp/Dx7Env.cpp" "sc/Dx7Env.sc" "help/sc
 sc_add_server_plugin("sc3-rdu" "EnvTrapezoid" "cpp/EnvTrapezoid.cpp" "sc/EnvTrapezoid.sc" "help/scd/EnvTrapezoid.help.scd")
 sc_add_server_plugin("sc3-rdu" "ExpRandN" "cpp/ExpRandN.cpp" "sc/ExpRandN.sc" "help/scd/ExpRandN.help.scd")
 sc_add_server_plugin("sc3-rdu" "Freezer" "cpp/Freezer.cpp" "sc/Freezer.sc" "help/scd/Freezer.help.scd")
+sc_add_server_plugin("sc3-rdu" "Hold" "cpp/Hold.cpp" "sc/Hold.sc" "help/scd/Hold.help.scd")
 sc_add_server_plugin("sc3-rdu" "IRandN" "cpp/IRandN.cpp" "sc/IRandN.sc" "help/scd/IRandN.help.scd")
 sc_add_server_plugin("sc3-rdu" "LagC" "cpp/LagC.cpp" "sc/LagC.sc" "help/scd/LagC.help.scd")
 sc_add_server_plugin("sc3-rdu" "LinRandN" "cpp/LinRandN.cpp" "sc/LinRandN.sc" "help/scd/LinRandN.help.scd")

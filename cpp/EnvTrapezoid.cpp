@@ -3,6 +3,7 @@
 #include <SC_PlugIn.h>
 
 #include "r-common/c/gen-trapezoid.c"
+#include "r-common/c/print.h"
 #include "r-common/c/segment-transfer.c"
 
 #include "rdu.hpp"
@@ -26,7 +27,7 @@ void EnvTrapezoid_next(EnvTrapezoid *unit, int inNumSamples)
 		if (trig[i] > 0.0 && unit->trig <= 0.0) {
 			unit->count = 0;
 			unit->dur = getDur(i) * unit->mRate->mSampleRate;
-			// fprintf(stderr, "EnvTrapezoid: %f %f %f %f, %d\n", trig[i], getDur(i), getShape(i), getSkew(i), unit->dur);
+			dprintf("EnvTrapezoid: %f %f %f %f, %d\n", trig[i], getDur(i), getShape(i), getSkew(i), unit->dur);
 			gen_trapezoid(unit->env, 8, 1, getShape(i), getSkew(i));
 		}
 		if (unit->count < unit->dur) {

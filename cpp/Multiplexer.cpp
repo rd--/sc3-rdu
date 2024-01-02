@@ -16,7 +16,7 @@ void Multiplexer_next(Multiplexer *unit, int inNumSamples)
 	for (int i = 0; i < inNumSamples; i++) {
 		uint32_t selected = (uint32_t)selector[i];
 		if (selected < 0 || selected >= inputCount) {
-			fprintf(stderr, "Multiplexer: selector invalid: %d\n", selected);
+			printf("Multiplexer: selector invalid: %d\n", selected);
 		} else {
 			unit->mOutBuf[0][i] = IN(selected + 1)[i];
 		}

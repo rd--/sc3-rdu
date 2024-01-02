@@ -2,6 +2,8 @@
 
 #include <SC_PlugIn.h>
 
+#include "r-common/c/print.h"
+
 static InterfaceTable *ft;
 
 struct LagC : public Unit {
@@ -20,9 +22,6 @@ double curve(double c, double x0, double x1, double t)
 	}
 }
 
-/* #define d_printf printf */
-#define d_printf(...)
-
 /* AUDIO RATE NOT WORKING... */
 void LagC_next(LagC *unit, int inNumSamples)
 {
@@ -30,7 +29,7 @@ void LagC_next(LagC *unit, int inNumSamples)
 	float *in = IN(0);
 	float in_1 = unit->m_in_1;
 
-	d_printf("inNumSamples=%d\n", inNumSamples);
+	dprintf("inNumSamples=%d\n", inNumSamples);
 	for (int i = 0; i < inNumSamples; i++) {
 		if (unit->m_index >= 1.0) {
 			out[i] = unit->m_end;
@@ -38,9 +37,9 @@ void LagC_next(LagC *unit, int inNumSamples)
 			out[i] = curve(unit->m_curve, unit->m_start, unit->m_end, unit->m_index);
 			unit->m_index += unit->m_incr;
 		}
-		d_printf("in_1=%f, in[i]=%f, i=%d\n", in_1, in[i], i);
+		dprintf("in_1=%f, in[i]=%f, i=%d\n", in_1, in[i], i);
 		if (in[i] != in_1) {
-			d_printf("lag-up=%f, curve-up=%f, lag-down=%f, curve-down=%f\n", IN0(1), IN0(2), IN0(3), IN0(4));
+			dprintf("lag-up=%f, curve-up=%f, lag-down=%f, curve-down=%f\n", IN0(1), IN0(2), IN0(3), IN0(4));
 			unit->m_start = out[i];
 			unit->m_end = in[i];
 			if (unit->m_start < unit->m_end) {
@@ -53,7 +52,7 @@ void LagC_next(LagC *unit, int inNumSamples)
 				unit->m_curve = IN0(4);
 			}
 			unit->m_index = unit->m_incr;
-			d_printf("in[i-1]=%f, in[i]=%f, curve=%f, start=%f, end=%f, index=%f, incr=%f\n",
+			dprintf("in[i-1]=%f, in[i]=%f, curve=%f, start=%f, end=%f, index=%f, incr=%f\n",
 				in_1, in[i], unit->m_curve, unit->m_start, unit->m_end, unit->m_index, unit->m_incr);
 		}
 		in_1 = in[i];
