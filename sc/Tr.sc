@@ -1,17 +1,14 @@
 Tr : PseudoUgen {
 
-	*kr {
-		arg tr;
+	*kr { |tr|
 		^Trig.kr(tr, ControlDur.ir)
 	}
 
-	*ar {
-		arg tr;
+	*ar { |tr|
 		^Trig.ar(tr, SampleDur.ir * 2)
 	}
 
-	*new {
-		arg tr;
+	*new { |tr|
 		^this.performList(tr.rate.rateToSelector, [tr])
 	}
 

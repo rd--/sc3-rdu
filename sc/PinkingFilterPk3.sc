@@ -1,13 +1,11 @@
 PinkingFilterPk3 : PureUGen {
 
-	*ar {
-		arg in;
-		^this.multiNew('audio', in);
+	*ar { |in|
+		^this.multiNew('audio', in)
 	}
 
-	*kr {
-		arg in;
-		^this.multiNew('control', in);
+	*kr { |in|
+		^this.multiNew('control', in)
 	}
 
 }

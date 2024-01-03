@@ -7,7 +7,7 @@ DurationCycle : PseudoUgen {
 	*env { |durationArray|
 		var sampleDuration = 1 / 48000;
 		var levels = durationArray.stutter(2);
-		var times = durationArray.collect { | each |
+		var times = durationArray.collect { |each |
 			[each - sampleDuration, sampleDuration]
 		}.flat;
 		^Env.circle(levels, times, 'lin')

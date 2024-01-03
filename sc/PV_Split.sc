@@ -1,10 +1,8 @@
 PV_Split : PureMultiOutUGen {
 
-	init {
-		arg ... theInputs;
+	init { |... theInputs|
 		inputs = theInputs;
-		channels = [OutputProxy(rate, this, 0), OutputProxy(rate, this, 1)
-		];
+		channels = [OutputProxy(rate, this, 0), OutputProxy(rate, this, 1)];
 		^channels
 	}
 
@@ -14,8 +12,7 @@ PV_Split : PureMultiOutUGen {
 
 	// ----
 
-	*new {
-		arg bufferA, bufferB;
+	*new { |bufferA bufferB|
 		^this.multiNew('control', bufferA, bufferB)
 	}
 

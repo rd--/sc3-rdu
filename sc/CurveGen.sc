@@ -1,7 +1,10 @@
 CurveGen : PseudoUgen {
 
-	*envFor {
-		arg levels, times, curves;
+	*ar { |gate levels times curves|
+		^EnvGen.ar(this.envFor(levels, times, curves), gate, 1, 0, 1, 0)
+	}
+
+	*envFor { |levels times curves|
 		^Env(
 			[levels.first] ++ levels,
 			[0] ++ times,
@@ -12,19 +15,12 @@ CurveGen : PseudoUgen {
 		)
 	}
 
-	*new {
-		arg gate, levels, times, curves;
-		^this.ar(gate, levels, times, curves)
-	}
-
-	*ar {
-		arg gate, levels, times, curves;
-		^EnvGen.ar(this.envFor(levels, times, curves), gate, 1, 0, 1, 0)
-	}
-
-	*kr {
-		arg gate, levels, times, curves;
+	*kr { |gate levels times curves|
 		^EnvGen.kr(this.envFor(levels, times, curves), gate, 1, 0, 1, 0)
+	}
+
+	*new { |gate levels times curves|
+		^this.ar(gate, levels, times, curves)
 	}
 
 }

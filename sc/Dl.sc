@@ -1,15 +1,13 @@
 Dl : MultiOutUGen {
 
-	init {
-		arg numChannels, inputArray;
+	init { |numChannels inputArray|
 		inputs = inputArray;
 		^this.initOutputs(numChannels, rate)
 	}
 
 	// ----
 
-	*ar {
-		arg numChannels = 1, inputArray = nil;
+	*ar { |numChannels=1 inputArray|
 		^this.multiNewList(['audio', numChannels] ++ inputArray)
 	}
 

@@ -1,7 +1,7 @@
-DelayMap : PureUGen { // not Filter because input is not at argument zero
+// DelayMap is not a Filter because the input is not at index zero.
+DelayMap : PureUGen {
 
-	*ar {
-		arg bufnum = 0.0, in = 0.0, dynamic = 0.0, spec;
+	*ar { |bufnum=0 in=0 dynamic=0 spec|
 		^this.multiNewList(['audio', bufnum, in, dynamic] ++ spec);
 	}
 

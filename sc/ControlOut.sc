@@ -1,12 +1,10 @@
 ControlOut : PseudoUgen {
 
-	*kr {
-		arg bus = 0, channelsArray;
+	*kr { |bus=0 channelsArray|
 		^Out.kr(bus, channelsArray)
 	}
 
-	*new {
-		arg bus = 0, channelsArray;
+	*new { |bus=0 channelsArray|
 		^ControlOut.kr(bus, channelsArray.kr)
 	}
 

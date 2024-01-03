@@ -1,17 +1,14 @@
 LinGen : PseudoUgen {
 
-	*ar {
-		arg gate, levels, times;
+	*ar { |gate levels times|
 		^CurveGen.ar(gate, levels, times, ['lin'])
 	}
 
-	*kr {
-		arg gate, levels, times;
+	*kr { |gate levels times|
 		^CurveGen.kr(gate, levels, times, ['lin'])
 	}
 
-	*new {
-		arg gate, levels, times;
+	*new { |gate levels times|
 		^LinGen.ar(gate, levels, times)
 	}
 

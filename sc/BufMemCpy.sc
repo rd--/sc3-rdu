@@ -1,7 +1,6 @@
 BufMemCpy {
 
-	*message {
-		arg bufferNumber, numFrames, numChannels, sampleRate, bufferData;
+	*message { |bufferNumber numFrames numChannels sampleRate bufferData|
 		^[
 			'/b_gen',
 			bufferNumber, // Int

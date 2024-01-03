@@ -1,7 +1,6 @@
 Select2 : PseudoUgen {
 
-	*new {
-		arg predicate, ifTrue, ifFalse;
+	*new { |predicate ifTrue ifFalse|
 		^(predicate * (ifTrue - ifFalse)) + ifFalse
 	}
 

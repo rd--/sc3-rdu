@@ -1,8 +1,8 @@
-LoopSet : PureUGen { // not Filter because input is not at argument zero
+// LoopSet is not a Filter because input is not in first place.
+LoopSet : PureUGen {
 
-	*ar {
-		arg  bufnum = 0.0, left = 0.0, right = 1.0, gain = 1.0, increment = 1.0, spec;
-		^this.multiNewList(['audio', bufnum, left, right, gain, increment] ++ spec);
+	*ar { |bufnum=0 left=0 right=1 gain=1 increment=1 spec|
+		^this.multiNewList(['audio', bufnum, left, right, gain, increment] ++ spec)
 	}
 
 }
