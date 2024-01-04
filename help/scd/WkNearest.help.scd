@@ -1,6 +1,6 @@
 // WkNearest
 var k = 1;
-var usePen = true;
+var usePen = false;
 var x = usePen.if { PenX(1) * 2 - 1 } { MouseX.kr(-1, 1, 0, 0.2) };
 var y = usePen.if { PenY(1) * 2 - 1 } { MouseY.kr(-1, 1, 0, 0.2) };
 var c = [-45, 45, 135, -135].collect { | each |
@@ -13,4 +13,4 @@ var z = [
 	Saw.ar(111),
 	Pulse.ar(222, 0.5)
 ] * 0.1;
-Select.ar(n, z)
+Multiplexer.ar(n, z)

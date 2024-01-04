@@ -10,7 +10,7 @@ var c = DustRange.ar(iotMin: 0.5, iotMax: 1.25);
 	Impulse.ar(10, 0)
 ] * 0.1
 
-// DustRange ; mean iot=0.0005 is equivalent to density=2000 at dust, dustRange spacing is more uniform
+// DustRange ; mean iot=0.0005 ~= to density=2000, dustRange spacing is more uniform
 [
 	DustRange.ar(0.0001, 0.001) * 0.1,
 	Dust.ar(2000) * 0.05
@@ -35,4 +35,9 @@ Trig.ar(d, SampleDur.ir()) * s.sign * 0.1
 } ! 2 * 0.5
 
 //---- DustRange ; c.f. impulse
-{ [Impulse.ar(freq: 1000, phase: 0) * 0.5, DustRange.ar(iotMin: 0.001, iotMax: 0.001)] }.plot(duration: 0.01)
+{
+	[
+		Impulse.ar(freq: 1000, phase: 0) * 0.5,
+		DustRange.ar(iotMin: 0.001, iotMax: 0.001)
+	]
+}.plot(duration: 0.01)

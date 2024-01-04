@@ -78,8 +78,9 @@ void TrigAllocator_next(TrigAllocator *unit, int inNumSamples)
 				unit->m_gate[k] = stolen ? (-1.0 - in[i]) : in[i];
 				unit->m_in_use[k] = true;
 				unit->m_start_time[k] = unit->m_time;
-				unit->m_end_time[k] = unit->m_time + (uint32_t)(getDur(i) * unit->mRate->mSampleRate);
-				dprintf("TrigAllocator: allocate=%d, stolen=%d, end=%ld, time=%ld\n",
+				uint32_t dur = getDur(i) * unit->mRate->mSampleRate;
+				unit->m_end_time[k] = unit->m_time + dur;
+				dprintf("TrigAllocator: k=%d, stolen=%d, end=%ld, time=%ld\n",
 					k, (int)stolen, unit->m_end_time[k], unit->m_time);
 			} else {
 				dprintf("TrigAllocator: no index located: stolen=%d time=%ld\n",

@@ -17,7 +17,9 @@ void DustRange_next(DustRange *unit, int inNumSamples)
 	for (int32 i = 0; i < inNumSamples; i++) {
 		if (unit->mCounter <= 0) {
 			float z = rgen.frand();
-			float wait = (z * (getIotMax(i) - getIotMin(i))) + getIotMin(i);
+			float l = getIotMin(i);
+			float r = getIotMax(i);
+			float wait = (z * (r - l)) + l;
 			out[i] = z;
 			unit->mCounter = (int32)(wait * unit->mRate->mSampleRate);
 		} else {

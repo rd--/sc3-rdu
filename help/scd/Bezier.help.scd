@@ -45,8 +45,8 @@ var f = {
 f !+ 4
 
 // Bezier ; event control
-var voiceFunc = { | e |
-    var w = { | l r |
+Voicer(0, 4) { |e|
+    var w = { |l r|
         LFDNoise3.ar(freq: e.j * 5).range(lo: l, hi: r)
     };
     {
@@ -62,8 +62,7 @@ var voiceFunc = { | e |
         var o = Bezier.ar(freq: w.value(200, 205) * (e.x + 0.5), phase: 0, param: p);
         Pan2.ar(in: o, pos: e.i * 2 - 1, level: e.z * LagUD.kr(in: e.w, lagTimeU: 0.01, lagTimeD: e.y * 4))
     } !+ 4
-};
-Voicer.ar(numVoices: 4, voiceFunc: voiceFunc).sum
+}.sum
 
 //---- ui
 ContinuousEventUi.new(frameRate: 20, areaWidth: 230, areaHeight: 130, areaScaling: 2.5, gridFileName: nil).makeWindow;

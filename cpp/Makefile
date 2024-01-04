@@ -77,7 +77,7 @@ uninstall:
 	(cd $(T) ; rm -f $(P))
 
 indent:
-	clang-format -i *.cpp *.h
+	clang-format -i *.cpp *.h *.hpp
 
 diff-ignoring-whitespace:
 	git diff --ignore-space-at-eol --ignore-space-change --ignore-all-space

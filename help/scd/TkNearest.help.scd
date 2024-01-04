@@ -7,4 +7,4 @@ var c = [-45, 45, 135, -135].collect { | each |
 }.flat;
 var k = TkNearest.kr(2, t, x, y, 0, c);
 var z = [SinOsc.ar(333, 0), PinkNoise.ar, Saw.ar(111), Pulse.ar(222, 0.5)] * 0.1;
-Select.ar(k, z)
+Multiplexer.ar(k, z)

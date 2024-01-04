@@ -34,6 +34,7 @@ var voiceFunc = { | e |
 	)
 };
 Voicer.ar(
+	part: 0,
 	numVoices: 16,
 	voiceFunc: voiceFunc
 ).sum
