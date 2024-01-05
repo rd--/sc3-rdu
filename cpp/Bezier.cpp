@@ -1,16 +1,11 @@
 #include <assert.h>
 #include <stdio.h>
 
-// #define DEBUG
-
 #include <SC_PlugIn.h>
 #include "r-common/c/bezier.c"
 #include "r-common/c/print.h"
 
 #include "rdu.hpp"
-
-// #define BezierMaxPt 16
-// #define BezierMaxCtl (BezierMaxPt * 6 - 4)
 
 static InterfaceTable *ft;
 
@@ -21,35 +16,17 @@ struct Bezier : public Unit {
 	int m_points;
 };
 
-// #define GetCtl(k) getCtl[pt + k](i)
-// #define GetCtl(k) getInput(unit, pt + 4 + k, i)
-#define GetCtl(k) IN0(pt + 4 + k)
+#define GetCtl(k) getInput(unit, pt + 4 + k, i)
 
 /* k dx fr ph {x0 y0} cx0 cy0 cx1 cy1 x1 y1 ... */
 void Bezier_next(Bezier *unit, int inNumSamples)
 {
 	float *out = OUT(0);
-	/*
-	if(unit->m_points > BezierMaxPt) {
-		printf("Bezier: exceeds maximum allowed points: %d > %d\n",
-		       unit->m_points, BezierMaxPt);
-		for (int i = 0; i < inNumSamples; i++) {
-			out[i] = 0.0;
-		}
-		return;
-	}
-	*/
 	int halt_after = unit->m_halt_after;
 	float dx = unit->m_dx;
 	float ph = unit->m_phase;
 	float ph_incr = IN0(2) / unit->mRate->mSampleRate;
 	assert(ph_incr > 0.0 && ph_incr <= 1.0);
-	/*
-	GetInput getCtl[BezierMaxCtl];
-	for (uint32 k = 0; k < unit->mNumInputs - 4; k++) {
-		getCtl[k] = genGet(unit, k + 4);
-	}
-	*/
 	for (int i = 0; i < inNumSamples; i++) {
 		bool coherent = false;
 		out[i] = 0.0;
