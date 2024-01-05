@@ -5,7 +5,10 @@ SinOsc.ar(freq: 440, phase: 0) * 0.1
 Bezier.ar(
 	freq: 440,
 	phase: 0,
-	param: [0, 0, 0.2, -1.3, 0.3, -1.3, 0.5, 0, 0.7, 1.3, 0.8, 1.3, 1, 0]
+	param: [
+		0, 0, 0.2, -1.3, 0.3, -1.3,
+		0.5, 0, 0.7, 1.3, 0.8, 1.3,
+		1, 0]
 ) * 0.1
 
 // Bezier ; mouse control of frequency
@@ -29,7 +32,7 @@ Bezier.ar(
 var w = { | l r |
 	LFDNoise3.ar(freq: 2).range(lo: l, hi: r)
 };
-var f = {
+{
 	var p = [
 		0, 0,
 		w.value(0.05, 0.25), -1.3,
@@ -41,8 +44,7 @@ var f = {
 	];
 	var o = Bezier.ar(freq: w.value(200, 205), phase: 0, param: p);
 	Pan2.ar(in: o, pos: IRand.new(lo: -1, hi: 1), level: 0.1)
-};
-f !+ 4
+} !+ 4
 
 // Bezier ; event control
 Voicer(0, 4) { |e|
