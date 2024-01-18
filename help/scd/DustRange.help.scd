@@ -2,7 +2,7 @@
 var a = DustRange.ar(iotMin: 0.0001, iotMax: 0.001) * 0.1;
 var b = DustRange.ar(iotMin: 0.1, iotMax: 0.1) * 0.5;
 var c = DustRange.ar(iotMin: 0.5, iotMax: 1.25);
-[a, b, c].splay2
+Splay.ar([a, b, c])
 
 // DustRange ; audio rate impulse train of varying amplitude (min = max)
 [
@@ -29,7 +29,7 @@ Trig.ar(d, SampleDur.ir()) * s.sign * 0.1
 	var dur = TRand.ar(0.01, 0.5, tr);
 	var f0 = TRand.ar(48, 60, tr);
 	var f1 = TRand.ar(36, 84, tr);
-	var freq = TLine.ar(f0, f1, dur, tr).midiCps;
+	var freq = TLine.ar(f0, f1, dur, tr).midicps;
 	var env = Decay2.ar(tr, 0.01, dur);
 	SinOsc.ar(freq, 0) * env
 } ! 2 * 0.5

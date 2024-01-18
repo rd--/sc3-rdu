@@ -34,7 +34,7 @@ var trig3 = ImpulseSequencer.kr(
 	[0.4, 0.0, 0.1, 0.1, 0.4, 0.1, 0.1, 0.1] * 1.5,
 	clock
 );
-var freq = (DegreeToKey.kr(scale, DemandSequencer.kr(p, clock), 12) - 12 + root).midiCps;
+var freq = (DegreeToKey.kr(scale, DemandSequencer.kr(p, clock), 12) - 12 + root).midicps;
 var z = RLPF.ar(
 	VarSaw.ar(freq * [1, 1.505], 0, MouseY.kr(0, 1, 0, 0.2)) * Decay2.kr(trig3, 0.005, 0.8),
 	MouseX.kr(200, 8000, 1, 0.2),
@@ -44,12 +44,12 @@ var trig4 = ImpulseSequencer.kr(
 	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1] * 0.2,
 	clock
 );
-var y = SinOsc.ar((root + 24).midiCps, 0) * Decay2.kr(trig4, 0.005, 0.2);
+var y = SinOsc.ar((root + 24).midicps, 0) * Decay2.kr(trig4, 0.005, 0.2);
 var trig5 = ImpulseSequencer.kr(
 	[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1] * 0.3,
 	clock
 );
-var w = SinOsc.ar((root + 24 + 7).midiCps, 0) * Decay2.kr(trig5, 0.005, 0.2);
+var w = SinOsc.ar((root + 24 + 7).midicps, 0) * Decay2.kr(trig5, 0.005, 0.2);
 var snd = (r * 0.1 + x + z + [y, w]) * 0.4;
 (CombN.ar(snd, 0.51, 0.51, 4) * 0.4 + snd.reverse).softclip
 

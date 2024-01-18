@@ -36,7 +36,7 @@ var y = OverlapTexture({ | tr |
 	DynRingzBank.ar(exc4, { TIRand.kr(200, 2500, tr) }, nil, { TRand.kr(0.2, 0.8, tr) } ! 4) * env
 }, 4, 2, 2).scaleneg(MouseX.kr(-1, 1, 0, 0.2));
 var snd = x + (y * 0.5) + s + r;
-6.timesRepeat {
+6.do {
 	snd = AllpassN.ar(LPZ2.ar(snd), 0.03, [0.03.rand, 0.03.rand], 5)
 };
 snd

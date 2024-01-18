@@ -2,7 +2,7 @@ MultiTapDelay {
 
     *ar { |timesArray levelsArray in|
         var delayFrames = timesArray.maxItem * Server.default.sampleRate;
-        var buf = BufAlloc(in.asArray.size, delayFrames).clearBuf;
+        var buf = BufAlloc(in.asArray.size, delayFrames).clear;
         ^MultiTap.ar(timesArray, levelsArray, in, 1, 0, buf)
 		/*
 		var writer = DelayWrite(buf, in);

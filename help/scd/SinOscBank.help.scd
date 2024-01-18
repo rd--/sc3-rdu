@@ -4,4 +4,4 @@ var f2 = [977, 1003, 1390, 1414, 1432, 1465, 1748, 1834, 1919, 1933, 1987, 2096,
 [f1, f2].collect { | f |
     var o = SinOscBank.ar(f, { Rand.ir(0, 0.1) } ! f.size * (1 / f) * f.size * f.size, [0]);
     Pan2.ar(o, LFNoise2.ar(0.25), LFNoise2.ar(0.5) / 4 + 0.25)
-}.mix
+}.sum

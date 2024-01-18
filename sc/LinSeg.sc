@@ -6,8 +6,8 @@ LinSeg : PseudoUgen {
 
 	*envFor { |coordArray|
 		var coord = coordArray.clump(2).flop;
-		var levels = coord.first;
-		var times = coord.second;
+		var levels = coord[0];
+		var times = coord[1];
 		^Env.new([levels[0]] ++ levels, [[0]] ++ times.copyRange(0, times.size - 2), 'lin', nil, nil, 0)
 	}
 

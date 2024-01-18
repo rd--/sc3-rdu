@@ -8,7 +8,7 @@ CurveGen : PseudoUgen {
 		^Env(
 			[levels.first] ++ levels,
 			[0] ++ times,
-			[0] ++ curves.extendCyclically(times.size),
+			[0] ++ times.size.collect { |i| curves.wrapAt(i) },
 			nil,
 			nil,
 			0

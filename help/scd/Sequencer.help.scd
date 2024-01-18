@@ -32,7 +32,7 @@ var trig2 = ImpulseSequencer.kr(
 var freq = (Sequencer.kr(
 	inArray: [33, 33, 35, 36, 45, 47, 38, 40, 33, 33, 35, 36, 47, 48, 50, 52],
 	trig: clock
-) + root).midiCps;
+) + root).midicps;
 var z = VarSaw.ar(
 	freq: freq * [1, 1.505],
 	iphase: 0,
@@ -69,12 +69,12 @@ var x = { PinkNoise.ar } ! 2 * 2 * env;
 var y;
 var z = LinExp.kr(LFTri.kr(0.2, 0), -1, 1, 1 / 18000, 1 / 50); // flanger lfo
 var freq;
-3.timesRepeat { // delays
+3.do { // delays
 	x = DelayL.ar(x, 0.1, z) + x
 };
 x = RLPF.ar(x, MouseY.kr(200, 8000, 0, 0.2), 0.2, 0.6).distort;
 trig = PulseDivider.kr(clock, 2, 0);
-freq = Sequencer.kr(p, trig).midiCps;
+freq = Sequencer.kr(p, trig).midicps;
 env = Decay2.kr(trig, 0.002, 2) * 0.6;
 y = RLPF.ar(LFSaw.ar(freq * [1, 1.505], 0, env * 8), MouseX.kr(100, 8000, 1, 0.2) * (1 + env), 0.1).distort * 0.08;
 x = CombN.ar(x + y, 0.33, 0.33, 2) * 0.5 + x;

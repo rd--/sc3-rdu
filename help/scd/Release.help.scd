@@ -5,7 +5,7 @@ Release.ar(SinOsc.ar(440, 0) * 0.1, 0.01, 3, 7)
 Release.ar(in: SinOsc.ar(freq: 440, phase: 0) * 0.1, attackTime: 0.01, dur: 3, releaseTime: 7)
 
 //---- Release ; process ; requires=fork (i.e. sclang-fork-region)
-9.timesRepeat {
+9.do {
 	{
 		Release.ar(
 			Pan2.ar(SinOsc.ar(Rand.ir(200, 400), 0), Rand.ir(-1, 1), Rand.ir(0.01, 0.1)),
