@@ -15,9 +15,9 @@ TxLine : PseudoUgen {
 	}
 
 	/*
-		*kr { |start=0.0 end=1.0 dur=10 trig=0|
+	*kr { |start=0.0 end=1.0 dur=10 trig=0|
 		^LinExp.kr(Sweep.kr(trig, 1 / dur), 0, 1, start, end);
-		}
+	}
 	*/
 
 }

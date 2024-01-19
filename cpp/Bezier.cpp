@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include <SC_PlugIn.h>
+
 #include "r-common/c/bezier.c"
 #include "r-common/c/print.h"
 

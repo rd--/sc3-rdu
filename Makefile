@@ -29,6 +29,7 @@ push-tags:
 indent:
 	(cd cpp ; make indent)
 	(cd hs ; make indent)
+	spl-indent sc/*.sc
 
 doctest:
 	doctest -Wno-x-partial -Wno-incomplete-uni-patterns hs/Sound
