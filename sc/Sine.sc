@@ -1,23 +1,22 @@
 Sine : PseudoUgen {
 
 	*ar { |trig, dur = 1 |
-		^Sine.new(trig, dur)
+		^EnvGen.ar(Sine.env(trig, dur), trig)
 	}
 
 	*kr { |trig, dur = 1 |
-		^Sine.new(trig, dur)
+		^EnvGen.kr(Sine.env(trig, dur), trig)
 	}
 
-	*new { |trig, dur = 1 |
-		var env = Env.new(
+	*env { |trig, dur = 1 |
+		^Env.new(
 			[0, 0, 1, 0],
 			[0, dur / 2, dur / 2],
-			\sine,
+			'sine',
 			nil,
 			nil,
 			0
-		);
-		^env.asEnvGen(trig)
+		)
 	}
 
 }

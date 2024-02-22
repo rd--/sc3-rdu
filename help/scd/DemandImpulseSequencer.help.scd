@@ -1,21 +1,21 @@
-// DemandImpulseSequencer ; jmcc
+// DemandImpulseSequencer ; Jmcc
 var z = 0, a = 0.1, b = 0.2, c = 0.4;
 var p = [
-	Dseq.dr([c, z, z, z, z, z, z, z], 2),
-	Dseq.dr([c, z, z, b, z, z, b, z, c, z, z, z, b, z, b, a], 2),
+	Dseq([c, z, z, z, z, z, z, z], 2),
+	Dseq([c, z, z, b, z, z, b, z, c, z, z, z, b, z, b, a], 2),
 	Drand([
-		Dseq.dr([c, z, z, b, z, z, b, z, c, z, b, z, c, z, b, z], 2),
-		Dseq.dr([c, z, a, b, z, a, b, z, c, z, b, z, c, a, b, a], 2),
-		Dseq.dr([c, a, a, b, z, a, b, a, c, z, b, z, c, a, b, a], 2),
-		Dseq.dr([c, a, a, b, z, a, b, a, c, z, b, z, z, b, a, a], 2),
-		Dseq.dr([c, z, z, z, z, z, z, z], 2),
-		Dseq.dr([c, z, z, b, z, z, b, z, c, z, z, z, b, z, b, a], 2)
+		Dseq([c, z, z, b, z, z, b, z, c, z, b, z, c, z, b, z], 2),
+		Dseq([c, z, a, b, z, a, b, z, c, z, b, z, c, a, b, a], 2),
+		Dseq([c, a, a, b, z, a, b, a, c, z, b, z, c, a, b, a], 2),
+		Dseq([c, a, a, b, z, a, b, a, c, z, b, z, z, b, a, a], 2),
+		Dseq([c, z, z, z, z, z, z, z], 2),
+		Dseq([c, z, z, b, z, z, b, z, c, z, z, z, b, z, b, a], 2)
 	], inf)
 ];
-var q = Drand.dr([
-	Dseq.dr([c, z, b, z, a, a, a, a, b, z, b, z, z, z, b, z], 2),
-	Dseq.dr([c, z, z, z, z, z, z, z, b, z, b, z, z, z, c, z], 2),
-	Dseq.dr([c, z, z, z, a, z, z, z, b, z, b, z, a, z, c, z], 2)
+var q = Drand([
+	Dseq([c, z, b, z, a, a, a, a, b, z, b, z, z, z, b, z], 2),
+	Dseq([c, z, z, z, z, z, z, z, b, z, b, z, z, z, c, z], 2),
+	Dseq([c, z, z, z, a, z, z, z, b, z, b, z, a, z, c, z], 2)
 ], inf);
 var clock = Impulse.kr(9, 0);
 // bass drum

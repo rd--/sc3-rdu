@@ -44,7 +44,7 @@ var w = { | l r |
 	];
 	var o = Bezier.ar(freq: w.value(200, 205), phase: 0, param: p);
 	Pan2.ar(in: o, pos: IRand.new(lo: -1, hi: 1), level: 0.1)
-} !+ 4
+}.dup(4).sum
 
 // Bezier ; event control
 Voicer(0, 4) { |e|
@@ -63,7 +63,7 @@ Voicer(0, 4) { |e|
 		];
         var o = Bezier.ar(freq: w.value(200, 205) * (e.x + 0.5), phase: 0, param: p);
         Pan2.ar(in: o, pos: e.i * 2 - 1, level: e.z * LagUD.kr(in: e.w, lagTimeU: 0.01, lagTimeD: e.y * 4))
-    } !+ 4
+    }.dup(4).sum
 }.sum
 
 //---- ui

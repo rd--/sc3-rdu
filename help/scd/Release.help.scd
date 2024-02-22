@@ -8,7 +8,7 @@ Release.ar(in: SinOsc.ar(freq: 440, phase: 0) * 0.1, attackTime: 0.01, dur: 3, r
 9.do {
 	{
 		Release.ar(
-			Pan2.ar(SinOsc.ar(Rand.ir(200, 400), 0), Rand.ir(-1, 1), Rand.ir(0.01, 0.1)),
+			Pan2.ar(SinOsc.ar(Rand(200, 400), 0), Rand(-1, 1), Rand(0.01, 0.1)),
 			0.01,
 			3,
 			7

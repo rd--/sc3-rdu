@@ -1,7 +1,7 @@
 // DemandSequencer ; jmcc
-var p = Drand.dr([
-	Dseq.dr([0, 0, 1, 2, 7, 8, 9, 8, 10, 10, 1, 2, 1, 2, 3, 4, 0, 0, 1, 2, 7, 8, 9, 8, 11, 11, 1, 2, 1, 2, 3, 4], 1),
-	Dseq.dr([0, 0, 1, 2, 7, 8, 3, 4, 0, 0, 1, 2, 1, 2, 3, 4, 0, 0, 1, 2, 7, 8, 3, 4, 0, 0, 1, 2, 1, 2, 3, 4], 2)
+var p = Drand([
+	Dseq([0, 0, 1, 2, 7, 8, 9, 8, 10, 10, 1, 2, 1, 2, 3, 4, 0, 0, 1, 2, 7, 8, 9, 8, 11, 11, 1, 2, 1, 2, 3, 4], 1),
+	Dseq([0, 0, 1, 2, 7, 8, 3, 4, 0, 0, 1, 2, 1, 2, 3, 4, 0, 0, 1, 2, 7, 8, 3, 4, 0, 0, 1, 2, 1, 2, 3, 4], 2)
 ], inf);
 var clock = Impulse.kr(12, 0);
 var root = Sequencer.kr(
@@ -55,11 +55,11 @@ var snd = (r * 0.1 + x + z + [y, w]) * 0.4;
 
 // DemandSequencer ; Jmcc ; cf. TRand
 var clock = Impulse.kr(16, 0);
-var x = SinOsc.ar(DemandSequencer.kr(Dwhite.dr(2000, 12000, inf), clock), 0) * Decay2.kr(clock, 0.002, 0.04);
+var x = SinOsc.ar(DemandSequencer.kr(Dwhite(2000, 12000, inf), clock), 0) * Decay2.kr(clock, 0.002, 0.04);
 CombN.ar(x, 0.2, { Rand(0.04, 0.2) } ! 2, 2) * Line.kr(0.2, 0, 4)
 
 // DemandSequencer ; Jmcc ; cf. TRand
 var clock = Impulse.kr(XLine.kr(24, 1, 12), 0);
-var x = SinOsc.ar(DemandSequencer.kr(Dwhite.dr(2000, 12000, inf), clock), 0) * Decay2.kr(clock, 0.002, 0.04);
+var x = SinOsc.ar(DemandSequencer.kr(Dwhite(2000, 12000, inf), clock), 0) * Decay2.kr(clock, 0.002, 0.04);
 var c = { CombN.ar(x, 0.1, { ExpRand(0.02, 0.05) } ! 2, 2) * Line.kr(0.2, 0, 12) } ! 2;
 c.sum
