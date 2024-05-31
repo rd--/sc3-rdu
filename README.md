@@ -76,4 +76,4 @@ references:
 - pk: <https://www.firstpr.com.au/dsp/pink-noise/>
 - mverb: <https://github.com/martineastwood/mverb>
 
-© [rohan drape](http://rohandrape.net/), 1998-2023, [gpl](http://gnu.org/copyleft/)
+© [rohan drape](http://rohandrape.net/), 1998-2024, [gpl](http://gnu.org/copyleft/)

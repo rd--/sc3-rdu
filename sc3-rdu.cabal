@@ -5,12 +5,12 @@ synopsis:          haskell sc3-rdu (sc3 rd ugens)
 description:       haskell sc3-rdu (sc3 rd ugens)
 License:           GPL-3.0-only
 Category:          Sound
-Copyright:         (c) Rohan Drape, 1998-2023
+Copyright:         (c) Rohan Drape, 1998-2024
 Author:            Rohan Drape
 Maintainer:        rd@slavepianos.org
 Stability:         Experimental
 Homepage:          http://rohandrape.net/t/sc3-rdu
-Tested-With:       GHC == 9.8.1
+Tested-With:       GHC == 9.10.1
 Build-Type:        Simple
 
 Data-files:        README.md
