@@ -16,18 +16,18 @@ Arguments are:
 void BufMemCpy(World *world, struct SndBuf *buf, struct sc_msg_iter *msg)
 {
 	int bufSize = buf->samples * sizeof(float);
-	int numFrames = msg->geti();
-	int numChannels = msg->geti();
+	int numFrames = msg->geti(); /* no default value */
+	int numChannels = msg->geti(); /* no default value */
 	int numSamples = numFrames * numChannels;
-	float sampleRate = msg->getf();
+	float sampleRate = msg->getf(); /* no default value */
 	int dataSize = msg->getbsize();
-	if (((numFrames * numChannels * 4) == dataSize) && (dataSize == bufSize)) {
+	if (((numSamples * 4) == dataSize) && (dataSize == bufSize)) {
 		buf->samplerate = (double)sampleRate;
 		buf->sampledur = 1.0 / (double)sampleRate;
 		buf->channels = numChannels;
 		buf->samples = numSamples;
 		buf->frames = numFrames;
-		msg->getb((char *)(buf->data), dataSize);
+		msg->getb((char *)(buf->data), dataSize); /* copy data */
 		int byteSwap = msg->geti(0); /* default value = 0 */
 		if (byteSwap == 4) {
 			for (int i = 0; i < numSamples; i++) {
@@ -36,6 +36,8 @@ void BufMemCpy(World *world, struct SndBuf *buf, struct sc_msg_iter *msg)
 				memcpy(&nextValue, nextAddress, 4);
 				ntoh32_to_buf(nextAddress, nextValue);
 			}
+		} else if (byteSwap != 0) {
+			Print("BufMemCpy.memcpy: byteSwap != {0, 4}");
 		}
 	} else {
 		Print("BufMemCpy.memcpy: illegal input data for buffer, data size and buffer size must be equal");

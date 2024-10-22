@@ -2,7 +2,7 @@ prefix = $(HOME)/opt
 
 CXX = g++ # g++ clang++
 CPPFLAGS = -Wall -pedantic -O3 -fPIC -ffast-math -march=native
-CXXFLAGS = -std=c++11
+CXXFLAGS = -std=c++14
 
 D = $(prefix)
 T = $(D)/lib/SuperCollider/plugins
