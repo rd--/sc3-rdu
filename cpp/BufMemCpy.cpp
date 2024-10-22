@@ -2,6 +2,7 @@
 
 #include "r-common/c/byte-order.c"
 #include "r-common/c/memory.c"
+#include "r-common/c/print.h"
 
 static InterfaceTable *ft;
 
@@ -37,10 +38,10 @@ void BufMemCpy(World *world, struct SndBuf *buf, struct sc_msg_iter *msg)
 				ntoh32_to_buf(nextAddress, nextValue);
 			}
 		} else if (byteSwap != 0) {
-			Print("BufMemCpy.memcpy: byteSwap != {0, 4}");
+			dprintf("BufMemCpy: byteSwap=%d != {0, 4}\n", byteSwap);
 		}
 	} else {
-		Print("BufMemCpy.memcpy: illegal input data for buffer, data size and buffer size must be equal");
+		dprintf("BufMemCpy: mismatch: bufSize=%d (bytes), numFrames=%d, numChannels=%d, dataSize=%d (bytes)\n", bufSize, numFrames, numChannels, dataSize);
 	}
 }
 
