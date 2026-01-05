@@ -1,6 +1,14 @@
 all:
 	echo "sc3-rdu"
 
+install:
+	cabal v1-install --allow-newer
+
+clean:
+	rm -fR dist dist-newstyle *~
+	( cd cpp; make clean )
+	rm -fR build
+
 update-submodules:
 	git submodule foreach git pull
 
@@ -12,11 +20,6 @@ mk-ugen:
 
 mk-ugen-cmake:
 	(mkdir -p build ; cd build ; cmake -DSC_PATH=$(HOME)/opt/src/supercollider/supercollider .. ; make)
-
-clean:
-	rm -fR dist dist-newstyle *~
-	( cd cpp; make clean )
-	rm -fR build
 
 push-all:
 	r.gitlab-push.sh sc3-rdu

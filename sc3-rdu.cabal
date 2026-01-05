@@ -1,16 +1,16 @@
 cabal-version:     2.4
 Name:              sc3-rdu
-Version:           0.22
+Version:           0.23
 synopsis:          haskell sc3-rdu (sc3 rd ugens)
 description:       haskell sc3-rdu (sc3 rd ugens)
 License:           GPL-3.0-only
 Category:          Sound
-Copyright:         (c) Rohan Drape, 1998-2024
+Copyright:         (c) Rohan Drape, 1998-2026
 Author:            Rohan Drape
 Maintainer:        rd@slavepianos.org
 Stability:         Experimental
 Homepage:          http://rohandrape.net/t/sc3-rdu
-Tested-With:       GHC == 9.12.1
+Tested-With:       GHC == 9.14.1
 Build-Type:        Simple
 
 Data-files:        README.md
@@ -19,11 +19,11 @@ Library
   hs-source-dirs:  hs
   Build-Depends:   base == 4.*,
                    bytestring,
-                   hosc == 0.22.*,
-                   hsc3 == 0.22.*,
-                   hsc3-db == 0.22.*,
-                   hsc3-sf == 0.22.*,
-                   hsc3-sf-hsndfile == 0.22.*,
+                   hosc == 0.23.*,
+                   hsc3 == 0.23.*,
+                   hsc3-db == 0.23.*,
+                   hsc3-sf == 0.23.*,
+                   hsc3-sf-hsndfile == 0.23.*,
                    vector
   default-language:Haskell2010
   GHC-Options:     -Wall -fwarn-tabs
